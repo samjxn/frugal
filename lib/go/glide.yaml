@@ -11,7 +11,7 @@ import:
   subpackages:
   - uuid
 - package: github.com/nats-io/go-nats
-  version: 6b6bf392d34d01f57cc563ae123f00c13778bd57
+  version: ^1.7.0
   subpackages:
   - encoders/builtin
   - util
@@ -29,7 +29,7 @@ import:
   version: ~2.0.1
 testImport:
 - package: github.com/nats-io/gnatsd
-  version: 0.9.4
+  version: 1.4.0
   subpackages:
   - conf
   - server
