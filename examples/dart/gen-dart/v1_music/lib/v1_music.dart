@@ -5,9 +5,12 @@ library v1_music;
 
 export 'src/f_track.dart' show Track;
 export 'src/f_album.dart' show Album;
+export 'src/f_test_i64.dart' show TestI64;
 export 'src/f_purchasing_error.dart' show PurchasingError;
 export 'src/f_perf_rights_org.dart' show PerfRightsOrg;
 
 export 'src/f_store_service.dart' show FStore;
 export 'src/f_store_service.dart' show FStoreClient;
+export 'src/f_test_i64_service_service.dart' show FTestI64Service;
+export 'src/f_test_i64_service_service.dart' show FTestI64ServiceClient;
 export 'src/f_album_winners_scope.dart' show AlbumWinnersPublisher, AlbumWinnersSubscriber;

@@ -721,14 +721,14 @@ public class FStore {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.ASIN != null) {
 					oprot.writeFieldBegin(ASIN_FIELD_DESC);
-					String elem30 = struct.ASIN;
-					oprot.writeString(elem30);
+					String elem32 = struct.ASIN;
+					oprot.writeString(elem32);
 					oprot.writeFieldEnd();
 				}
 				if (struct.acct != null) {
 					oprot.writeFieldBegin(ACCT_FIELD_DESC);
-					String elem31 = struct.acct;
-					oprot.writeString(elem31);
+					String elem33 = struct.acct;
+					oprot.writeString(elem33);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -757,12 +757,12 @@ public class FStore {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetASIN()) {
-					String elem32 = struct.ASIN;
-					oprot.writeString(elem32);
+					String elem34 = struct.ASIN;
+					oprot.writeString(elem34);
 				}
 				if (struct.isSetAcct()) {
-					String elem33 = struct.acct;
-					oprot.writeString(elem33);
+					String elem35 = struct.acct;
+					oprot.writeString(elem35);
 				}
 			}
 
@@ -1649,14 +1649,14 @@ public class FStore {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.email != null) {
 					oprot.writeFieldBegin(EMAIL_FIELD_DESC);
-					String elem34 = struct.email;
-					oprot.writeString(elem34);
+					String elem36 = struct.email;
+					oprot.writeString(elem36);
 					oprot.writeFieldEnd();
 				}
 				if (struct.name != null) {
 					oprot.writeFieldBegin(NAME_FIELD_DESC);
-					String elem35 = struct.name;
-					oprot.writeString(elem35);
+					String elem37 = struct.name;
+					oprot.writeString(elem37);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -1685,12 +1685,12 @@ public class FStore {
 				}
 				oprot.writeBitSet(optionals, 2);
 				if (struct.isSetEmail()) {
-					String elem36 = struct.email;
-					oprot.writeString(elem36);
+					String elem38 = struct.email;
+					oprot.writeString(elem38);
 				}
 				if (struct.isSetName()) {
-					String elem37 = struct.name;
-					oprot.writeString(elem37);
+					String elem39 = struct.name;
+					oprot.writeString(elem39);
 				}
 			}
 
@@ -2020,8 +2020,8 @@ public class FStore {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					boolean elem38 = struct.success;
-					oprot.writeBool(elem38);
+					boolean elem40 = struct.success;
+					oprot.writeBool(elem40);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
@@ -2047,8 +2047,8 @@ public class FStore {
 				}
 				oprot.writeBitSet(optionals, 1);
 				if (struct.isSetSuccess()) {
-					boolean elem39 = struct.success;
-					oprot.writeBool(elem39);
+					boolean elem41 = struct.success;
+					oprot.writeBool(elem41);
 				}
 			}
 

@@ -135,8 +135,8 @@ public class AlbumWinnersPublisher {
 				oprot.writeRequestHeader(ctx);
 				oprot.writeMessageBegin(new TMessage(op, TMessageType.CALL, 0));
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, req.size()));
-				for (Album elem40 : req) {
-					elem40.write(oprot);
+				for (Album elem42 : req) {
+					elem42.write(oprot);
 				}
 				oprot.writeListEnd();
 				oprot.writeMessageEnd();
@@ -152,8 +152,8 @@ public class AlbumWinnersPublisher {
 				FProtocol oprot = protocolFactory.getProtocol(memoryBuffer);
 				oprot.writeRequestHeader(ctx);
 				oprot.writeMessageBegin(new TMessage(op, TMessageType.CALL, 0));
-				double elem41 = req;
-				oprot.writeDouble(elem41);
+				double elem43 = req;
+				oprot.writeDouble(elem43);
 				oprot.writeMessageEnd();
 				transport.publish(topic, memoryBuffer.getWriteBytes());
 			}

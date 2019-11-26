@@ -133,12 +133,12 @@ public class AlbumWinnersSubscriber {
 						iprot.readMessageEnd();
 						throw new TApplicationException(TApplicationExceptionType.UNKNOWN_METHOD);
 					}
-					org.apache.thrift.protocol.TList elem42 = iprot.readListBegin();
-					java.util.List<Album> received = new ArrayList<Album>(elem42.size);
-					for (int elem43 = 0; elem43 < elem42.size; ++elem43) {
-						Album elem44 = new Album();
-						elem44.read(iprot);
-						received.add(elem44);
+					org.apache.thrift.protocol.TList elem44 = iprot.readListBegin();
+					java.util.List<Album> received = new ArrayList<Album>(elem44.size);
+					for (int elem45 = 0; elem45 < elem44.size; ++elem45) {
+						Album elem46 = new Album();
+						elem46.read(iprot);
+						received.add(elem46);
 					}
 					iprot.readListEnd();
 					iprot.readMessageEnd();
@@ -228,12 +228,12 @@ public class AlbumWinnersSubscriber {
 						iprot.readMessageEnd();
 						throw new TApplicationException(TApplicationExceptionType.UNKNOWN_METHOD);
 					}
-					org.apache.thrift.protocol.TList elem45 = iprot.readListBegin();
-					java.util.List<Album> received = new ArrayList<Album>(elem45.size);
-					for (int elem46 = 0; elem46 < elem45.size; ++elem46) {
-						Album elem47 = new Album();
-						elem47.read(iprot);
-						received.add(elem47);
+					org.apache.thrift.protocol.TList elem47 = iprot.readListBegin();
+					java.util.List<Album> received = new ArrayList<Album>(elem47.size);
+					for (int elem48 = 0; elem48 < elem47.size; ++elem48) {
+						Album elem49 = new Album();
+						elem49.read(iprot);
+						received.add(elem49);
 					}
 					iprot.readListEnd();
 					iprot.readMessageEnd();

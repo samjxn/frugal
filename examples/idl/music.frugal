@@ -45,6 +45,10 @@ struct Album {
     3: string ASIN
 }
 
+struct TestI64 {
+    1: required i64 thing
+}
+
 /**@
  * Exceptions are converted to the native format for each compiled
  * language.
@@ -62,6 +66,10 @@ service Store {
     Album buyAlbum( 1: string ASIN, 2: string acct ) throws (1: PurchasingError error)
     // The deprecated annotation will mark a service method as deprecated.
     bool enterAlbumGiveaway( 1: string email, 2: string name ) (deprecated="use something else")
+}
+
+service TestI64Service {
+    TestI64 test(1: TestI64 thing)
 }
 
 /**@

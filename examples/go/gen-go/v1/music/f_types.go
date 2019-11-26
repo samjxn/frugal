@@ -531,6 +531,102 @@ func (p *Album) String() string {
 	return fmt.Sprintf("Album(%+v)", *p)
 }
 
+type TestI64 struct {
+	Thing int64 `thrift:"thing,1,required" db:"thing" json:"thing"`
+}
+
+func NewTestI64() *TestI64 {
+	return &TestI64{}
+}
+
+func (p *TestI64) GetThing() int64 {
+	return p.Thing
+}
+
+func (p *TestI64) Read(iprot thrift.TProtocol) error {
+	if _, err := iprot.ReadStructBegin(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read error: ", p), err)
+	}
+
+	issetThing := false
+
+	for {
+		_, fieldTypeId, fieldId, err := iprot.ReadFieldBegin()
+		if err != nil {
+			return thrift.PrependError(fmt.Sprintf("%T field %d read error: ", p, fieldId), err)
+		}
+		if fieldTypeId == thrift.STOP {
+			break
+		}
+		switch fieldId {
+		case 1:
+			if err := p.ReadField1(iprot); err != nil {
+				return err
+			}
+			issetThing = true
+		default:
+			if err := iprot.Skip(fieldTypeId); err != nil {
+				return err
+			}
+		}
+		if err := iprot.ReadFieldEnd(); err != nil {
+			return err
+		}
+	}
+	if err := iprot.ReadStructEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T read struct end error: ", p), err)
+	}
+	if !issetThing {
+		return thrift.NewTProtocolExceptionWithType(thrift.INVALID_DATA, fmt.Errorf("Required field 'Thing' is not present in struct 'TestI64'"))
+	}
+	return nil
+}
+
+func (p *TestI64) ReadField1(iprot thrift.TProtocol) error {
+	if v, err := iprot.ReadI64(); err != nil {
+		return thrift.PrependError("error reading field 1: ", err)
+	} else {
+		p.Thing = v
+	}
+	return nil
+}
+
+func (p *TestI64) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteStructBegin("TestI64"); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
+	}
+	if err := p.writeField1(oprot); err != nil {
+		return err
+	}
+	if err := oprot.WriteFieldStop(); err != nil {
+		return thrift.PrependError("write field stop error: ", err)
+	}
+	if err := oprot.WriteStructEnd(); err != nil {
+		return thrift.PrependError("write struct stop error: ", err)
+	}
+	return nil
+}
+
+func (p *TestI64) writeField1(oprot thrift.TProtocol) error {
+	if err := oprot.WriteFieldBegin("thing", thrift.I64, 1); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 1:thing: ", p), err)
+	}
+	if err := oprot.WriteI64(int64(p.Thing)); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T.thing (1) field write error: ", p), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 1:thing: ", p), err)
+	}
+	return nil
+}
+
+func (p *TestI64) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("TestI64(%+v)", *p)
+}
+
 // Exceptions are converted to the native format for each compiled
 // language.
 type PurchasingError struct {
