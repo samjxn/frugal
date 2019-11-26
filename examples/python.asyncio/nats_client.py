@@ -14,7 +14,8 @@ from frugal.aio.transport import FNatsTransport
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "gen-py.asyncio"))
 from v1.music.f_Store import Client as FStoreClient  # noqa
-from v1.music.ttypes import Album  # noqa
+from v1.music.f_TestI64Service import Client as FTestI64Client
+from v1.music.ttypes import Album, TestI64  # noqa
 
 
 root = logging.getLogger()
@@ -52,18 +53,23 @@ async def main():
 
     # Using the configured transport and protocol, create a client
     # to talk to the music store service.
-    store_client = FStoreClient(FServiceProvider(nats_transport, prot_factory),
-                                middleware=logging_middleware)
+    # store_client = FStoreClient(FServiceProvider(nats_transport, prot_factory),
+    #                             middleware=logging_middleware)
+    #
+    # album = await store_client.buyAlbum(FContext(),
+    #                                     str(uuid.uuid4()),
+    #                                     "ACT-12345")
+    #
+    # root.info("Bought an album %s\n", album.tracks[0].title)
+    #
+    # await store_client.enterAlbumGiveaway(FContext(),
+    #                                       "kevin@workiva.com",
+    #                                       "Kevin")
+    client = FTestI64Client(FServiceProvider(nats_transport, prot_factory))
+    thing = TestI64(thing=1536440518574)
+    thing_ret = await client.test(FContext(), thing)
+    print(thing_ret)
 
-    album = await store_client.buyAlbum(FContext(),
-                                        str(uuid.uuid4()),
-                                        "ACT-12345")
-
-    root.info("Bought an album %s\n", album.tracks[0].title)
-
-    await store_client.enterAlbumGiveaway(FContext(),
-                                          "kevin@workiva.com",
-                                          "Kevin")
 
     # Close transport and nats client
     await nats_transport.close()

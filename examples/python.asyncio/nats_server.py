@@ -18,6 +18,9 @@ from v1.music.f_Store import Processor as FStoreProcessor  # noqa
 from v1.music.f_Store import Iface  # noqa
 from v1.music.ttypes import Album, Track  # noqa
 
+from v1.music.f_TestI64Service import Iface as TestI64Iface
+from v1.music.f_TestI64Service import Processor as FTestI64Processor
+
 
 root = logging.getLogger()
 root.setLevel(logging.DEBUG)
@@ -29,6 +32,16 @@ formatter = logging.Formatter(
 ch.setFormatter(formatter)
 root.addHandler(ch)
 
+
+class TestI64Handler(TestI64Iface):
+    async def test(self, ctx, thing):
+        """
+        Args:
+            ctx: FContext
+            thing: TestI64
+        """
+        print(thing)
+        return thing
 
 class StoreHandler(Iface):
     """
@@ -70,7 +83,7 @@ async def main():
     # Create a new server processor.
     # Incoming requests to the processor are passed to the handler.
     # Results from the handler are returned back to the client.
-    processor = FStoreProcessor(StoreHandler())
+    processor = FTestI64Processor(TestI64Handler())
 
     # Create a new music store server using the processor,
     # The sever will listen on the music-service NATS topic
