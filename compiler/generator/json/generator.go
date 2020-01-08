@@ -31,7 +31,7 @@ type Generator struct {
 	generated bool
 }
 
-var gen *Generator
+var _ generator.ProgramGenerator = (*Generator)(nil)
 
 // NewGenerator returns a generator for JSON descriptor files.
 func NewGenerator(options map[string]string) generator.ProgramGenerator {
