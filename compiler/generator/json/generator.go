@@ -27,7 +27,10 @@ const (
 
 // Generator generates JSON descriptor files.
 type Generator struct {
-	options   map[string]string
+	options map[string]string
+	// generated is true if Generate has been called. Generate is called once
+	// per included file, but the output contains all transitive dependencies,
+	// so there is nothing to do except for the second and subsequent calls.
 	generated bool
 }
 
