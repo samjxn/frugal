@@ -1477,35 +1477,24 @@ func (g *Generator) generateEquals(s *parser.Struct, indent string) string {
 
 	contents += indent + fmt.Sprintf("public boolean equals(%s that) {\n", s.Name)
 	contents += indent + tab + "if (that == null)\n"
-	contents += indent + tabtab + "return false;\n\n"
+	contents += indent + tabtab + "return false;\n"
 
 	for _, field := range s.Fields {
 		optional := field.Modifier == parser.Optional
 		primitive := g.isJavaPrimitive(field.Type)
 
-		// TODO 2.0 this looks so ugly
-		thisPresentArg := "true"
-		thatPresentArg := "true"
-		if optional || !primitive {
-			thisPresentArg += fmt.Sprintf(" && this.isSet%s()", strings.Title(field.Name))
-			thatPresentArg += fmt.Sprintf(" && that.isSet%s()", strings.Title(field.Name))
-		}
-
-		contents += indent + tab + fmt.Sprintf("boolean this_present_%s = %s;\n", field.Name, thisPresentArg)
-		contents += indent + tab + fmt.Sprintf("boolean that_present_%s = %s;\n", field.Name, thatPresentArg)
-		contents += indent + tab + fmt.Sprintf("if (this_present_%s || that_present_%s) {\n", field.Name, field.Name)
-		contents += indent + tabtab + fmt.Sprintf("if (!(this_present_%s && that_present_%s))\n", field.Name, field.Name)
-		contents += indent + tabtabtab + "return false;\n"
-
 		unequalTest := ""
 		if primitive {
-			unequalTest = fmt.Sprintf("this.%s != that.%s", field.Name, field.Name)
+			if optional {
+				title := strings.Title(field.Name)
+				unequalTest = fmt.Sprintf("this.isSet%s() != that.isSet%s() || ", title, title)
+			}
+			unequalTest += fmt.Sprintf("this.%s != that.%s", field.Name, field.Name)
 		} else {
-			unequalTest = fmt.Sprintf("!this.%s.equals(that.%s)", field.Name, field.Name)
+			unequalTest = fmt.Sprintf("!Objects.equals(this.%s, that.%s)", field.Name, field.Name)
 		}
-		contents += indent + tabtab + fmt.Sprintf("if (%s)\n", unequalTest)
-		contents += indent + tabtabtab + "return false;\n"
-		contents += indent + tab + "}\n\n"
+		contents += indent + tab + fmt.Sprintf("if (%s)\n", unequalTest)
+		contents += indent + tabtab + "return false;\n"
 	}
 
 	contents += indent + tab + "return true;\n"
@@ -2262,6 +2251,7 @@ func (g *Generator) generateStructImports() string {
 	imports += "import java.util.EnumSet;\n"
 	imports += "import java.util.Collections;\n"
 	imports += "import java.util.BitSet;\n"
+	imports += "import java.util.Objects;\n"
 	imports += "import java.nio.ByteBuffer;\n"
 	imports += "import java.util.Arrays;\n"
 	if g.includeGeneratedAnnotation() {

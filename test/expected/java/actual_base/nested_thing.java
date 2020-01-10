@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -222,16 +223,8 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 	public boolean equals(nested_thing that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_things = true && this.isSetThings();
-		boolean that_present_things = true && that.isSetThings();
-		if (this_present_things || that_present_things) {
-			if (!(this_present_things && that_present_things))
-				return false;
-			if (!this.things.equals(that.things))
-				return false;
-		}
-
+		if (!Objects.equals(this.things, that.things))
+			return false;
 		return true;
 	}
 

@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -203,16 +204,8 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 	public boolean equals(TestBase that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_base_struct = true && this.isSetBase_struct();
-		boolean that_present_base_struct = true && that.isSetBase_struct();
-		if (this_present_base_struct || that_present_base_struct) {
-			if (!(this_present_base_struct && that_present_base_struct))
-				return false;
-			if (!this.base_struct.equals(that.base_struct))
-				return false;
-		}
-
+		if (!Objects.equals(this.base_struct, that.base_struct))
+			return false;
 		return true;
 	}
 

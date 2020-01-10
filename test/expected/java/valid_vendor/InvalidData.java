@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -254,25 +255,10 @@ public class InvalidData extends TException implements org.apache.thrift.TBase<I
 	public boolean equals(InvalidData that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_code = true;
-		boolean that_present_code = true;
-		if (this_present_code || that_present_code) {
-			if (!(this_present_code && that_present_code))
-				return false;
-			if (this.code != that.code)
-				return false;
-		}
-
-		boolean this_present_why = true && this.isSetWhy();
-		boolean that_present_why = true && that.isSetWhy();
-		if (this_present_why || that_present_why) {
-			if (!(this_present_why && that_present_why))
-				return false;
-			if (!this.why.equals(that.why))
-				return false;
-		}
-
+		if (this.code != that.code)
+			return false;
+		if (!Objects.equals(this.why, that.why))
+			return false;
 		return true;
 	}
 

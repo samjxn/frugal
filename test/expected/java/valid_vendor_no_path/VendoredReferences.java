@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -248,25 +249,10 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 	public boolean equals(VendoredReferences that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_reference_vendored_const = true && this.isSetReference_vendored_const();
-		boolean that_present_reference_vendored_const = true && that.isSetReference_vendored_const();
-		if (this_present_reference_vendored_const || that_present_reference_vendored_const) {
-			if (!(this_present_reference_vendored_const && that_present_reference_vendored_const))
-				return false;
-			if (this.reference_vendored_const != that.reference_vendored_const)
-				return false;
-		}
-
-		boolean this_present_reference_vendored_enum = true && this.isSetReference_vendored_enum();
-		boolean that_present_reference_vendored_enum = true && that.isSetReference_vendored_enum();
-		if (this_present_reference_vendored_enum || that_present_reference_vendored_enum) {
-			if (!(this_present_reference_vendored_enum && that_present_reference_vendored_enum))
-				return false;
-			if (!this.reference_vendored_enum.equals(that.reference_vendored_enum))
-				return false;
-		}
-
+		if (this.isSetReference_vendored_const() != that.isSetReference_vendored_const() || this.reference_vendored_const != that.reference_vendored_const)
+			return false;
+		if (!Objects.equals(this.reference_vendored_enum, that.reference_vendored_enum))
+			return false;
 		return true;
 	}
 

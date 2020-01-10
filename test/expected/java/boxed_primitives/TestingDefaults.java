@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -1229,169 +1230,42 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 	public boolean equals(TestingDefaults that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_ID2 = true && this.isSetID2();
-		boolean that_present_ID2 = true && that.isSetID2();
-		if (this_present_ID2 || that_present_ID2) {
-			if (!(this_present_ID2 && that_present_ID2))
-				return false;
-			if (!this.ID2.equals(that.ID2))
-				return false;
-		}
-
-		boolean this_present_ev1 = true && this.isSetEv1();
-		boolean that_present_ev1 = true && that.isSetEv1();
-		if (this_present_ev1 || that_present_ev1) {
-			if (!(this_present_ev1 && that_present_ev1))
-				return false;
-			if (!this.ev1.equals(that.ev1))
-				return false;
-		}
-
-		boolean this_present_ev2 = true && this.isSetEv2();
-		boolean that_present_ev2 = true && that.isSetEv2();
-		if (this_present_ev2 || that_present_ev2) {
-			if (!(this_present_ev2 && that_present_ev2))
-				return false;
-			if (!this.ev2.equals(that.ev2))
-				return false;
-		}
-
-		boolean this_present_ID = true && this.isSetID();
-		boolean that_present_ID = true && that.isSetID();
-		if (this_present_ID || that_present_ID) {
-			if (!(this_present_ID && that_present_ID))
-				return false;
-			if (!this.ID.equals(that.ID))
-				return false;
-		}
-
-		boolean this_present_thing = true && this.isSetThing();
-		boolean that_present_thing = true && that.isSetThing();
-		if (this_present_thing || that_present_thing) {
-			if (!(this_present_thing && that_present_thing))
-				return false;
-			if (!this.thing.equals(that.thing))
-				return false;
-		}
-
-		boolean this_present_thing2 = true && this.isSetThing2();
-		boolean that_present_thing2 = true && that.isSetThing2();
-		if (this_present_thing2 || that_present_thing2) {
-			if (!(this_present_thing2 && that_present_thing2))
-				return false;
-			if (!this.thing2.equals(that.thing2))
-				return false;
-		}
-
-		boolean this_present_listfield = true && this.isSetListfield();
-		boolean that_present_listfield = true && that.isSetListfield();
-		if (this_present_listfield || that_present_listfield) {
-			if (!(this_present_listfield && that_present_listfield))
-				return false;
-			if (!this.listfield.equals(that.listfield))
-				return false;
-		}
-
-		boolean this_present_ID3 = true && this.isSetID3();
-		boolean that_present_ID3 = true && that.isSetID3();
-		if (this_present_ID3 || that_present_ID3) {
-			if (!(this_present_ID3 && that_present_ID3))
-				return false;
-			if (!this.ID3.equals(that.ID3))
-				return false;
-		}
-
-		boolean this_present_bin_field = true && this.isSetBin_field();
-		boolean that_present_bin_field = true && that.isSetBin_field();
-		if (this_present_bin_field || that_present_bin_field) {
-			if (!(this_present_bin_field && that_present_bin_field))
-				return false;
-			if (!this.bin_field.equals(that.bin_field))
-				return false;
-		}
-
-		boolean this_present_bin_field2 = true && this.isSetBin_field2();
-		boolean that_present_bin_field2 = true && that.isSetBin_field2();
-		if (this_present_bin_field2 || that_present_bin_field2) {
-			if (!(this_present_bin_field2 && that_present_bin_field2))
-				return false;
-			if (!this.bin_field2.equals(that.bin_field2))
-				return false;
-		}
-
-		boolean this_present_bin_field3 = true && this.isSetBin_field3();
-		boolean that_present_bin_field3 = true && that.isSetBin_field3();
-		if (this_present_bin_field3 || that_present_bin_field3) {
-			if (!(this_present_bin_field3 && that_present_bin_field3))
-				return false;
-			if (!this.bin_field3.equals(that.bin_field3))
-				return false;
-		}
-
-		boolean this_present_bin_field4 = true && this.isSetBin_field4();
-		boolean that_present_bin_field4 = true && that.isSetBin_field4();
-		if (this_present_bin_field4 || that_present_bin_field4) {
-			if (!(this_present_bin_field4 && that_present_bin_field4))
-				return false;
-			if (!this.bin_field4.equals(that.bin_field4))
-				return false;
-		}
-
-		boolean this_present_list2 = true && this.isSetList2();
-		boolean that_present_list2 = true && that.isSetList2();
-		if (this_present_list2 || that_present_list2) {
-			if (!(this_present_list2 && that_present_list2))
-				return false;
-			if (!this.list2.equals(that.list2))
-				return false;
-		}
-
-		boolean this_present_list3 = true && this.isSetList3();
-		boolean that_present_list3 = true && that.isSetList3();
-		if (this_present_list3 || that_present_list3) {
-			if (!(this_present_list3 && that_present_list3))
-				return false;
-			if (!this.list3.equals(that.list3))
-				return false;
-		}
-
-		boolean this_present_list4 = true && this.isSetList4();
-		boolean that_present_list4 = true && that.isSetList4();
-		if (this_present_list4 || that_present_list4) {
-			if (!(this_present_list4 && that_present_list4))
-				return false;
-			if (!this.list4.equals(that.list4))
-				return false;
-		}
-
-		boolean this_present_a_map = true && this.isSetA_map();
-		boolean that_present_a_map = true && that.isSetA_map();
-		if (this_present_a_map || that_present_a_map) {
-			if (!(this_present_a_map && that_present_a_map))
-				return false;
-			if (!this.a_map.equals(that.a_map))
-				return false;
-		}
-
-		boolean this_present_status = true && this.isSetStatus();
-		boolean that_present_status = true && that.isSetStatus();
-		if (this_present_status || that_present_status) {
-			if (!(this_present_status && that_present_status))
-				return false;
-			if (!this.status.equals(that.status))
-				return false;
-		}
-
-		boolean this_present_base_status = true && this.isSetBase_status();
-		boolean that_present_base_status = true && that.isSetBase_status();
-		if (this_present_base_status || that_present_base_status) {
-			if (!(this_present_base_status && that_present_base_status))
-				return false;
-			if (!this.base_status.equals(that.base_status))
-				return false;
-		}
-
+		if (!Objects.equals(this.ID2, that.ID2))
+			return false;
+		if (!Objects.equals(this.ev1, that.ev1))
+			return false;
+		if (!Objects.equals(this.ev2, that.ev2))
+			return false;
+		if (!Objects.equals(this.ID, that.ID))
+			return false;
+		if (!Objects.equals(this.thing, that.thing))
+			return false;
+		if (!Objects.equals(this.thing2, that.thing2))
+			return false;
+		if (!Objects.equals(this.listfield, that.listfield))
+			return false;
+		if (!Objects.equals(this.ID3, that.ID3))
+			return false;
+		if (!Objects.equals(this.bin_field, that.bin_field))
+			return false;
+		if (!Objects.equals(this.bin_field2, that.bin_field2))
+			return false;
+		if (!Objects.equals(this.bin_field3, that.bin_field3))
+			return false;
+		if (!Objects.equals(this.bin_field4, that.bin_field4))
+			return false;
+		if (!Objects.equals(this.list2, that.list2))
+			return false;
+		if (!Objects.equals(this.list3, that.list3))
+			return false;
+		if (!Objects.equals(this.list4, that.list4))
+			return false;
+		if (!Objects.equals(this.a_map, that.a_map))
+			return false;
+		if (!Objects.equals(this.status, that.status))
+			return false;
+		if (!Objects.equals(this.base_status, that.base_status))
+			return false;
 		return true;
 	}
 

@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -336,34 +337,12 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 	public boolean equals(AwesomeException that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_ID = true;
-		boolean that_present_ID = true;
-		if (this_present_ID || that_present_ID) {
-			if (!(this_present_ID && that_present_ID))
-				return false;
-			if (this.ID != that.ID)
-				return false;
-		}
-
-		boolean this_present_Reason = true && this.isSetReason();
-		boolean that_present_Reason = true && that.isSetReason();
-		if (this_present_Reason || that_present_Reason) {
-			if (!(this_present_Reason && that_present_Reason))
-				return false;
-			if (!this.Reason.equals(that.Reason))
-				return false;
-		}
-
-		boolean this_present_depr = true;
-		boolean that_present_depr = true;
-		if (this_present_depr || that_present_depr) {
-			if (!(this_present_depr && that_present_depr))
-				return false;
-			if (this.depr != that.depr)
-				return false;
-		}
-
+		if (this.ID != that.ID)
+			return false;
+		if (!Objects.equals(this.Reason, that.Reason))
+			return false;
+		if (this.depr != that.depr)
+			return false;
 		return true;
 	}
 

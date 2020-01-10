@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -283,25 +284,10 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 	public boolean equals(Event that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_ID = true;
-		boolean that_present_ID = true;
-		if (this_present_ID || that_present_ID) {
-			if (!(this_present_ID && that_present_ID))
-				return false;
-			if (this.ID != that.ID)
-				return false;
-		}
-
-		boolean this_present_Message = true && this.isSetMessage();
-		boolean that_present_Message = true && that.isSetMessage();
-		if (this_present_Message || that_present_Message) {
-			if (!(this_present_Message && that_present_Message))
-				return false;
-			if (!this.Message.equals(that.Message))
-				return false;
-		}
-
+		if (this.ID != that.ID)
+			return false;
+		if (!Objects.equals(this.Message, that.Message))
+			return false;
 		return true;
 	}
 

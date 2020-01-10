@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -1161,151 +1162,38 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 	public boolean equals(EventWrapper that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_ID = true && this.isSetID();
-		boolean that_present_ID = true && that.isSetID();
-		if (this_present_ID || that_present_ID) {
-			if (!(this_present_ID && that_present_ID))
-				return false;
-			if (this.ID != that.ID)
-				return false;
-		}
-
-		boolean this_present_Ev = true && this.isSetEv();
-		boolean that_present_Ev = true && that.isSetEv();
-		if (this_present_Ev || that_present_Ev) {
-			if (!(this_present_Ev && that_present_Ev))
-				return false;
-			if (!this.Ev.equals(that.Ev))
-				return false;
-		}
-
-		boolean this_present_Events = true && this.isSetEvents();
-		boolean that_present_Events = true && that.isSetEvents();
-		if (this_present_Events || that_present_Events) {
-			if (!(this_present_Events && that_present_Events))
-				return false;
-			if (!this.Events.equals(that.Events))
-				return false;
-		}
-
-		boolean this_present_Events2 = true && this.isSetEvents2();
-		boolean that_present_Events2 = true && that.isSetEvents2();
-		if (this_present_Events2 || that_present_Events2) {
-			if (!(this_present_Events2 && that_present_Events2))
-				return false;
-			if (!this.Events2.equals(that.Events2))
-				return false;
-		}
-
-		boolean this_present_EventMap = true && this.isSetEventMap();
-		boolean that_present_EventMap = true && that.isSetEventMap();
-		if (this_present_EventMap || that_present_EventMap) {
-			if (!(this_present_EventMap && that_present_EventMap))
-				return false;
-			if (!this.EventMap.equals(that.EventMap))
-				return false;
-		}
-
-		boolean this_present_Nums = true && this.isSetNums();
-		boolean that_present_Nums = true && that.isSetNums();
-		if (this_present_Nums || that_present_Nums) {
-			if (!(this_present_Nums && that_present_Nums))
-				return false;
-			if (!this.Nums.equals(that.Nums))
-				return false;
-		}
-
-		boolean this_present_Enums = true && this.isSetEnums();
-		boolean that_present_Enums = true && that.isSetEnums();
-		if (this_present_Enums || that_present_Enums) {
-			if (!(this_present_Enums && that_present_Enums))
-				return false;
-			if (!this.Enums.equals(that.Enums))
-				return false;
-		}
-
-		boolean this_present_aBoolField = true;
-		boolean that_present_aBoolField = true;
-		if (this_present_aBoolField || that_present_aBoolField) {
-			if (!(this_present_aBoolField && that_present_aBoolField))
-				return false;
-			if (this.aBoolField != that.aBoolField)
-				return false;
-		}
-
-		boolean this_present_a_union = true && this.isSetA_union();
-		boolean that_present_a_union = true && that.isSetA_union();
-		if (this_present_a_union || that_present_a_union) {
-			if (!(this_present_a_union && that_present_a_union))
-				return false;
-			if (!this.a_union.equals(that.a_union))
-				return false;
-		}
-
-		boolean this_present_typedefOfTypedef = true && this.isSetTypedefOfTypedef();
-		boolean that_present_typedefOfTypedef = true && that.isSetTypedefOfTypedef();
-		if (this_present_typedefOfTypedef || that_present_typedefOfTypedef) {
-			if (!(this_present_typedefOfTypedef && that_present_typedefOfTypedef))
-				return false;
-			if (!this.typedefOfTypedef.equals(that.typedefOfTypedef))
-				return false;
-		}
-
-		boolean this_present_depr = true;
-		boolean that_present_depr = true;
-		if (this_present_depr || that_present_depr) {
-			if (!(this_present_depr && that_present_depr))
-				return false;
-			if (this.depr != that.depr)
-				return false;
-		}
-
-		boolean this_present_deprBinary = true && this.isSetDeprBinary();
-		boolean that_present_deprBinary = true && that.isSetDeprBinary();
-		if (this_present_deprBinary || that_present_deprBinary) {
-			if (!(this_present_deprBinary && that_present_deprBinary))
-				return false;
-			if (!this.deprBinary.equals(that.deprBinary))
-				return false;
-		}
-
-		boolean this_present_deprList = true && this.isSetDeprList();
-		boolean that_present_deprList = true && that.isSetDeprList();
-		if (this_present_deprList || that_present_deprList) {
-			if (!(this_present_deprList && that_present_deprList))
-				return false;
-			if (!this.deprList.equals(that.deprList))
-				return false;
-		}
-
-		boolean this_present_EventsDefault = true && this.isSetEventsDefault();
-		boolean that_present_EventsDefault = true && that.isSetEventsDefault();
-		if (this_present_EventsDefault || that_present_EventsDefault) {
-			if (!(this_present_EventsDefault && that_present_EventsDefault))
-				return false;
-			if (!this.EventsDefault.equals(that.EventsDefault))
-				return false;
-		}
-
-		boolean this_present_EventMapDefault = true && this.isSetEventMapDefault();
-		boolean that_present_EventMapDefault = true && that.isSetEventMapDefault();
-		if (this_present_EventMapDefault || that_present_EventMapDefault) {
-			if (!(this_present_EventMapDefault && that_present_EventMapDefault))
-				return false;
-			if (!this.EventMapDefault.equals(that.EventMapDefault))
-				return false;
-		}
-
-		boolean this_present_EventSetDefault = true && this.isSetEventSetDefault();
-		boolean that_present_EventSetDefault = true && that.isSetEventSetDefault();
-		if (this_present_EventSetDefault || that_present_EventSetDefault) {
-			if (!(this_present_EventSetDefault && that_present_EventSetDefault))
-				return false;
-			if (!this.EventSetDefault.equals(that.EventSetDefault))
-				return false;
-		}
-
+		if (this.isSetID() != that.isSetID() || this.ID != that.ID)
+			return false;
+		if (!Objects.equals(this.Ev, that.Ev))
+			return false;
+		if (!Objects.equals(this.Events, that.Events))
+			return false;
+		if (!Objects.equals(this.Events2, that.Events2))
+			return false;
+		if (!Objects.equals(this.EventMap, that.EventMap))
+			return false;
+		if (!Objects.equals(this.Nums, that.Nums))
+			return false;
+		if (!Objects.equals(this.Enums, that.Enums))
+			return false;
+		if (this.aBoolField != that.aBoolField)
+			return false;
+		if (!Objects.equals(this.a_union, that.a_union))
+			return false;
+		if (!Objects.equals(this.typedefOfTypedef, that.typedefOfTypedef))
+			return false;
+		if (this.depr != that.depr)
+			return false;
+		if (!Objects.equals(this.deprBinary, that.deprBinary))
+			return false;
+		if (!Objects.equals(this.deprList, that.deprList))
+			return false;
+		if (!Objects.equals(this.EventsDefault, that.EventsDefault))
+			return false;
+		if (!Objects.equals(this.EventMapDefault, that.EventMapDefault))
+			return false;
+		if (!Objects.equals(this.EventSetDefault, that.EventSetDefault))
+			return false;
 		return true;
 	}
 

@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -1345,7 +1346,6 @@ public class FFoo {
 		public boolean equals(Ping_args that) {
 			if (that == null)
 				return false;
-
 			return true;
 		}
 
@@ -1588,7 +1588,6 @@ public class FFoo {
 		public boolean equals(Ping_result that) {
 			if (that == null)
 				return false;
-
 			return true;
 		}
 
@@ -1982,34 +1981,12 @@ public class FFoo {
 		public boolean equals(blah_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_num = true && this.isSetNum();
-			boolean that_present_num = true && that.isSetNum();
-			if (this_present_num || that_present_num) {
-				if (!(this_present_num && that_present_num))
-					return false;
-				if (!this.num.equals(that.num))
-					return false;
-			}
-
-			boolean this_present_Str = true && this.isSetStr();
-			boolean that_present_Str = true && that.isSetStr();
-			if (this_present_Str || that_present_Str) {
-				if (!(this_present_Str && that_present_Str))
-					return false;
-				if (!this.Str.equals(that.Str))
-					return false;
-			}
-
-			boolean this_present_event = true && this.isSetEvent();
-			boolean that_present_event = true && that.isSetEvent();
-			if (this_present_event || that_present_event) {
-				if (!(this_present_event && that_present_event))
-					return false;
-				if (!this.event.equals(that.event))
-					return false;
-			}
-
+			if (!Objects.equals(this.num, that.num))
+				return false;
+			if (!Objects.equals(this.Str, that.Str))
+				return false;
+			if (!Objects.equals(this.event, that.event))
+				return false;
 			return true;
 		}
 
@@ -2544,34 +2521,12 @@ public class FFoo {
 		public boolean equals(blah_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
-			boolean this_present_awe = true && this.isSetAwe();
-			boolean that_present_awe = true && that.isSetAwe();
-			if (this_present_awe || that_present_awe) {
-				if (!(this_present_awe && that_present_awe))
-					return false;
-				if (!this.awe.equals(that.awe))
-					return false;
-			}
-
-			boolean this_present_api = true && this.isSetApi();
-			boolean that_present_api = true && that.isSetApi();
-			if (this_present_api || that_present_api) {
-				if (!(this_present_api && that_present_api))
-					return false;
-				if (!this.api.equals(that.api))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
+			if (!Objects.equals(this.awe, that.awe))
+				return false;
+			if (!Objects.equals(this.api, that.api))
+				return false;
 			return true;
 		}
 
@@ -3078,25 +3033,10 @@ public class FFoo {
 		public boolean equals(oneWay_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_id = true && this.isSetId();
-			boolean that_present_id = true && that.isSetId();
-			if (this_present_id || that_present_id) {
-				if (!(this_present_id && that_present_id))
-					return false;
-				if (!this.id.equals(that.id))
-					return false;
-			}
-
-			boolean this_present_req = true && this.isSetReq();
-			boolean that_present_req = true && that.isSetReq();
-			if (this_present_req || that_present_req) {
-				if (!(this_present_req && that_present_req))
-					return false;
-				if (!this.req.equals(that.req))
-					return false;
-			}
-
+			if (!Objects.equals(this.id, that.id))
+				return false;
+			if (!Objects.equals(this.req, that.req))
+				return false;
 			return true;
 		}
 
@@ -3575,25 +3515,10 @@ public class FFoo {
 		public boolean equals(bin_method_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_bin = true && this.isSetBin();
-			boolean that_present_bin = true && that.isSetBin();
-			if (this_present_bin || that_present_bin) {
-				if (!(this_present_bin && that_present_bin))
-					return false;
-				if (!this.bin.equals(that.bin))
-					return false;
-			}
-
-			boolean this_present_Str = true && this.isSetStr();
-			boolean that_present_Str = true && that.isSetStr();
-			if (this_present_Str || that_present_Str) {
-				if (!(this_present_Str && that_present_Str))
-					return false;
-				if (!this.Str.equals(that.Str))
-					return false;
-			}
-
+			if (!Objects.equals(this.bin, that.bin))
+				return false;
+			if (!Objects.equals(this.Str, that.Str))
+				return false;
 			return true;
 		}
 
@@ -4042,25 +3967,10 @@ public class FFoo {
 		public boolean equals(bin_method_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
-			boolean this_present_api = true && this.isSetApi();
-			boolean that_present_api = true && that.isSetApi();
-			if (this_present_api || that_present_api) {
-				if (!(this_present_api && that_present_api))
-					return false;
-				if (!this.api.equals(that.api))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
+			if (!Objects.equals(this.api, that.api))
+				return false;
 			return true;
 		}
 
@@ -4551,34 +4461,12 @@ public class FFoo {
 		public boolean equals(param_modifiers_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_opt_num = true && this.isSetOpt_num();
-			boolean that_present_opt_num = true && that.isSetOpt_num();
-			if (this_present_opt_num || that_present_opt_num) {
-				if (!(this_present_opt_num && that_present_opt_num))
-					return false;
-				if (!this.opt_num.equals(that.opt_num))
-					return false;
-			}
-
-			boolean this_present_default_num = true && this.isSetDefault_num();
-			boolean that_present_default_num = true && that.isSetDefault_num();
-			if (this_present_default_num || that_present_default_num) {
-				if (!(this_present_default_num && that_present_default_num))
-					return false;
-				if (!this.default_num.equals(that.default_num))
-					return false;
-			}
-
-			boolean this_present_req_num = true && this.isSetReq_num();
-			boolean that_present_req_num = true && that.isSetReq_num();
-			if (this_present_req_num || that_present_req_num) {
-				if (!(this_present_req_num && that_present_req_num))
-					return false;
-				if (!this.req_num.equals(that.req_num))
-					return false;
-			}
-
+			if (!Objects.equals(this.opt_num, that.opt_num))
+				return false;
+			if (!Objects.equals(this.default_num, that.default_num))
+				return false;
+			if (!Objects.equals(this.req_num, that.req_num))
+				return false;
 			return true;
 		}
 
@@ -5016,16 +4904,8 @@ public class FFoo {
 		public boolean equals(param_modifiers_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 
@@ -5460,25 +5340,10 @@ public class FFoo {
 		public boolean equals(underlying_types_test_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_list_type = true && this.isSetList_type();
-			boolean that_present_list_type = true && that.isSetList_type();
-			if (this_present_list_type || that_present_list_type) {
-				if (!(this_present_list_type && that_present_list_type))
-					return false;
-				if (!this.list_type.equals(that.list_type))
-					return false;
-			}
-
-			boolean this_present_set_type = true && this.isSetSet_type();
-			boolean that_present_set_type = true && that.isSetSet_type();
-			if (this_present_set_type || that_present_set_type) {
-				if (!(this_present_set_type && that_present_set_type))
-					return false;
-				if (!this.set_type.equals(that.set_type))
-					return false;
-			}
-
+			if (!Objects.equals(this.list_type, that.list_type))
+				return false;
+			if (!Objects.equals(this.set_type, that.set_type))
+				return false;
 			return true;
 		}
 
@@ -5931,16 +5796,8 @@ public class FFoo {
 		public boolean equals(underlying_types_test_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 
@@ -6253,7 +6110,6 @@ public class FFoo {
 		public boolean equals(getThing_args that) {
 			if (that == null)
 				return false;
-
 			return true;
 		}
 
@@ -6549,16 +6405,8 @@ public class FFoo {
 		public boolean equals(getThing_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 
@@ -6850,7 +6698,6 @@ public class FFoo {
 		public boolean equals(getMyInt_args that) {
 			if (that == null)
 				return false;
-
 			return true;
 		}
 
@@ -7146,16 +6993,8 @@ public class FFoo {
 		public boolean equals(getMyInt_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 
@@ -7503,16 +7342,8 @@ public class FFoo {
 		public boolean equals(use_subdir_struct_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_a = true && this.isSetA();
-			boolean that_present_a = true && that.isSetA();
-			if (this_present_a || that_present_a) {
-				if (!(this_present_a && that_present_a))
-					return false;
-				if (!this.a.equals(that.a))
-					return false;
-			}
-
+			if (!Objects.equals(this.a, that.a))
+				return false;
 			return true;
 		}
 
@@ -7857,16 +7688,8 @@ public class FFoo {
 		public boolean equals(use_subdir_struct_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 
@@ -8211,16 +8034,8 @@ public class FFoo {
 		public boolean equals(sayHelloWith_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_newMessage = true && this.isSetNewMessage();
-			boolean that_present_newMessage = true && that.isSetNewMessage();
-			if (this_present_newMessage || that_present_newMessage) {
-				if (!(this_present_newMessage && that_present_newMessage))
-					return false;
-				if (!this.newMessage.equals(that.newMessage))
-					return false;
-			}
-
+			if (!Objects.equals(this.newMessage, that.newMessage))
+				return false;
 			return true;
 		}
 
@@ -8562,16 +8377,8 @@ public class FFoo {
 		public boolean equals(sayHelloWith_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 
@@ -8913,16 +8720,8 @@ public class FFoo {
 		public boolean equals(whatDoYouSay_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_messageArgs = true && this.isSetMessageArgs();
-			boolean that_present_messageArgs = true && that.isSetMessageArgs();
-			if (this_present_messageArgs || that_present_messageArgs) {
-				if (!(this_present_messageArgs && that_present_messageArgs))
-					return false;
-				if (!this.messageArgs.equals(that.messageArgs))
-					return false;
-			}
-
+			if (!Objects.equals(this.messageArgs, that.messageArgs))
+				return false;
 			return true;
 		}
 
@@ -9264,16 +9063,8 @@ public class FFoo {
 		public boolean equals(whatDoYouSay_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 
@@ -9615,16 +9406,8 @@ public class FFoo {
 		public boolean equals(sayAgain_args that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_messageResult = true && this.isSetMessageResult();
-			boolean that_present_messageResult = true && that.isSetMessageResult();
-			if (this_present_messageResult || that_present_messageResult) {
-				if (!(this_present_messageResult && that_present_messageResult))
-					return false;
-				if (!this.messageResult.equals(that.messageResult))
-					return false;
-			}
-
+			if (!Objects.equals(this.messageResult, that.messageResult))
+				return false;
 			return true;
 		}
 
@@ -9966,16 +9749,8 @@ public class FFoo {
 		public boolean equals(sayAgain_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
 			return true;
 		}
 

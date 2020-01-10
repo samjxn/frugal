@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -254,25 +255,10 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 	public boolean equals(thing that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_an_id = true;
-		boolean that_present_an_id = true;
-		if (this_present_an_id || that_present_an_id) {
-			if (!(this_present_an_id && that_present_an_id))
-				return false;
-			if (this.an_id != that.an_id)
-				return false;
-		}
-
-		boolean this_present_a_string = true && this.isSetA_string();
-		boolean that_present_a_string = true && that.isSetA_string();
-		if (this_present_a_string || that_present_a_string) {
-			if (!(this_present_a_string && that_present_a_string))
-				return false;
-			if (!this.a_string.equals(that.a_string))
-				return false;
-		}
-
+		if (this.an_id != that.an_id)
+			return false;
+		if (!Objects.equals(this.a_string, that.a_string))
+			return false;
 		return true;
 	}
 

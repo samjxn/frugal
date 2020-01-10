@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -301,34 +302,12 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 	public boolean equals(FooArgs that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_newMessage = true && this.isSetNewMessage();
-		boolean that_present_newMessage = true && that.isSetNewMessage();
-		if (this_present_newMessage || that_present_newMessage) {
-			if (!(this_present_newMessage && that_present_newMessage))
-				return false;
-			if (!this.newMessage.equals(that.newMessage))
-				return false;
-		}
-
-		boolean this_present_messageArgs = true && this.isSetMessageArgs();
-		boolean that_present_messageArgs = true && that.isSetMessageArgs();
-		if (this_present_messageArgs || that_present_messageArgs) {
-			if (!(this_present_messageArgs && that_present_messageArgs))
-				return false;
-			if (!this.messageArgs.equals(that.messageArgs))
-				return false;
-		}
-
-		boolean this_present_messageResult = true && this.isSetMessageResult();
-		boolean that_present_messageResult = true && that.isSetMessageResult();
-		if (this_present_messageResult || that_present_messageResult) {
-			if (!(this_present_messageResult && that_present_messageResult))
-				return false;
-			if (!this.messageResult.equals(that.messageResult))
-				return false;
-		}
-
+		if (!Objects.equals(this.newMessage, that.newMessage))
+			return false;
+		if (!Objects.equals(this.messageArgs, that.messageArgs))
+			return false;
+		if (!Objects.equals(this.messageResult, that.messageResult))
+			return false;
 		return true;
 	}
 

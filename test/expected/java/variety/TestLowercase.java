@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -205,16 +206,8 @@ public class TestLowercase implements org.apache.thrift.TBase<TestLowercase, Tes
 	public boolean equals(TestLowercase that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_lowercaseInt = true;
-		boolean that_present_lowercaseInt = true;
-		if (this_present_lowercaseInt || that_present_lowercaseInt) {
-			if (!(this_present_lowercaseInt && that_present_lowercaseInt))
-				return false;
-			if (this.lowercaseInt != that.lowercaseInt)
-				return false;
-		}
-
+		if (this.lowercaseInt != that.lowercaseInt)
+			return false;
 		return true;
 	}
 

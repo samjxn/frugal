@@ -28,6 +28,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -332,7 +333,6 @@ public class FMyService {
 		public boolean equals(getItem_args that) {
 			if (that == null)
 				return false;
-
 			return true;
 		}
 
@@ -677,25 +677,10 @@ public class FMyService {
 		public boolean equals(getItem_result that) {
 			if (that == null)
 				return false;
-
-			boolean this_present_success = true && this.isSetSuccess();
-			boolean that_present_success = true && that.isSetSuccess();
-			if (this_present_success || that_present_success) {
-				if (!(this_present_success && that_present_success))
-					return false;
-				if (!this.success.equals(that.success))
-					return false;
-			}
-
-			boolean this_present_d = true && this.isSetD();
-			boolean that_present_d = true && that.isSetD();
-			if (this_present_d || that_present_d) {
-				if (!(this_present_d && that_present_d))
-					return false;
-				if (!this.d.equals(that.d))
-					return false;
-			}
-
+			if (!Objects.equals(this.success, that.success))
+				return false;
+			if (!Objects.equals(this.d, that.d))
+				return false;
 			return true;
 		}
 

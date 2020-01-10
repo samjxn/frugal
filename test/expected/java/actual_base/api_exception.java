@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -150,7 +151,6 @@ public class api_exception extends TException implements org.apache.thrift.TBase
 	public boolean equals(api_exception that) {
 		if (that == null)
 			return false;
-
 		return true;
 	}
 
