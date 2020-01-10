@@ -287,7 +287,7 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetAn_id()).compareTo(other.isSetAn_id());
+		lastComparison = Boolean.compare(isSetAn_id(), other.isSetAn_id());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -297,7 +297,7 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetA_string()).compareTo(other.isSetA_string());
+		lastComparison = Boolean.compare(isSetA_string(), other.isSetA_string());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

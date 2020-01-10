@@ -2020,7 +2020,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetNum()).compareTo(other.isSetNum());
+			lastComparison = Boolean.compare(isSetNum(), other.isSetNum());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -2030,7 +2030,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetStr()).compareTo(other.isSetStr());
+			lastComparison = Boolean.compare(isSetStr(), other.isSetStr());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -2040,7 +2040,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetEvent()).compareTo(other.isSetEvent());
+			lastComparison = Boolean.compare(isSetEvent(), other.isSetEvent());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -2557,7 +2557,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -2567,7 +2567,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetAwe()).compareTo(other.isSetAwe());
+			lastComparison = Boolean.compare(isSetAwe(), other.isSetAwe());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -2577,7 +2577,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetApi()).compareTo(other.isSetApi());
+			lastComparison = Boolean.compare(isSetApi(), other.isSetApi());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -3054,7 +3054,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetId()).compareTo(other.isSetId());
+			lastComparison = Boolean.compare(isSetId(), other.isSetId());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -3064,7 +3064,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetReq()).compareTo(other.isSetReq());
+			lastComparison = Boolean.compare(isSetReq(), other.isSetReq());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -3525,7 +3525,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetBin()).compareTo(other.isSetBin());
+			lastComparison = Boolean.compare(isSetBin(), other.isSetBin());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -3535,7 +3535,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetStr()).compareTo(other.isSetStr());
+			lastComparison = Boolean.compare(isSetStr(), other.isSetStr());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -3977,7 +3977,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -3987,7 +3987,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetApi()).compareTo(other.isSetApi());
+			lastComparison = Boolean.compare(isSetApi(), other.isSetApi());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -4480,7 +4480,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetOpt_num()).compareTo(other.isSetOpt_num());
+			lastComparison = Boolean.compare(isSetOpt_num(), other.isSetOpt_num());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -4490,7 +4490,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetDefault_num()).compareTo(other.isSetDefault_num());
+			lastComparison = Boolean.compare(isSetDefault_num(), other.isSetDefault_num());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -4500,7 +4500,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetReq_num()).compareTo(other.isSetReq_num());
+			lastComparison = Boolean.compare(isSetReq_num(), other.isSetReq_num());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -4894,7 +4894,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -5332,7 +5332,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetList_type()).compareTo(other.isSetList_type());
+			lastComparison = Boolean.compare(isSetList_type(), other.isSetList_type());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -5342,7 +5342,7 @@ public class FFoo {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetSet_type()).compareTo(other.isSetSet_type());
+			lastComparison = Boolean.compare(isSetSet_type(), other.isSetSet_type());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -5769,7 +5769,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -6372,7 +6372,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -6962,7 +6962,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -7306,7 +7306,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetA()).compareTo(other.isSetA());
+			lastComparison = Boolean.compare(isSetA(), other.isSetA());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -7652,7 +7652,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -7998,7 +7998,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetNewMessage()).compareTo(other.isSetNewMessage());
+			lastComparison = Boolean.compare(isSetNewMessage(), other.isSetNewMessage());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -8341,7 +8341,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -8684,7 +8684,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetMessageArgs()).compareTo(other.isSetMessageArgs());
+			lastComparison = Boolean.compare(isSetMessageArgs(), other.isSetMessageArgs());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -9027,7 +9027,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -9370,7 +9370,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetMessageResult()).compareTo(other.isSetMessageResult());
+			lastComparison = Boolean.compare(isSetMessageResult(), other.isSetMessageResult());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -9713,7 +9713,7 @@ public class FFoo {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}

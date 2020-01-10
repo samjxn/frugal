@@ -709,7 +709,7 @@ public class FMyService {
 
 			int lastComparison = 0;
 
-			lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(other.isSetSuccess());
+			lastComparison = Boolean.compare(isSetSuccess(), other.isSetSuccess());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}
@@ -719,7 +719,7 @@ public class FMyService {
 					return lastComparison;
 				}
 			}
-			lastComparison = Boolean.valueOf(isSetD()).compareTo(other.isSetD());
+			lastComparison = Boolean.compare(isSetD(), other.isSetD());
 			if (lastComparison != 0) {
 				return lastComparison;
 			}

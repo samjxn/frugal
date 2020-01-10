@@ -281,7 +281,7 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetReference_vendored_const()).compareTo(other.isSetReference_vendored_const());
+		lastComparison = Boolean.compare(isSetReference_vendored_const(), other.isSetReference_vendored_const());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -291,7 +291,7 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetReference_vendored_enum()).compareTo(other.isSetReference_vendored_enum());
+		lastComparison = Boolean.compare(isSetReference_vendored_enum(), other.isSetReference_vendored_enum());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

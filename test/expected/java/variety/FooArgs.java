@@ -341,7 +341,7 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetNewMessage()).compareTo(other.isSetNewMessage());
+		lastComparison = Boolean.compare(isSetNewMessage(), other.isSetNewMessage());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -351,7 +351,7 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetMessageArgs()).compareTo(other.isSetMessageArgs());
+		lastComparison = Boolean.compare(isSetMessageArgs(), other.isSetMessageArgs());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -361,7 +361,7 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetMessageResult()).compareTo(other.isSetMessageResult());
+		lastComparison = Boolean.compare(isSetMessageResult(), other.isSetMessageResult());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

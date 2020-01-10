@@ -1374,7 +1374,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetID2()).compareTo(other.isSetID2());
+		lastComparison = Boolean.compare(isSetID2(), other.isSetID2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1384,7 +1384,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEv1()).compareTo(other.isSetEv1());
+		lastComparison = Boolean.compare(isSetEv1(), other.isSetEv1());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1394,7 +1394,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEv2()).compareTo(other.isSetEv2());
+		lastComparison = Boolean.compare(isSetEv2(), other.isSetEv2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1404,7 +1404,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetID()).compareTo(other.isSetID());
+		lastComparison = Boolean.compare(isSetID(), other.isSetID());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1414,7 +1414,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetThing()).compareTo(other.isSetThing());
+		lastComparison = Boolean.compare(isSetThing(), other.isSetThing());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1424,7 +1424,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetThing2()).compareTo(other.isSetThing2());
+		lastComparison = Boolean.compare(isSetThing2(), other.isSetThing2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1434,7 +1434,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetListfield()).compareTo(other.isSetListfield());
+		lastComparison = Boolean.compare(isSetListfield(), other.isSetListfield());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1444,7 +1444,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetID3()).compareTo(other.isSetID3());
+		lastComparison = Boolean.compare(isSetID3(), other.isSetID3());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1454,7 +1454,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field()).compareTo(other.isSetBin_field());
+		lastComparison = Boolean.compare(isSetBin_field(), other.isSetBin_field());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1464,7 +1464,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field2()).compareTo(other.isSetBin_field2());
+		lastComparison = Boolean.compare(isSetBin_field2(), other.isSetBin_field2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1474,7 +1474,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field3()).compareTo(other.isSetBin_field3());
+		lastComparison = Boolean.compare(isSetBin_field3(), other.isSetBin_field3());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1484,7 +1484,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field4()).compareTo(other.isSetBin_field4());
+		lastComparison = Boolean.compare(isSetBin_field4(), other.isSetBin_field4());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1494,7 +1494,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetList2()).compareTo(other.isSetList2());
+		lastComparison = Boolean.compare(isSetList2(), other.isSetList2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1504,7 +1504,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetList3()).compareTo(other.isSetList3());
+		lastComparison = Boolean.compare(isSetList3(), other.isSetList3());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1514,7 +1514,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetList4()).compareTo(other.isSetList4());
+		lastComparison = Boolean.compare(isSetList4(), other.isSetList4());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1524,7 +1524,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetA_map()).compareTo(other.isSetA_map());
+		lastComparison = Boolean.compare(isSetA_map(), other.isSetA_map());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1534,7 +1534,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetStatus()).compareTo(other.isSetStatus());
+		lastComparison = Boolean.compare(isSetStatus(), other.isSetStatus());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1544,7 +1544,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBase_status()).compareTo(other.isSetBase_status());
+		lastComparison = Boolean.compare(isSetBase_status(), other.isSetBase_status());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

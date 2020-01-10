@@ -1540,7 +1540,7 @@ func (g *Generator) generateCompareTo(s *parser.Struct, indent string) string {
 	contents += indent + tab + "int lastComparison = 0;\n\n"
 	for _, field := range s.Fields {
 		fieldTitle := strings.Title(field.Name)
-		contents += indent + tab + fmt.Sprintf("lastComparison = Boolean.valueOf(isSet%s()).compareTo(other.isSet%s());\n", fieldTitle, fieldTitle)
+		contents += indent + tab + fmt.Sprintf("lastComparison = Boolean.compare(isSet%s(), other.isSet%s());\n", fieldTitle, fieldTitle)
 		contents += indent + tab + "if (lastComparison != 0) {\n"
 		contents += indent + tabtab + "return lastComparison;\n"
 		contents += indent + tab + "}\n"

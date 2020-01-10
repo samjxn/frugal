@@ -1292,7 +1292,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetID()).compareTo(other.isSetID());
+		lastComparison = Boolean.compare(isSetID(), other.isSetID());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1302,7 +1302,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEv()).compareTo(other.isSetEv());
+		lastComparison = Boolean.compare(isSetEv(), other.isSetEv());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1312,7 +1312,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEvents()).compareTo(other.isSetEvents());
+		lastComparison = Boolean.compare(isSetEvents(), other.isSetEvents());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1322,7 +1322,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEvents2()).compareTo(other.isSetEvents2());
+		lastComparison = Boolean.compare(isSetEvents2(), other.isSetEvents2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1332,7 +1332,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEventMap()).compareTo(other.isSetEventMap());
+		lastComparison = Boolean.compare(isSetEventMap(), other.isSetEventMap());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1342,7 +1342,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetNums()).compareTo(other.isSetNums());
+		lastComparison = Boolean.compare(isSetNums(), other.isSetNums());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1352,7 +1352,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEnums()).compareTo(other.isSetEnums());
+		lastComparison = Boolean.compare(isSetEnums(), other.isSetEnums());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1362,7 +1362,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetABoolField()).compareTo(other.isSetABoolField());
+		lastComparison = Boolean.compare(isSetABoolField(), other.isSetABoolField());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1372,7 +1372,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetA_union()).compareTo(other.isSetA_union());
+		lastComparison = Boolean.compare(isSetA_union(), other.isSetA_union());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1382,7 +1382,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetTypedefOfTypedef()).compareTo(other.isSetTypedefOfTypedef());
+		lastComparison = Boolean.compare(isSetTypedefOfTypedef(), other.isSetTypedefOfTypedef());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1392,7 +1392,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetDepr()).compareTo(other.isSetDepr());
+		lastComparison = Boolean.compare(isSetDepr(), other.isSetDepr());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1402,7 +1402,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetDeprBinary()).compareTo(other.isSetDeprBinary());
+		lastComparison = Boolean.compare(isSetDeprBinary(), other.isSetDeprBinary());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1412,7 +1412,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetDeprList()).compareTo(other.isSetDeprList());
+		lastComparison = Boolean.compare(isSetDeprList(), other.isSetDeprList());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1422,7 +1422,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEventsDefault()).compareTo(other.isSetEventsDefault());
+		lastComparison = Boolean.compare(isSetEventsDefault(), other.isSetEventsDefault());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1432,7 +1432,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEventMapDefault()).compareTo(other.isSetEventMapDefault());
+		lastComparison = Boolean.compare(isSetEventMapDefault(), other.isSetEventMapDefault());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1442,7 +1442,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEventSetDefault()).compareTo(other.isSetEventSetDefault());
+		lastComparison = Boolean.compare(isSetEventSetDefault(), other.isSetEventSetDefault());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

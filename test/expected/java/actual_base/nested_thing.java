@@ -248,7 +248,7 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetThings()).compareTo(other.isSetThings());
+		lastComparison = Boolean.compare(isSetThings(), other.isSetThings());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

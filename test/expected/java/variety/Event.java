@@ -316,7 +316,7 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetID()).compareTo(other.isSetID());
+		lastComparison = Boolean.compare(isSetID(), other.isSetID());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -326,7 +326,7 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetMessage()).compareTo(other.isSetMessage());
+		lastComparison = Boolean.compare(isSetMessage(), other.isSetMessage());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

@@ -287,7 +287,7 @@ public class InvalidData extends TException implements org.apache.thrift.TBase<I
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetCode()).compareTo(other.isSetCode());
+		lastComparison = Boolean.compare(isSetCode(), other.isSetCode());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -297,7 +297,7 @@ public class InvalidData extends TException implements org.apache.thrift.TBase<I
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetWhy()).compareTo(other.isSetWhy());
+		lastComparison = Boolean.compare(isSetWhy(), other.isSetWhy());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

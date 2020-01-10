@@ -231,7 +231,7 @@ public class TestLowercase implements org.apache.thrift.TBase<TestLowercase, Tes
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetLowercaseInt()).compareTo(other.isSetLowercaseInt());
+		lastComparison = Boolean.compare(isSetLowercaseInt(), other.isSetLowercaseInt());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

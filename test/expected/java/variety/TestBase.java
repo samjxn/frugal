@@ -229,7 +229,7 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetBase_struct()).compareTo(other.isSetBase_struct());
+		lastComparison = Boolean.compare(isSetBase_struct(), other.isSetBase_struct());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}

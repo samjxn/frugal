@@ -376,7 +376,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetID()).compareTo(other.isSetID());
+		lastComparison = Boolean.compare(isSetID(), other.isSetID());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -386,7 +386,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetReason()).compareTo(other.isSetReason());
+		lastComparison = Boolean.compare(isSetReason(), other.isSetReason());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -396,7 +396,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetDepr()).compareTo(other.isSetDepr());
+		lastComparison = Boolean.compare(isSetDepr(), other.isSetDepr());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
