@@ -2197,13 +2197,13 @@ public class FFoo {
 				int elem257 = struct.num;
 				oprot.writeI32(elem257);
 				oprot.writeFieldEnd();
-				if (struct.Str != null) {
+				if (struct.isSetStr()) {
 					oprot.writeFieldBegin(STR_FIELD_DESC);
 					String elem258 = struct.Str;
 					oprot.writeString(elem258);
 					oprot.writeFieldEnd();
 				}
-				if (struct.event != null) {
+				if (struct.isSetEvent()) {
 					oprot.writeFieldBegin(EVENT_FIELD_DESC);
 					struct.event.write(oprot);
 					oprot.writeFieldEnd();
@@ -2762,12 +2762,12 @@ public class FFoo {
 					oprot.writeI64(elem261);
 					oprot.writeFieldEnd();
 				}
-				if (struct.awe != null) {
+				if (struct.isSetAwe()) {
 					oprot.writeFieldBegin(AWE_FIELD_DESC);
 					struct.awe.write(oprot);
 					oprot.writeFieldEnd();
 				}
-				if (struct.api != null) {
+				if (struct.isSetApi()) {
 					oprot.writeFieldBegin(API_FIELD_DESC);
 					struct.api.write(oprot);
 					oprot.writeFieldEnd();
@@ -3249,7 +3249,7 @@ public class FFoo {
 				long elem269 = struct.id;
 				oprot.writeI64(elem269);
 				oprot.writeFieldEnd();
-				if (struct.req != null) {
+				if (struct.isSetReq()) {
 					oprot.writeFieldBegin(REQ_FIELD_DESC);
 					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, struct.req.size()));
 					for (Map.Entry<Integer, String> elem270 : struct.req.entrySet()) {
@@ -3727,13 +3727,13 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.bin != null) {
+				if (struct.isSetBin()) {
 					oprot.writeFieldBegin(BIN_FIELD_DESC);
 					java.nio.ByteBuffer elem281 = struct.bin;
 					oprot.writeBinary(elem281);
 					oprot.writeFieldEnd();
 				}
-				if (struct.Str != null) {
+				if (struct.isSetStr()) {
 					oprot.writeFieldBegin(STR_FIELD_DESC);
 					String elem282 = struct.Str;
 					oprot.writeString(elem282);
@@ -4198,13 +4198,13 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					java.nio.ByteBuffer elem285 = struct.success;
 					oprot.writeBinary(elem285);
 					oprot.writeFieldEnd();
 				}
-				if (struct.api != null) {
+				if (struct.isSetApi()) {
 					oprot.writeFieldBegin(API_FIELD_DESC);
 					struct.api.write(oprot);
 					oprot.writeFieldEnd();
@@ -5602,7 +5602,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.list_type != null) {
+				if (struct.isSetList_type()) {
 					oprot.writeFieldBegin(LIST_TYPE_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.list_type.size()));
 					for (long elem305 : struct.list_type) {
@@ -5612,7 +5612,7 @@ public class FFoo {
 					oprot.writeListEnd();
 					oprot.writeFieldEnd();
 				}
-				if (struct.set_type != null) {
+				if (struct.isSetSet_type()) {
 					oprot.writeFieldBegin(SET_TYPE_FIELD_DESC);
 					oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, struct.set_type.size()));
 					for (long elem307 : struct.set_type) {
@@ -6019,7 +6019,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.success.size()));
 					for (long elem324 : struct.success) {
@@ -6629,7 +6629,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					struct.success.write(oprot);
 					oprot.writeFieldEnd();
@@ -7580,7 +7580,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.a != null) {
+				if (struct.isSetA()) {
 					oprot.writeFieldBegin(A_FIELD_DESC);
 					struct.a.write(oprot);
 					oprot.writeFieldEnd();
@@ -7934,7 +7934,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					struct.success.write(oprot);
 					oprot.writeFieldEnd();
@@ -8284,7 +8284,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.newMessage != null) {
+				if (struct.isSetNewMessage()) {
 					oprot.writeFieldBegin(NEW_MESSAGE_FIELD_DESC);
 					String elem333 = struct.newMessage;
 					oprot.writeString(elem333);
@@ -8635,7 +8635,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					String elem335 = struct.success;
 					oprot.writeString(elem335);
@@ -8986,7 +8986,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.messageArgs != null) {
+				if (struct.isSetMessageArgs()) {
 					oprot.writeFieldBegin(MESSAGE_ARGS_FIELD_DESC);
 					String elem337 = struct.messageArgs;
 					oprot.writeString(elem337);
@@ -9337,7 +9337,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					String elem339 = struct.success;
 					oprot.writeString(elem339);
@@ -9688,7 +9688,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.messageResult != null) {
+				if (struct.isSetMessageResult()) {
 					oprot.writeFieldBegin(MESSAGE_RESULT_FIELD_DESC);
 					String elem341 = struct.messageResult;
 					oprot.writeString(elem341);
@@ -10039,7 +10039,7 @@ public class FFoo {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					String elem343 = struct.success;
 					oprot.writeString(elem343);

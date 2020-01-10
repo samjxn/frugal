@@ -456,7 +456,7 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 			long elem3 = struct.ID;
 			oprot.writeI64(elem3);
 			oprot.writeFieldEnd();
-			if (struct.Message != null) {
+			if (struct.isSetMessage()) {
 				oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
 				String elem4 = struct.Message;
 				oprot.writeString(elem4);

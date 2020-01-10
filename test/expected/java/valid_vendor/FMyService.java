@@ -853,12 +853,12 @@ public class FMyService {
 				struct.validate();
 
 				oprot.writeStructBegin(STRUCT_DESC);
-				if (struct.success != null) {
+				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					struct.success.write(oprot);
 					oprot.writeFieldEnd();
 				}
-				if (struct.d != null) {
+				if (struct.isSetD()) {
 					oprot.writeFieldBegin(D_FIELD_DESC);
 					struct.d.write(oprot);
 					oprot.writeFieldEnd();

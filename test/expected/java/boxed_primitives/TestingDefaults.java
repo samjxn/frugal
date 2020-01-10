@@ -2057,12 +2057,12 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				oprot.writeI64(elem33);
 				oprot.writeFieldEnd();
 			}
-			if (struct.ev1 != null) {
+			if (struct.isSetEv1()) {
 				oprot.writeFieldBegin(EV1_FIELD_DESC);
 				struct.ev1.write(oprot);
 				oprot.writeFieldEnd();
 			}
-			if (struct.ev2 != null) {
+			if (struct.isSetEv2()) {
 				oprot.writeFieldBegin(EV2_FIELD_DESC);
 				struct.ev2.write(oprot);
 				oprot.writeFieldEnd();
@@ -2074,21 +2074,19 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			}
 			oprot.writeI64(elem34);
 			oprot.writeFieldEnd();
-			if (struct.thing != null) {
+			if (struct.isSetThing()) {
 				oprot.writeFieldBegin(THING_FIELD_DESC);
 				String elem35 = struct.thing;
 				oprot.writeString(elem35);
 				oprot.writeFieldEnd();
 			}
-			if (struct.thing2 != null) {
-				if (struct.isSetThing2()) {
-					oprot.writeFieldBegin(THING2_FIELD_DESC);
-					String elem36 = struct.thing2;
-					oprot.writeString(elem36);
-					oprot.writeFieldEnd();
-				}
+			if (struct.isSetThing2()) {
+				oprot.writeFieldBegin(THING2_FIELD_DESC);
+				String elem36 = struct.thing2;
+				oprot.writeString(elem36);
+				oprot.writeFieldEnd();
 			}
-			if (struct.listfield != null) {
+			if (struct.isSetListfield()) {
 				oprot.writeFieldBegin(LISTFIELD_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.listfield.size()));
 				for (Integer elem37 : struct.listfield) {
@@ -2108,65 +2106,57 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			}
 			oprot.writeI64(elem39);
 			oprot.writeFieldEnd();
-			if (struct.bin_field != null) {
+			if (struct.isSetBin_field()) {
 				oprot.writeFieldBegin(BIN_FIELD_FIELD_DESC);
 				java.nio.ByteBuffer elem40 = struct.bin_field;
 				oprot.writeBinary(elem40);
 				oprot.writeFieldEnd();
 			}
-			if (struct.bin_field2 != null) {
-				if (struct.isSetBin_field2()) {
-					oprot.writeFieldBegin(BIN_FIELD2_FIELD_DESC);
-					java.nio.ByteBuffer elem41 = struct.bin_field2;
-					oprot.writeBinary(elem41);
-					oprot.writeFieldEnd();
-				}
+			if (struct.isSetBin_field2()) {
+				oprot.writeFieldBegin(BIN_FIELD2_FIELD_DESC);
+				java.nio.ByteBuffer elem41 = struct.bin_field2;
+				oprot.writeBinary(elem41);
+				oprot.writeFieldEnd();
 			}
-			if (struct.bin_field3 != null) {
+			if (struct.isSetBin_field3()) {
 				oprot.writeFieldBegin(BIN_FIELD3_FIELD_DESC);
 				java.nio.ByteBuffer elem42 = struct.bin_field3;
 				oprot.writeBinary(elem42);
 				oprot.writeFieldEnd();
 			}
-			if (struct.bin_field4 != null) {
-				if (struct.isSetBin_field4()) {
-					oprot.writeFieldBegin(BIN_FIELD4_FIELD_DESC);
-					java.nio.ByteBuffer elem43 = struct.bin_field4;
-					oprot.writeBinary(elem43);
-					oprot.writeFieldEnd();
-				}
+			if (struct.isSetBin_field4()) {
+				oprot.writeFieldBegin(BIN_FIELD4_FIELD_DESC);
+				java.nio.ByteBuffer elem43 = struct.bin_field4;
+				oprot.writeBinary(elem43);
+				oprot.writeFieldEnd();
 			}
-			if (struct.list2 != null) {
-				if (struct.isSetList2()) {
-					oprot.writeFieldBegin(LIST2_FIELD_DESC);
-					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list2.size()));
-					for (Integer elem44 : struct.list2) {
-						Integer elem45 = elem44;
-						if (elem45 == null) {
-							elem45 = 0;
-						}
-						oprot.writeI32(elem45);
+			if (struct.isSetList2()) {
+				oprot.writeFieldBegin(LIST2_FIELD_DESC);
+				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list2.size()));
+				for (Integer elem44 : struct.list2) {
+					Integer elem45 = elem44;
+					if (elem45 == null) {
+						elem45 = 0;
 					}
-					oprot.writeListEnd();
-					oprot.writeFieldEnd();
+					oprot.writeI32(elem45);
 				}
+				oprot.writeListEnd();
+				oprot.writeFieldEnd();
 			}
-			if (struct.list3 != null) {
-				if (struct.isSetList3()) {
-					oprot.writeFieldBegin(LIST3_FIELD_DESC);
-					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list3.size()));
-					for (Integer elem46 : struct.list3) {
-						Integer elem47 = elem46;
-						if (elem47 == null) {
-							elem47 = 0;
-						}
-						oprot.writeI32(elem47);
+			if (struct.isSetList3()) {
+				oprot.writeFieldBegin(LIST3_FIELD_DESC);
+				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list3.size()));
+				for (Integer elem46 : struct.list3) {
+					Integer elem47 = elem46;
+					if (elem47 == null) {
+						elem47 = 0;
 					}
-					oprot.writeListEnd();
-					oprot.writeFieldEnd();
+					oprot.writeI32(elem47);
 				}
+				oprot.writeListEnd();
+				oprot.writeFieldEnd();
 			}
-			if (struct.list4 != null) {
+			if (struct.isSetList4()) {
 				oprot.writeFieldBegin(LIST4_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list4.size()));
 				for (Integer elem48 : struct.list4) {
@@ -2179,27 +2169,25 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.a_map != null) {
-				if (struct.isSetA_map()) {
-					oprot.writeFieldBegin(A_MAP_FIELD_DESC);
-					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.a_map.size()));
-					for (Map.Entry<String, String> elem50 : struct.a_map.entrySet()) {
-						String elem51 = elem50.getKey();
-						oprot.writeString(elem51);
-						String elem52 = elem50.getValue();
-						oprot.writeString(elem52);
-					}
-					oprot.writeMapEnd();
-					oprot.writeFieldEnd();
+			if (struct.isSetA_map()) {
+				oprot.writeFieldBegin(A_MAP_FIELD_DESC);
+				oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.a_map.size()));
+				for (Map.Entry<String, String> elem50 : struct.a_map.entrySet()) {
+					String elem51 = elem50.getKey();
+					oprot.writeString(elem51);
+					String elem52 = elem50.getValue();
+					oprot.writeString(elem52);
 				}
+				oprot.writeMapEnd();
+				oprot.writeFieldEnd();
 			}
-			if (struct.status != null) {
+			if (struct.isSetStatus()) {
 				oprot.writeFieldBegin(STATUS_FIELD_DESC);
 				HealthCondition elem53 = struct.status;
 				oprot.writeI32(elem53.getValue());
 				oprot.writeFieldEnd();
 			}
-			if (struct.base_status != null) {
+			if (struct.isSetBase_status()) {
 				oprot.writeFieldBegin(BASE_STATUS_FIELD_DESC);
 				actual_base.java.base_health_condition elem54 = struct.base_status;
 				oprot.writeI32(elem54.getValue());

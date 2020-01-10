@@ -1748,13 +1748,7 @@ func (g *Generator) generateStandardScheme(s *parser.Struct, isResult bool, inde
 	for _, field := range s.Fields {
 		isKindOfPrimitive := g.canBeJavaPrimitive(field.Type)
 		ind := tabtab
-		optInd := tabtab
-		if !isKindOfPrimitive {
-			contents += indent + ind + fmt.Sprintf("if (struct.%s != null) {\n", field.Name)
-			ind += tab
-			optInd += tab
-		}
-		opt := field.Modifier == parser.Optional || (isResult && isKindOfPrimitive)
+		opt := !isKindOfPrimitive || field.Modifier == parser.Optional || (isResult && isKindOfPrimitive)
 		if opt {
 			contents += indent + ind + fmt.Sprintf("if (struct.isSet%s()) {\n", strings.Title(field.Name))
 			ind += tab
@@ -1765,9 +1759,6 @@ func (g *Generator) generateStandardScheme(s *parser.Struct, isResult bool, inde
 		contents += indent + ind + "oprot.writeFieldEnd();\n"
 
 		if opt {
-			contents += indent + optInd + "}\n"
-		}
-		if !isKindOfPrimitive {
 			contents += indent + tabtab + "}\n"
 		}
 	}

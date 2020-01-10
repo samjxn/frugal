@@ -427,13 +427,11 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 				oprot.writeI32(elem0);
 				oprot.writeFieldEnd();
 			}
-			if (struct.reference_vendored_enum != null) {
-				if (struct.isSetReference_vendored_enum()) {
-					oprot.writeFieldBegin(REFERENCE_VENDORED_ENUM_FIELD_DESC);
-					vendor_namespace.java.MyEnum elem1 = struct.reference_vendored_enum;
-					oprot.writeI32(elem1.getValue());
-					oprot.writeFieldEnd();
-				}
+			if (struct.isSetReference_vendored_enum()) {
+				oprot.writeFieldBegin(REFERENCE_VENDORED_ENUM_FIELD_DESC);
+				vendor_namespace.java.MyEnum elem1 = struct.reference_vendored_enum;
+				oprot.writeI32(elem1.getValue());
+				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();

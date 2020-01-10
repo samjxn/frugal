@@ -427,7 +427,7 @@ public class InvalidData extends TException implements org.apache.thrift.TBase<I
 			int elem4 = struct.code;
 			oprot.writeI32(elem4);
 			oprot.writeFieldEnd();
-			if (struct.why != null) {
+			if (struct.isSetWhy()) {
 				oprot.writeFieldBegin(WHY_FIELD_DESC);
 				String elem5 = struct.why;
 				oprot.writeString(elem5);

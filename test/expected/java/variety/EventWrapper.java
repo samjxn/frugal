@@ -1928,12 +1928,12 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				oprot.writeI64(elem147);
 				oprot.writeFieldEnd();
 			}
-			if (struct.Ev != null) {
+			if (struct.isSetEv()) {
 				oprot.writeFieldBegin(EV_FIELD_DESC);
 				struct.Ev.write(oprot);
 				oprot.writeFieldEnd();
 			}
-			if (struct.Events != null) {
+			if (struct.isSetEvents()) {
 				oprot.writeFieldBegin(EVENTS_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.Events.size()));
 				for (Event elem148 : struct.Events) {
@@ -1942,7 +1942,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.Events2 != null) {
+			if (struct.isSetEvents2()) {
 				oprot.writeFieldBegin(EVENTS2_FIELD_DESC);
 				oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.STRUCT, struct.Events2.size()));
 				for (Event elem149 : struct.Events2) {
@@ -1951,7 +1951,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				oprot.writeSetEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.EventMap != null) {
+			if (struct.isSetEventMap()) {
 				oprot.writeFieldBegin(EVENT_MAP_FIELD_DESC);
 				oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I64, org.apache.thrift.protocol.TType.STRUCT, struct.EventMap.size()));
 				for (Map.Entry<Long, Event> elem150 : struct.EventMap.entrySet()) {
@@ -1962,7 +1962,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				oprot.writeMapEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.Nums != null) {
+			if (struct.isSetNums()) {
 				oprot.writeFieldBegin(NUMS_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.LIST, struct.Nums.size()));
 				for (java.util.List<Integer> elem152 : struct.Nums) {
@@ -1976,7 +1976,7 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.Enums != null) {
+			if (struct.isSetEnums()) {
 				oprot.writeFieldBegin(ENUMS_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.Enums.size()));
 				for (ItsAnEnum elem155 : struct.Enums) {
@@ -1990,12 +1990,12 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 			boolean elem157 = struct.aBoolField;
 			oprot.writeBool(elem157);
 			oprot.writeFieldEnd();
-			if (struct.a_union != null) {
+			if (struct.isSetA_union()) {
 				oprot.writeFieldBegin(A_UNION_FIELD_DESC);
 				struct.a_union.write(oprot);
 				oprot.writeFieldEnd();
 			}
-			if (struct.typedefOfTypedef != null) {
+			if (struct.isSetTypedefOfTypedef()) {
 				oprot.writeFieldBegin(TYPEDEF_OF_TYPEDEF_FIELD_DESC);
 				String elem158 = struct.typedefOfTypedef;
 				oprot.writeString(elem158);
@@ -2005,13 +2005,13 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 			boolean elem159 = struct.depr;
 			oprot.writeBool(elem159);
 			oprot.writeFieldEnd();
-			if (struct.deprBinary != null) {
+			if (struct.isSetDeprBinary()) {
 				oprot.writeFieldBegin(DEPR_BINARY_FIELD_DESC);
 				java.nio.ByteBuffer elem160 = struct.deprBinary;
 				oprot.writeBinary(elem160);
 				oprot.writeFieldEnd();
 			}
-			if (struct.deprList != null) {
+			if (struct.isSetDeprList()) {
 				oprot.writeFieldBegin(DEPR_LIST_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.BOOL, struct.deprList.size()));
 				for (boolean elem161 : struct.deprList) {
@@ -2021,40 +2021,34 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.EventsDefault != null) {
-				if (struct.isSetEventsDefault()) {
-					oprot.writeFieldBegin(EVENTS_DEFAULT_FIELD_DESC);
-					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.EventsDefault.size()));
-					for (Event elem163 : struct.EventsDefault) {
-						elem163.write(oprot);
-					}
-					oprot.writeListEnd();
-					oprot.writeFieldEnd();
+			if (struct.isSetEventsDefault()) {
+				oprot.writeFieldBegin(EVENTS_DEFAULT_FIELD_DESC);
+				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.EventsDefault.size()));
+				for (Event elem163 : struct.EventsDefault) {
+					elem163.write(oprot);
 				}
+				oprot.writeListEnd();
+				oprot.writeFieldEnd();
 			}
-			if (struct.EventMapDefault != null) {
-				if (struct.isSetEventMapDefault()) {
-					oprot.writeFieldBegin(EVENT_MAP_DEFAULT_FIELD_DESC);
-					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I64, org.apache.thrift.protocol.TType.STRUCT, struct.EventMapDefault.size()));
-					for (Map.Entry<Long, Event> elem164 : struct.EventMapDefault.entrySet()) {
-						long elem165 = elem164.getKey();
-						oprot.writeI64(elem165);
-						elem164.getValue().write(oprot);
-					}
-					oprot.writeMapEnd();
-					oprot.writeFieldEnd();
+			if (struct.isSetEventMapDefault()) {
+				oprot.writeFieldBegin(EVENT_MAP_DEFAULT_FIELD_DESC);
+				oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I64, org.apache.thrift.protocol.TType.STRUCT, struct.EventMapDefault.size()));
+				for (Map.Entry<Long, Event> elem164 : struct.EventMapDefault.entrySet()) {
+					long elem165 = elem164.getKey();
+					oprot.writeI64(elem165);
+					elem164.getValue().write(oprot);
 				}
+				oprot.writeMapEnd();
+				oprot.writeFieldEnd();
 			}
-			if (struct.EventSetDefault != null) {
-				if (struct.isSetEventSetDefault()) {
-					oprot.writeFieldBegin(EVENT_SET_DEFAULT_FIELD_DESC);
-					oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.STRUCT, struct.EventSetDefault.size()));
-					for (Event elem166 : struct.EventSetDefault) {
-						elem166.write(oprot);
-					}
-					oprot.writeSetEnd();
-					oprot.writeFieldEnd();
+			if (struct.isSetEventSetDefault()) {
+				oprot.writeFieldBegin(EVENT_SET_DEFAULT_FIELD_DESC);
+				oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.STRUCT, struct.EventSetDefault.size()));
+				for (Event elem166 : struct.EventSetDefault) {
+					elem166.write(oprot);
 				}
+				oprot.writeSetEnd();
+				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();

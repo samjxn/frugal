@@ -505,19 +505,19 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 			struct.validate();
 
 			oprot.writeStructBegin(STRUCT_DESC);
-			if (struct.newMessage != null) {
+			if (struct.isSetNewMessage()) {
 				oprot.writeFieldBegin(NEW_MESSAGE_FIELD_DESC);
 				String elem219 = struct.newMessage;
 				oprot.writeString(elem219);
 				oprot.writeFieldEnd();
 			}
-			if (struct.messageArgs != null) {
+			if (struct.isSetMessageArgs()) {
 				oprot.writeFieldBegin(MESSAGE_ARGS_FIELD_DESC);
 				String elem220 = struct.messageArgs;
 				oprot.writeString(elem220);
 				oprot.writeFieldEnd();
 			}
-			if (struct.messageResult != null) {
+			if (struct.isSetMessageResult()) {
 				oprot.writeFieldBegin(MESSAGE_RESULT_FIELD_DESC);
 				String elem221 = struct.messageResult;
 				oprot.writeString(elem221);

@@ -339,7 +339,7 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 			struct.validate();
 
 			oprot.writeStructBegin(STRUCT_DESC);
-			if (struct.base_struct != null) {
+			if (struct.isSetBase_struct()) {
 				oprot.writeFieldBegin(BASE_STRUCT_FIELD_DESC);
 				struct.base_struct.write(oprot);
 				oprot.writeFieldEnd();

@@ -545,7 +545,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 			long elem251 = struct.ID;
 			oprot.writeI64(elem251);
 			oprot.writeFieldEnd();
-			if (struct.Reason != null) {
+			if (struct.isSetReason()) {
 				oprot.writeFieldBegin(REASON_FIELD_DESC);
 				String elem252 = struct.Reason;
 				oprot.writeString(elem252);

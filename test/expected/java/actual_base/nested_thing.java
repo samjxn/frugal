@@ -361,7 +361,7 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 			struct.validate();
 
 			oprot.writeStructBegin(STRUCT_DESC);
-			if (struct.things != null) {
+			if (struct.isSetThings()) {
 				oprot.writeFieldBegin(THINGS_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.things.size()));
 				for (thing elem373 : struct.things) {

@@ -427,7 +427,7 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 			int elem364 = struct.an_id;
 			oprot.writeI32(elem364);
 			oprot.writeFieldEnd();
-			if (struct.a_string != null) {
+			if (struct.isSetA_string()) {
 				oprot.writeFieldBegin(A_STRING_FIELD_DESC);
 				String elem365 = struct.a_string;
 				oprot.writeString(elem365);
