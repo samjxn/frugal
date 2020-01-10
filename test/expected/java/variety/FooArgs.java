@@ -413,27 +413,15 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 		boolean first = true;
 
 		sb.append("newMessage:");
-		if (this.newMessage == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.newMessage);
-		}
+		sb.append(this.newMessage);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("messageArgs:");
-		if (this.messageArgs == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.messageArgs);
-		}
+		sb.append(this.messageArgs);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("messageResult:");
-		if (this.messageResult == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.messageResult);
-		}
+		sb.append(this.messageResult);
 		first = false;
 		sb.append(")");
 		return sb.toString();

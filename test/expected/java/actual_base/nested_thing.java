@@ -286,11 +286,7 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 		boolean first = true;
 
 		sb.append("things:");
-		if (this.things == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.things);
-		}
+		sb.append(this.things);
 		first = false;
 		sb.append(")");
 		return sb.toString();

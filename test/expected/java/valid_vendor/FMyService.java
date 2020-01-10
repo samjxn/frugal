@@ -765,19 +765,11 @@ public class FMyService {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("d:");
-			if (this.d == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.d);
-			}
+			sb.append(this.d);
 			first = false;
 			sb.append(")");
 			return sb.toString();

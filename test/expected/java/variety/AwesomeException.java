@@ -452,11 +452,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Reason:");
-		if (this.Reason == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Reason);
-		}
+		sb.append(this.Reason);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("depr:");

@@ -1606,15 +1606,11 @@ func (g *Generator) generateToString(s *parser.Struct, indent string) string {
 			contents += indent + tab + ind + "if (!first) sb.append(\", \");\n"
 		}
 		contents += indent + tab + ind + fmt.Sprintf("sb.append(\"%s:\");\n", field.Name)
-		if !g.isJavaPrimitive(field.Type) {
+		if g.Frugal.UnderlyingType(field.Type).Name == "binary" {
 			contents += indent + tab + ind + fmt.Sprintf("if (this.%s == null) {\n", field.Name)
 			contents += indent + tabtab + ind + "sb.append(\"null\");\n"
 			contents += indent + tab + ind + "} else {\n"
-			if g.Frugal.UnderlyingType(field.Type).Name == "binary" {
-				contents += indent + tabtab + ind + fmt.Sprintf("org.apache.thrift.TBaseHelper.toString(this.%s, sb);\n", field.Name)
-			} else {
-				contents += indent + tabtab + ind + fmt.Sprintf("sb.append(this.%s);\n", field.Name)
-			}
+			contents += indent + tabtab + ind + fmt.Sprintf("org.apache.thrift.TBaseHelper.toString(this.%s, sb);\n", field.Name)
 			contents += indent + tab + ind + "}\n"
 		} else {
 			contents += indent + tab + ind + fmt.Sprintf("sb.append(this.%s);\n", field.Name)

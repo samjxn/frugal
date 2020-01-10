@@ -375,11 +375,7 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Message:");
-		if (this.Message == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Message);
-		}
+		sb.append(this.Message);
 		first = false;
 		sb.append(")");
 		return sb.toString();

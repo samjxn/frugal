@@ -346,11 +346,7 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("a_string:");
-		if (this.a_string == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.a_string);
-		}
+		sb.append(this.a_string);
 		first = false;
 		sb.append(")");
 		return sb.toString();

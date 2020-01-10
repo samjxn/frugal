@@ -343,11 +343,7 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 		if (isSetReference_vendored_enum()) {
 			if (!first) sb.append(", ");
 			sb.append("reference_vendored_enum:");
-			if (this.reference_vendored_enum == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.reference_vendored_enum);
-			}
+			sb.append(this.reference_vendored_enum);
 			first = false;
 		}
 		sb.append(")");

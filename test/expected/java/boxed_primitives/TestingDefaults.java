@@ -1702,70 +1702,38 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 
 		if (isSetID2()) {
 			sb.append("ID2:");
-			if (this.ID2 == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.ID2);
-			}
+			sb.append(this.ID2);
 			first = false;
 		}
 		if (!first) sb.append(", ");
 		sb.append("ev1:");
-		if (this.ev1 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.ev1);
-		}
+		sb.append(this.ev1);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("ev2:");
-		if (this.ev2 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.ev2);
-		}
+		sb.append(this.ev2);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("ID:");
-		if (this.ID == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.ID);
-		}
+		sb.append(this.ID);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("thing:");
-		if (this.thing == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.thing);
-		}
+		sb.append(this.thing);
 		first = false;
 		if (isSetThing2()) {
 			if (!first) sb.append(", ");
 			sb.append("thing2:");
-			if (this.thing2 == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.thing2);
-			}
+			sb.append(this.thing2);
 			first = false;
 		}
 		if (!first) sb.append(", ");
 		sb.append("listfield:");
-		if (this.listfield == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.listfield);
-		}
+		sb.append(this.listfield);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("ID3:");
-		if (this.ID3 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.ID3);
-		}
+		sb.append(this.ID3);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("bin_field:");
@@ -1806,56 +1774,32 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		if (isSetList2()) {
 			if (!first) sb.append(", ");
 			sb.append("list2:");
-			if (this.list2 == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.list2);
-			}
+			sb.append(this.list2);
 			first = false;
 		}
 		if (isSetList3()) {
 			if (!first) sb.append(", ");
 			sb.append("list3:");
-			if (this.list3 == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.list3);
-			}
+			sb.append(this.list3);
 			first = false;
 		}
 		if (!first) sb.append(", ");
 		sb.append("list4:");
-		if (this.list4 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.list4);
-		}
+		sb.append(this.list4);
 		first = false;
 		if (isSetA_map()) {
 			if (!first) sb.append(", ");
 			sb.append("a_map:");
-			if (this.a_map == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.a_map);
-			}
+			sb.append(this.a_map);
 			first = false;
 		}
 		if (!first) sb.append(", ");
 		sb.append("status:");
-		if (this.status == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.status);
-		}
+		sb.append(this.status);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("base_status:");
-		if (this.base_status == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.base_status);
-		}
+		sb.append(this.base_status);
 		first = false;
 		sb.append(")");
 		return sb.toString();

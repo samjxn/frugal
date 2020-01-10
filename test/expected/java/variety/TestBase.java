@@ -267,11 +267,7 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 		boolean first = true;
 
 		sb.append("base_struct:");
-		if (this.base_struct == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.base_struct);
-		}
+		sb.append(this.base_struct);
 		first = false;
 		sb.append(")");
 		return sb.toString();

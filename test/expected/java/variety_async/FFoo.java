@@ -2207,19 +2207,11 @@ public class FFoo {
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("Str:");
-			if (this.Str == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.Str);
-			}
+			sb.append(this.Str);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("event:");
-			if (this.event == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.event);
-			}
+			sb.append(this.event);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -2774,19 +2766,11 @@ public class FFoo {
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("awe:");
-			if (this.awe == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.awe);
-			}
+			sb.append(this.awe);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("api:");
-			if (this.api == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.api);
-			}
+			sb.append(this.api);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -3284,11 +3268,7 @@ public class FFoo {
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("req:");
-			if (this.req == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.req);
-			}
+			sb.append(this.req);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -3778,11 +3758,7 @@ public class FFoo {
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("Str:");
-			if (this.Str == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.Str);
-			}
+			sb.append(this.Str);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -4249,11 +4225,7 @@ public class FFoo {
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("api:");
-			if (this.api == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.api);
-			}
+			sb.append(this.api);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -5645,19 +5617,11 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("list_type:");
-			if (this.list_type == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.list_type);
-			}
+			sb.append(this.list_type);
 			first = false;
 			if (!first) sb.append(", ");
 			sb.append("set_type:");
-			if (this.set_type == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.set_type);
-			}
+			sb.append(this.set_type);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -6088,11 +6052,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -6704,11 +6664,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -7659,11 +7615,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("a:");
-			if (this.a == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.a);
-			}
+			sb.append(this.a);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -8017,11 +7969,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -8375,11 +8323,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("newMessage:");
-			if (this.newMessage == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.newMessage);
-			}
+			sb.append(this.newMessage);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -8730,11 +8674,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -9085,11 +9025,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("messageArgs:");
-			if (this.messageArgs == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.messageArgs);
-			}
+			sb.append(this.messageArgs);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -9440,11 +9376,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -9795,11 +9727,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("messageResult:");
-			if (this.messageResult == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.messageResult);
-			}
+			sb.append(this.messageResult);
 			first = false;
 			sb.append(")");
 			return sb.toString();
@@ -10150,11 +10078,7 @@ public class FFoo {
 			boolean first = true;
 
 			sb.append("success:");
-			if (this.success == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.success);
-			}
+			sb.append(this.success);
 			first = false;
 			sb.append(")");
 			return sb.toString();

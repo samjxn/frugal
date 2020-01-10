@@ -346,11 +346,7 @@ public class InvalidData extends TException implements org.apache.thrift.TBase<I
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("why:");
-		if (this.why == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.why);
-		}
+		sb.append(this.why);
 		first = false;
 		sb.append(")");
 		return sb.toString();

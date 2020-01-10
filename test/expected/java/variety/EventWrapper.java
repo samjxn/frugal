@@ -1591,51 +1591,27 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 		}
 		if (!first) sb.append(", ");
 		sb.append("Ev:");
-		if (this.Ev == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Ev);
-		}
+		sb.append(this.Ev);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Events:");
-		if (this.Events == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Events);
-		}
+		sb.append(this.Events);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Events2:");
-		if (this.Events2 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Events2);
-		}
+		sb.append(this.Events2);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("EventMap:");
-		if (this.EventMap == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.EventMap);
-		}
+		sb.append(this.EventMap);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Nums:");
-		if (this.Nums == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Nums);
-		}
+		sb.append(this.Nums);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Enums:");
-		if (this.Enums == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Enums);
-		}
+		sb.append(this.Enums);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("aBoolField:");
@@ -1643,19 +1619,11 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("a_union:");
-		if (this.a_union == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.a_union);
-		}
+		sb.append(this.a_union);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("typedefOfTypedef:");
-		if (this.typedefOfTypedef == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.typedefOfTypedef);
-		}
+		sb.append(this.typedefOfTypedef);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("depr:");
@@ -1671,40 +1639,24 @@ public class EventWrapper implements org.apache.thrift.TBase<EventWrapper, Event
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("deprList:");
-		if (this.deprList == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.deprList);
-		}
+		sb.append(this.deprList);
 		first = false;
 		if (isSetEventsDefault()) {
 			if (!first) sb.append(", ");
 			sb.append("EventsDefault:");
-			if (this.EventsDefault == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.EventsDefault);
-			}
+			sb.append(this.EventsDefault);
 			first = false;
 		}
 		if (isSetEventMapDefault()) {
 			if (!first) sb.append(", ");
 			sb.append("EventMapDefault:");
-			if (this.EventMapDefault == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.EventMapDefault);
-			}
+			sb.append(this.EventMapDefault);
 			first = false;
 		}
 		if (isSetEventSetDefault()) {
 			if (!first) sb.append(", ");
 			sb.append("EventSetDefault:");
-			if (this.EventSetDefault == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.EventSetDefault);
-			}
+			sb.append(this.EventSetDefault);
 			first = false;
 		}
 		sb.append(")");
