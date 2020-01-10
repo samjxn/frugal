@@ -38,12 +38,6 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 
 	private static final org.apache.thrift.protocol.TField THINGS_FIELD_DESC = new org.apache.thrift.protocol.TField("things", org.apache.thrift.protocol.TType.LIST, (short)1);
 
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new nested_thingStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new nested_thingTupleSchemeFactory());
-	}
-
 	public java.util.List<thing> things;
 	/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 	public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -120,9 +114,9 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 	public nested_thing(nested_thing other) {
 		if (other.isSetThings()) {
 			this.things = new ArrayList<thing>(other.things.size());
-			for (thing elem368 : other.things) {
-				thing elem369 = new thing(elem368);
-				this.things.add(elem369);
+			for (thing elem227 : other.things) {
+				thing elem228 = new thing(elem227);
+				this.things.add(elem228);
 			}
 		}
 	}
@@ -266,11 +260,17 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new nested_thingStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new nested_thingStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -307,12 +307,6 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 		}
 	}
 
-	private static class nested_thingStandardSchemeFactory implements SchemeFactory {
-		public nested_thingStandardScheme getScheme() {
-			return new nested_thingStandardScheme();
-		}
-	}
-
 	private static class nested_thingStandardScheme extends StandardScheme<nested_thing> {
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot, nested_thing struct) throws org.apache.thrift.TException {
@@ -326,12 +320,12 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 				switch (schemeField.id) {
 					case 1: // THINGS
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem370 = iprot.readListBegin();
-							struct.things = new ArrayList<thing>(elem370.size);
-							for (int elem371 = 0; elem371 < elem370.size; ++elem371) {
-								thing elem372 = new thing();
-								elem372.read(iprot);
-								struct.things.add(elem372);
+							org.apache.thrift.protocol.TList elem229 = iprot.readListBegin();
+							struct.things = new ArrayList<thing>(elem229.size);
+							for (int elem230 = 0; elem230 < elem229.size; ++elem230) {
+								thing elem231 = new thing();
+								elem231.read(iprot);
+								struct.things.add(elem231);
 							}
 							iprot.readListEnd();
 							struct.setThingsIsSet(true);
@@ -357,56 +351,14 @@ public class nested_thing implements org.apache.thrift.TBase<nested_thing, neste
 			if (struct.isSetThings()) {
 				oprot.writeFieldBegin(THINGS_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.things.size()));
-				for (thing elem373 : struct.things) {
-					elem373.write(oprot);
+				for (thing elem232 : struct.things) {
+					elem232.write(oprot);
 				}
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class nested_thingTupleSchemeFactory implements SchemeFactory {
-		public nested_thingTupleScheme getScheme() {
-			return new nested_thingTupleScheme();
-		}
-	}
-
-	private static class nested_thingTupleScheme extends TupleScheme<nested_thing> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, nested_thing struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetThings()) {
-				optionals.set(0);
-			}
-			oprot.writeBitSet(optionals, 1);
-			if (struct.isSetThings()) {
-				oprot.writeI32(struct.things.size());
-				for (thing elem374 : struct.things) {
-					elem374.write(oprot);
-				}
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, nested_thing struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(1);
-			if (incoming.get(0)) {
-				org.apache.thrift.protocol.TList elem375 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-				struct.things = new ArrayList<thing>(elem375.size);
-				for (int elem376 = 0; elem376 < elem375.size; ++elem376) {
-					thing elem377 = new thing();
-					elem377.read(iprot);
-					struct.things.add(elem377);
-				}
-				struct.setThingsIsSet(true);
-			}
 		}
 
 	}

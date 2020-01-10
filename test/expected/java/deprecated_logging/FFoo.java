@@ -1230,12 +1230,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Ping_args");
 
 
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new Ping_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new Ping_argsTupleSchemeFactory());
-		}
-
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 			;
@@ -1370,11 +1364,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new Ping_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new Ping_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -1405,12 +1405,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class Ping_argsStandardSchemeFactory implements SchemeFactory {
-			public Ping_argsStandardScheme getScheme() {
-				return new Ping_argsStandardScheme();
 			}
 		}
 
@@ -1446,37 +1440,11 @@ public class FFoo {
 
 		}
 
-		private static class Ping_argsTupleSchemeFactory implements SchemeFactory {
-			public Ping_argsTupleScheme getScheme() {
-				return new Ping_argsTupleScheme();
-			}
-		}
-
-		private static class Ping_argsTupleScheme extends TupleScheme<Ping_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, Ping_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, Ping_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-			}
-
-		}
-
 	}
 
 	public static class Ping_result implements org.apache.thrift.TBase<Ping_result, Ping_result._Fields>, java.io.Serializable, Cloneable, Comparable<Ping_result> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Ping_result");
 
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new Ping_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new Ping_resultTupleSchemeFactory());
-		}
 
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -1612,11 +1580,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new Ping_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new Ping_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -1647,12 +1621,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class Ping_resultStandardSchemeFactory implements SchemeFactory {
-			public Ping_resultStandardScheme getScheme() {
-				return new Ping_resultStandardScheme();
 			}
 		}
 
@@ -1688,26 +1656,6 @@ public class FFoo {
 
 		}
 
-		private static class Ping_resultTupleSchemeFactory implements SchemeFactory {
-			public Ping_resultTupleScheme getScheme() {
-				return new Ping_resultTupleScheme();
-			}
-		}
-
-		private static class Ping_resultTupleScheme extends TupleScheme<Ping_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, Ping_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, Ping_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-			}
-
-		}
-
 	}
 
 	public static class blah_args implements org.apache.thrift.TBase<blah_args, blah_args._Fields>, java.io.Serializable, Cloneable, Comparable<blah_args> {
@@ -1716,12 +1664,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TField NUM_FIELD_DESC = new org.apache.thrift.protocol.TField("num", org.apache.thrift.protocol.TType.I32, (short)1);
 		private static final org.apache.thrift.protocol.TField STR_FIELD_DESC = new org.apache.thrift.protocol.TField("Str", org.apache.thrift.protocol.TType.STRING, (short)2);
 		private static final org.apache.thrift.protocol.TField EVENT_FIELD_DESC = new org.apache.thrift.protocol.TField("event", org.apache.thrift.protocol.TType.STRUCT, (short)3);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new blah_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new blah_argsTupleSchemeFactory());
-		}
 
 		public int num;
 		public String Str;
@@ -2058,11 +2000,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new blah_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new blah_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -2108,12 +2056,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class blah_argsStandardSchemeFactory implements SchemeFactory {
-			public blah_argsStandardScheme getScheme() {
-				return new blah_argsStandardScheme();
 			}
 		}
 
@@ -2169,13 +2111,13 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(NUM_FIELD_DESC);
-				int elem257 = struct.num;
-				oprot.writeI32(elem257);
+				int elem158 = struct.num;
+				oprot.writeI32(elem158);
 				oprot.writeFieldEnd();
 				if (struct.isSetStr()) {
 					oprot.writeFieldBegin(STR_FIELD_DESC);
-					String elem258 = struct.Str;
-					oprot.writeString(elem258);
+					String elem159 = struct.Str;
+					oprot.writeString(elem159);
 					oprot.writeFieldEnd();
 				}
 				if (struct.isSetEvent()) {
@@ -2189,62 +2131,6 @@ public class FFoo {
 
 		}
 
-		private static class blah_argsTupleSchemeFactory implements SchemeFactory {
-			public blah_argsTupleScheme getScheme() {
-				return new blah_argsTupleScheme();
-			}
-		}
-
-		private static class blah_argsTupleScheme extends TupleScheme<blah_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, blah_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetNum()) {
-					optionals.set(0);
-				}
-				if (struct.isSetStr()) {
-					optionals.set(1);
-				}
-				if (struct.isSetEvent()) {
-					optionals.set(2);
-				}
-				oprot.writeBitSet(optionals, 3);
-				if (struct.isSetNum()) {
-					int elem259 = struct.num;
-					oprot.writeI32(elem259);
-				}
-				if (struct.isSetStr()) {
-					String elem260 = struct.Str;
-					oprot.writeString(elem260);
-				}
-				if (struct.isSetEvent()) {
-					struct.event.write(oprot);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, blah_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(3);
-				if (incoming.get(0)) {
-					struct.num = iprot.readI32();
-					struct.setNumIsSet(true);
-				}
-				if (incoming.get(1)) {
-					struct.Str = iprot.readString();
-					struct.setStrIsSet(true);
-				}
-				if (incoming.get(2)) {
-					struct.event = new Event();
-					struct.event.read(iprot);
-					struct.setEventIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class blah_result implements org.apache.thrift.TBase<blah_result, blah_result._Fields>, java.io.Serializable, Cloneable, Comparable<blah_result> {
@@ -2253,12 +2139,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I64, (short)0);
 		private static final org.apache.thrift.protocol.TField AWE_FIELD_DESC = new org.apache.thrift.protocol.TField("awe", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 		private static final org.apache.thrift.protocol.TField API_FIELD_DESC = new org.apache.thrift.protocol.TField("api", org.apache.thrift.protocol.TType.STRUCT, (short)2);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new blah_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new blah_resultTupleSchemeFactory());
-		}
 
 		public long success;
 		public AwesomeException awe;
@@ -2595,11 +2475,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new blah_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new blah_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -2648,12 +2534,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class blah_resultStandardSchemeFactory implements SchemeFactory {
-			public blah_resultStandardScheme getScheme() {
-				return new blah_resultStandardScheme();
 			}
 		}
 
@@ -2711,8 +2591,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					long elem261 = struct.success;
-					oprot.writeI64(elem261);
+					long elem160 = struct.success;
+					oprot.writeI64(elem160);
 					oprot.writeFieldEnd();
 				}
 				if (struct.isSetAwe()) {
@@ -2731,62 +2611,6 @@ public class FFoo {
 
 		}
 
-		private static class blah_resultTupleSchemeFactory implements SchemeFactory {
-			public blah_resultTupleScheme getScheme() {
-				return new blah_resultTupleScheme();
-			}
-		}
-
-		private static class blah_resultTupleScheme extends TupleScheme<blah_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, blah_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				if (struct.isSetAwe()) {
-					optionals.set(1);
-				}
-				if (struct.isSetApi()) {
-					optionals.set(2);
-				}
-				oprot.writeBitSet(optionals, 3);
-				if (struct.isSetSuccess()) {
-					long elem262 = struct.success;
-					oprot.writeI64(elem262);
-				}
-				if (struct.isSetAwe()) {
-					struct.awe.write(oprot);
-				}
-				if (struct.isSetApi()) {
-					struct.api.write(oprot);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, blah_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(3);
-				if (incoming.get(0)) {
-					struct.success = iprot.readI64();
-					struct.setSuccessIsSet(true);
-				}
-				if (incoming.get(1)) {
-					struct.awe = new AwesomeException();
-					struct.awe.read(iprot);
-					struct.setAweIsSet(true);
-				}
-				if (incoming.get(2)) {
-					struct.api = new actual_base.java.api_exception();
-					struct.api.read(iprot);
-					struct.setApiIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class oneWay_args implements org.apache.thrift.TBase<oneWay_args, oneWay_args._Fields>, java.io.Serializable, Cloneable, Comparable<oneWay_args> {
@@ -2794,12 +2618,6 @@ public class FFoo {
 
 		private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("id", org.apache.thrift.protocol.TType.I64, (short)1);
 		private static final org.apache.thrift.protocol.TField REQ_FIELD_DESC = new org.apache.thrift.protocol.TField("req", org.apache.thrift.protocol.TType.MAP, (short)2);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new oneWay_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new oneWay_argsTupleSchemeFactory());
-		}
 
 		public long id;
 		public java.util.Map<Integer, String> req;
@@ -3082,11 +2900,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new oneWay_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new oneWay_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -3128,12 +2952,6 @@ public class FFoo {
 			}
 		}
 
-		private static class oneWay_argsStandardSchemeFactory implements SchemeFactory {
-			public oneWay_argsStandardScheme getScheme() {
-				return new oneWay_argsStandardScheme();
-			}
-		}
-
 		private static class oneWay_argsStandardScheme extends StandardScheme<oneWay_args> {
 
 			public void read(org.apache.thrift.protocol.TProtocol iprot, oneWay_args struct) throws org.apache.thrift.TException {
@@ -3155,12 +2973,12 @@ public class FFoo {
 							break;
 						case 2: // REQ
 							if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
-								org.apache.thrift.protocol.TMap elem265 = iprot.readMapBegin();
-								struct.req = new HashMap<Integer,String>(2*elem265.size);
-								for (int elem266 = 0; elem266 < elem265.size; ++elem266) {
-									int elem268 = iprot.readI32();
-									String elem267 = iprot.readString();
-									struct.req.put(elem268, elem267);
+								org.apache.thrift.protocol.TMap elem163 = iprot.readMapBegin();
+								struct.req = new HashMap<Integer,String>(2*elem163.size);
+								for (int elem164 = 0; elem164 < elem163.size; ++elem164) {
+									int elem166 = iprot.readI32();
+									String elem165 = iprot.readString();
+									struct.req.put(elem166, elem165);
 								}
 								iprot.readMapEnd();
 								struct.setReqIsSet(true);
@@ -3184,79 +3002,23 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(ID_FIELD_DESC);
-				long elem269 = struct.id;
-				oprot.writeI64(elem269);
+				long elem167 = struct.id;
+				oprot.writeI64(elem167);
 				oprot.writeFieldEnd();
 				if (struct.isSetReq()) {
 					oprot.writeFieldBegin(REQ_FIELD_DESC);
 					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, struct.req.size()));
-					for (Map.Entry<Integer, String> elem270 : struct.req.entrySet()) {
-						int elem271 = elem270.getKey();
-						oprot.writeI32(elem271);
-						String elem272 = elem270.getValue();
-						oprot.writeString(elem272);
+					for (Map.Entry<Integer, String> elem168 : struct.req.entrySet()) {
+						int elem169 = elem168.getKey();
+						oprot.writeI32(elem169);
+						String elem170 = elem168.getValue();
+						oprot.writeString(elem170);
 					}
 					oprot.writeMapEnd();
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class oneWay_argsTupleSchemeFactory implements SchemeFactory {
-			public oneWay_argsTupleScheme getScheme() {
-				return new oneWay_argsTupleScheme();
-			}
-		}
-
-		private static class oneWay_argsTupleScheme extends TupleScheme<oneWay_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, oneWay_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetId()) {
-					optionals.set(0);
-				}
-				if (struct.isSetReq()) {
-					optionals.set(1);
-				}
-				oprot.writeBitSet(optionals, 2);
-				if (struct.isSetId()) {
-					long elem273 = struct.id;
-					oprot.writeI64(elem273);
-				}
-				if (struct.isSetReq()) {
-					oprot.writeI32(struct.req.size());
-					for (Map.Entry<Integer, String> elem274 : struct.req.entrySet()) {
-						int elem275 = elem274.getKey();
-						oprot.writeI32(elem275);
-						String elem276 = elem274.getValue();
-						oprot.writeString(elem276);
-					}
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, oneWay_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(2);
-				if (incoming.get(0)) {
-					struct.id = iprot.readI64();
-					struct.setIdIsSet(true);
-				}
-				if (incoming.get(1)) {
-					org.apache.thrift.protocol.TMap elem277 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I32, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-					struct.req = new HashMap<Integer,String>(2*elem277.size);
-					for (int elem278 = 0; elem278 < elem277.size; ++elem278) {
-						int elem280 = iprot.readI32();
-						String elem279 = iprot.readString();
-						struct.req.put(elem280, elem279);
-					}
-					struct.setReqIsSet(true);
-				}
 			}
 
 		}
@@ -3268,12 +3030,6 @@ public class FFoo {
 
 		private static final org.apache.thrift.protocol.TField BIN_FIELD_DESC = new org.apache.thrift.protocol.TField("bin", org.apache.thrift.protocol.TType.STRING, (short)1);
 		private static final org.apache.thrift.protocol.TField STR_FIELD_DESC = new org.apache.thrift.protocol.TField("Str", org.apache.thrift.protocol.TType.STRING, (short)2);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new bin_method_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new bin_method_argsTupleSchemeFactory());
-		}
 
 		public java.nio.ByteBuffer bin;
 		public String Str;
@@ -3553,11 +3309,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new bin_method_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new bin_method_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -3599,12 +3361,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class bin_method_argsStandardSchemeFactory implements SchemeFactory {
-			public bin_method_argsStandardScheme getScheme() {
-				return new bin_method_argsStandardScheme();
 			}
 		}
 
@@ -3652,63 +3408,18 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetBin()) {
 					oprot.writeFieldBegin(BIN_FIELD_DESC);
-					java.nio.ByteBuffer elem281 = struct.bin;
-					oprot.writeBinary(elem281);
+					java.nio.ByteBuffer elem171 = struct.bin;
+					oprot.writeBinary(elem171);
 					oprot.writeFieldEnd();
 				}
 				if (struct.isSetStr()) {
 					oprot.writeFieldBegin(STR_FIELD_DESC);
-					String elem282 = struct.Str;
-					oprot.writeString(elem282);
+					String elem172 = struct.Str;
+					oprot.writeString(elem172);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class bin_method_argsTupleSchemeFactory implements SchemeFactory {
-			public bin_method_argsTupleScheme getScheme() {
-				return new bin_method_argsTupleScheme();
-			}
-		}
-
-		private static class bin_method_argsTupleScheme extends TupleScheme<bin_method_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, bin_method_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetBin()) {
-					optionals.set(0);
-				}
-				if (struct.isSetStr()) {
-					optionals.set(1);
-				}
-				oprot.writeBitSet(optionals, 2);
-				if (struct.isSetBin()) {
-					java.nio.ByteBuffer elem283 = struct.bin;
-					oprot.writeBinary(elem283);
-				}
-				if (struct.isSetStr()) {
-					String elem284 = struct.Str;
-					oprot.writeString(elem284);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, bin_method_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(2);
-				if (incoming.get(0)) {
-					struct.bin = iprot.readBinary();
-					struct.setBinIsSet(true);
-				}
-				if (incoming.get(1)) {
-					struct.Str = iprot.readString();
-					struct.setStrIsSet(true);
-				}
 			}
 
 		}
@@ -3720,12 +3431,6 @@ public class FFoo {
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
 		private static final org.apache.thrift.protocol.TField API_FIELD_DESC = new org.apache.thrift.protocol.TField("api", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new bin_method_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new bin_method_resultTupleSchemeFactory());
-		}
 
 		public java.nio.ByteBuffer success;
 		public actual_base.java.api_exception api;
@@ -4005,11 +3710,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new bin_method_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new bin_method_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -4054,12 +3765,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class bin_method_resultStandardSchemeFactory implements SchemeFactory {
-			public bin_method_resultStandardScheme getScheme() {
-				return new bin_method_resultStandardScheme();
 			}
 		}
 
@@ -4108,8 +3813,8 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					java.nio.ByteBuffer elem285 = struct.success;
-					oprot.writeBinary(elem285);
+					java.nio.ByteBuffer elem173 = struct.success;
+					oprot.writeBinary(elem173);
 					oprot.writeFieldEnd();
 				}
 				if (struct.isSetApi()) {
@@ -4123,51 +3828,6 @@ public class FFoo {
 
 		}
 
-		private static class bin_method_resultTupleSchemeFactory implements SchemeFactory {
-			public bin_method_resultTupleScheme getScheme() {
-				return new bin_method_resultTupleScheme();
-			}
-		}
-
-		private static class bin_method_resultTupleScheme extends TupleScheme<bin_method_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, bin_method_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				if (struct.isSetApi()) {
-					optionals.set(1);
-				}
-				oprot.writeBitSet(optionals, 2);
-				if (struct.isSetSuccess()) {
-					java.nio.ByteBuffer elem286 = struct.success;
-					oprot.writeBinary(elem286);
-				}
-				if (struct.isSetApi()) {
-					struct.api.write(oprot);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, bin_method_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(2);
-				if (incoming.get(0)) {
-					struct.success = iprot.readBinary();
-					struct.setSuccessIsSet(true);
-				}
-				if (incoming.get(1)) {
-					struct.api = new actual_base.java.api_exception();
-					struct.api.read(iprot);
-					struct.setApiIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class param_modifiers_args implements org.apache.thrift.TBase<param_modifiers_args, param_modifiers_args._Fields>, java.io.Serializable, Cloneable, Comparable<param_modifiers_args> {
@@ -4176,12 +3836,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TField OPT_NUM_FIELD_DESC = new org.apache.thrift.protocol.TField("opt_num", org.apache.thrift.protocol.TType.I32, (short)1);
 		private static final org.apache.thrift.protocol.TField DEFAULT_NUM_FIELD_DESC = new org.apache.thrift.protocol.TField("default_num", org.apache.thrift.protocol.TType.I32, (short)2);
 		private static final org.apache.thrift.protocol.TField REQ_NUM_FIELD_DESC = new org.apache.thrift.protocol.TField("req_num", org.apache.thrift.protocol.TType.I32, (short)3);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new param_modifiers_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new param_modifiers_argsTupleSchemeFactory());
-		}
 
 		public int opt_num;
 		public int default_num;
@@ -4518,11 +4172,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new param_modifiers_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new param_modifiers_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -4565,12 +4225,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class param_modifiers_argsStandardSchemeFactory implements SchemeFactory {
-			public param_modifiers_argsStandardScheme getScheme() {
-				return new param_modifiers_argsStandardScheme();
 			}
 		}
 
@@ -4628,68 +4282,19 @@ public class FFoo {
 
 				oprot.writeStructBegin(STRUCT_DESC);
 				oprot.writeFieldBegin(OPT_NUM_FIELD_DESC);
-				int elem287 = struct.opt_num;
-				oprot.writeI32(elem287);
+				int elem174 = struct.opt_num;
+				oprot.writeI32(elem174);
 				oprot.writeFieldEnd();
 				oprot.writeFieldBegin(DEFAULT_NUM_FIELD_DESC);
-				int elem288 = struct.default_num;
-				oprot.writeI32(elem288);
+				int elem175 = struct.default_num;
+				oprot.writeI32(elem175);
 				oprot.writeFieldEnd();
 				oprot.writeFieldBegin(REQ_NUM_FIELD_DESC);
-				int elem289 = struct.req_num;
-				oprot.writeI32(elem289);
+				int elem176 = struct.req_num;
+				oprot.writeI32(elem176);
 				oprot.writeFieldEnd();
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class param_modifiers_argsTupleSchemeFactory implements SchemeFactory {
-			public param_modifiers_argsTupleScheme getScheme() {
-				return new param_modifiers_argsTupleScheme();
-			}
-		}
-
-		private static class param_modifiers_argsTupleScheme extends TupleScheme<param_modifiers_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, param_modifiers_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				int elem290 = struct.req_num;
-				oprot.writeI32(elem290);
-				BitSet optionals = new BitSet();
-				if (struct.isSetOpt_num()) {
-					optionals.set(0);
-				}
-				if (struct.isSetDefault_num()) {
-					optionals.set(1);
-				}
-				oprot.writeBitSet(optionals, 2);
-				if (struct.isSetOpt_num()) {
-					int elem291 = struct.opt_num;
-					oprot.writeI32(elem291);
-				}
-				if (struct.isSetDefault_num()) {
-					int elem292 = struct.default_num;
-					oprot.writeI32(elem292);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, param_modifiers_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				struct.req_num = iprot.readI32();
-				struct.setReq_numIsSet(true);
-				BitSet incoming = iprot.readBitSet(2);
-				if (incoming.get(0)) {
-					struct.opt_num = iprot.readI32();
-					struct.setOpt_numIsSet(true);
-				}
-				if (incoming.get(1)) {
-					struct.default_num = iprot.readI32();
-					struct.setDefault_numIsSet(true);
-				}
 			}
 
 		}
@@ -4700,12 +4305,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("param_modifiers_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I64, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new param_modifiers_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new param_modifiers_resultTupleSchemeFactory());
-		}
 
 		public long success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -4912,11 +4511,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new param_modifiers_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new param_modifiers_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -4951,12 +4556,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class param_modifiers_resultStandardSchemeFactory implements SchemeFactory {
-			public param_modifiers_resultStandardScheme getScheme() {
-				return new param_modifiers_resultStandardScheme();
 			}
 		}
 
@@ -4996,46 +4595,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					long elem293 = struct.success;
-					oprot.writeI64(elem293);
+					long elem177 = struct.success;
+					oprot.writeI64(elem177);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class param_modifiers_resultTupleSchemeFactory implements SchemeFactory {
-			public param_modifiers_resultTupleScheme getScheme() {
-				return new param_modifiers_resultTupleScheme();
-			}
-		}
-
-		private static class param_modifiers_resultTupleScheme extends TupleScheme<param_modifiers_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, param_modifiers_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					long elem294 = struct.success;
-					oprot.writeI64(elem294);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, param_modifiers_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.success = iprot.readI64();
-					struct.setSuccessIsSet(true);
-				}
 			}
 
 		}
@@ -5047,12 +4612,6 @@ public class FFoo {
 
 		private static final org.apache.thrift.protocol.TField LIST_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("list_type", org.apache.thrift.protocol.TType.LIST, (short)1);
 		private static final org.apache.thrift.protocol.TField SET_TYPE_FIELD_DESC = new org.apache.thrift.protocol.TField("set_type", org.apache.thrift.protocol.TType.SET, (short)2);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new underlying_types_test_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new underlying_types_test_argsTupleSchemeFactory());
-		}
 
 		public java.util.List<Long> list_type;
 		public java.util.Set<Long> set_type;
@@ -5136,16 +4695,16 @@ public class FFoo {
 		public underlying_types_test_args(underlying_types_test_args other) {
 			if (other.isSetList_type()) {
 				this.list_type = new ArrayList<Long>(other.list_type.size());
-				for (long elem295 : other.list_type) {
-					long elem296 = elem295;
-					this.list_type.add(elem296);
+				for (long elem178 : other.list_type) {
+					long elem179 = elem178;
+					this.list_type.add(elem179);
 				}
 			}
 			if (other.isSetSet_type()) {
 				this.set_type = new HashSet<Long>(other.set_type.size());
-				for (long elem297 : other.set_type) {
-					long elem298 = elem297;
-					this.set_type.add(elem298);
+				for (long elem180 : other.set_type) {
+					long elem181 = elem180;
+					this.set_type.add(elem181);
 				}
 			}
 		}
@@ -5360,11 +4919,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new underlying_types_test_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new underlying_types_test_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -5405,12 +4970,6 @@ public class FFoo {
 			}
 		}
 
-		private static class underlying_types_test_argsStandardSchemeFactory implements SchemeFactory {
-			public underlying_types_test_argsStandardScheme getScheme() {
-				return new underlying_types_test_argsStandardScheme();
-			}
-		}
-
 		private static class underlying_types_test_argsStandardScheme extends StandardScheme<underlying_types_test_args> {
 
 			public void read(org.apache.thrift.protocol.TProtocol iprot, underlying_types_test_args struct) throws org.apache.thrift.TException {
@@ -5424,11 +4983,11 @@ public class FFoo {
 					switch (schemeField.id) {
 						case 1: // LIST_TYPE
 							if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-								org.apache.thrift.protocol.TList elem299 = iprot.readListBegin();
-								struct.list_type = new ArrayList<Long>(elem299.size);
-								for (int elem300 = 0; elem300 < elem299.size; ++elem300) {
-									long elem301 = iprot.readI64();
-									struct.list_type.add(elem301);
+								org.apache.thrift.protocol.TList elem182 = iprot.readListBegin();
+								struct.list_type = new ArrayList<Long>(elem182.size);
+								for (int elem183 = 0; elem183 < elem182.size; ++elem183) {
+									long elem184 = iprot.readI64();
+									struct.list_type.add(elem184);
 								}
 								iprot.readListEnd();
 								struct.setList_typeIsSet(true);
@@ -5438,11 +4997,11 @@ public class FFoo {
 							break;
 						case 2: // SET_TYPE
 							if (schemeField.type == org.apache.thrift.protocol.TType.SET) {
-								org.apache.thrift.protocol.TSet elem302 = iprot.readSetBegin();
-								struct.set_type = new HashSet<Long>(2*elem302.size);
-								for (int elem303 = 0; elem303 < elem302.size; ++elem303) {
-									long elem304 = iprot.readI64();
-									struct.set_type.add(elem304);
+								org.apache.thrift.protocol.TSet elem185 = iprot.readSetBegin();
+								struct.set_type = new HashSet<Long>(2*elem185.size);
+								for (int elem186 = 0; elem186 < elem185.size; ++elem186) {
+									long elem187 = iprot.readI64();
+									struct.set_type.add(elem187);
 								}
 								iprot.readSetEnd();
 								struct.setSet_typeIsSet(true);
@@ -5468,9 +5027,9 @@ public class FFoo {
 				if (struct.isSetList_type()) {
 					oprot.writeFieldBegin(LIST_TYPE_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.list_type.size()));
-					for (long elem305 : struct.list_type) {
-						long elem306 = elem305;
-						oprot.writeI64(elem306);
+					for (long elem188 : struct.list_type) {
+						long elem189 = elem188;
+						oprot.writeI64(elem189);
 					}
 					oprot.writeListEnd();
 					oprot.writeFieldEnd();
@@ -5478,9 +5037,9 @@ public class FFoo {
 				if (struct.isSetSet_type()) {
 					oprot.writeFieldBegin(SET_TYPE_FIELD_DESC);
 					oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, struct.set_type.size()));
-					for (long elem307 : struct.set_type) {
-						long elem308 = elem307;
-						oprot.writeI64(elem308);
+					for (long elem190 : struct.set_type) {
+						long elem191 = elem190;
+						oprot.writeI64(elem191);
 					}
 					oprot.writeSetEnd();
 					oprot.writeFieldEnd();
@@ -5491,79 +5050,12 @@ public class FFoo {
 
 		}
 
-		private static class underlying_types_test_argsTupleSchemeFactory implements SchemeFactory {
-			public underlying_types_test_argsTupleScheme getScheme() {
-				return new underlying_types_test_argsTupleScheme();
-			}
-		}
-
-		private static class underlying_types_test_argsTupleScheme extends TupleScheme<underlying_types_test_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, underlying_types_test_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetList_type()) {
-					optionals.set(0);
-				}
-				if (struct.isSetSet_type()) {
-					optionals.set(1);
-				}
-				oprot.writeBitSet(optionals, 2);
-				if (struct.isSetList_type()) {
-					oprot.writeI32(struct.list_type.size());
-					for (long elem309 : struct.list_type) {
-						long elem310 = elem309;
-						oprot.writeI64(elem310);
-					}
-				}
-				if (struct.isSetSet_type()) {
-					oprot.writeI32(struct.set_type.size());
-					for (long elem311 : struct.set_type) {
-						long elem312 = elem311;
-						oprot.writeI64(elem312);
-					}
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, underlying_types_test_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(2);
-				if (incoming.get(0)) {
-					org.apache.thrift.protocol.TList elem313 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.list_type = new ArrayList<Long>(elem313.size);
-					for (int elem314 = 0; elem314 < elem313.size; ++elem314) {
-						long elem315 = iprot.readI64();
-						struct.list_type.add(elem315);
-					}
-					struct.setList_typeIsSet(true);
-				}
-				if (incoming.get(1)) {
-					org.apache.thrift.protocol.TSet elem316 = new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.set_type = new HashSet<Long>(2*elem316.size);
-					for (int elem317 = 0; elem317 < elem316.size; ++elem317) {
-						long elem318 = iprot.readI64();
-						struct.set_type.add(elem318);
-					}
-					struct.setSet_typeIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class underlying_types_test_result implements org.apache.thrift.TBase<underlying_types_test_result, underlying_types_test_result._Fields>, java.io.Serializable, Cloneable, Comparable<underlying_types_test_result> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("underlying_types_test_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new underlying_types_test_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new underlying_types_test_resultTupleSchemeFactory());
-		}
 
 		public java.util.List<Long> success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -5641,9 +5133,9 @@ public class FFoo {
 		public underlying_types_test_result(underlying_types_test_result other) {
 			if (other.isSetSuccess()) {
 				this.success = new ArrayList<Long>(other.success.size());
-				for (long elem319 : other.success) {
-					long elem320 = elem319;
-					this.success.add(elem320);
+				for (long elem192 : other.success) {
+					long elem193 = elem192;
+					this.success.add(elem193);
 				}
 			}
 		}
@@ -5787,11 +5279,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new underlying_types_test_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new underlying_types_test_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -5828,12 +5326,6 @@ public class FFoo {
 			}
 		}
 
-		private static class underlying_types_test_resultStandardSchemeFactory implements SchemeFactory {
-			public underlying_types_test_resultStandardScheme getScheme() {
-				return new underlying_types_test_resultStandardScheme();
-			}
-		}
-
 		private static class underlying_types_test_resultStandardScheme extends StandardScheme<underlying_types_test_result> {
 
 			public void read(org.apache.thrift.protocol.TProtocol iprot, underlying_types_test_result struct) throws org.apache.thrift.TException {
@@ -5847,11 +5339,11 @@ public class FFoo {
 					switch (schemeField.id) {
 						case 0: // SUCCESS
 							if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-								org.apache.thrift.protocol.TList elem321 = iprot.readListBegin();
-								struct.success = new ArrayList<Long>(elem321.size);
-								for (int elem322 = 0; elem322 < elem321.size; ++elem322) {
-									long elem323 = iprot.readI64();
-									struct.success.add(elem323);
+								org.apache.thrift.protocol.TList elem194 = iprot.readListBegin();
+								struct.success = new ArrayList<Long>(elem194.size);
+								for (int elem195 = 0; elem195 < elem194.size; ++elem195) {
+									long elem196 = iprot.readI64();
+									struct.success.add(elem196);
 								}
 								iprot.readListEnd();
 								struct.setSuccessIsSet(true);
@@ -5877,9 +5369,9 @@ public class FFoo {
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
 					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, struct.success.size()));
-					for (long elem324 : struct.success) {
-						long elem325 = elem324;
-						oprot.writeI64(elem325);
+					for (long elem197 : struct.success) {
+						long elem198 = elem197;
+						oprot.writeI64(elem198);
 					}
 					oprot.writeListEnd();
 					oprot.writeFieldEnd();
@@ -5890,59 +5382,11 @@ public class FFoo {
 
 		}
 
-		private static class underlying_types_test_resultTupleSchemeFactory implements SchemeFactory {
-			public underlying_types_test_resultTupleScheme getScheme() {
-				return new underlying_types_test_resultTupleScheme();
-			}
-		}
-
-		private static class underlying_types_test_resultTupleScheme extends TupleScheme<underlying_types_test_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, underlying_types_test_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					oprot.writeI32(struct.success.size());
-					for (long elem326 : struct.success) {
-						long elem327 = elem326;
-						oprot.writeI64(elem327);
-					}
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, underlying_types_test_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					org.apache.thrift.protocol.TList elem328 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, iprot.readI32());
-					struct.success = new ArrayList<Long>(elem328.size);
-					for (int elem329 = 0; elem329 < elem328.size; ++elem329) {
-						long elem330 = iprot.readI64();
-						struct.success.add(elem330);
-					}
-					struct.setSuccessIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class getThing_args implements org.apache.thrift.TBase<getThing_args, getThing_args._Fields>, java.io.Serializable, Cloneable, Comparable<getThing_args> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getThing_args");
 
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new getThing_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new getThing_argsTupleSchemeFactory());
-		}
 
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -6078,11 +5522,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getThing_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getThing_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -6113,12 +5563,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class getThing_argsStandardSchemeFactory implements SchemeFactory {
-			public getThing_argsStandardScheme getScheme() {
-				return new getThing_argsStandardScheme();
 			}
 		}
 
@@ -6154,38 +5598,12 @@ public class FFoo {
 
 		}
 
-		private static class getThing_argsTupleSchemeFactory implements SchemeFactory {
-			public getThing_argsTupleScheme getScheme() {
-				return new getThing_argsTupleScheme();
-			}
-		}
-
-		private static class getThing_argsTupleScheme extends TupleScheme<getThing_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, getThing_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, getThing_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-			}
-
-		}
-
 	}
 
 	public static class getThing_result implements org.apache.thrift.TBase<getThing_result, getThing_result._Fields>, java.io.Serializable, Cloneable, Comparable<getThing_result> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getThing_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new getThing_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new getThing_resultTupleSchemeFactory());
-		}
 
 		public Thing success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -6390,11 +5808,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getThing_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getThing_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -6431,12 +5855,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class getThing_resultStandardSchemeFactory implements SchemeFactory {
-			public getThing_resultStandardScheme getScheme() {
-				return new getThing_resultStandardScheme();
 			}
 		}
 
@@ -6486,51 +5904,11 @@ public class FFoo {
 
 		}
 
-		private static class getThing_resultTupleSchemeFactory implements SchemeFactory {
-			public getThing_resultTupleScheme getScheme() {
-				return new getThing_resultTupleScheme();
-			}
-		}
-
-		private static class getThing_resultTupleScheme extends TupleScheme<getThing_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, getThing_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					struct.success.write(oprot);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, getThing_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.success = new Thing();
-					struct.success.read(iprot);
-					struct.setSuccessIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class getMyInt_args implements org.apache.thrift.TBase<getMyInt_args, getMyInt_args._Fields>, java.io.Serializable, Cloneable, Comparable<getMyInt_args> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getMyInt_args");
 
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new getMyInt_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new getMyInt_argsTupleSchemeFactory());
-		}
 
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -6666,11 +6044,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getMyInt_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getMyInt_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -6701,12 +6085,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class getMyInt_argsStandardSchemeFactory implements SchemeFactory {
-			public getMyInt_argsStandardScheme getScheme() {
-				return new getMyInt_argsStandardScheme();
 			}
 		}
 
@@ -6742,38 +6120,12 @@ public class FFoo {
 
 		}
 
-		private static class getMyInt_argsTupleSchemeFactory implements SchemeFactory {
-			public getMyInt_argsTupleScheme getScheme() {
-				return new getMyInt_argsTupleScheme();
-			}
-		}
-
-		private static class getMyInt_argsTupleScheme extends TupleScheme<getMyInt_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, getMyInt_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, getMyInt_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-			}
-
-		}
-
 	}
 
 	public static class getMyInt_result implements org.apache.thrift.TBase<getMyInt_result, getMyInt_result._Fields>, java.io.Serializable, Cloneable, Comparable<getMyInt_result> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getMyInt_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I32, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new getMyInt_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new getMyInt_resultTupleSchemeFactory());
-		}
 
 		public int success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -6980,11 +6332,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getMyInt_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getMyInt_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -7019,12 +6377,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class getMyInt_resultStandardSchemeFactory implements SchemeFactory {
-			public getMyInt_resultStandardScheme getScheme() {
-				return new getMyInt_resultStandardScheme();
 			}
 		}
 
@@ -7064,46 +6416,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					int elem331 = struct.success;
-					oprot.writeI32(elem331);
+					int elem199 = struct.success;
+					oprot.writeI32(elem199);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class getMyInt_resultTupleSchemeFactory implements SchemeFactory {
-			public getMyInt_resultTupleScheme getScheme() {
-				return new getMyInt_resultTupleScheme();
-			}
-		}
-
-		private static class getMyInt_resultTupleScheme extends TupleScheme<getMyInt_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, getMyInt_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					int elem332 = struct.success;
-					oprot.writeI32(elem332);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, getMyInt_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.success = iprot.readI32();
-					struct.setSuccessIsSet(true);
-				}
 			}
 
 		}
@@ -7114,12 +6432,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("use_subdir_struct_args");
 
 		private static final org.apache.thrift.protocol.TField A_FIELD_DESC = new org.apache.thrift.protocol.TField("a", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new use_subdir_struct_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new use_subdir_struct_argsTupleSchemeFactory());
-		}
 
 		public A a;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -7324,11 +6636,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new use_subdir_struct_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new use_subdir_struct_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -7365,12 +6683,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class use_subdir_struct_argsStandardSchemeFactory implements SchemeFactory {
-			public use_subdir_struct_argsStandardScheme getScheme() {
-				return new use_subdir_struct_argsStandardScheme();
 			}
 		}
 
@@ -7420,52 +6732,12 @@ public class FFoo {
 
 		}
 
-		private static class use_subdir_struct_argsTupleSchemeFactory implements SchemeFactory {
-			public use_subdir_struct_argsTupleScheme getScheme() {
-				return new use_subdir_struct_argsTupleScheme();
-			}
-		}
-
-		private static class use_subdir_struct_argsTupleScheme extends TupleScheme<use_subdir_struct_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, use_subdir_struct_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetA()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetA()) {
-					struct.a.write(oprot);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, use_subdir_struct_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.a = new A();
-					struct.a.read(iprot);
-					struct.setAIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class use_subdir_struct_result implements org.apache.thrift.TBase<use_subdir_struct_result, use_subdir_struct_result._Fields>, java.io.Serializable, Cloneable, Comparable<use_subdir_struct_result> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("use_subdir_struct_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new use_subdir_struct_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new use_subdir_struct_resultTupleSchemeFactory());
-		}
 
 		public A success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -7670,11 +6942,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new use_subdir_struct_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new use_subdir_struct_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -7711,12 +6989,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class use_subdir_struct_resultStandardSchemeFactory implements SchemeFactory {
-			public use_subdir_struct_resultStandardScheme getScheme() {
-				return new use_subdir_struct_resultStandardScheme();
 			}
 		}
 
@@ -7766,52 +7038,12 @@ public class FFoo {
 
 		}
 
-		private static class use_subdir_struct_resultTupleSchemeFactory implements SchemeFactory {
-			public use_subdir_struct_resultTupleScheme getScheme() {
-				return new use_subdir_struct_resultTupleScheme();
-			}
-		}
-
-		private static class use_subdir_struct_resultTupleScheme extends TupleScheme<use_subdir_struct_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, use_subdir_struct_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					struct.success.write(oprot);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, use_subdir_struct_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.success = new A();
-					struct.success.read(iprot);
-					struct.setSuccessIsSet(true);
-				}
-			}
-
-		}
-
 	}
 
 	public static class sayHelloWith_args implements org.apache.thrift.TBase<sayHelloWith_args, sayHelloWith_args._Fields>, java.io.Serializable, Cloneable, Comparable<sayHelloWith_args> {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sayHelloWith_args");
 
 		private static final org.apache.thrift.protocol.TField NEW_MESSAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("newMessage", org.apache.thrift.protocol.TType.STRING, (short)1);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new sayHelloWith_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new sayHelloWith_argsTupleSchemeFactory());
-		}
 
 		public String newMessage;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -8016,11 +7248,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayHelloWith_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayHelloWith_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -8054,12 +7292,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class sayHelloWith_argsStandardSchemeFactory implements SchemeFactory {
-			public sayHelloWith_argsStandardScheme getScheme() {
-				return new sayHelloWith_argsStandardScheme();
 			}
 		}
 
@@ -8099,46 +7331,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetNewMessage()) {
 					oprot.writeFieldBegin(NEW_MESSAGE_FIELD_DESC);
-					String elem333 = struct.newMessage;
-					oprot.writeString(elem333);
+					String elem200 = struct.newMessage;
+					oprot.writeString(elem200);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class sayHelloWith_argsTupleSchemeFactory implements SchemeFactory {
-			public sayHelloWith_argsTupleScheme getScheme() {
-				return new sayHelloWith_argsTupleScheme();
-			}
-		}
-
-		private static class sayHelloWith_argsTupleScheme extends TupleScheme<sayHelloWith_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, sayHelloWith_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetNewMessage()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetNewMessage()) {
-					String elem334 = struct.newMessage;
-					oprot.writeString(elem334);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, sayHelloWith_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.newMessage = iprot.readString();
-					struct.setNewMessageIsSet(true);
-				}
 			}
 
 		}
@@ -8149,12 +7347,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sayHelloWith_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new sayHelloWith_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new sayHelloWith_resultTupleSchemeFactory());
-		}
 
 		public String success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -8359,11 +7551,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayHelloWith_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayHelloWith_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -8397,12 +7595,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class sayHelloWith_resultStandardSchemeFactory implements SchemeFactory {
-			public sayHelloWith_resultStandardScheme getScheme() {
-				return new sayHelloWith_resultStandardScheme();
 			}
 		}
 
@@ -8442,46 +7634,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem335 = struct.success;
-					oprot.writeString(elem335);
+					String elem201 = struct.success;
+					oprot.writeString(elem201);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class sayHelloWith_resultTupleSchemeFactory implements SchemeFactory {
-			public sayHelloWith_resultTupleScheme getScheme() {
-				return new sayHelloWith_resultTupleScheme();
-			}
-		}
-
-		private static class sayHelloWith_resultTupleScheme extends TupleScheme<sayHelloWith_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, sayHelloWith_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					String elem336 = struct.success;
-					oprot.writeString(elem336);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, sayHelloWith_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.success = iprot.readString();
-					struct.setSuccessIsSet(true);
-				}
 			}
 
 		}
@@ -8492,12 +7650,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("whatDoYouSay_args");
 
 		private static final org.apache.thrift.protocol.TField MESSAGE_ARGS_FIELD_DESC = new org.apache.thrift.protocol.TField("messageArgs", org.apache.thrift.protocol.TType.STRING, (short)1);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new whatDoYouSay_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new whatDoYouSay_argsTupleSchemeFactory());
-		}
 
 		public String messageArgs;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -8702,11 +7854,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new whatDoYouSay_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new whatDoYouSay_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -8740,12 +7898,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class whatDoYouSay_argsStandardSchemeFactory implements SchemeFactory {
-			public whatDoYouSay_argsStandardScheme getScheme() {
-				return new whatDoYouSay_argsStandardScheme();
 			}
 		}
 
@@ -8785,46 +7937,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetMessageArgs()) {
 					oprot.writeFieldBegin(MESSAGE_ARGS_FIELD_DESC);
-					String elem337 = struct.messageArgs;
-					oprot.writeString(elem337);
+					String elem202 = struct.messageArgs;
+					oprot.writeString(elem202);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class whatDoYouSay_argsTupleSchemeFactory implements SchemeFactory {
-			public whatDoYouSay_argsTupleScheme getScheme() {
-				return new whatDoYouSay_argsTupleScheme();
-			}
-		}
-
-		private static class whatDoYouSay_argsTupleScheme extends TupleScheme<whatDoYouSay_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, whatDoYouSay_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetMessageArgs()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetMessageArgs()) {
-					String elem338 = struct.messageArgs;
-					oprot.writeString(elem338);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, whatDoYouSay_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.messageArgs = iprot.readString();
-					struct.setMessageArgsIsSet(true);
-				}
 			}
 
 		}
@@ -8835,12 +7953,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("whatDoYouSay_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new whatDoYouSay_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new whatDoYouSay_resultTupleSchemeFactory());
-		}
 
 		public String success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -9045,11 +8157,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new whatDoYouSay_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new whatDoYouSay_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -9083,12 +8201,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class whatDoYouSay_resultStandardSchemeFactory implements SchemeFactory {
-			public whatDoYouSay_resultStandardScheme getScheme() {
-				return new whatDoYouSay_resultStandardScheme();
 			}
 		}
 
@@ -9128,46 +8240,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem339 = struct.success;
-					oprot.writeString(elem339);
+					String elem203 = struct.success;
+					oprot.writeString(elem203);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class whatDoYouSay_resultTupleSchemeFactory implements SchemeFactory {
-			public whatDoYouSay_resultTupleScheme getScheme() {
-				return new whatDoYouSay_resultTupleScheme();
-			}
-		}
-
-		private static class whatDoYouSay_resultTupleScheme extends TupleScheme<whatDoYouSay_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, whatDoYouSay_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					String elem340 = struct.success;
-					oprot.writeString(elem340);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, whatDoYouSay_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.success = iprot.readString();
-					struct.setSuccessIsSet(true);
-				}
 			}
 
 		}
@@ -9178,12 +8256,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sayAgain_args");
 
 		private static final org.apache.thrift.protocol.TField MESSAGE_RESULT_FIELD_DESC = new org.apache.thrift.protocol.TField("messageResult", org.apache.thrift.protocol.TType.STRING, (short)1);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new sayAgain_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new sayAgain_argsTupleSchemeFactory());
-		}
 
 		public String messageResult;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -9388,11 +8460,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayAgain_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayAgain_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -9426,12 +8504,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class sayAgain_argsStandardSchemeFactory implements SchemeFactory {
-			public sayAgain_argsStandardScheme getScheme() {
-				return new sayAgain_argsStandardScheme();
 			}
 		}
 
@@ -9471,46 +8543,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetMessageResult()) {
 					oprot.writeFieldBegin(MESSAGE_RESULT_FIELD_DESC);
-					String elem341 = struct.messageResult;
-					oprot.writeString(elem341);
+					String elem204 = struct.messageResult;
+					oprot.writeString(elem204);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class sayAgain_argsTupleSchemeFactory implements SchemeFactory {
-			public sayAgain_argsTupleScheme getScheme() {
-				return new sayAgain_argsTupleScheme();
-			}
-		}
-
-		private static class sayAgain_argsTupleScheme extends TupleScheme<sayAgain_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, sayAgain_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetMessageResult()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetMessageResult()) {
-					String elem342 = struct.messageResult;
-					oprot.writeString(elem342);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, sayAgain_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.messageResult = iprot.readString();
-					struct.setMessageResultIsSet(true);
-				}
 			}
 
 		}
@@ -9521,12 +8559,6 @@ public class FFoo {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("sayAgain_result");
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new sayAgain_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new sayAgain_resultTupleSchemeFactory());
-		}
 
 		public String success;
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -9731,11 +8763,17 @@ public class FFoo {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayAgain_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new sayAgain_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -9769,12 +8807,6 @@ public class FFoo {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class sayAgain_resultStandardSchemeFactory implements SchemeFactory {
-			public sayAgain_resultStandardScheme getScheme() {
-				return new sayAgain_resultStandardScheme();
 			}
 		}
 
@@ -9814,46 +8846,12 @@ public class FFoo {
 				oprot.writeStructBegin(STRUCT_DESC);
 				if (struct.isSetSuccess()) {
 					oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-					String elem343 = struct.success;
-					oprot.writeString(elem343);
+					String elem205 = struct.success;
+					oprot.writeString(elem205);
 					oprot.writeFieldEnd();
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class sayAgain_resultTupleSchemeFactory implements SchemeFactory {
-			public sayAgain_resultTupleScheme getScheme() {
-				return new sayAgain_resultTupleScheme();
-			}
-		}
-
-		private static class sayAgain_resultTupleScheme extends TupleScheme<sayAgain_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, sayAgain_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				oprot.writeBitSet(optionals, 1);
-				if (struct.isSetSuccess()) {
-					String elem344 = struct.success;
-					oprot.writeString(elem344);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, sayAgain_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(1);
-				if (incoming.get(0)) {
-					struct.success = iprot.readString();
-					struct.setSuccessIsSet(true);
-				}
 			}
 
 		}

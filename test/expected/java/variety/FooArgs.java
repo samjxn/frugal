@@ -40,12 +40,6 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 	private static final org.apache.thrift.protocol.TField MESSAGE_ARGS_FIELD_DESC = new org.apache.thrift.protocol.TField("messageArgs", org.apache.thrift.protocol.TType.STRING, (short)2);
 	private static final org.apache.thrift.protocol.TField MESSAGE_RESULT_FIELD_DESC = new org.apache.thrift.protocol.TField("messageResult", org.apache.thrift.protocol.TType.STRING, (short)3);
 
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new FooArgsStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new FooArgsTupleSchemeFactory());
-	}
-
 	public String newMessage;
 	public String messageArgs;
 	public String messageResult;
@@ -379,11 +373,17 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new FooArgsStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new FooArgsStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -425,12 +425,6 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class FooArgsStandardSchemeFactory implements SchemeFactory {
-		public FooArgsStandardScheme getScheme() {
-			return new FooArgsStandardScheme();
 		}
 	}
 
@@ -486,80 +480,24 @@ public class FooArgs implements org.apache.thrift.TBase<FooArgs, FooArgs._Fields
 			oprot.writeStructBegin(STRUCT_DESC);
 			if (struct.isSetNewMessage()) {
 				oprot.writeFieldBegin(NEW_MESSAGE_FIELD_DESC);
-				String elem219 = struct.newMessage;
-				oprot.writeString(elem219);
+				String elem126 = struct.newMessage;
+				oprot.writeString(elem126);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetMessageArgs()) {
 				oprot.writeFieldBegin(MESSAGE_ARGS_FIELD_DESC);
-				String elem220 = struct.messageArgs;
-				oprot.writeString(elem220);
+				String elem127 = struct.messageArgs;
+				oprot.writeString(elem127);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetMessageResult()) {
 				oprot.writeFieldBegin(MESSAGE_RESULT_FIELD_DESC);
-				String elem221 = struct.messageResult;
-				oprot.writeString(elem221);
+				String elem128 = struct.messageResult;
+				oprot.writeString(elem128);
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class FooArgsTupleSchemeFactory implements SchemeFactory {
-		public FooArgsTupleScheme getScheme() {
-			return new FooArgsTupleScheme();
-		}
-	}
-
-	private static class FooArgsTupleScheme extends TupleScheme<FooArgs> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, FooArgs struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetNewMessage()) {
-				optionals.set(0);
-			}
-			if (struct.isSetMessageArgs()) {
-				optionals.set(1);
-			}
-			if (struct.isSetMessageResult()) {
-				optionals.set(2);
-			}
-			oprot.writeBitSet(optionals, 3);
-			if (struct.isSetNewMessage()) {
-				String elem222 = struct.newMessage;
-				oprot.writeString(elem222);
-			}
-			if (struct.isSetMessageArgs()) {
-				String elem223 = struct.messageArgs;
-				oprot.writeString(elem223);
-			}
-			if (struct.isSetMessageResult()) {
-				String elem224 = struct.messageResult;
-				oprot.writeString(elem224);
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, FooArgs struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(3);
-			if (incoming.get(0)) {
-				struct.newMessage = iprot.readString();
-				struct.setNewMessageIsSet(true);
-			}
-			if (incoming.get(1)) {
-				struct.messageArgs = iprot.readString();
-				struct.setMessageArgsIsSet(true);
-			}
-			if (incoming.get(2)) {
-				struct.messageResult = iprot.readString();
-				struct.setMessageResultIsSet(true);
-			}
 		}
 
 	}

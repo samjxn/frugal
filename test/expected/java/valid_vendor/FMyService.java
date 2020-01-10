@@ -219,12 +219,6 @@ public class FMyService {
 		private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getItem_args");
 
 
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new getItem_argsStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new getItem_argsTupleSchemeFactory());
-		}
-
 		/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 		public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 			;
@@ -359,11 +353,17 @@ public class FMyService {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getItem_argsStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getItem_argsStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -394,12 +394,6 @@ public class FMyService {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class getItem_argsStandardSchemeFactory implements SchemeFactory {
-			public getItem_argsStandardScheme getScheme() {
-				return new getItem_argsStandardScheme();
 			}
 		}
 
@@ -435,26 +429,6 @@ public class FMyService {
 
 		}
 
-		private static class getItem_argsTupleSchemeFactory implements SchemeFactory {
-			public getItem_argsTupleScheme getScheme() {
-				return new getItem_argsTupleScheme();
-			}
-		}
-
-		private static class getItem_argsTupleScheme extends TupleScheme<getItem_args> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, getItem_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, getItem_args struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-			}
-
-		}
-
 	}
 
 	public static class getItem_result implements org.apache.thrift.TBase<getItem_result, getItem_result._Fields>, java.io.Serializable, Cloneable, Comparable<getItem_result> {
@@ -462,12 +436,6 @@ public class FMyService {
 
 		private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 		private static final org.apache.thrift.protocol.TField D_FIELD_DESC = new org.apache.thrift.protocol.TField("d", org.apache.thrift.protocol.TType.STRUCT, (short)1);
-
-		private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-		static {
-			schemes.put(StandardScheme.class, new getItem_resultStandardSchemeFactory());
-			schemes.put(TupleScheme.class, new getItem_resultTupleSchemeFactory());
-		}
 
 		public some.vendored.pkg.Item success;
 		public InvalidData d;
@@ -737,11 +705,17 @@ public class FMyService {
 		}
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-			schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+			if (iprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getItem_resultStandardScheme().read(iprot, this);
 		}
 
 		public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-			schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+			if (oprot.getScheme() != StandardScheme.class) {
+				throw new UnsupportedOperationException();
+			}
+			new getItem_resultStandardScheme().write(oprot, this);
 		}
 
 		@Override
@@ -785,12 +759,6 @@ public class FMyService {
 				read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 			} catch (org.apache.thrift.TException te) {
 				throw new java.io.IOException(te);
-			}
-		}
-
-		private static class getItem_resultStandardSchemeFactory implements SchemeFactory {
-			public getItem_resultStandardScheme getScheme() {
-				return new getItem_resultStandardScheme();
 			}
 		}
 
@@ -850,51 +818,6 @@ public class FMyService {
 				}
 				oprot.writeFieldStop();
 				oprot.writeStructEnd();
-			}
-
-		}
-
-		private static class getItem_resultTupleSchemeFactory implements SchemeFactory {
-			public getItem_resultTupleScheme getScheme() {
-				return new getItem_resultTupleScheme();
-			}
-		}
-
-		private static class getItem_resultTupleScheme extends TupleScheme<getItem_result> {
-
-			@Override
-			public void write(org.apache.thrift.protocol.TProtocol prot, getItem_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol oprot = (TTupleProtocol) prot;
-				BitSet optionals = new BitSet();
-				if (struct.isSetSuccess()) {
-					optionals.set(0);
-				}
-				if (struct.isSetD()) {
-					optionals.set(1);
-				}
-				oprot.writeBitSet(optionals, 2);
-				if (struct.isSetSuccess()) {
-					struct.success.write(oprot);
-				}
-				if (struct.isSetD()) {
-					struct.d.write(oprot);
-				}
-			}
-
-			@Override
-			public void read(org.apache.thrift.protocol.TProtocol prot, getItem_result struct) throws org.apache.thrift.TException {
-				TTupleProtocol iprot = (TTupleProtocol) prot;
-				BitSet incoming = iprot.readBitSet(2);
-				if (incoming.get(0)) {
-					struct.success = new some.vendored.pkg.Item();
-					struct.success.read(iprot);
-					struct.setSuccessIsSet(true);
-				}
-				if (incoming.get(1)) {
-					struct.d = new InvalidData();
-					struct.d.read(iprot);
-					struct.setDIsSet(true);
-				}
 			}
 
 		}

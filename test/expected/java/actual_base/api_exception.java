@@ -37,12 +37,6 @@ public class api_exception extends TException implements org.apache.thrift.TBase
 	private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("api_exception");
 
 
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new api_exceptionStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new api_exceptionTupleSchemeFactory());
-	}
-
 	/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 	public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 		;
@@ -177,11 +171,17 @@ public class api_exception extends TException implements org.apache.thrift.TBase
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new api_exceptionStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new api_exceptionStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -215,12 +215,6 @@ public class api_exception extends TException implements org.apache.thrift.TBase
 		}
 	}
 
-	private static class api_exceptionStandardSchemeFactory implements SchemeFactory {
-		public api_exceptionStandardScheme getScheme() {
-			return new api_exceptionStandardScheme();
-		}
-	}
-
 	private static class api_exceptionStandardScheme extends StandardScheme<api_exception> {
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot, api_exception struct) throws org.apache.thrift.TException {
@@ -249,26 +243,6 @@ public class api_exception extends TException implements org.apache.thrift.TBase
 			oprot.writeStructBegin(STRUCT_DESC);
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class api_exceptionTupleSchemeFactory implements SchemeFactory {
-		public api_exceptionTupleScheme getScheme() {
-			return new api_exceptionTupleScheme();
-		}
-	}
-
-	private static class api_exceptionTupleScheme extends TupleScheme<api_exception> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, api_exception struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, api_exception struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
 		}
 
 	}

@@ -39,12 +39,6 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 	private static final org.apache.thrift.protocol.TField AN_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("an_id", org.apache.thrift.protocol.TType.I32, (short)1);
 	private static final org.apache.thrift.protocol.TField A_STRING_FIELD_DESC = new org.apache.thrift.protocol.TField("a_string", org.apache.thrift.protocol.TType.STRING, (short)2);
 
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new thingStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new thingTupleSchemeFactory());
-	}
-
 	public int an_id;
 	public String a_string;
 	/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
@@ -315,11 +309,17 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new thingStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new thingStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -358,12 +358,6 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class thingStandardSchemeFactory implements SchemeFactory {
-		public thingStandardScheme getScheme() {
-			return new thingStandardScheme();
 		}
 	}
 
@@ -410,62 +404,17 @@ public class thing implements org.apache.thrift.TBase<thing, thing._Fields>, jav
 
 			oprot.writeStructBegin(STRUCT_DESC);
 			oprot.writeFieldBegin(AN_ID_FIELD_DESC);
-			int elem364 = struct.an_id;
-			oprot.writeI32(elem364);
+			int elem225 = struct.an_id;
+			oprot.writeI32(elem225);
 			oprot.writeFieldEnd();
 			if (struct.isSetA_string()) {
 				oprot.writeFieldBegin(A_STRING_FIELD_DESC);
-				String elem365 = struct.a_string;
-				oprot.writeString(elem365);
+				String elem226 = struct.a_string;
+				oprot.writeString(elem226);
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class thingTupleSchemeFactory implements SchemeFactory {
-		public thingTupleScheme getScheme() {
-			return new thingTupleScheme();
-		}
-	}
-
-	private static class thingTupleScheme extends TupleScheme<thing> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, thing struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetAn_id()) {
-				optionals.set(0);
-			}
-			if (struct.isSetA_string()) {
-				optionals.set(1);
-			}
-			oprot.writeBitSet(optionals, 2);
-			if (struct.isSetAn_id()) {
-				int elem366 = struct.an_id;
-				oprot.writeI32(elem366);
-			}
-			if (struct.isSetA_string()) {
-				String elem367 = struct.a_string;
-				oprot.writeString(elem367);
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, thing struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(2);
-			if (incoming.get(0)) {
-				struct.an_id = iprot.readI32();
-				struct.setAn_idIsSet(true);
-			}
-			if (incoming.get(1)) {
-				struct.a_string = iprot.readString();
-				struct.setA_stringIsSet(true);
-			}
 		}
 
 	}

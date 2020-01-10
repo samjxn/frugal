@@ -872,8 +872,6 @@ func (g *Generator) generateStruct(s *parser.Struct, isArg, isResult bool, inden
 
 	contents += g.generateDescriptors(s, nestedIndent)
 
-	contents += g.generateSchemeMap(s, nestedIndent)
-
 	contents += g.generateInstanceVars(s, nestedIndent)
 
 	contents += g.generateFieldsEnum(s, nestedIndent)
@@ -919,7 +917,6 @@ func (g *Generator) generateStruct(s *parser.Struct, isArg, isResult bool, inden
 	contents += g.generateReadObject(s, nestedIndent)
 
 	contents += g.generateStandardScheme(s, isResult, nestedIndent)
-	contents += g.generateTupleScheme(s, nestedIndent)
 
 	contents += indent + "}\n"
 	return contents
@@ -934,16 +931,6 @@ func (g *Generator) generateDescriptors(s *parser.Struct, indent string) string 
 			toConstantName(field.Name), field.Name, g.getTType(field.Type), field.ID)
 	}
 	contents += "\n"
-	return contents
-}
-
-func (g *Generator) generateSchemeMap(s *parser.Struct, indent string) string {
-	contents := ""
-	contents += indent + "private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();\n"
-	contents += indent + "static {\n"
-	contents += indent + tab + fmt.Sprintf("schemes.put(StandardScheme.class, new %sStandardSchemeFactory());\n", s.Name)
-	contents += indent + tab + fmt.Sprintf("schemes.put(TupleScheme.class, new %sTupleSchemeFactory());\n", s.Name)
-	contents += indent + "}\n\n"
 	return contents
 }
 
@@ -1567,11 +1554,17 @@ func (g *Generator) generateFieldForId(s *parser.Struct, indent string) string {
 func (g *Generator) generateReadWrite(s *parser.Struct, indent string) string {
 	contents := ""
 	contents += indent + "public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {\n"
-	contents += indent + tab + "schemes.get(iprot.getScheme()).getScheme().read(iprot, this);\n"
+	contents += indent + tab + "if (iprot.getScheme() != StandardScheme.class) {\n"
+	contents += indent + tab + tab + "throw new UnsupportedOperationException();\n"
+	contents += indent + tab + "}\n"
+	contents += indent + tab + fmt.Sprintf("new %sStandardScheme().read(iprot, this);\n", s.Name)
 	contents += indent + "}\n\n"
 
 	contents += indent + "public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {\n"
-	contents += indent + tab + "schemes.get(oprot.getScheme()).getScheme().write(oprot, this);\n"
+	contents += indent + tab + "if (oprot.getScheme() != StandardScheme.class) {\n"
+	contents += indent + tab + tab + "throw new UnsupportedOperationException();\n"
+	contents += indent + tab + "}\n"
+	contents += indent + tab + fmt.Sprintf("new %sStandardScheme().write(oprot, this);\n", s.Name)
 	contents += indent + "}\n\n"
 	return contents
 }
@@ -1683,12 +1676,6 @@ func (g *Generator) generateReadObject(s *parser.Struct, indent string) string {
 
 func (g *Generator) generateStandardScheme(s *parser.Struct, isResult bool, indent string) string {
 	contents := ""
-	contents += indent + fmt.Sprintf("private static class %sStandardSchemeFactory implements SchemeFactory {\n", s.Name)
-	contents += indent + tab + fmt.Sprintf("public %sStandardScheme getScheme() {\n", s.Name)
-	contents += indent + tabtab + fmt.Sprintf("return new %sStandardScheme();\n", s.Name)
-	contents += indent + tab + "}\n"
-	contents += indent + "}\n\n"
-
 	contents += indent + fmt.Sprintf("private static class %sStandardScheme extends StandardScheme<%s> {\n\n", s.Name, s.Name)
 
 	// read
@@ -1754,93 +1741,6 @@ func (g *Generator) generateStandardScheme(s *parser.Struct, isResult bool, inde
 	contents += indent + tabtab + "oprot.writeFieldStop();\n"
 	contents += indent + tabtab + "oprot.writeStructEnd();\n"
 
-	contents += indent + tab + "}\n\n"
-
-	contents += indent + "}\n\n"
-	return contents
-}
-
-func (g *Generator) generateTupleScheme(s *parser.Struct, indent string) string {
-	contents := ""
-	contents += indent + fmt.Sprintf("private static class %sTupleSchemeFactory implements SchemeFactory {\n", s.Name)
-	contents += indent + tab + fmt.Sprintf("public %sTupleScheme getScheme() {\n", s.Name)
-	contents += indent + tabtab + fmt.Sprintf("return new %sTupleScheme();\n", s.Name)
-	contents += indent + tab + "}\n"
-	contents += indent + "}\n\n"
-
-	contents += indent + fmt.Sprintf("private static class %sTupleScheme extends TupleScheme<%s> {\n\n", s.Name, s.Name)
-	contents += indent + tab + "@Override\n"
-	contents += indent + tab + fmt.Sprintf("public void write(org.apache.thrift.protocol.TProtocol prot, %s struct) throws org.apache.thrift.TException {\n", s.Name)
-	contents += indent + tabtab + "TTupleProtocol oprot = (TTupleProtocol) prot;\n"
-	// write required fields
-	numNonReqs := 0
-	for _, field := range s.Fields {
-		if field.Modifier != parser.Required {
-			numNonReqs++
-			continue
-		}
-
-		contents += g.generateWriteFieldRec(field, true, true, indent+tabtab)
-	}
-
-	if numNonReqs > 0 {
-		// write optional/default fields
-		nonReqFieldCount := 0
-		contents += indent + tabtab + "BitSet optionals = new BitSet();\n"
-		for _, field := range s.Fields {
-			if field.Modifier == parser.Required {
-				continue
-			}
-
-			contents += indent + tabtab + fmt.Sprintf("if (struct.isSet%s()) {\n", strings.Title(field.Name))
-			contents += indent + tabtabtab + fmt.Sprintf("optionals.set(%d);\n", nonReqFieldCount)
-			contents += indent + tabtab + "}\n"
-			nonReqFieldCount++
-		}
-
-		contents += indent + tabtab + fmt.Sprintf("oprot.writeBitSet(optionals, %d);\n", numNonReqs)
-		for _, field := range s.Fields {
-			if field.Modifier == parser.Required {
-				continue
-			}
-
-			contents += indent + tabtab + fmt.Sprintf("if (struct.isSet%s()) {\n", strings.Title(field.Name))
-			contents += g.generateWriteFieldRec(field, true, true, indent+tabtabtab)
-			contents += indent + tabtab + "}\n"
-		}
-	}
-
-	contents += indent + tab + "}\n\n"
-
-	contents += indent + tab + "@Override\n"
-	contents += indent + tab + fmt.Sprintf("public void read(org.apache.thrift.protocol.TProtocol prot, %s struct) throws org.apache.thrift.TException {\n", s.Name)
-	contents += indent + tabtab + "TTupleProtocol iprot = (TTupleProtocol) prot;\n"
-	// read required fields
-	for _, field := range s.Fields {
-		if field.Modifier != parser.Required {
-			continue
-		}
-
-		contents += g.generateReadFieldRec(field, true, true, false, indent+tabtab)
-		contents += indent + tabtab + fmt.Sprintf("struct.set%sIsSet(true);\n", strings.Title(field.Name))
-	}
-
-	if numNonReqs > 0 {
-		// read default/optional fields
-		nonReqFieldCount := 0
-		contents += indent + tabtab + fmt.Sprintf("BitSet incoming = iprot.readBitSet(%d);\n", numNonReqs)
-		for _, field := range s.Fields {
-			if field.Modifier == parser.Required {
-				continue
-			}
-
-			contents += indent + tabtab + fmt.Sprintf("if (incoming.get(%d)) {\n", nonReqFieldCount)
-			contents += g.generateReadFieldRec(field, true, true, false, indent+tabtabtab)
-			contents += indent + tabtabtab + fmt.Sprintf("struct.set%sIsSet(true);\n", strings.Title(field.Name))
-			contents += indent + tabtab + "}\n"
-			nonReqFieldCount++
-		}
-	}
 	contents += indent + tab + "}\n\n"
 
 	contents += indent + "}\n\n"

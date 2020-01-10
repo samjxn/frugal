@@ -38,12 +38,6 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 
 	private static final org.apache.thrift.protocol.TField BASE_STRUCT_FIELD_DESC = new org.apache.thrift.protocol.TField("base_struct", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new TestBaseStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new TestBaseTupleSchemeFactory());
-	}
-
 	public actual_base.java.thing base_struct;
 	/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 	public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -247,11 +241,17 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestBaseStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestBaseStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -288,12 +288,6 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class TestBaseStandardSchemeFactory implements SchemeFactory {
-		public TestBaseStandardScheme getScheme() {
-			return new TestBaseStandardScheme();
 		}
 	}
 
@@ -339,40 +333,6 @@ public class TestBase implements org.apache.thrift.TBase<TestBase, TestBase._Fie
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class TestBaseTupleSchemeFactory implements SchemeFactory {
-		public TestBaseTupleScheme getScheme() {
-			return new TestBaseTupleScheme();
-		}
-	}
-
-	private static class TestBaseTupleScheme extends TupleScheme<TestBase> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, TestBase struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetBase_struct()) {
-				optionals.set(0);
-			}
-			oprot.writeBitSet(optionals, 1);
-			if (struct.isSetBase_struct()) {
-				struct.base_struct.write(oprot);
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, TestBase struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(1);
-			if (incoming.get(0)) {
-				struct.base_struct = new actual_base.java.thing();
-				struct.base_struct.read(iprot);
-				struct.setBase_structIsSet(true);
-			}
 		}
 
 	}

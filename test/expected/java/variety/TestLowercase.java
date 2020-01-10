@@ -38,12 +38,6 @@ public class TestLowercase implements org.apache.thrift.TBase<TestLowercase, Tes
 
 	private static final org.apache.thrift.protocol.TField LOWERCASE_INT_FIELD_DESC = new org.apache.thrift.protocol.TField("lowercaseInt", org.apache.thrift.protocol.TType.I32, (short)1);
 
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new TestLowercaseStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new TestLowercaseTupleSchemeFactory());
-	}
-
 	public int lowercaseInt;
 	/** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
 	public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -249,11 +243,17 @@ public class TestLowercase implements org.apache.thrift.TBase<TestLowercase, Tes
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestLowercaseStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestLowercaseStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -288,12 +288,6 @@ public class TestLowercase implements org.apache.thrift.TBase<TestLowercase, Tes
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class TestLowercaseStandardSchemeFactory implements SchemeFactory {
-		public TestLowercaseStandardScheme getScheme() {
-			return new TestLowercaseStandardScheme();
 		}
 	}
 
@@ -337,40 +331,6 @@ public class TestLowercase implements org.apache.thrift.TBase<TestLowercase, Tes
 			oprot.writeFieldEnd();
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class TestLowercaseTupleSchemeFactory implements SchemeFactory {
-		public TestLowercaseTupleScheme getScheme() {
-			return new TestLowercaseTupleScheme();
-		}
-	}
-
-	private static class TestLowercaseTupleScheme extends TupleScheme<TestLowercase> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, TestLowercase struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetLowercaseInt()) {
-				optionals.set(0);
-			}
-			oprot.writeBitSet(optionals, 1);
-			if (struct.isSetLowercaseInt()) {
-				int elem2 = struct.lowercaseInt;
-				oprot.writeI32(elem2);
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, TestLowercase struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(1);
-			if (incoming.get(0)) {
-				struct.lowercaseInt = iprot.readI32();
-				struct.setLowercaseIntIsSet(true);
-			}
 		}
 
 	}

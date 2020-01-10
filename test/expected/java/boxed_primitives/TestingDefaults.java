@@ -55,12 +55,6 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 	private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.I32, (short)17);
 	private static final org.apache.thrift.protocol.TField BASE_STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("base_status", org.apache.thrift.protocol.TType.I32, (short)18);
 
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new TestingDefaultsStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new TestingDefaultsTupleSchemeFactory());
-	}
-
 	public Long ID2; // optional
 	public Event ev1;
 	public Event ev2;
@@ -297,9 +291,9 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		}
 		if (other.isSetListfield()) {
 			this.listfield = new ArrayList<Integer>(other.listfield.size());
-			for (Integer elem7 : other.listfield) {
-				Integer elem8 = elem7;
-				this.listfield.add(elem8);
+			for (Integer elem4 : other.listfield) {
+				Integer elem5 = elem4;
+				this.listfield.add(elem5);
 			}
 		}
 		if (other.isSetID3()) {
@@ -319,23 +313,23 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		}
 		if (other.isSetList2()) {
 			this.list2 = new ArrayList<Integer>(other.list2.size());
-			for (Integer elem9 : other.list2) {
-				Integer elem10 = elem9;
-				this.list2.add(elem10);
+			for (Integer elem6 : other.list2) {
+				Integer elem7 = elem6;
+				this.list2.add(elem7);
 			}
 		}
 		if (other.isSetList3()) {
 			this.list3 = new ArrayList<Integer>(other.list3.size());
-			for (Integer elem11 : other.list3) {
-				Integer elem12 = elem11;
-				this.list3.add(elem12);
+			for (Integer elem8 : other.list3) {
+				Integer elem9 = elem8;
+				this.list3.add(elem9);
 			}
 		}
 		if (other.isSetList4()) {
 			this.list4 = new ArrayList<Integer>(other.list4.size());
-			for (Integer elem13 : other.list4) {
-				Integer elem14 = elem13;
-				this.list4.add(elem14);
+			for (Integer elem10 : other.list4) {
+				Integer elem11 = elem10;
+				this.list4.add(elem11);
 			}
 		}
 		if (other.isSetA_map()) {
@@ -1562,11 +1556,17 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestingDefaultsStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestingDefaultsStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -1713,12 +1713,6 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		}
 	}
 
-	private static class TestingDefaultsStandardSchemeFactory implements SchemeFactory {
-		public TestingDefaultsStandardScheme getScheme() {
-			return new TestingDefaultsStandardScheme();
-		}
-	}
-
 	private static class TestingDefaultsStandardScheme extends StandardScheme<TestingDefaults> {
 
 		public void read(org.apache.thrift.protocol.TProtocol iprot, TestingDefaults struct) throws org.apache.thrift.TException {
@@ -1782,11 +1776,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 7: // LISTFIELD
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem17 = iprot.readListBegin();
-							struct.listfield = new ArrayList<Integer>(elem17.size);
-							for (int elem18 = 0; elem18 < elem17.size; ++elem18) {
-								Integer elem19 = iprot.readI32();
-								struct.listfield.add(elem19);
+							org.apache.thrift.protocol.TList elem14 = iprot.readListBegin();
+							struct.listfield = new ArrayList<Integer>(elem14.size);
+							for (int elem15 = 0; elem15 < elem14.size; ++elem15) {
+								Integer elem16 = iprot.readI32();
+								struct.listfield.add(elem16);
 							}
 							iprot.readListEnd();
 							struct.setListfieldIsSet(true);
@@ -1836,11 +1830,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 13: // LIST2
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem20 = iprot.readListBegin();
-							struct.list2 = new ArrayList<Integer>(elem20.size);
-							for (int elem21 = 0; elem21 < elem20.size; ++elem21) {
-								Integer elem22 = iprot.readI32();
-								struct.list2.add(elem22);
+							org.apache.thrift.protocol.TList elem17 = iprot.readListBegin();
+							struct.list2 = new ArrayList<Integer>(elem17.size);
+							for (int elem18 = 0; elem18 < elem17.size; ++elem18) {
+								Integer elem19 = iprot.readI32();
+								struct.list2.add(elem19);
 							}
 							iprot.readListEnd();
 							struct.setList2IsSet(true);
@@ -1850,11 +1844,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 14: // LIST3
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem23 = iprot.readListBegin();
-							struct.list3 = new ArrayList<Integer>(elem23.size);
-							for (int elem24 = 0; elem24 < elem23.size; ++elem24) {
-								Integer elem25 = iprot.readI32();
-								struct.list3.add(elem25);
+							org.apache.thrift.protocol.TList elem20 = iprot.readListBegin();
+							struct.list3 = new ArrayList<Integer>(elem20.size);
+							for (int elem21 = 0; elem21 < elem20.size; ++elem21) {
+								Integer elem22 = iprot.readI32();
+								struct.list3.add(elem22);
 							}
 							iprot.readListEnd();
 							struct.setList3IsSet(true);
@@ -1864,11 +1858,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 15: // LIST4
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem26 = iprot.readListBegin();
-							struct.list4 = new ArrayList<Integer>(elem26.size);
-							for (int elem27 = 0; elem27 < elem26.size; ++elem27) {
-								Integer elem28 = iprot.readI32();
-								struct.list4.add(elem28);
+							org.apache.thrift.protocol.TList elem23 = iprot.readListBegin();
+							struct.list4 = new ArrayList<Integer>(elem23.size);
+							for (int elem24 = 0; elem24 < elem23.size; ++elem24) {
+								Integer elem25 = iprot.readI32();
+								struct.list4.add(elem25);
 							}
 							iprot.readListEnd();
 							struct.setList4IsSet(true);
@@ -1878,12 +1872,12 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 16: // A_MAP
 						if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
-							org.apache.thrift.protocol.TMap elem29 = iprot.readMapBegin();
-							struct.a_map = new HashMap<String,String>(2*elem29.size);
-							for (int elem30 = 0; elem30 < elem29.size; ++elem30) {
-								String elem32 = iprot.readString();
-								String elem31 = iprot.readString();
-								struct.a_map.put(elem32, elem31);
+							org.apache.thrift.protocol.TMap elem26 = iprot.readMapBegin();
+							struct.a_map = new HashMap<String,String>(2*elem26.size);
+							for (int elem27 = 0; elem27 < elem26.size; ++elem27) {
+								String elem29 = iprot.readString();
+								String elem28 = iprot.readString();
+								struct.a_map.put(elem29, elem28);
 							}
 							iprot.readMapEnd();
 							struct.setA_mapIsSet(true);
@@ -1924,11 +1918,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			oprot.writeStructBegin(STRUCT_DESC);
 			if (struct.isSetID2()) {
 				oprot.writeFieldBegin(I_D2_FIELD_DESC);
-				Long elem33 = struct.ID2;
-				if (elem33 == null) {
-					elem33 = 0L;
+				Long elem30 = struct.ID2;
+				if (elem30 == null) {
+					elem30 = 0L;
 				}
-				oprot.writeI64(elem33);
+				oprot.writeI64(elem30);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetEv1()) {
@@ -1942,77 +1936,77 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldBegin(ID_FIELD_DESC);
-			Long elem34 = struct.ID;
-			if (elem34 == null) {
-				elem34 = 0L;
+			Long elem31 = struct.ID;
+			if (elem31 == null) {
+				elem31 = 0L;
 			}
-			oprot.writeI64(elem34);
+			oprot.writeI64(elem31);
 			oprot.writeFieldEnd();
 			if (struct.isSetThing()) {
 				oprot.writeFieldBegin(THING_FIELD_DESC);
-				String elem35 = struct.thing;
-				oprot.writeString(elem35);
+				String elem32 = struct.thing;
+				oprot.writeString(elem32);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetThing2()) {
 				oprot.writeFieldBegin(THING2_FIELD_DESC);
-				String elem36 = struct.thing2;
-				oprot.writeString(elem36);
+				String elem33 = struct.thing2;
+				oprot.writeString(elem33);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetListfield()) {
 				oprot.writeFieldBegin(LISTFIELD_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.listfield.size()));
-				for (Integer elem37 : struct.listfield) {
-					Integer elem38 = elem37;
-					if (elem38 == null) {
-						elem38 = 0;
+				for (Integer elem34 : struct.listfield) {
+					Integer elem35 = elem34;
+					if (elem35 == null) {
+						elem35 = 0;
 					}
-					oprot.writeI32(elem38);
+					oprot.writeI32(elem35);
 				}
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldBegin(I_D3_FIELD_DESC);
-			Long elem39 = struct.ID3;
-			if (elem39 == null) {
-				elem39 = 0L;
+			Long elem36 = struct.ID3;
+			if (elem36 == null) {
+				elem36 = 0L;
 			}
-			oprot.writeI64(elem39);
+			oprot.writeI64(elem36);
 			oprot.writeFieldEnd();
 			if (struct.isSetBin_field()) {
 				oprot.writeFieldBegin(BIN_FIELD_FIELD_DESC);
-				java.nio.ByteBuffer elem40 = struct.bin_field;
-				oprot.writeBinary(elem40);
+				java.nio.ByteBuffer elem37 = struct.bin_field;
+				oprot.writeBinary(elem37);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetBin_field2()) {
 				oprot.writeFieldBegin(BIN_FIELD2_FIELD_DESC);
-				java.nio.ByteBuffer elem41 = struct.bin_field2;
-				oprot.writeBinary(elem41);
+				java.nio.ByteBuffer elem38 = struct.bin_field2;
+				oprot.writeBinary(elem38);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetBin_field3()) {
 				oprot.writeFieldBegin(BIN_FIELD3_FIELD_DESC);
-				java.nio.ByteBuffer elem42 = struct.bin_field3;
-				oprot.writeBinary(elem42);
+				java.nio.ByteBuffer elem39 = struct.bin_field3;
+				oprot.writeBinary(elem39);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetBin_field4()) {
 				oprot.writeFieldBegin(BIN_FIELD4_FIELD_DESC);
-				java.nio.ByteBuffer elem43 = struct.bin_field4;
-				oprot.writeBinary(elem43);
+				java.nio.ByteBuffer elem40 = struct.bin_field4;
+				oprot.writeBinary(elem40);
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetList2()) {
 				oprot.writeFieldBegin(LIST2_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list2.size()));
-				for (Integer elem44 : struct.list2) {
-					Integer elem45 = elem44;
-					if (elem45 == null) {
-						elem45 = 0;
+				for (Integer elem41 : struct.list2) {
+					Integer elem42 = elem41;
+					if (elem42 == null) {
+						elem42 = 0;
 					}
-					oprot.writeI32(elem45);
+					oprot.writeI32(elem42);
 				}
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
@@ -2020,12 +2014,12 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			if (struct.isSetList3()) {
 				oprot.writeFieldBegin(LIST3_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list3.size()));
-				for (Integer elem46 : struct.list3) {
-					Integer elem47 = elem46;
-					if (elem47 == null) {
-						elem47 = 0;
+				for (Integer elem43 : struct.list3) {
+					Integer elem44 = elem43;
+					if (elem44 == null) {
+						elem44 = 0;
 					}
-					oprot.writeI32(elem47);
+					oprot.writeI32(elem44);
 				}
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
@@ -2033,12 +2027,12 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			if (struct.isSetList4()) {
 				oprot.writeFieldBegin(LIST4_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list4.size()));
-				for (Integer elem48 : struct.list4) {
-					Integer elem49 = elem48;
-					if (elem49 == null) {
-						elem49 = 0;
+				for (Integer elem45 : struct.list4) {
+					Integer elem46 = elem45;
+					if (elem46 == null) {
+						elem46 = 0;
 					}
-					oprot.writeI32(elem49);
+					oprot.writeI32(elem46);
 				}
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
@@ -2046,300 +2040,29 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			if (struct.isSetA_map()) {
 				oprot.writeFieldBegin(A_MAP_FIELD_DESC);
 				oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.a_map.size()));
-				for (Map.Entry<String, String> elem50 : struct.a_map.entrySet()) {
-					String elem51 = elem50.getKey();
-					oprot.writeString(elem51);
-					String elem52 = elem50.getValue();
-					oprot.writeString(elem52);
+				for (Map.Entry<String, String> elem47 : struct.a_map.entrySet()) {
+					String elem48 = elem47.getKey();
+					oprot.writeString(elem48);
+					String elem49 = elem47.getValue();
+					oprot.writeString(elem49);
 				}
 				oprot.writeMapEnd();
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetStatus()) {
 				oprot.writeFieldBegin(STATUS_FIELD_DESC);
-				HealthCondition elem53 = struct.status;
-				oprot.writeI32(elem53.getValue());
+				HealthCondition elem50 = struct.status;
+				oprot.writeI32(elem50.getValue());
 				oprot.writeFieldEnd();
 			}
 			if (struct.isSetBase_status()) {
 				oprot.writeFieldBegin(BASE_STATUS_FIELD_DESC);
-				actual_base.java.base_health_condition elem54 = struct.base_status;
-				oprot.writeI32(elem54.getValue());
+				actual_base.java.base_health_condition elem51 = struct.base_status;
+				oprot.writeI32(elem51.getValue());
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class TestingDefaultsTupleSchemeFactory implements SchemeFactory {
-		public TestingDefaultsTupleScheme getScheme() {
-			return new TestingDefaultsTupleScheme();
-		}
-	}
-
-	private static class TestingDefaultsTupleScheme extends TupleScheme<TestingDefaults> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, TestingDefaults struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			HealthCondition elem55 = struct.status;
-			oprot.writeI32(elem55.getValue());
-			actual_base.java.base_health_condition elem56 = struct.base_status;
-			oprot.writeI32(elem56.getValue());
-			BitSet optionals = new BitSet();
-			if (struct.isSetID2()) {
-				optionals.set(0);
-			}
-			if (struct.isSetEv1()) {
-				optionals.set(1);
-			}
-			if (struct.isSetEv2()) {
-				optionals.set(2);
-			}
-			if (struct.isSetID()) {
-				optionals.set(3);
-			}
-			if (struct.isSetThing()) {
-				optionals.set(4);
-			}
-			if (struct.isSetThing2()) {
-				optionals.set(5);
-			}
-			if (struct.isSetListfield()) {
-				optionals.set(6);
-			}
-			if (struct.isSetID3()) {
-				optionals.set(7);
-			}
-			if (struct.isSetBin_field()) {
-				optionals.set(8);
-			}
-			if (struct.isSetBin_field2()) {
-				optionals.set(9);
-			}
-			if (struct.isSetBin_field3()) {
-				optionals.set(10);
-			}
-			if (struct.isSetBin_field4()) {
-				optionals.set(11);
-			}
-			if (struct.isSetList2()) {
-				optionals.set(12);
-			}
-			if (struct.isSetList3()) {
-				optionals.set(13);
-			}
-			if (struct.isSetList4()) {
-				optionals.set(14);
-			}
-			if (struct.isSetA_map()) {
-				optionals.set(15);
-			}
-			oprot.writeBitSet(optionals, 16);
-			if (struct.isSetID2()) {
-				Long elem57 = struct.ID2;
-				if (elem57 == null) {
-					elem57 = 0L;
-				}
-				oprot.writeI64(elem57);
-			}
-			if (struct.isSetEv1()) {
-				struct.ev1.write(oprot);
-			}
-			if (struct.isSetEv2()) {
-				struct.ev2.write(oprot);
-			}
-			if (struct.isSetID()) {
-				Long elem58 = struct.ID;
-				if (elem58 == null) {
-					elem58 = 0L;
-				}
-				oprot.writeI64(elem58);
-			}
-			if (struct.isSetThing()) {
-				String elem59 = struct.thing;
-				oprot.writeString(elem59);
-			}
-			if (struct.isSetThing2()) {
-				String elem60 = struct.thing2;
-				oprot.writeString(elem60);
-			}
-			if (struct.isSetListfield()) {
-				oprot.writeI32(struct.listfield.size());
-				for (Integer elem61 : struct.listfield) {
-					Integer elem62 = elem61;
-					if (elem62 == null) {
-						elem62 = 0;
-					}
-					oprot.writeI32(elem62);
-				}
-			}
-			if (struct.isSetID3()) {
-				Long elem63 = struct.ID3;
-				if (elem63 == null) {
-					elem63 = 0L;
-				}
-				oprot.writeI64(elem63);
-			}
-			if (struct.isSetBin_field()) {
-				java.nio.ByteBuffer elem64 = struct.bin_field;
-				oprot.writeBinary(elem64);
-			}
-			if (struct.isSetBin_field2()) {
-				java.nio.ByteBuffer elem65 = struct.bin_field2;
-				oprot.writeBinary(elem65);
-			}
-			if (struct.isSetBin_field3()) {
-				java.nio.ByteBuffer elem66 = struct.bin_field3;
-				oprot.writeBinary(elem66);
-			}
-			if (struct.isSetBin_field4()) {
-				java.nio.ByteBuffer elem67 = struct.bin_field4;
-				oprot.writeBinary(elem67);
-			}
-			if (struct.isSetList2()) {
-				oprot.writeI32(struct.list2.size());
-				for (Integer elem68 : struct.list2) {
-					Integer elem69 = elem68;
-					if (elem69 == null) {
-						elem69 = 0;
-					}
-					oprot.writeI32(elem69);
-				}
-			}
-			if (struct.isSetList3()) {
-				oprot.writeI32(struct.list3.size());
-				for (Integer elem70 : struct.list3) {
-					Integer elem71 = elem70;
-					if (elem71 == null) {
-						elem71 = 0;
-					}
-					oprot.writeI32(elem71);
-				}
-			}
-			if (struct.isSetList4()) {
-				oprot.writeI32(struct.list4.size());
-				for (Integer elem72 : struct.list4) {
-					Integer elem73 = elem72;
-					if (elem73 == null) {
-						elem73 = 0;
-					}
-					oprot.writeI32(elem73);
-				}
-			}
-			if (struct.isSetA_map()) {
-				oprot.writeI32(struct.a_map.size());
-				for (Map.Entry<String, String> elem74 : struct.a_map.entrySet()) {
-					String elem75 = elem74.getKey();
-					oprot.writeString(elem75);
-					String elem76 = elem74.getValue();
-					oprot.writeString(elem76);
-				}
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, TestingDefaults struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			struct.status = HealthCondition.findByValue(iprot.readI32());
-			struct.setStatusIsSet(true);
-			struct.base_status = actual_base.java.base_health_condition.findByValue(iprot.readI32());
-			struct.setBase_statusIsSet(true);
-			BitSet incoming = iprot.readBitSet(16);
-			if (incoming.get(0)) {
-				struct.ID2 = iprot.readI64();
-				struct.setID2IsSet(true);
-			}
-			if (incoming.get(1)) {
-				struct.ev1 = new Event();
-				struct.ev1.read(iprot);
-				struct.setEv1IsSet(true);
-			}
-			if (incoming.get(2)) {
-				struct.ev2 = new Event();
-				struct.ev2.read(iprot);
-				struct.setEv2IsSet(true);
-			}
-			if (incoming.get(3)) {
-				struct.ID = iprot.readI64();
-				struct.setIDIsSet(true);
-			}
-			if (incoming.get(4)) {
-				struct.thing = iprot.readString();
-				struct.setThingIsSet(true);
-			}
-			if (incoming.get(5)) {
-				struct.thing2 = iprot.readString();
-				struct.setThing2IsSet(true);
-			}
-			if (incoming.get(6)) {
-				org.apache.thrift.protocol.TList elem77 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.listfield = new ArrayList<Integer>(elem77.size);
-				for (int elem78 = 0; elem78 < elem77.size; ++elem78) {
-					Integer elem79 = iprot.readI32();
-					struct.listfield.add(elem79);
-				}
-				struct.setListfieldIsSet(true);
-			}
-			if (incoming.get(7)) {
-				struct.ID3 = iprot.readI64();
-				struct.setID3IsSet(true);
-			}
-			if (incoming.get(8)) {
-				struct.bin_field = iprot.readBinary();
-				struct.setBin_fieldIsSet(true);
-			}
-			if (incoming.get(9)) {
-				struct.bin_field2 = iprot.readBinary();
-				struct.setBin_field2IsSet(true);
-			}
-			if (incoming.get(10)) {
-				struct.bin_field3 = iprot.readBinary();
-				struct.setBin_field3IsSet(true);
-			}
-			if (incoming.get(11)) {
-				struct.bin_field4 = iprot.readBinary();
-				struct.setBin_field4IsSet(true);
-			}
-			if (incoming.get(12)) {
-				org.apache.thrift.protocol.TList elem80 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.list2 = new ArrayList<Integer>(elem80.size);
-				for (int elem81 = 0; elem81 < elem80.size; ++elem81) {
-					Integer elem82 = iprot.readI32();
-					struct.list2.add(elem82);
-				}
-				struct.setList2IsSet(true);
-			}
-			if (incoming.get(13)) {
-				org.apache.thrift.protocol.TList elem83 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.list3 = new ArrayList<Integer>(elem83.size);
-				for (int elem84 = 0; elem84 < elem83.size; ++elem84) {
-					Integer elem85 = iprot.readI32();
-					struct.list3.add(elem85);
-				}
-				struct.setList3IsSet(true);
-			}
-			if (incoming.get(14)) {
-				org.apache.thrift.protocol.TList elem86 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.list4 = new ArrayList<Integer>(elem86.size);
-				for (int elem87 = 0; elem87 < elem86.size; ++elem87) {
-					Integer elem88 = iprot.readI32();
-					struct.list4.add(elem88);
-				}
-				struct.setList4IsSet(true);
-			}
-			if (incoming.get(15)) {
-				org.apache.thrift.protocol.TMap elem89 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-				struct.a_map = new HashMap<String,String>(2*elem89.size);
-				for (int elem90 = 0; elem90 < elem89.size; ++elem90) {
-					String elem92 = iprot.readString();
-					String elem91 = iprot.readString();
-					struct.a_map.put(elem92, elem91);
-				}
-				struct.setA_mapIsSet(true);
-			}
 		}
 
 	}
