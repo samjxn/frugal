@@ -1,0 +1,791 @@
+{
+  "ValidTypes": {
+    "t": {
+      "MyInt": {
+        "b": "i32"
+      }
+    }
+  },
+  "base": {
+    "s": {
+      "BaseFoo": {
+        "m": {
+          "basePing": {}
+        }
+      }
+    },
+    "t": {
+      "api_exception": {},
+      "base_health_condition": {
+        "e": {
+          "1": [
+            "PASS"
+          ],
+          "2": [
+            "WARN"
+          ],
+          "3": [
+            "FAIL"
+          ],
+          "4": [
+            "UNKNOWN"
+          ]
+        }
+      },
+      "nested_thing": {
+        "s": {
+          "1": {
+            "n": "things",
+            "t": {
+              "v": {
+                "n": "thing"
+              }
+            }
+          }
+        }
+      },
+      "thing": {
+        "s": {
+          "1": {
+            "n": "an_id",
+            "t": {
+              "b": "i32"
+            }
+          },
+          "2": {
+            "n": "a_string",
+            "t": {
+              "b": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "intermediate_include": {
+    "s": {
+      "IntermediateFoo": {
+        "m": {
+          "IntermeidateFoo": {}
+        }
+      }
+    }
+  },
+  "subdir_include": {
+    "t": {
+      "A": {}
+    }
+  },
+  "validStructs": {
+    "t": {
+      "Thing": {}
+    }
+  },
+  "variety": {
+    "s": {
+      "Foo": {
+        "m": {
+          "Ping": {},
+          "bin_method": {
+            "p": {
+              "1": {
+                "n": "bin",
+                "t": {
+                  "b": "binary"
+                }
+              },
+              "2": {
+                "n": "Str",
+                "t": {
+                  "b": "string"
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "b": "binary"
+                }
+              },
+              "1": {
+                "n": "api",
+                "t": {
+                  "n": "base.api_exception"
+                }
+              }
+            }
+          },
+          "blah": {
+            "p": {
+              "1": {
+                "n": "num",
+                "t": {
+                  "b": "i32"
+                }
+              },
+              "2": {
+                "n": "Str",
+                "t": {
+                  "b": "string"
+                }
+              },
+              "3": {
+                "n": "event",
+                "t": {
+                  "n": "Event"
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "b": "i64"
+                }
+              },
+              "1": {
+                "n": "awe",
+                "t": {
+                  "n": "AwesomeException"
+                }
+              },
+              "2": {
+                "n": "api",
+                "t": {
+                  "n": "base.api_exception"
+                }
+              }
+            }
+          },
+          "getMyInt": {
+            "r": {
+              "0": {
+                "t": {
+                  "n": "ValidTypes.MyInt"
+                }
+              }
+            }
+          },
+          "getThing": {
+            "r": {
+              "0": {
+                "t": {
+                  "n": "validStructs.Thing"
+                }
+              }
+            }
+          },
+          "oneWay": {
+            "p": {
+              "1": {
+                "n": "id",
+                "t": {
+                  "n": "id"
+                }
+              },
+              "2": {
+                "n": "req",
+                "t": {
+                  "n": "request"
+                }
+              }
+            }
+          },
+          "param_modifiers": {
+            "p": {
+              "1": {
+                "n": "opt_num",
+                "t": {
+                  "b": "i32"
+                }
+              },
+              "2": {
+                "n": "default_num",
+                "t": {
+                  "b": "i32"
+                }
+              },
+              "3": {
+                "n": "req_num",
+                "t": {
+                  "b": "i32"
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "b": "i64"
+                }
+              }
+            }
+          },
+          "sayAgain": {
+            "p": {
+              "1": {
+                "n": "messageResult",
+                "t": {
+                  "b": "string"
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "b": "string"
+                }
+              }
+            }
+          },
+          "sayHelloWith": {
+            "p": {
+              "1": {
+                "n": "newMessage",
+                "t": {
+                  "b": "string"
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "b": "string"
+                }
+              }
+            }
+          },
+          "underlying_types_test": {
+            "p": {
+              "1": {
+                "n": "list_type",
+                "t": {
+                  "v": {
+                    "n": "id"
+                  }
+                }
+              },
+              "2": {
+                "n": "set_type",
+                "t": {
+                  "k": {
+                    "n": "id"
+                  }
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "v": {
+                    "n": "id"
+                  }
+                }
+              }
+            }
+          },
+          "use_subdir_struct": {
+            "p": {
+              "1": {
+                "n": "a",
+                "t": {
+                  "n": "subdir_include.A"
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "n": "subdir_include.A"
+                }
+              }
+            }
+          },
+          "whatDoYouSay": {
+            "p": {
+              "1": {
+                "n": "messageArgs",
+                "t": {
+                  "b": "string"
+                }
+              }
+            },
+            "r": {
+              "0": {
+                "t": {
+                  "b": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "FooTransitiveDeps": {
+        "m": {
+          "ping": {}
+        }
+      }
+    },
+    "c": {
+      "Events": {
+        "p": "foo.{user}",
+        "o": {
+          "EventCreated": {
+            "n": "Event"
+          },
+          "SomeInt": {
+            "b": "i64"
+          },
+          "SomeList": {
+            "v": {
+              "k": {
+                "n": "id"
+              },
+              "v": {
+                "n": "Event"
+              }
+            }
+          },
+          "SomeStr": {
+            "b": "string"
+          }
+        }
+      }
+    },
+    "t": {
+      "AwesomeException": {
+        "s": {
+          "1": {
+            "n": "ID",
+            "t": {
+              "n": "id"
+            }
+          },
+          "2": {
+            "n": "Reason",
+            "t": {
+              "b": "string"
+            }
+          },
+          "3": {
+            "n": "depr",
+            "t": {
+              "b": "bool"
+            }
+          }
+        }
+      },
+      "Event": {
+        "s": {
+          "1": {
+            "n": "ID",
+            "t": {
+              "n": "id"
+            }
+          },
+          "2": {
+            "n": "Message",
+            "t": {
+              "b": "string"
+            }
+          }
+        }
+      },
+      "EventWrapper": {
+        "s": {
+          "1": {
+            "n": "ID",
+            "t": {
+              "n": "id"
+            }
+          },
+          "10": {
+            "n": "typedefOfTypedef",
+            "t": {
+              "n": "t2_string"
+            }
+          },
+          "11": {
+            "n": "depr",
+            "t": {
+              "b": "bool"
+            }
+          },
+          "12": {
+            "n": "deprBinary",
+            "t": {
+              "b": "binary"
+            }
+          },
+          "13": {
+            "n": "deprList",
+            "t": {
+              "v": {
+                "b": "bool"
+              }
+            }
+          },
+          "14": {
+            "n": "EventsDefault",
+            "t": {
+              "v": {
+                "n": "Event"
+              }
+            }
+          },
+          "15": {
+            "n": "EventMapDefault",
+            "t": {
+              "k": {
+                "n": "id"
+              },
+              "v": {
+                "n": "Event"
+              }
+            }
+          },
+          "16": {
+            "n": "EventSetDefault",
+            "t": {
+              "k": {
+                "n": "Event"
+              }
+            }
+          },
+          "2": {
+            "n": "Ev",
+            "t": {
+              "n": "Event"
+            }
+          },
+          "3": {
+            "n": "Events",
+            "t": {
+              "v": {
+                "n": "Event"
+              }
+            }
+          },
+          "4": {
+            "n": "Events2",
+            "t": {
+              "k": {
+                "n": "Event"
+              }
+            }
+          },
+          "5": {
+            "n": "EventMap",
+            "t": {
+              "k": {
+                "n": "id"
+              },
+              "v": {
+                "n": "Event"
+              }
+            }
+          },
+          "6": {
+            "n": "Nums",
+            "t": {
+              "v": {
+                "v": {
+                  "n": "int"
+                }
+              }
+            }
+          },
+          "7": {
+            "n": "Enums",
+            "t": {
+              "v": {
+                "n": "ItsAnEnum"
+              }
+            }
+          },
+          "8": {
+            "n": "aBoolField",
+            "t": {
+              "b": "bool"
+            }
+          },
+          "9": {
+            "n": "a_union",
+            "t": {
+              "n": "TestingUnions"
+            }
+          }
+        }
+      },
+      "FooArgs": {
+        "s": {
+          "1": {
+            "n": "newMessage",
+            "t": {
+              "b": "string"
+            }
+          },
+          "2": {
+            "n": "messageArgs",
+            "t": {
+              "b": "string"
+            }
+          },
+          "3": {
+            "n": "messageResult",
+            "t": {
+              "b": "string"
+            }
+          }
+        }
+      },
+      "HealthCondition": {
+        "e": {
+          "1": [
+            "PASS"
+          ],
+          "2": [
+            "WARN"
+          ],
+          "3": [
+            "FAIL"
+          ],
+          "4": [
+            "UNKNOWN"
+          ]
+        }
+      },
+      "ItsAnEnum": {
+        "e": {
+          "2": [
+            "FIRST"
+          ],
+          "3": [
+            "SECOND"
+          ],
+          "4": [
+            "THIRD"
+          ],
+          "5": [
+            "fourth"
+          ],
+          "6": [
+            "Fifth"
+          ],
+          "7": [
+            "sIxItH"
+          ]
+        }
+      },
+      "TestBase": {
+        "s": {
+          "1": {
+            "n": "base_struct",
+            "t": {
+              "n": "base.thing"
+            }
+          }
+        }
+      },
+      "TestLowercase": {
+        "s": {
+          "1": {
+            "n": "lowercaseInt",
+            "t": {
+              "b": "i32"
+            }
+          }
+        }
+      },
+      "TestingDefaults": {
+        "s": {
+          "1": {
+            "n": "ID2",
+            "t": {
+              "n": "id"
+            }
+          },
+          "10": {
+            "n": "bin_field2",
+            "t": {
+              "b": "binary"
+            }
+          },
+          "11": {
+            "n": "bin_field3",
+            "t": {
+              "b": "binary"
+            }
+          },
+          "12": {
+            "n": "bin_field4",
+            "t": {
+              "b": "binary"
+            }
+          },
+          "13": {
+            "n": "list2",
+            "t": {
+              "v": {
+                "n": "int"
+              }
+            }
+          },
+          "14": {
+            "n": "list3",
+            "t": {
+              "v": {
+                "n": "int"
+              }
+            }
+          },
+          "15": {
+            "n": "list4",
+            "t": {
+              "v": {
+                "n": "int"
+              }
+            }
+          },
+          "16": {
+            "n": "a_map",
+            "t": {
+              "k": {
+                "b": "string"
+              },
+              "v": {
+                "b": "string"
+              }
+            }
+          },
+          "17": {
+            "n": "status",
+            "t": {
+              "n": "HealthCondition"
+            }
+          },
+          "18": {
+            "n": "base_status",
+            "t": {
+              "n": "base.base_health_condition"
+            }
+          },
+          "2": {
+            "n": "ev1",
+            "t": {
+              "n": "Event"
+            }
+          },
+          "3": {
+            "n": "ev2",
+            "t": {
+              "n": "Event"
+            }
+          },
+          "4": {
+            "n": "ID",
+            "t": {
+              "n": "id"
+            }
+          },
+          "5": {
+            "n": "thing",
+            "t": {
+              "b": "string"
+            }
+          },
+          "6": {
+            "n": "thing2",
+            "t": {
+              "b": "string"
+            }
+          },
+          "7": {
+            "n": "listfield",
+            "t": {
+              "v": {
+                "n": "int"
+              }
+            }
+          },
+          "8": {
+            "n": "ID3",
+            "t": {
+              "n": "id"
+            }
+          },
+          "9": {
+            "n": "bin_field",
+            "t": {
+              "b": "binary"
+            }
+          }
+        }
+      },
+      "TestingUnions": {
+        "s": {
+          "1": {
+            "n": "AnID",
+            "t": {
+              "n": "id"
+            }
+          },
+          "2": {
+            "n": "aString",
+            "t": {
+              "b": "string"
+            }
+          },
+          "3": {
+            "n": "someotherthing",
+            "t": {
+              "n": "int"
+            }
+          },
+          "4": {
+            "n": "AnInt16",
+            "t": {
+              "b": "i16"
+            }
+          },
+          "5": {
+            "n": "Requests",
+            "t": {
+              "n": "request"
+            }
+          },
+          "6": {
+            "n": "bin_field_in_union",
+            "t": {
+              "b": "binary"
+            }
+          },
+          "7": {
+            "n": "depr",
+            "t": {
+              "b": "bool"
+            }
+          }
+        }
+      },
+      "id": {
+        "b": "i64"
+      },
+      "int": {
+        "b": "i32"
+      },
+      "request": {
+        "k": {
+          "n": "int"
+        },
+        "v": {
+          "b": "string"
+        }
+      },
+      "t1_string": {
+        "b": "string"
+      },
+      "t2_string": {
+        "n": "t1_string"
+      }
+    }
+  }
+}
