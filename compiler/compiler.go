@@ -25,6 +25,7 @@ import (
 	"github.com/Workiva/frugal/compiler/generator/gopherjs"
 	"github.com/Workiva/frugal/compiler/generator/html"
 	"github.com/Workiva/frugal/compiler/generator/java"
+	"github.com/Workiva/frugal/compiler/generator/json"
 	"github.com/Workiva/frugal/compiler/generator/python"
 	"github.com/Workiva/frugal/compiler/globals"
 	"github.com/Workiva/frugal/compiler/parser"
@@ -167,6 +168,8 @@ func getProgramGenerator(lang string, options map[string]string) (generator.Prog
 		g = generator.NewProgramGenerator(gopherjs.NewGenerator(options), false)
 	case "java":
 		g = generator.NewProgramGenerator(java.NewGenerator(options), true)
+	case "json":
+		g = json.NewGenerator(options)
 	case "py":
 		g = generator.NewProgramGenerator(python.NewGenerator(options), true)
 	case "html":
