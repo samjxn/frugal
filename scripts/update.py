@@ -26,10 +26,9 @@ def main(args):
 def update_frugal_version(version, root):
     """Update the frugal version."""
     # TODO: Implement dry run
-    print "Updating frugal to version {} for {}".format(
-        version, ', '.join(LANGUAGES.iterkeys()))
+    print(f"Updating frugal to version {version} for {', '.join(LANGUAGES.keys())}")
     update_compiler(version, root)
-    for lang in LANGUAGES.itervalues():
+    for lang in LANGUAGES.values():
         lang.update_frugal(version, root)
     update_tests(version, root)
     update_examples(version, root)
@@ -72,9 +71,10 @@ def update_examples(version, root):
 
 
 def update_expected_tests(root):
-    for key, value in LANGUAGES.iteritems():
-        print "Updating expected tests for {}".format(key)
+    for key, value in LANGUAGES.items():
+        print(f"Updating expected tests for {key}")
         value.update_expected_tests(root)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
