@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -37,12 +38,6 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 
 	private static final org.apache.thrift.protocol.TField REFERENCE_VENDORED_CONST_FIELD_DESC = new org.apache.thrift.protocol.TField("reference_vendored_const", org.apache.thrift.protocol.TType.I32, (short)1);
 	private static final org.apache.thrift.protocol.TField REFERENCE_VENDORED_ENUM_FIELD_DESC = new org.apache.thrift.protocol.TField("reference_vendored_enum", org.apache.thrift.protocol.TType.I32, (short)2);
-
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new VendoredReferencesStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new VendoredReferencesTupleSchemeFactory());
-	}
 
 	public int reference_vendored_const; // optional
 	public some.vendored.pkg.MyEnum reference_vendored_enum; // optional
@@ -248,25 +243,10 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 	public boolean equals(VendoredReferences that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_reference_vendored_const = true && this.isSetReference_vendored_const();
-		boolean that_present_reference_vendored_const = true && that.isSetReference_vendored_const();
-		if (this_present_reference_vendored_const || that_present_reference_vendored_const) {
-			if (!(this_present_reference_vendored_const && that_present_reference_vendored_const))
-				return false;
-			if (this.reference_vendored_const != that.reference_vendored_const)
-				return false;
-		}
-
-		boolean this_present_reference_vendored_enum = true && this.isSetReference_vendored_enum();
-		boolean that_present_reference_vendored_enum = true && that.isSetReference_vendored_enum();
-		if (this_present_reference_vendored_enum || that_present_reference_vendored_enum) {
-			if (!(this_present_reference_vendored_enum && that_present_reference_vendored_enum))
-				return false;
-			if (!this.reference_vendored_enum.equals(that.reference_vendored_enum))
-				return false;
-		}
-
+		if (this.isSetReference_vendored_const() != that.isSetReference_vendored_const() || this.reference_vendored_const != that.reference_vendored_const)
+			return false;
+		if (!Objects.equals(this.reference_vendored_enum, that.reference_vendored_enum))
+			return false;
 		return true;
 	}
 
@@ -295,7 +275,7 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetReference_vendored_const()).compareTo(other.isSetReference_vendored_const());
+		lastComparison = Boolean.compare(isSetReference_vendored_const(), other.isSetReference_vendored_const());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -305,7 +285,7 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetReference_vendored_enum()).compareTo(other.isSetReference_vendored_enum());
+		lastComparison = Boolean.compare(isSetReference_vendored_enum(), other.isSetReference_vendored_enum());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -323,11 +303,17 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new VendoredReferencesStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new VendoredReferencesStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -343,11 +329,7 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 		if (isSetReference_vendored_enum()) {
 			if (!first) sb.append(", ");
 			sb.append("reference_vendored_enum:");
-			if (this.reference_vendored_enum == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.reference_vendored_enum);
-			}
+			sb.append(this.reference_vendored_enum);
 			first = false;
 		}
 		sb.append(")");
@@ -374,12 +356,6 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class VendoredReferencesStandardSchemeFactory implements SchemeFactory {
-		public VendoredReferencesStandardScheme getScheme() {
-			return new VendoredReferencesStandardScheme();
 		}
 	}
 
@@ -431,61 +407,14 @@ public class VendoredReferences implements org.apache.thrift.TBase<VendoredRefer
 				oprot.writeI32(elem0);
 				oprot.writeFieldEnd();
 			}
-			if (struct.reference_vendored_enum != null) {
-				if (struct.isSetReference_vendored_enum()) {
-					oprot.writeFieldBegin(REFERENCE_VENDORED_ENUM_FIELD_DESC);
-					some.vendored.pkg.MyEnum elem1 = struct.reference_vendored_enum;
-					oprot.writeI32(elem1.getValue());
-					oprot.writeFieldEnd();
-				}
+			if (struct.isSetReference_vendored_enum()) {
+				oprot.writeFieldBegin(REFERENCE_VENDORED_ENUM_FIELD_DESC);
+				some.vendored.pkg.MyEnum elem1 = struct.reference_vendored_enum;
+				oprot.writeI32(elem1.getValue());
+				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class VendoredReferencesTupleSchemeFactory implements SchemeFactory {
-		public VendoredReferencesTupleScheme getScheme() {
-			return new VendoredReferencesTupleScheme();
-		}
-	}
-
-	private static class VendoredReferencesTupleScheme extends TupleScheme<VendoredReferences> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, VendoredReferences struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetReference_vendored_const()) {
-				optionals.set(0);
-			}
-			if (struct.isSetReference_vendored_enum()) {
-				optionals.set(1);
-			}
-			oprot.writeBitSet(optionals, 2);
-			if (struct.isSetReference_vendored_const()) {
-				int elem2 = struct.reference_vendored_const;
-				oprot.writeI32(elem2);
-			}
-			if (struct.isSetReference_vendored_enum()) {
-				some.vendored.pkg.MyEnum elem3 = struct.reference_vendored_enum;
-				oprot.writeI32(elem3.getValue());
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, VendoredReferences struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(2);
-			if (incoming.get(0)) {
-				struct.reference_vendored_const = iprot.readI32();
-				struct.setReference_vendored_constIsSet(true);
-			}
-			if (incoming.get(1)) {
-				struct.reference_vendored_enum = some.vendored.pkg.MyEnum.findByValue(iprot.readI32());
-				struct.setReference_vendored_enumIsSet(true);
-			}
 		}
 
 	}

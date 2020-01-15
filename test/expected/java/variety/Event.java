@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -41,12 +42,6 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 
 	private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ID", org.apache.thrift.protocol.TType.I64, (short)1);
 	private static final org.apache.thrift.protocol.TField MESSAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("Message", org.apache.thrift.protocol.TType.STRING, (short)2);
-
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new EventStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new EventTupleSchemeFactory());
-	}
 
 	/**
 	 * ID is a unique identifier for an event.
@@ -283,25 +278,10 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 	public boolean equals(Event that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_ID = true;
-		boolean that_present_ID = true;
-		if (this_present_ID || that_present_ID) {
-			if (!(this_present_ID && that_present_ID))
-				return false;
-			if (this.ID != that.ID)
-				return false;
-		}
-
-		boolean this_present_Message = true && this.isSetMessage();
-		boolean that_present_Message = true && that.isSetMessage();
-		if (this_present_Message || that_present_Message) {
-			if (!(this_present_Message && that_present_Message))
-				return false;
-			if (!this.Message.equals(that.Message))
-				return false;
-		}
-
+		if (this.ID != that.ID)
+			return false;
+		if (!Objects.equals(this.Message, that.Message))
+			return false;
 		return true;
 	}
 
@@ -330,7 +310,7 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetID()).compareTo(other.isSetID());
+		lastComparison = Boolean.compare(isSetID(), other.isSetID());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -340,7 +320,7 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetMessage()).compareTo(other.isSetMessage());
+		lastComparison = Boolean.compare(isSetMessage(), other.isSetMessage());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -358,11 +338,17 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new EventStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new EventStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -375,11 +361,7 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Message:");
-		if (this.Message == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Message);
-		}
+		sb.append(this.Message);
 		first = false;
 		sb.append(")");
 		return sb.toString();
@@ -405,12 +387,6 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class EventStandardSchemeFactory implements SchemeFactory {
-		public EventStandardScheme getScheme() {
-			return new EventStandardScheme();
 		}
 	}
 
@@ -457,62 +433,17 @@ public class Event implements org.apache.thrift.TBase<Event, Event._Fields>, jav
 
 			oprot.writeStructBegin(STRUCT_DESC);
 			oprot.writeFieldBegin(ID_FIELD_DESC);
-			long elem3 = struct.ID;
-			oprot.writeI64(elem3);
+			long elem2 = struct.ID;
+			oprot.writeI64(elem2);
 			oprot.writeFieldEnd();
-			if (struct.Message != null) {
+			if (struct.isSetMessage()) {
 				oprot.writeFieldBegin(MESSAGE_FIELD_DESC);
-				String elem4 = struct.Message;
-				oprot.writeString(elem4);
+				String elem3 = struct.Message;
+				oprot.writeString(elem3);
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class EventTupleSchemeFactory implements SchemeFactory {
-		public EventTupleScheme getScheme() {
-			return new EventTupleScheme();
-		}
-	}
-
-	private static class EventTupleScheme extends TupleScheme<Event> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, Event struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetID()) {
-				optionals.set(0);
-			}
-			if (struct.isSetMessage()) {
-				optionals.set(1);
-			}
-			oprot.writeBitSet(optionals, 2);
-			if (struct.isSetID()) {
-				long elem5 = struct.ID;
-				oprot.writeI64(elem5);
-			}
-			if (struct.isSetMessage()) {
-				String elem6 = struct.Message;
-				oprot.writeString(elem6);
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, Event struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(2);
-			if (incoming.get(0)) {
-				struct.ID = iprot.readI64();
-				struct.setIDIsSet(true);
-			}
-			if (incoming.get(1)) {
-				struct.Message = iprot.readString();
-				struct.setMessageIsSet(true);
-			}
 		}
 
 	}

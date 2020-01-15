@@ -872,8 +872,6 @@ func (g *Generator) generateStruct(s *parser.Struct, isArg, isResult bool, inden
 
 	contents += g.generateDescriptors(s, nestedIndent)
 
-	contents += g.generateSchemeMap(s, nestedIndent)
-
 	contents += g.generateInstanceVars(s, nestedIndent)
 
 	contents += g.generateFieldsEnum(s, nestedIndent)
@@ -919,7 +917,6 @@ func (g *Generator) generateStruct(s *parser.Struct, isArg, isResult bool, inden
 	contents += g.generateReadObject(s, nestedIndent)
 
 	contents += g.generateStandardScheme(s, isResult, nestedIndent)
-	contents += g.generateTupleScheme(s, nestedIndent)
 
 	contents += indent + "}\n"
 	return contents
@@ -934,16 +931,6 @@ func (g *Generator) generateDescriptors(s *parser.Struct, indent string) string 
 			toConstantName(field.Name), field.Name, g.getTType(field.Type), field.ID)
 	}
 	contents += "\n"
-	return contents
-}
-
-func (g *Generator) generateSchemeMap(s *parser.Struct, indent string) string {
-	contents := ""
-	contents += indent + "private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();\n"
-	contents += indent + "static {\n"
-	contents += indent + tab + fmt.Sprintf("schemes.put(StandardScheme.class, new %sStandardSchemeFactory());\n", s.Name)
-	contents += indent + tab + fmt.Sprintf("schemes.put(TupleScheme.class, new %sTupleSchemeFactory());\n", s.Name)
-	contents += indent + "}\n\n"
 	return contents
 }
 
@@ -1477,35 +1464,24 @@ func (g *Generator) generateEquals(s *parser.Struct, indent string) string {
 
 	contents += indent + fmt.Sprintf("public boolean equals(%s that) {\n", s.Name)
 	contents += indent + tab + "if (that == null)\n"
-	contents += indent + tabtab + "return false;\n\n"
+	contents += indent + tabtab + "return false;\n"
 
 	for _, field := range s.Fields {
 		optional := field.Modifier == parser.Optional
 		primitive := g.isJavaPrimitive(field.Type)
 
-		// TODO 2.0 this looks so ugly
-		thisPresentArg := "true"
-		thatPresentArg := "true"
-		if optional || !primitive {
-			thisPresentArg += fmt.Sprintf(" && this.isSet%s()", strings.Title(field.Name))
-			thatPresentArg += fmt.Sprintf(" && that.isSet%s()", strings.Title(field.Name))
-		}
-
-		contents += indent + tab + fmt.Sprintf("boolean this_present_%s = %s;\n", field.Name, thisPresentArg)
-		contents += indent + tab + fmt.Sprintf("boolean that_present_%s = %s;\n", field.Name, thatPresentArg)
-		contents += indent + tab + fmt.Sprintf("if (this_present_%s || that_present_%s) {\n", field.Name, field.Name)
-		contents += indent + tabtab + fmt.Sprintf("if (!(this_present_%s && that_present_%s))\n", field.Name, field.Name)
-		contents += indent + tabtabtab + "return false;\n"
-
 		unequalTest := ""
 		if primitive {
-			unequalTest = fmt.Sprintf("this.%s != that.%s", field.Name, field.Name)
+			if optional {
+				title := strings.Title(field.Name)
+				unequalTest = fmt.Sprintf("this.isSet%s() != that.isSet%s() || ", title, title)
+			}
+			unequalTest += fmt.Sprintf("this.%s != that.%s", field.Name, field.Name)
 		} else {
-			unequalTest = fmt.Sprintf("!this.%s.equals(that.%s)", field.Name, field.Name)
+			unequalTest = fmt.Sprintf("!Objects.equals(this.%s, that.%s)", field.Name, field.Name)
 		}
-		contents += indent + tabtab + fmt.Sprintf("if (%s)\n", unequalTest)
-		contents += indent + tabtabtab + "return false;\n"
-		contents += indent + tab + "}\n\n"
+		contents += indent + tab + fmt.Sprintf("if (%s)\n", unequalTest)
+		contents += indent + tabtab + "return false;\n"
 	}
 
 	contents += indent + tab + "return true;\n"
@@ -1551,7 +1527,7 @@ func (g *Generator) generateCompareTo(s *parser.Struct, indent string) string {
 	contents += indent + tab + "int lastComparison = 0;\n\n"
 	for _, field := range s.Fields {
 		fieldTitle := strings.Title(field.Name)
-		contents += indent + tab + fmt.Sprintf("lastComparison = Boolean.valueOf(isSet%s()).compareTo(other.isSet%s());\n", fieldTitle, fieldTitle)
+		contents += indent + tab + fmt.Sprintf("lastComparison = Boolean.compare(isSet%s(), other.isSet%s());\n", fieldTitle, fieldTitle)
 		contents += indent + tab + "if (lastComparison != 0) {\n"
 		contents += indent + tabtab + "return lastComparison;\n"
 		contents += indent + tab + "}\n"
@@ -1578,11 +1554,17 @@ func (g *Generator) generateFieldForId(s *parser.Struct, indent string) string {
 func (g *Generator) generateReadWrite(s *parser.Struct, indent string) string {
 	contents := ""
 	contents += indent + "public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {\n"
-	contents += indent + tab + "schemes.get(iprot.getScheme()).getScheme().read(iprot, this);\n"
+	contents += indent + tab + "if (iprot.getScheme() != StandardScheme.class) {\n"
+	contents += indent + tab + tab + "throw new UnsupportedOperationException();\n"
+	contents += indent + tab + "}\n"
+	contents += indent + tab + fmt.Sprintf("new %sStandardScheme().read(iprot, this);\n", s.Name)
 	contents += indent + "}\n\n"
 
 	contents += indent + "public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {\n"
-	contents += indent + tab + "schemes.get(oprot.getScheme()).getScheme().write(oprot, this);\n"
+	contents += indent + tab + "if (oprot.getScheme() != StandardScheme.class) {\n"
+	contents += indent + tab + tab + "throw new UnsupportedOperationException();\n"
+	contents += indent + tab + "}\n"
+	contents += indent + tab + fmt.Sprintf("new %sStandardScheme().write(oprot, this);\n", s.Name)
 	contents += indent + "}\n\n"
 	return contents
 }
@@ -1606,15 +1588,11 @@ func (g *Generator) generateToString(s *parser.Struct, indent string) string {
 			contents += indent + tab + ind + "if (!first) sb.append(\", \");\n"
 		}
 		contents += indent + tab + ind + fmt.Sprintf("sb.append(\"%s:\");\n", field.Name)
-		if !g.isJavaPrimitive(field.Type) {
+		if g.Frugal.UnderlyingType(field.Type).Name == "binary" {
 			contents += indent + tab + ind + fmt.Sprintf("if (this.%s == null) {\n", field.Name)
 			contents += indent + tabtab + ind + "sb.append(\"null\");\n"
 			contents += indent + tab + ind + "} else {\n"
-			if g.Frugal.UnderlyingType(field.Type).Name == "binary" {
-				contents += indent + tabtab + ind + fmt.Sprintf("org.apache.thrift.TBaseHelper.toString(this.%s, sb);\n", field.Name)
-			} else {
-				contents += indent + tabtab + ind + fmt.Sprintf("sb.append(this.%s);\n", field.Name)
-			}
+			contents += indent + tabtab + ind + fmt.Sprintf("org.apache.thrift.TBaseHelper.toString(this.%s, sb);\n", field.Name)
 			contents += indent + tab + ind + "}\n"
 		} else {
 			contents += indent + tab + ind + fmt.Sprintf("sb.append(this.%s);\n", field.Name)
@@ -1698,12 +1676,6 @@ func (g *Generator) generateReadObject(s *parser.Struct, indent string) string {
 
 func (g *Generator) generateStandardScheme(s *parser.Struct, isResult bool, indent string) string {
 	contents := ""
-	contents += indent + fmt.Sprintf("private static class %sStandardSchemeFactory implements SchemeFactory {\n", s.Name)
-	contents += indent + tab + fmt.Sprintf("public %sStandardScheme getScheme() {\n", s.Name)
-	contents += indent + tabtab + fmt.Sprintf("return new %sStandardScheme();\n", s.Name)
-	contents += indent + tab + "}\n"
-	contents += indent + "}\n\n"
-
 	contents += indent + fmt.Sprintf("private static class %sStandardScheme extends StandardScheme<%s> {\n\n", s.Name, s.Name)
 
 	// read
@@ -1752,13 +1724,7 @@ func (g *Generator) generateStandardScheme(s *parser.Struct, isResult bool, inde
 	for _, field := range s.Fields {
 		isKindOfPrimitive := g.canBeJavaPrimitive(field.Type)
 		ind := tabtab
-		optInd := tabtab
-		if !isKindOfPrimitive {
-			contents += indent + ind + fmt.Sprintf("if (struct.%s != null) {\n", field.Name)
-			ind += tab
-			optInd += tab
-		}
-		opt := field.Modifier == parser.Optional || (isResult && isKindOfPrimitive)
+		opt := !isKindOfPrimitive || field.Modifier == parser.Optional || (isResult && isKindOfPrimitive)
 		if opt {
 			contents += indent + ind + fmt.Sprintf("if (struct.isSet%s()) {\n", strings.Title(field.Name))
 			ind += tab
@@ -1769,102 +1735,12 @@ func (g *Generator) generateStandardScheme(s *parser.Struct, isResult bool, inde
 		contents += indent + ind + "oprot.writeFieldEnd();\n"
 
 		if opt {
-			contents += indent + optInd + "}\n"
-		}
-		if !isKindOfPrimitive {
 			contents += indent + tabtab + "}\n"
 		}
 	}
 	contents += indent + tabtab + "oprot.writeFieldStop();\n"
 	contents += indent + tabtab + "oprot.writeStructEnd();\n"
 
-	contents += indent + tab + "}\n\n"
-
-	contents += indent + "}\n\n"
-	return contents
-}
-
-func (g *Generator) generateTupleScheme(s *parser.Struct, indent string) string {
-	contents := ""
-	contents += indent + fmt.Sprintf("private static class %sTupleSchemeFactory implements SchemeFactory {\n", s.Name)
-	contents += indent + tab + fmt.Sprintf("public %sTupleScheme getScheme() {\n", s.Name)
-	contents += indent + tabtab + fmt.Sprintf("return new %sTupleScheme();\n", s.Name)
-	contents += indent + tab + "}\n"
-	contents += indent + "}\n\n"
-
-	contents += indent + fmt.Sprintf("private static class %sTupleScheme extends TupleScheme<%s> {\n\n", s.Name, s.Name)
-	contents += indent + tab + "@Override\n"
-	contents += indent + tab + fmt.Sprintf("public void write(org.apache.thrift.protocol.TProtocol prot, %s struct) throws org.apache.thrift.TException {\n", s.Name)
-	contents += indent + tabtab + "TTupleProtocol oprot = (TTupleProtocol) prot;\n"
-	// write required fields
-	numNonReqs := 0
-	for _, field := range s.Fields {
-		if field.Modifier != parser.Required {
-			numNonReqs++
-			continue
-		}
-
-		contents += g.generateWriteFieldRec(field, true, true, indent+tabtab)
-	}
-
-	if numNonReqs > 0 {
-		// write optional/default fields
-		nonReqFieldCount := 0
-		contents += indent + tabtab + "BitSet optionals = new BitSet();\n"
-		for _, field := range s.Fields {
-			if field.Modifier == parser.Required {
-				continue
-			}
-
-			contents += indent + tabtab + fmt.Sprintf("if (struct.isSet%s()) {\n", strings.Title(field.Name))
-			contents += indent + tabtabtab + fmt.Sprintf("optionals.set(%d);\n", nonReqFieldCount)
-			contents += indent + tabtab + "}\n"
-			nonReqFieldCount++
-		}
-
-		contents += indent + tabtab + fmt.Sprintf("oprot.writeBitSet(optionals, %d);\n", numNonReqs)
-		for _, field := range s.Fields {
-			if field.Modifier == parser.Required {
-				continue
-			}
-
-			contents += indent + tabtab + fmt.Sprintf("if (struct.isSet%s()) {\n", strings.Title(field.Name))
-			contents += g.generateWriteFieldRec(field, true, true, indent+tabtabtab)
-			contents += indent + tabtab + "}\n"
-		}
-	}
-
-	contents += indent + tab + "}\n\n"
-
-	contents += indent + tab + "@Override\n"
-	contents += indent + tab + fmt.Sprintf("public void read(org.apache.thrift.protocol.TProtocol prot, %s struct) throws org.apache.thrift.TException {\n", s.Name)
-	contents += indent + tabtab + "TTupleProtocol iprot = (TTupleProtocol) prot;\n"
-	// read required fields
-	for _, field := range s.Fields {
-		if field.Modifier != parser.Required {
-			continue
-		}
-
-		contents += g.generateReadFieldRec(field, true, true, false, indent+tabtab)
-		contents += indent + tabtab + fmt.Sprintf("struct.set%sIsSet(true);\n", strings.Title(field.Name))
-	}
-
-	if numNonReqs > 0 {
-		// read default/optional fields
-		nonReqFieldCount := 0
-		contents += indent + tabtab + fmt.Sprintf("BitSet incoming = iprot.readBitSet(%d);\n", numNonReqs)
-		for _, field := range s.Fields {
-			if field.Modifier == parser.Required {
-				continue
-			}
-
-			contents += indent + tabtab + fmt.Sprintf("if (incoming.get(%d)) {\n", nonReqFieldCount)
-			contents += g.generateReadFieldRec(field, true, true, false, indent+tabtabtab)
-			contents += indent + tabtabtab + fmt.Sprintf("struct.set%sIsSet(true);\n", strings.Title(field.Name))
-			contents += indent + tabtab + "}\n"
-			nonReqFieldCount++
-		}
-	}
 	contents += indent + tab + "}\n\n"
 
 	contents += indent + "}\n\n"
@@ -2275,6 +2151,7 @@ func (g *Generator) generateStructImports() string {
 	imports += "import java.util.EnumSet;\n"
 	imports += "import java.util.Collections;\n"
 	imports += "import java.util.BitSet;\n"
+	imports += "import java.util.Objects;\n"
 	imports += "import java.nio.ByteBuffer;\n"
 	imports += "import java.util.Arrays;\n"
 	if g.includeGeneratedAnnotation() {

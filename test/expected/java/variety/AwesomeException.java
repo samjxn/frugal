@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -38,12 +39,6 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 	private static final org.apache.thrift.protocol.TField ID_FIELD_DESC = new org.apache.thrift.protocol.TField("ID", org.apache.thrift.protocol.TType.I64, (short)1);
 	private static final org.apache.thrift.protocol.TField REASON_FIELD_DESC = new org.apache.thrift.protocol.TField("Reason", org.apache.thrift.protocol.TType.STRING, (short)2);
 	private static final org.apache.thrift.protocol.TField DEPR_FIELD_DESC = new org.apache.thrift.protocol.TField("depr", org.apache.thrift.protocol.TType.BOOL, (short)3);
-
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new AwesomeExceptionStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new AwesomeExceptionTupleSchemeFactory());
-	}
 
 	/**
 	 * ID is a unique identifier for an awesome exception.
@@ -336,34 +331,12 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 	public boolean equals(AwesomeException that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_ID = true;
-		boolean that_present_ID = true;
-		if (this_present_ID || that_present_ID) {
-			if (!(this_present_ID && that_present_ID))
-				return false;
-			if (this.ID != that.ID)
-				return false;
-		}
-
-		boolean this_present_Reason = true && this.isSetReason();
-		boolean that_present_Reason = true && that.isSetReason();
-		if (this_present_Reason || that_present_Reason) {
-			if (!(this_present_Reason && that_present_Reason))
-				return false;
-			if (!this.Reason.equals(that.Reason))
-				return false;
-		}
-
-		boolean this_present_depr = true;
-		boolean that_present_depr = true;
-		if (this_present_depr || that_present_depr) {
-			if (!(this_present_depr && that_present_depr))
-				return false;
-			if (this.depr != that.depr)
-				return false;
-		}
-
+		if (this.ID != that.ID)
+			return false;
+		if (!Objects.equals(this.Reason, that.Reason))
+			return false;
+		if (this.depr != that.depr)
+			return false;
 		return true;
 	}
 
@@ -397,7 +370,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetID()).compareTo(other.isSetID());
+		lastComparison = Boolean.compare(isSetID(), other.isSetID());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -407,7 +380,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetReason()).compareTo(other.isSetReason());
+		lastComparison = Boolean.compare(isSetReason(), other.isSetReason());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -417,7 +390,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetDepr()).compareTo(other.isSetDepr());
+		lastComparison = Boolean.compare(isSetDepr(), other.isSetDepr());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -435,11 +408,17 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new AwesomeExceptionStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new AwesomeExceptionStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -452,11 +431,7 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("Reason:");
-		if (this.Reason == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.Reason);
-		}
+		sb.append(this.Reason);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("depr:");
@@ -486,12 +461,6 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class AwesomeExceptionStandardSchemeFactory implements SchemeFactory {
-		public AwesomeExceptionStandardScheme getScheme() {
-			return new AwesomeExceptionStandardScheme();
 		}
 	}
 
@@ -546,77 +515,21 @@ public class AwesomeException extends TException implements org.apache.thrift.TB
 
 			oprot.writeStructBegin(STRUCT_DESC);
 			oprot.writeFieldBegin(ID_FIELD_DESC);
-			long elem251 = struct.ID;
-			oprot.writeI64(elem251);
+			long elem155 = struct.ID;
+			oprot.writeI64(elem155);
 			oprot.writeFieldEnd();
-			if (struct.Reason != null) {
+			if (struct.isSetReason()) {
 				oprot.writeFieldBegin(REASON_FIELD_DESC);
-				String elem252 = struct.Reason;
-				oprot.writeString(elem252);
+				String elem156 = struct.Reason;
+				oprot.writeString(elem156);
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldBegin(DEPR_FIELD_DESC);
-			boolean elem253 = struct.depr;
-			oprot.writeBool(elem253);
+			boolean elem157 = struct.depr;
+			oprot.writeBool(elem157);
 			oprot.writeFieldEnd();
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class AwesomeExceptionTupleSchemeFactory implements SchemeFactory {
-		public AwesomeExceptionTupleScheme getScheme() {
-			return new AwesomeExceptionTupleScheme();
-		}
-	}
-
-	private static class AwesomeExceptionTupleScheme extends TupleScheme<AwesomeException> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, AwesomeException struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			BitSet optionals = new BitSet();
-			if (struct.isSetID()) {
-				optionals.set(0);
-			}
-			if (struct.isSetReason()) {
-				optionals.set(1);
-			}
-			if (struct.isSetDepr()) {
-				optionals.set(2);
-			}
-			oprot.writeBitSet(optionals, 3);
-			if (struct.isSetID()) {
-				long elem254 = struct.ID;
-				oprot.writeI64(elem254);
-			}
-			if (struct.isSetReason()) {
-				String elem255 = struct.Reason;
-				oprot.writeString(elem255);
-			}
-			if (struct.isSetDepr()) {
-				boolean elem256 = struct.depr;
-				oprot.writeBool(elem256);
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, AwesomeException struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			BitSet incoming = iprot.readBitSet(3);
-			if (incoming.get(0)) {
-				struct.ID = iprot.readI64();
-				struct.setIDIsSet(true);
-			}
-			if (incoming.get(1)) {
-				struct.Reason = iprot.readString();
-				struct.setReasonIsSet(true);
-			}
-			if (incoming.get(2)) {
-				struct.depr = iprot.readBool();
-				struct.setDeprIsSet(true);
-			}
 		}
 
 	}

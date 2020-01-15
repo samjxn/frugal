@@ -163,8 +163,8 @@ public class EventsPublisher {
 				FProtocol oprot = protocolFactory.getProtocol(memoryBuffer);
 				oprot.writeRequestHeader(ctx);
 				oprot.writeMessageBegin(new TMessage(op, TMessageType.CALL, 0));
-				long elem345 = req;
-				oprot.writeI64(elem345);
+				long elem206 = req;
+				oprot.writeI64(elem206);
 				oprot.writeMessageEnd();
 				transport.publish(topic, memoryBuffer.getWriteBytes());
 			}
@@ -179,8 +179,8 @@ public class EventsPublisher {
 				FProtocol oprot = protocolFactory.getProtocol(memoryBuffer);
 				oprot.writeRequestHeader(ctx);
 				oprot.writeMessageBegin(new TMessage(op, TMessageType.CALL, 0));
-				String elem346 = req;
-				oprot.writeString(elem346);
+				String elem207 = req;
+				oprot.writeString(elem207);
 				oprot.writeMessageEnd();
 				transport.publish(topic, memoryBuffer.getWriteBytes());
 			}
@@ -196,12 +196,12 @@ public class EventsPublisher {
 				oprot.writeRequestHeader(ctx);
 				oprot.writeMessageBegin(new TMessage(op, TMessageType.CALL, 0));
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.MAP, req.size()));
-				for (java.util.Map<Long, Event> elem347 : req) {
-					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I64, org.apache.thrift.protocol.TType.STRUCT, elem347.size()));
-					for (Map.Entry<Long, Event> elem348 : elem347.entrySet()) {
-						long elem349 = elem348.getKey();
-						oprot.writeI64(elem349);
-						elem348.getValue().write(oprot);
+				for (java.util.Map<Long, Event> elem208 : req) {
+					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.I64, org.apache.thrift.protocol.TType.STRUCT, elem208.size()));
+					for (Map.Entry<Long, Event> elem209 : elem208.entrySet()) {
+						long elem210 = elem209.getKey();
+						oprot.writeI64(elem210);
+						elem209.getValue().write(oprot);
 					}
 					oprot.writeMapEnd();
 				}

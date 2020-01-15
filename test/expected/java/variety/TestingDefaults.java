@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.EnumSet;
 import java.util.Collections;
 import java.util.BitSet;
+import java.util.Objects;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import org.slf4j.Logger;
@@ -53,12 +54,6 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 	private static final org.apache.thrift.protocol.TField A_MAP_FIELD_DESC = new org.apache.thrift.protocol.TField("a_map", org.apache.thrift.protocol.TType.MAP, (short)16);
 	private static final org.apache.thrift.protocol.TField STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("status", org.apache.thrift.protocol.TType.I32, (short)17);
 	private static final org.apache.thrift.protocol.TField BASE_STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("base_status", org.apache.thrift.protocol.TType.I32, (short)18);
-
-	private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-	static {
-		schemes.put(StandardScheme.class, new TestingDefaultsStandardSchemeFactory());
-		schemes.put(TupleScheme.class, new TestingDefaultsTupleSchemeFactory());
-	}
 
 	public long ID2; // optional
 	public Event ev1;
@@ -299,9 +294,9 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		}
 		if (other.isSetListfield()) {
 			this.listfield = new ArrayList<Integer>(other.listfield.size());
-			for (int elem7 : other.listfield) {
-				int elem8 = elem7;
-				this.listfield.add(elem8);
+			for (int elem4 : other.listfield) {
+				int elem5 = elem4;
+				this.listfield.add(elem5);
 			}
 		}
 		this.ID3 = other.ID3;
@@ -319,23 +314,23 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		}
 		if (other.isSetList2()) {
 			this.list2 = new ArrayList<Integer>(other.list2.size());
-			for (int elem9 : other.list2) {
-				int elem10 = elem9;
-				this.list2.add(elem10);
+			for (int elem6 : other.list2) {
+				int elem7 = elem6;
+				this.list2.add(elem7);
 			}
 		}
 		if (other.isSetList3()) {
 			this.list3 = new ArrayList<Integer>(other.list3.size());
-			for (int elem11 : other.list3) {
-				int elem12 = elem11;
-				this.list3.add(elem12);
+			for (int elem8 : other.list3) {
+				int elem9 = elem8;
+				this.list3.add(elem9);
 			}
 		}
 		if (other.isSetList4()) {
 			this.list4 = new ArrayList<Integer>(other.list4.size());
-			for (int elem13 : other.list4) {
-				int elem14 = elem13;
-				this.list4.add(elem14);
+			for (int elem10 : other.list4) {
+				int elem11 = elem10;
+				this.list4.add(elem11);
 			}
 		}
 		if (other.isSetA_map()) {
@@ -1227,169 +1222,42 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 	public boolean equals(TestingDefaults that) {
 		if (that == null)
 			return false;
-
-		boolean this_present_ID2 = true && this.isSetID2();
-		boolean that_present_ID2 = true && that.isSetID2();
-		if (this_present_ID2 || that_present_ID2) {
-			if (!(this_present_ID2 && that_present_ID2))
-				return false;
-			if (this.ID2 != that.ID2)
-				return false;
-		}
-
-		boolean this_present_ev1 = true && this.isSetEv1();
-		boolean that_present_ev1 = true && that.isSetEv1();
-		if (this_present_ev1 || that_present_ev1) {
-			if (!(this_present_ev1 && that_present_ev1))
-				return false;
-			if (!this.ev1.equals(that.ev1))
-				return false;
-		}
-
-		boolean this_present_ev2 = true && this.isSetEv2();
-		boolean that_present_ev2 = true && that.isSetEv2();
-		if (this_present_ev2 || that_present_ev2) {
-			if (!(this_present_ev2 && that_present_ev2))
-				return false;
-			if (!this.ev2.equals(that.ev2))
-				return false;
-		}
-
-		boolean this_present_ID = true;
-		boolean that_present_ID = true;
-		if (this_present_ID || that_present_ID) {
-			if (!(this_present_ID && that_present_ID))
-				return false;
-			if (this.ID != that.ID)
-				return false;
-		}
-
-		boolean this_present_thing = true && this.isSetThing();
-		boolean that_present_thing = true && that.isSetThing();
-		if (this_present_thing || that_present_thing) {
-			if (!(this_present_thing && that_present_thing))
-				return false;
-			if (!this.thing.equals(that.thing))
-				return false;
-		}
-
-		boolean this_present_thing2 = true && this.isSetThing2();
-		boolean that_present_thing2 = true && that.isSetThing2();
-		if (this_present_thing2 || that_present_thing2) {
-			if (!(this_present_thing2 && that_present_thing2))
-				return false;
-			if (!this.thing2.equals(that.thing2))
-				return false;
-		}
-
-		boolean this_present_listfield = true && this.isSetListfield();
-		boolean that_present_listfield = true && that.isSetListfield();
-		if (this_present_listfield || that_present_listfield) {
-			if (!(this_present_listfield && that_present_listfield))
-				return false;
-			if (!this.listfield.equals(that.listfield))
-				return false;
-		}
-
-		boolean this_present_ID3 = true;
-		boolean that_present_ID3 = true;
-		if (this_present_ID3 || that_present_ID3) {
-			if (!(this_present_ID3 && that_present_ID3))
-				return false;
-			if (this.ID3 != that.ID3)
-				return false;
-		}
-
-		boolean this_present_bin_field = true && this.isSetBin_field();
-		boolean that_present_bin_field = true && that.isSetBin_field();
-		if (this_present_bin_field || that_present_bin_field) {
-			if (!(this_present_bin_field && that_present_bin_field))
-				return false;
-			if (!this.bin_field.equals(that.bin_field))
-				return false;
-		}
-
-		boolean this_present_bin_field2 = true && this.isSetBin_field2();
-		boolean that_present_bin_field2 = true && that.isSetBin_field2();
-		if (this_present_bin_field2 || that_present_bin_field2) {
-			if (!(this_present_bin_field2 && that_present_bin_field2))
-				return false;
-			if (!this.bin_field2.equals(that.bin_field2))
-				return false;
-		}
-
-		boolean this_present_bin_field3 = true && this.isSetBin_field3();
-		boolean that_present_bin_field3 = true && that.isSetBin_field3();
-		if (this_present_bin_field3 || that_present_bin_field3) {
-			if (!(this_present_bin_field3 && that_present_bin_field3))
-				return false;
-			if (!this.bin_field3.equals(that.bin_field3))
-				return false;
-		}
-
-		boolean this_present_bin_field4 = true && this.isSetBin_field4();
-		boolean that_present_bin_field4 = true && that.isSetBin_field4();
-		if (this_present_bin_field4 || that_present_bin_field4) {
-			if (!(this_present_bin_field4 && that_present_bin_field4))
-				return false;
-			if (!this.bin_field4.equals(that.bin_field4))
-				return false;
-		}
-
-		boolean this_present_list2 = true && this.isSetList2();
-		boolean that_present_list2 = true && that.isSetList2();
-		if (this_present_list2 || that_present_list2) {
-			if (!(this_present_list2 && that_present_list2))
-				return false;
-			if (!this.list2.equals(that.list2))
-				return false;
-		}
-
-		boolean this_present_list3 = true && this.isSetList3();
-		boolean that_present_list3 = true && that.isSetList3();
-		if (this_present_list3 || that_present_list3) {
-			if (!(this_present_list3 && that_present_list3))
-				return false;
-			if (!this.list3.equals(that.list3))
-				return false;
-		}
-
-		boolean this_present_list4 = true && this.isSetList4();
-		boolean that_present_list4 = true && that.isSetList4();
-		if (this_present_list4 || that_present_list4) {
-			if (!(this_present_list4 && that_present_list4))
-				return false;
-			if (!this.list4.equals(that.list4))
-				return false;
-		}
-
-		boolean this_present_a_map = true && this.isSetA_map();
-		boolean that_present_a_map = true && that.isSetA_map();
-		if (this_present_a_map || that_present_a_map) {
-			if (!(this_present_a_map && that_present_a_map))
-				return false;
-			if (!this.a_map.equals(that.a_map))
-				return false;
-		}
-
-		boolean this_present_status = true && this.isSetStatus();
-		boolean that_present_status = true && that.isSetStatus();
-		if (this_present_status || that_present_status) {
-			if (!(this_present_status && that_present_status))
-				return false;
-			if (!this.status.equals(that.status))
-				return false;
-		}
-
-		boolean this_present_base_status = true && this.isSetBase_status();
-		boolean that_present_base_status = true && that.isSetBase_status();
-		if (this_present_base_status || that_present_base_status) {
-			if (!(this_present_base_status && that_present_base_status))
-				return false;
-			if (!this.base_status.equals(that.base_status))
-				return false;
-		}
-
+		if (this.isSetID2() != that.isSetID2() || this.ID2 != that.ID2)
+			return false;
+		if (!Objects.equals(this.ev1, that.ev1))
+			return false;
+		if (!Objects.equals(this.ev2, that.ev2))
+			return false;
+		if (this.ID != that.ID)
+			return false;
+		if (!Objects.equals(this.thing, that.thing))
+			return false;
+		if (!Objects.equals(this.thing2, that.thing2))
+			return false;
+		if (!Objects.equals(this.listfield, that.listfield))
+			return false;
+		if (this.ID3 != that.ID3)
+			return false;
+		if (!Objects.equals(this.bin_field, that.bin_field))
+			return false;
+		if (!Objects.equals(this.bin_field2, that.bin_field2))
+			return false;
+		if (!Objects.equals(this.bin_field3, that.bin_field3))
+			return false;
+		if (!Objects.equals(this.bin_field4, that.bin_field4))
+			return false;
+		if (!Objects.equals(this.list2, that.list2))
+			return false;
+		if (!Objects.equals(this.list3, that.list3))
+			return false;
+		if (!Objects.equals(this.list4, that.list4))
+			return false;
+		if (!Objects.equals(this.a_map, that.a_map))
+			return false;
+		if (!Objects.equals(this.status, that.status))
+			return false;
+		if (!Objects.equals(this.base_status, that.base_status))
+			return false;
 		return true;
 	}
 
@@ -1498,7 +1366,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 
 		int lastComparison = 0;
 
-		lastComparison = Boolean.valueOf(isSetID2()).compareTo(other.isSetID2());
+		lastComparison = Boolean.compare(isSetID2(), other.isSetID2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1508,7 +1376,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEv1()).compareTo(other.isSetEv1());
+		lastComparison = Boolean.compare(isSetEv1(), other.isSetEv1());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1518,7 +1386,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetEv2()).compareTo(other.isSetEv2());
+		lastComparison = Boolean.compare(isSetEv2(), other.isSetEv2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1528,7 +1396,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetID()).compareTo(other.isSetID());
+		lastComparison = Boolean.compare(isSetID(), other.isSetID());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1538,7 +1406,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetThing()).compareTo(other.isSetThing());
+		lastComparison = Boolean.compare(isSetThing(), other.isSetThing());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1548,7 +1416,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetThing2()).compareTo(other.isSetThing2());
+		lastComparison = Boolean.compare(isSetThing2(), other.isSetThing2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1558,7 +1426,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetListfield()).compareTo(other.isSetListfield());
+		lastComparison = Boolean.compare(isSetListfield(), other.isSetListfield());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1568,7 +1436,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetID3()).compareTo(other.isSetID3());
+		lastComparison = Boolean.compare(isSetID3(), other.isSetID3());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1578,7 +1446,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field()).compareTo(other.isSetBin_field());
+		lastComparison = Boolean.compare(isSetBin_field(), other.isSetBin_field());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1588,7 +1456,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field2()).compareTo(other.isSetBin_field2());
+		lastComparison = Boolean.compare(isSetBin_field2(), other.isSetBin_field2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1598,7 +1466,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field3()).compareTo(other.isSetBin_field3());
+		lastComparison = Boolean.compare(isSetBin_field3(), other.isSetBin_field3());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1608,7 +1476,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBin_field4()).compareTo(other.isSetBin_field4());
+		lastComparison = Boolean.compare(isSetBin_field4(), other.isSetBin_field4());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1618,7 +1486,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetList2()).compareTo(other.isSetList2());
+		lastComparison = Boolean.compare(isSetList2(), other.isSetList2());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1628,7 +1496,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetList3()).compareTo(other.isSetList3());
+		lastComparison = Boolean.compare(isSetList3(), other.isSetList3());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1638,7 +1506,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetList4()).compareTo(other.isSetList4());
+		lastComparison = Boolean.compare(isSetList4(), other.isSetList4());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1648,7 +1516,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetA_map()).compareTo(other.isSetA_map());
+		lastComparison = Boolean.compare(isSetA_map(), other.isSetA_map());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1658,7 +1526,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetStatus()).compareTo(other.isSetStatus());
+		lastComparison = Boolean.compare(isSetStatus(), other.isSetStatus());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1668,7 +1536,7 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 				return lastComparison;
 			}
 		}
-		lastComparison = Boolean.valueOf(isSetBase_status()).compareTo(other.isSetBase_status());
+		lastComparison = Boolean.compare(isSetBase_status(), other.isSetBase_status());
 		if (lastComparison != 0) {
 			return lastComparison;
 		}
@@ -1686,11 +1554,17 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 	}
 
 	public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-		schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
+		if (iprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestingDefaultsStandardScheme().read(iprot, this);
 	}
 
 	public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-		schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
+		if (oprot.getScheme() != StandardScheme.class) {
+			throw new UnsupportedOperationException();
+		}
+		new TestingDefaultsStandardScheme().write(oprot, this);
 	}
 
 	@Override
@@ -1705,19 +1579,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		}
 		if (!first) sb.append(", ");
 		sb.append("ev1:");
-		if (this.ev1 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.ev1);
-		}
+		sb.append(this.ev1);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("ev2:");
-		if (this.ev2 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.ev2);
-		}
+		sb.append(this.ev2);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("ID:");
@@ -1725,29 +1591,17 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("thing:");
-		if (this.thing == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.thing);
-		}
+		sb.append(this.thing);
 		first = false;
 		if (isSetThing2()) {
 			if (!first) sb.append(", ");
 			sb.append("thing2:");
-			if (this.thing2 == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.thing2);
-			}
+			sb.append(this.thing2);
 			first = false;
 		}
 		if (!first) sb.append(", ");
 		sb.append("listfield:");
-		if (this.listfield == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.listfield);
-		}
+		sb.append(this.listfield);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("ID3:");
@@ -1792,56 +1646,32 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 		if (isSetList2()) {
 			if (!first) sb.append(", ");
 			sb.append("list2:");
-			if (this.list2 == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.list2);
-			}
+			sb.append(this.list2);
 			first = false;
 		}
 		if (isSetList3()) {
 			if (!first) sb.append(", ");
 			sb.append("list3:");
-			if (this.list3 == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.list3);
-			}
+			sb.append(this.list3);
 			first = false;
 		}
 		if (!first) sb.append(", ");
 		sb.append("list4:");
-		if (this.list4 == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.list4);
-		}
+		sb.append(this.list4);
 		first = false;
 		if (isSetA_map()) {
 			if (!first) sb.append(", ");
 			sb.append("a_map:");
-			if (this.a_map == null) {
-				sb.append("null");
-			} else {
-				sb.append(this.a_map);
-			}
+			sb.append(this.a_map);
 			first = false;
 		}
 		if (!first) sb.append(", ");
 		sb.append("status:");
-		if (this.status == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.status);
-		}
+		sb.append(this.status);
 		first = false;
 		if (!first) sb.append(", ");
 		sb.append("base_status:");
-		if (this.base_status == null) {
-			sb.append("null");
-		} else {
-			sb.append(this.base_status);
-		}
+		sb.append(this.base_status);
 		first = false;
 		sb.append(")");
 		return sb.toString();
@@ -1879,12 +1709,6 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
 		} catch (org.apache.thrift.TException te) {
 			throw new java.io.IOException(te);
-		}
-	}
-
-	private static class TestingDefaultsStandardSchemeFactory implements SchemeFactory {
-		public TestingDefaultsStandardScheme getScheme() {
-			return new TestingDefaultsStandardScheme();
 		}
 	}
 
@@ -1951,11 +1775,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 7: // LISTFIELD
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem17 = iprot.readListBegin();
-							struct.listfield = new ArrayList<Integer>(elem17.size);
-							for (int elem18 = 0; elem18 < elem17.size; ++elem18) {
-								int elem19 = iprot.readI32();
-								struct.listfield.add(elem19);
+							org.apache.thrift.protocol.TList elem14 = iprot.readListBegin();
+							struct.listfield = new ArrayList<Integer>(elem14.size);
+							for (int elem15 = 0; elem15 < elem14.size; ++elem15) {
+								int elem16 = iprot.readI32();
+								struct.listfield.add(elem16);
 							}
 							iprot.readListEnd();
 							struct.setListfieldIsSet(true);
@@ -2005,11 +1829,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 13: // LIST2
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem20 = iprot.readListBegin();
-							struct.list2 = new ArrayList<Integer>(elem20.size);
-							for (int elem21 = 0; elem21 < elem20.size; ++elem21) {
-								int elem22 = iprot.readI32();
-								struct.list2.add(elem22);
+							org.apache.thrift.protocol.TList elem17 = iprot.readListBegin();
+							struct.list2 = new ArrayList<Integer>(elem17.size);
+							for (int elem18 = 0; elem18 < elem17.size; ++elem18) {
+								int elem19 = iprot.readI32();
+								struct.list2.add(elem19);
 							}
 							iprot.readListEnd();
 							struct.setList2IsSet(true);
@@ -2019,11 +1843,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 14: // LIST3
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem23 = iprot.readListBegin();
-							struct.list3 = new ArrayList<Integer>(elem23.size);
-							for (int elem24 = 0; elem24 < elem23.size; ++elem24) {
-								int elem25 = iprot.readI32();
-								struct.list3.add(elem25);
+							org.apache.thrift.protocol.TList elem20 = iprot.readListBegin();
+							struct.list3 = new ArrayList<Integer>(elem20.size);
+							for (int elem21 = 0; elem21 < elem20.size; ++elem21) {
+								int elem22 = iprot.readI32();
+								struct.list3.add(elem22);
 							}
 							iprot.readListEnd();
 							struct.setList3IsSet(true);
@@ -2033,11 +1857,11 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 15: // LIST4
 						if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-							org.apache.thrift.protocol.TList elem26 = iprot.readListBegin();
-							struct.list4 = new ArrayList<Integer>(elem26.size);
-							for (int elem27 = 0; elem27 < elem26.size; ++elem27) {
-								int elem28 = iprot.readI32();
-								struct.list4.add(elem28);
+							org.apache.thrift.protocol.TList elem23 = iprot.readListBegin();
+							struct.list4 = new ArrayList<Integer>(elem23.size);
+							for (int elem24 = 0; elem24 < elem23.size; ++elem24) {
+								int elem25 = iprot.readI32();
+								struct.list4.add(elem25);
 							}
 							iprot.readListEnd();
 							struct.setList4IsSet(true);
@@ -2047,12 +1871,12 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 						break;
 					case 16: // A_MAP
 						if (schemeField.type == org.apache.thrift.protocol.TType.MAP) {
-							org.apache.thrift.protocol.TMap elem29 = iprot.readMapBegin();
-							struct.a_map = new HashMap<String,String>(2*elem29.size);
-							for (int elem30 = 0; elem30 < elem29.size; ++elem30) {
-								String elem32 = iprot.readString();
-								String elem31 = iprot.readString();
-								struct.a_map.put(elem32, elem31);
+							org.apache.thrift.protocol.TMap elem26 = iprot.readMapBegin();
+							struct.a_map = new HashMap<String,String>(2*elem26.size);
+							for (int elem27 = 0; elem27 < elem26.size; ++elem27) {
+								String elem29 = iprot.readString();
+								String elem28 = iprot.readString();
+								struct.a_map.put(elem29, elem28);
 							}
 							iprot.readMapEnd();
 							struct.setA_mapIsSet(true);
@@ -2093,392 +1917,130 @@ public class TestingDefaults implements org.apache.thrift.TBase<TestingDefaults,
 			oprot.writeStructBegin(STRUCT_DESC);
 			if (struct.isSetID2()) {
 				oprot.writeFieldBegin(I_D2_FIELD_DESC);
-				long elem33 = struct.ID2;
-				oprot.writeI64(elem33);
+				long elem30 = struct.ID2;
+				oprot.writeI64(elem30);
 				oprot.writeFieldEnd();
 			}
-			if (struct.ev1 != null) {
+			if (struct.isSetEv1()) {
 				oprot.writeFieldBegin(EV1_FIELD_DESC);
 				struct.ev1.write(oprot);
 				oprot.writeFieldEnd();
 			}
-			if (struct.ev2 != null) {
+			if (struct.isSetEv2()) {
 				oprot.writeFieldBegin(EV2_FIELD_DESC);
 				struct.ev2.write(oprot);
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldBegin(ID_FIELD_DESC);
-			long elem34 = struct.ID;
-			oprot.writeI64(elem34);
+			long elem31 = struct.ID;
+			oprot.writeI64(elem31);
 			oprot.writeFieldEnd();
-			if (struct.thing != null) {
+			if (struct.isSetThing()) {
 				oprot.writeFieldBegin(THING_FIELD_DESC);
-				String elem35 = struct.thing;
-				oprot.writeString(elem35);
+				String elem32 = struct.thing;
+				oprot.writeString(elem32);
 				oprot.writeFieldEnd();
 			}
-			if (struct.thing2 != null) {
-				if (struct.isSetThing2()) {
-					oprot.writeFieldBegin(THING2_FIELD_DESC);
-					String elem36 = struct.thing2;
-					oprot.writeString(elem36);
-					oprot.writeFieldEnd();
-				}
+			if (struct.isSetThing2()) {
+				oprot.writeFieldBegin(THING2_FIELD_DESC);
+				String elem33 = struct.thing2;
+				oprot.writeString(elem33);
+				oprot.writeFieldEnd();
 			}
-			if (struct.listfield != null) {
+			if (struct.isSetListfield()) {
 				oprot.writeFieldBegin(LISTFIELD_FIELD_DESC);
 				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.listfield.size()));
-				for (int elem37 : struct.listfield) {
-					int elem38 = elem37;
-					oprot.writeI32(elem38);
+				for (int elem34 : struct.listfield) {
+					int elem35 = elem34;
+					oprot.writeI32(elem35);
 				}
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldBegin(I_D3_FIELD_DESC);
-			long elem39 = struct.ID3;
-			oprot.writeI64(elem39);
+			long elem36 = struct.ID3;
+			oprot.writeI64(elem36);
 			oprot.writeFieldEnd();
-			if (struct.bin_field != null) {
+			if (struct.isSetBin_field()) {
 				oprot.writeFieldBegin(BIN_FIELD_FIELD_DESC);
-				java.nio.ByteBuffer elem40 = struct.bin_field;
+				java.nio.ByteBuffer elem37 = struct.bin_field;
+				oprot.writeBinary(elem37);
+				oprot.writeFieldEnd();
+			}
+			if (struct.isSetBin_field2()) {
+				oprot.writeFieldBegin(BIN_FIELD2_FIELD_DESC);
+				java.nio.ByteBuffer elem38 = struct.bin_field2;
+				oprot.writeBinary(elem38);
+				oprot.writeFieldEnd();
+			}
+			if (struct.isSetBin_field3()) {
+				oprot.writeFieldBegin(BIN_FIELD3_FIELD_DESC);
+				java.nio.ByteBuffer elem39 = struct.bin_field3;
+				oprot.writeBinary(elem39);
+				oprot.writeFieldEnd();
+			}
+			if (struct.isSetBin_field4()) {
+				oprot.writeFieldBegin(BIN_FIELD4_FIELD_DESC);
+				java.nio.ByteBuffer elem40 = struct.bin_field4;
 				oprot.writeBinary(elem40);
 				oprot.writeFieldEnd();
 			}
-			if (struct.bin_field2 != null) {
-				if (struct.isSetBin_field2()) {
-					oprot.writeFieldBegin(BIN_FIELD2_FIELD_DESC);
-					java.nio.ByteBuffer elem41 = struct.bin_field2;
-					oprot.writeBinary(elem41);
-					oprot.writeFieldEnd();
-				}
-			}
-			if (struct.bin_field3 != null) {
-				oprot.writeFieldBegin(BIN_FIELD3_FIELD_DESC);
-				java.nio.ByteBuffer elem42 = struct.bin_field3;
-				oprot.writeBinary(elem42);
-				oprot.writeFieldEnd();
-			}
-			if (struct.bin_field4 != null) {
-				if (struct.isSetBin_field4()) {
-					oprot.writeFieldBegin(BIN_FIELD4_FIELD_DESC);
-					java.nio.ByteBuffer elem43 = struct.bin_field4;
-					oprot.writeBinary(elem43);
-					oprot.writeFieldEnd();
-				}
-			}
-			if (struct.list2 != null) {
-				if (struct.isSetList2()) {
-					oprot.writeFieldBegin(LIST2_FIELD_DESC);
-					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list2.size()));
-					for (int elem44 : struct.list2) {
-						int elem45 = elem44;
-						oprot.writeI32(elem45);
-					}
-					oprot.writeListEnd();
-					oprot.writeFieldEnd();
-				}
-			}
-			if (struct.list3 != null) {
-				if (struct.isSetList3()) {
-					oprot.writeFieldBegin(LIST3_FIELD_DESC);
-					oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list3.size()));
-					for (int elem46 : struct.list3) {
-						int elem47 = elem46;
-						oprot.writeI32(elem47);
-					}
-					oprot.writeListEnd();
-					oprot.writeFieldEnd();
-				}
-			}
-			if (struct.list4 != null) {
-				oprot.writeFieldBegin(LIST4_FIELD_DESC);
-				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list4.size()));
-				for (int elem48 : struct.list4) {
-					int elem49 = elem48;
-					oprot.writeI32(elem49);
+			if (struct.isSetList2()) {
+				oprot.writeFieldBegin(LIST2_FIELD_DESC);
+				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list2.size()));
+				for (int elem41 : struct.list2) {
+					int elem42 = elem41;
+					oprot.writeI32(elem42);
 				}
 				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.a_map != null) {
-				if (struct.isSetA_map()) {
-					oprot.writeFieldBegin(A_MAP_FIELD_DESC);
-					oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.a_map.size()));
-					for (Map.Entry<String, String> elem50 : struct.a_map.entrySet()) {
-						String elem51 = elem50.getKey();
-						oprot.writeString(elem51);
-						String elem52 = elem50.getValue();
-						oprot.writeString(elem52);
-					}
-					oprot.writeMapEnd();
-					oprot.writeFieldEnd();
+			if (struct.isSetList3()) {
+				oprot.writeFieldBegin(LIST3_FIELD_DESC);
+				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list3.size()));
+				for (int elem43 : struct.list3) {
+					int elem44 = elem43;
+					oprot.writeI32(elem44);
 				}
-			}
-			if (struct.status != null) {
-				oprot.writeFieldBegin(STATUS_FIELD_DESC);
-				HealthCondition elem53 = struct.status;
-				oprot.writeI32(elem53.getValue());
+				oprot.writeListEnd();
 				oprot.writeFieldEnd();
 			}
-			if (struct.base_status != null) {
+			if (struct.isSetList4()) {
+				oprot.writeFieldBegin(LIST4_FIELD_DESC);
+				oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, struct.list4.size()));
+				for (int elem45 : struct.list4) {
+					int elem46 = elem45;
+					oprot.writeI32(elem46);
+				}
+				oprot.writeListEnd();
+				oprot.writeFieldEnd();
+			}
+			if (struct.isSetA_map()) {
+				oprot.writeFieldBegin(A_MAP_FIELD_DESC);
+				oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, struct.a_map.size()));
+				for (Map.Entry<String, String> elem47 : struct.a_map.entrySet()) {
+					String elem48 = elem47.getKey();
+					oprot.writeString(elem48);
+					String elem49 = elem47.getValue();
+					oprot.writeString(elem49);
+				}
+				oprot.writeMapEnd();
+				oprot.writeFieldEnd();
+			}
+			if (struct.isSetStatus()) {
+				oprot.writeFieldBegin(STATUS_FIELD_DESC);
+				HealthCondition elem50 = struct.status;
+				oprot.writeI32(elem50.getValue());
+				oprot.writeFieldEnd();
+			}
+			if (struct.isSetBase_status()) {
 				oprot.writeFieldBegin(BASE_STATUS_FIELD_DESC);
-				actual_base.java.base_health_condition elem54 = struct.base_status;
-				oprot.writeI32(elem54.getValue());
+				actual_base.java.base_health_condition elem51 = struct.base_status;
+				oprot.writeI32(elem51.getValue());
 				oprot.writeFieldEnd();
 			}
 			oprot.writeFieldStop();
 			oprot.writeStructEnd();
-		}
-
-	}
-
-	private static class TestingDefaultsTupleSchemeFactory implements SchemeFactory {
-		public TestingDefaultsTupleScheme getScheme() {
-			return new TestingDefaultsTupleScheme();
-		}
-	}
-
-	private static class TestingDefaultsTupleScheme extends TupleScheme<TestingDefaults> {
-
-		@Override
-		public void write(org.apache.thrift.protocol.TProtocol prot, TestingDefaults struct) throws org.apache.thrift.TException {
-			TTupleProtocol oprot = (TTupleProtocol) prot;
-			HealthCondition elem55 = struct.status;
-			oprot.writeI32(elem55.getValue());
-			actual_base.java.base_health_condition elem56 = struct.base_status;
-			oprot.writeI32(elem56.getValue());
-			BitSet optionals = new BitSet();
-			if (struct.isSetID2()) {
-				optionals.set(0);
-			}
-			if (struct.isSetEv1()) {
-				optionals.set(1);
-			}
-			if (struct.isSetEv2()) {
-				optionals.set(2);
-			}
-			if (struct.isSetID()) {
-				optionals.set(3);
-			}
-			if (struct.isSetThing()) {
-				optionals.set(4);
-			}
-			if (struct.isSetThing2()) {
-				optionals.set(5);
-			}
-			if (struct.isSetListfield()) {
-				optionals.set(6);
-			}
-			if (struct.isSetID3()) {
-				optionals.set(7);
-			}
-			if (struct.isSetBin_field()) {
-				optionals.set(8);
-			}
-			if (struct.isSetBin_field2()) {
-				optionals.set(9);
-			}
-			if (struct.isSetBin_field3()) {
-				optionals.set(10);
-			}
-			if (struct.isSetBin_field4()) {
-				optionals.set(11);
-			}
-			if (struct.isSetList2()) {
-				optionals.set(12);
-			}
-			if (struct.isSetList3()) {
-				optionals.set(13);
-			}
-			if (struct.isSetList4()) {
-				optionals.set(14);
-			}
-			if (struct.isSetA_map()) {
-				optionals.set(15);
-			}
-			oprot.writeBitSet(optionals, 16);
-			if (struct.isSetID2()) {
-				long elem57 = struct.ID2;
-				oprot.writeI64(elem57);
-			}
-			if (struct.isSetEv1()) {
-				struct.ev1.write(oprot);
-			}
-			if (struct.isSetEv2()) {
-				struct.ev2.write(oprot);
-			}
-			if (struct.isSetID()) {
-				long elem58 = struct.ID;
-				oprot.writeI64(elem58);
-			}
-			if (struct.isSetThing()) {
-				String elem59 = struct.thing;
-				oprot.writeString(elem59);
-			}
-			if (struct.isSetThing2()) {
-				String elem60 = struct.thing2;
-				oprot.writeString(elem60);
-			}
-			if (struct.isSetListfield()) {
-				oprot.writeI32(struct.listfield.size());
-				for (int elem61 : struct.listfield) {
-					int elem62 = elem61;
-					oprot.writeI32(elem62);
-				}
-			}
-			if (struct.isSetID3()) {
-				long elem63 = struct.ID3;
-				oprot.writeI64(elem63);
-			}
-			if (struct.isSetBin_field()) {
-				java.nio.ByteBuffer elem64 = struct.bin_field;
-				oprot.writeBinary(elem64);
-			}
-			if (struct.isSetBin_field2()) {
-				java.nio.ByteBuffer elem65 = struct.bin_field2;
-				oprot.writeBinary(elem65);
-			}
-			if (struct.isSetBin_field3()) {
-				java.nio.ByteBuffer elem66 = struct.bin_field3;
-				oprot.writeBinary(elem66);
-			}
-			if (struct.isSetBin_field4()) {
-				java.nio.ByteBuffer elem67 = struct.bin_field4;
-				oprot.writeBinary(elem67);
-			}
-			if (struct.isSetList2()) {
-				oprot.writeI32(struct.list2.size());
-				for (int elem68 : struct.list2) {
-					int elem69 = elem68;
-					oprot.writeI32(elem69);
-				}
-			}
-			if (struct.isSetList3()) {
-				oprot.writeI32(struct.list3.size());
-				for (int elem70 : struct.list3) {
-					int elem71 = elem70;
-					oprot.writeI32(elem71);
-				}
-			}
-			if (struct.isSetList4()) {
-				oprot.writeI32(struct.list4.size());
-				for (int elem72 : struct.list4) {
-					int elem73 = elem72;
-					oprot.writeI32(elem73);
-				}
-			}
-			if (struct.isSetA_map()) {
-				oprot.writeI32(struct.a_map.size());
-				for (Map.Entry<String, String> elem74 : struct.a_map.entrySet()) {
-					String elem75 = elem74.getKey();
-					oprot.writeString(elem75);
-					String elem76 = elem74.getValue();
-					oprot.writeString(elem76);
-				}
-			}
-		}
-
-		@Override
-		public void read(org.apache.thrift.protocol.TProtocol prot, TestingDefaults struct) throws org.apache.thrift.TException {
-			TTupleProtocol iprot = (TTupleProtocol) prot;
-			struct.status = HealthCondition.findByValue(iprot.readI32());
-			struct.setStatusIsSet(true);
-			struct.base_status = actual_base.java.base_health_condition.findByValue(iprot.readI32());
-			struct.setBase_statusIsSet(true);
-			BitSet incoming = iprot.readBitSet(16);
-			if (incoming.get(0)) {
-				struct.ID2 = iprot.readI64();
-				struct.setID2IsSet(true);
-			}
-			if (incoming.get(1)) {
-				struct.ev1 = new Event();
-				struct.ev1.read(iprot);
-				struct.setEv1IsSet(true);
-			}
-			if (incoming.get(2)) {
-				struct.ev2 = new Event();
-				struct.ev2.read(iprot);
-				struct.setEv2IsSet(true);
-			}
-			if (incoming.get(3)) {
-				struct.ID = iprot.readI64();
-				struct.setIDIsSet(true);
-			}
-			if (incoming.get(4)) {
-				struct.thing = iprot.readString();
-				struct.setThingIsSet(true);
-			}
-			if (incoming.get(5)) {
-				struct.thing2 = iprot.readString();
-				struct.setThing2IsSet(true);
-			}
-			if (incoming.get(6)) {
-				org.apache.thrift.protocol.TList elem77 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.listfield = new ArrayList<Integer>(elem77.size);
-				for (int elem78 = 0; elem78 < elem77.size; ++elem78) {
-					int elem79 = iprot.readI32();
-					struct.listfield.add(elem79);
-				}
-				struct.setListfieldIsSet(true);
-			}
-			if (incoming.get(7)) {
-				struct.ID3 = iprot.readI64();
-				struct.setID3IsSet(true);
-			}
-			if (incoming.get(8)) {
-				struct.bin_field = iprot.readBinary();
-				struct.setBin_fieldIsSet(true);
-			}
-			if (incoming.get(9)) {
-				struct.bin_field2 = iprot.readBinary();
-				struct.setBin_field2IsSet(true);
-			}
-			if (incoming.get(10)) {
-				struct.bin_field3 = iprot.readBinary();
-				struct.setBin_field3IsSet(true);
-			}
-			if (incoming.get(11)) {
-				struct.bin_field4 = iprot.readBinary();
-				struct.setBin_field4IsSet(true);
-			}
-			if (incoming.get(12)) {
-				org.apache.thrift.protocol.TList elem80 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.list2 = new ArrayList<Integer>(elem80.size);
-				for (int elem81 = 0; elem81 < elem80.size; ++elem81) {
-					int elem82 = iprot.readI32();
-					struct.list2.add(elem82);
-				}
-				struct.setList2IsSet(true);
-			}
-			if (incoming.get(13)) {
-				org.apache.thrift.protocol.TList elem83 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.list3 = new ArrayList<Integer>(elem83.size);
-				for (int elem84 = 0; elem84 < elem83.size; ++elem84) {
-					int elem85 = iprot.readI32();
-					struct.list3.add(elem85);
-				}
-				struct.setList3IsSet(true);
-			}
-			if (incoming.get(14)) {
-				org.apache.thrift.protocol.TList elem86 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I32, iprot.readI32());
-				struct.list4 = new ArrayList<Integer>(elem86.size);
-				for (int elem87 = 0; elem87 < elem86.size; ++elem87) {
-					int elem88 = iprot.readI32();
-					struct.list4.add(elem88);
-				}
-				struct.setList4IsSet(true);
-			}
-			if (incoming.get(15)) {
-				org.apache.thrift.protocol.TMap elem89 = new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRING, iprot.readI32());
-				struct.a_map = new HashMap<String,String>(2*elem89.size);
-				for (int elem90 = 0; elem90 < elem89.size; ++elem90) {
-					String elem92 = iprot.readString();
-					String elem91 = iprot.readString();
-					struct.a_map.put(elem92, elem91);
-				}
-				struct.setA_mapIsSet(true);
-			}
 		}
 
 	}
