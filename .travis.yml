@@ -21,7 +21,6 @@ before_install:
   - sudo apt -y install python3-pip python-dev python-virtualenv build-essential glide openjdk-8-jdk
   # The travis image comes with openjdk11 which has some bugs with checkstyle and javadoc.
   # Force openjdk1.8 until we can upgrade to 11 or 13
-  - export PATH=/usr/lib/jvm/java-8-openjdk-amd64/bin:$PATH
   - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
   # sudo apt-get -y install dart
 
