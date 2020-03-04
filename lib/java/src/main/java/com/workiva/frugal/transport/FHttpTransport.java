@@ -226,9 +226,13 @@ public class FHttpTransport extends FTransport {
             return true;
         }
 
+        private static long divideCeil(long dividend, long divisor) {
+            return (dividend + divisor - 1) / divisor;
+        }
+
         @Override
         public long getContentLength() {
-            return (bytes.length + 2) / 3 * 4;
+            return divideCeil(bytes.length, 3) * 4;
         }
 
         @Override
