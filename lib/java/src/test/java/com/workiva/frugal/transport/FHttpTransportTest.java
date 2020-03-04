@@ -3,7 +3,6 @@ package com.workiva.frugal.transport;
 import com.workiva.frugal.FContext;
 import com.workiva.frugal.exception.TTransportExceptionType;
 import com.workiva.frugal.transport.FHttpTransport.FHttpTransportHeaders;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
@@ -22,15 +21,20 @@ import org.apache.http.util.EntityUtils;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -85,7 +89,7 @@ public class FHttpTransportTest {
         transport = new FHttpTransport.Builder(client, url).withResponseSizeLimit(responseSizeLimit).build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] framedResponsePayload = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
+        byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
         byte[] responsePayload = new byte[]{4, 5, 6, 7};
         String encoded = Base64.encodeBase64String(framedResponsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
@@ -106,6 +110,49 @@ public class FHttpTransportTest {
         assertEquals(EntityUtils.toString(expected.getEntity()), EntityUtils.toString(actual.getEntity()));
         assertEquals(expected.getFirstHeader("content-type"), actual.getFirstHeader("content-type"));
         assertEquals(expected.getURI(), actual.getURI());
+    }
+
+    @Test
+    public void testRequestPayloadSize() throws TException, IOException {
+        int responseSizeLimit = 1024 * 4;
+        transport = new FHttpTransport.Builder(client, url).withResponseSizeLimit(responseSizeLimit).build();
+
+        // Test 4-byte edge cases, and ensure lines aren't split.  Length 0 is
+        // tested separately by testOneway.
+        for (int requestPayloadLength = 1; requestPayloadLength <= 80; requestPayloadLength++) {
+            StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
+            byte[] requestPayload = new byte[requestPayloadLength];
+            for (int j = 0; j < requestPayloadLength; j++) {
+                requestPayload[j] = (byte) (4 + j);
+            }
+            byte[] framedRequestPayload = new byte[4 + requestPayloadLength];
+            ByteBuffer.wrap(framedRequestPayload).putInt(requestPayloadLength);
+            System.arraycopy(requestPayload, 0, framedRequestPayload, 4, requestPayload.length);
+
+            byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
+            byte[] responsePayload = new byte[]{4, 5, 6, 7};
+            String encodedResponse = Base64.encodeBase64String(framedResponsePayload);
+            StringEntity responseEntity = new StringEntity(encodedResponse, ContentType.create("application/x-frugal", "utf-8"));
+            CloseableHttpResponse response = new BasicClosableHttpResponse(statusLine);
+            response.setEntity(responseEntity);
+
+            ArgumentCaptor<HttpPost> topicCaptor = ArgumentCaptor.forClass(HttpPost.class);
+            when(client.execute(topicCaptor.capture())).thenReturn(response);
+
+            TTransport actualResponse = transport.request(context, framedRequestPayload);
+
+            assertArrayEquals(responsePayload, actualResponse.getBuffer());
+
+            HttpPost actualRequest = topicCaptor.getValue();
+            HttpPost expectedRequest = validRequest(framedRequestPayload, responseSizeLimit);
+            assertEquals(actualRequest.getEntity().getContentLength(), expectedRequest.getEntity().getContentLength());
+            assertEquals(EntityUtils.toString(expectedRequest.getEntity()), EntityUtils.toString(actualRequest.getEntity()));
+
+            ByteArrayOutputStream actualOutputStream = new ByteArrayOutputStream();
+            actualRequest.getEntity().writeTo(actualOutputStream);
+            String actualRequestString = new String(actualOutputStream.toByteArray(), StandardCharsets.UTF_8);
+            assertEquals(EntityUtils.toString(expectedRequest.getEntity()), actualRequestString);
+        }
     }
 
     private class TestFHttpTransportHeaders implements FHttpTransportHeaders {
@@ -131,7 +178,7 @@ public class FHttpTransportTest {
                 .build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] framedResponsePayload = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
+        byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
         String encoded = Base64.encodeBase64String(framedResponsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
 
@@ -158,7 +205,7 @@ public class FHttpTransportTest {
                 .build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] framedResponsePayload = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
+        byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
         String encoded = Base64.encodeBase64String(framedResponsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
 
@@ -182,7 +229,7 @@ public class FHttpTransportTest {
                 .build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] framedResponsePayload = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
+        byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
         String encoded = Base64.encodeBase64String(framedResponsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
 
@@ -230,7 +277,7 @@ public class FHttpTransportTest {
                 .build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] framedResponsePayload = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
+        byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
         String encoded = Base64.encodeBase64String(framedResponsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
 
@@ -257,7 +304,7 @@ public class FHttpTransportTest {
                 .build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] framedResponsePayload = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
+        byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
         String encoded = Base64.encodeBase64String(framedResponsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
 
@@ -279,7 +326,7 @@ public class FHttpTransportTest {
         transport = new FHttpTransport.Builder(client, url).build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] framedResponsePayload = new byte[]{0, 1, 2, 3, 4, 5, 6, 7};
+        byte[] framedResponsePayload = new byte[]{0, 0, 0, 4, 4, 5, 6, 7};
         String encoded = Base64.encodeBase64String(framedResponsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
 
@@ -350,12 +397,38 @@ public class FHttpTransportTest {
         transport.request(context, buff);
     }
 
-    @Test(expected = TTransportException.class)
+    @Test
     public void testSend_responseBadStatus() throws TTransportException, IOException {
         transport = new FHttpTransport.Builder(client, url).build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_BAD_REQUEST, null);
         CloseableHttpResponse response = new BasicClosableHttpResponse(statusLine);
+        StringEntity responseEntity = new StringEntity("expected test error");
+        response.setEntity(responseEntity);
+
+        ArgumentCaptor<HttpPost> topicCaptor = ArgumentCaptor.forClass(HttpPost.class);
+        when(client.execute(topicCaptor.capture())).thenReturn(response);
+
+        byte[] buff = "helloserver".getBytes();
+        try {
+            transport.request(context, buff);
+            fail();
+        } catch (TTransportException e) {
+            MatcherAssert.assertThat(e.getMessage(), containsString("expected test error"));
+        }
+    }
+
+    @Test(expected = TTransportException.class)
+    public void testSend_badResponseLengthTooShort() throws TTransportException, IOException {
+        transport = new FHttpTransport.Builder(client, url).build();
+
+        StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
+        byte[] responsePayload = new byte[1];
+        String encoded = Base64.encodeBase64String(responsePayload);
+        StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
+
+        CloseableHttpResponse response = new BasicClosableHttpResponse(statusLine);
+        response.setEntity(responseEntity);
 
         ArgumentCaptor<HttpPost> topicCaptor = ArgumentCaptor.forClass(HttpPost.class);
         when(client.execute(topicCaptor.capture())).thenReturn(response);
@@ -365,11 +438,11 @@ public class FHttpTransportTest {
     }
 
     @Test(expected = TTransportException.class)
-    public void testSend_badResponseLength() throws TTransportException, IOException {
+    public void testSend_badResponseLengthTooLong() throws TTransportException, IOException {
         transport = new FHttpTransport.Builder(client, url).build();
 
         StatusLine statusLine = new StatusLineImpl(HttpVersion.HTTP_1_1, HttpStatus.SC_OK, null);
-        byte[] responsePayload = new byte[1];
+        byte[] responsePayload = new byte[5];
         String encoded = Base64.encodeBase64String(responsePayload);
         StringEntity responseEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
 
