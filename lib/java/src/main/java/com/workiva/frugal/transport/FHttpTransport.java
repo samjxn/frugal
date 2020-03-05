@@ -13,10 +13,10 @@
 
 package com.workiva.frugal.transport;
 
-
 import com.workiva.frugal.FContext;
 import com.workiva.frugal.exception.TTransportExceptionType;
-import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base64InputStream;
+import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NoHttpResponseException;
@@ -24,8 +24,8 @@ import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.apache.thrift.transport.TMemoryInputTransport;
@@ -34,12 +34,14 @@ import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.SocketTimeoutException;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 import java.util.Map;
-
+import java.util.Objects;
 
 /**
  * FHttpTransport extends FTransport. This is a "stateless" transport in the
@@ -206,26 +208,54 @@ public class FHttpTransport extends FTransport {
 
         byte[] response = makeRequest(context, payload);
 
-        // All responses should be framed with 4 bytes
-        if (response.length < 4) {
-            throw new TTransportException("invalid frame size");
+        return response == null ? null : new TMemoryInputTransport(response);
+    }
+
+    private static class Base64EncodingEntity extends AbstractHttpEntity {
+        private final byte[] bytes;
+
+        public Base64EncodingEntity(byte[] bytes, ContentType contentType) {
+            this.bytes = Objects.requireNonNull(bytes, "bytes");
+            if (contentType != null) {
+                setContentType(contentType.toString());
+            }
         }
 
-        // If there are only 4 bytes, this needs to be a one-way
-        // (i.e. frame size 0)
-        if (response.length == 4) {
-            if (ByteBuffer.wrap(response).getInt() != 0) {
-                throw new TTransportException("missing data");
-            }
-            return null;
+        @Override
+        public boolean isRepeatable() {
+            return true;
         }
-        return new TMemoryInputTransport(Arrays.copyOfRange(response, 4, response.length));
+
+        private static long divideCeil(long dividend, long divisor) {
+            return (dividend + divisor - 1) / divisor;
+        }
+
+        @Override
+        public long getContentLength() {
+            return divideCeil(bytes.length, 3) * 4;
+        }
+
+        @Override
+        public InputStream getContent() {
+            return new Base64InputStream(new ByteArrayInputStream(bytes), true, 0, null);
+        }
+
+        @Override
+        public void writeTo(final OutputStream out) throws IOException {
+            try (OutputStream writeOut = new Base64OutputStream(out, true, 0, null)) {
+                writeOut.write(bytes);
+            }
+        }
+
+        @Override
+        public boolean isStreaming() {
+            return false;
+        }
     }
 
     private byte[] makeRequest(FContext context, byte[] requestPayload) throws TTransportException {
         // Encode request payload
-        String encoded = Base64.encodeBase64String(requestPayload);
-        StringEntity requestEntity = new StringEntity(encoded, ContentType.create("application/x-frugal", "utf-8"));
+        HttpEntity requestEntity = new Base64EncodingEntity(requestPayload, ContentType.create("application/x-frugal", "utf-8"));
 
         // Set headers and payload
         HttpPost request = new HttpPost(url);
@@ -278,21 +308,41 @@ public class FHttpTransport extends FTransport {
                         TTransportExceptionType.RESPONSE_TOO_LARGE, "response was too large for the transport");
             }
 
-            // Decode body
-            String responseBody = "";
-            HttpEntity responseEntity = response.getEntity();
-            if (responseEntity != null) {
-                responseBody = EntityUtils.toString(responseEntity, "utf-8");
-            }
             // Check bad status code
             if (status >= 300) {
+                String responseBody = "";
+                HttpEntity responseEntity = response.getEntity();
+                if (responseEntity != null) {
+                    responseBody = EntityUtils.toString(responseEntity, "utf-8");
+                }
                 throw new TTransportException("response errored with code " + status + " and message " + responseBody);
             }
-            // Decode and return response body
-            return Base64.decodeBase64(responseBody);
 
+            // Decode body
+            HttpEntity responseEntity = response.getEntity();
+            byte[] responseBody;
+            if (responseEntity == null) {
+                responseBody = new byte[0];
+            } else {
+                try (InputStream decoderIn = new Base64InputStream(responseEntity.getContent());
+                        DataInputStream dataIn = new DataInputStream(decoderIn)) {
+                    long size = dataIn.readInt() & 0xffff_ffffL;
+                    if (size == 0) {
+                        responseBody = null;
+                    } else {
+                        responseBody = new byte[(int) size];
+                        dataIn.readFully(responseBody);
+                    }
+
+                    if (dataIn.read() != -1) {
+                        throw new TTransportException("response body too long");
+                    }
+                }
+            }
+
+            return responseBody;
         } catch (IOException e) {
-            throw new TTransportException("could not decodeFromFrame response body: " + e.getMessage());
+            throw new TTransportException("could not decodeFromFrame response body: " + e.getMessage(), e);
         } finally {
             try {
                 response.close();
