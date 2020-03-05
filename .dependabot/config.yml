@@ -55,7 +55,7 @@ update_configs:
       - "matthewschlue-wf"
       - "yuanmwang-wf"
     commit_message:
-      prefix: "Integration Tests: "
+      prefix: "Tests: "
   - package_manager: "python"
     directory: "/lib/python"
     update_schedule: "weekly"
