@@ -1493,12 +1493,19 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	if scope.Comment != nil {
 		publishers += g.GenerateInlineComment(scope.Comment, "/")
 	}
-	publishers += fmt.Sprintf("class %sPublisher {\n", strings.Title(scope.Name))
+	publisherClassname :=  fmt.Sprintf("%sPublisher", strings.Title(scope.Name))
+
+	// Generate publisher factory
+	publishers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) => \n", publisherClassname)
+	publishers += tab + fmt.Sprintf("%s(provider, middleware);\n\n", publisherClassname)
+
+	// Generate publisher class
+	publishers += fmt.Sprintf("class %s {\n", publisherClassname)
 	publishers += tab + "frugal.FPublisherTransport transport;\n"
 	publishers += tab + "frugal.FProtocolFactory protocolFactory;\n"
 	publishers += tab + "Map<String, frugal.FMethod> _methods;\n"
 
-	publishers += fmt.Sprintf(tab+"%sPublisher(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) {\n", strings.Title(scope.Name))
+	publishers += fmt.Sprintf(tab+"%s(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) {\n", publisherClassname)
 	publishers += tabtab + "transport = provider.publisherTransportFactory.getTransport();\n"
 	publishers += tabtab + "protocolFactory = provider.protocolFactory;\n"
 	publishers += tabtab + "var combined = middleware ?? [];\n"
@@ -1593,11 +1600,18 @@ func (g *Generator) GenerateSubscriber(file *os.File, scope *parser.Scope) error
 	if scope.Comment != nil {
 		subscribers += g.GenerateInlineComment(scope.Comment, "/")
 	}
-	subscribers += fmt.Sprintf("class %sSubscriber {\n", strings.Title(scope.Name))
+	subscriberClassname :=  fmt.Sprintf("%sSubscriber", strings.Title(scope.Name))
+
+	// Generate subscriber factory
+	subscribers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) => \n", subscriberClassname)
+	subscribers += tab + fmt.Sprintf("%s(provider, middleware);\n\n", subscriberClassname)
+
+	// Generate subscriber class
+	subscribers += fmt.Sprintf("class %s {\n", subscriberClassname)
 	subscribers += tab + "final frugal.FScopeProvider provider;\n"
 	subscribers += tab + "final List<frugal.Middleware> _middleware;\n\n"
 
-	subscribers += tab + fmt.Sprintf("%sSubscriber(this.provider, [List<frugal.Middleware> middleware])\n", strings.Title(scope.Name))
+	subscribers += tab + fmt.Sprintf("%s(this.provider, [List<frugal.Middleware> middleware])\n", subscriberClassname)
 	subscribers += tabtabtab + ": this._middleware = middleware ?? [] {\n"
 	subscribers += tabtab + "this._middleware.addAll(provider.middleware);\n"
 	subscribers += "}\n\n"
@@ -1726,25 +1740,31 @@ func (g *Generator) getServiceExtendsName(service *parser.Service) string {
 
 func (g *Generator) generateClient(service *parser.Service) string {
 	servTitle := strings.Title(service.Name)
+	clientClassname := fmt.Sprintf("F%sClient", servTitle)
 	contents := ""
 	if service.Comment != nil {
 		contents += g.GenerateInlineComment(service.Comment, "/")
 	}
+	// Generate client factory
+	contents += fmt.Sprintf("%sFactory(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) => \n", clientClassname)
+	contents += tab + fmt.Sprintf("%s(provider, middleware);\n\n", clientClassname)
+
+	// Generate client class
 	if service.Extends != "" {
-		contents += fmt.Sprintf("class F%sClient extends %sClient implements F%s {\n",
-			servTitle, g.getServiceExtendsName(service), servTitle)
+		contents += fmt.Sprintf("class %s extends %sClient implements F%s {\n",
+			clientClassname, g.getServiceExtendsName(service), servTitle)
 	} else {
-		contents += fmt.Sprintf("class F%sClient implements F%s {\n",
-			servTitle, servTitle)
+		contents += fmt.Sprintf("class %s implements F%s {\n",
+			clientClassname, servTitle)
 	}
 	contents += fmt.Sprintf(tab+"static final logging.Logger _frugalLog = logging.Logger('%s');\n", servTitle)
 	contents += tab + "Map<String, frugal.FMethod> _methods;\n\n"
 
 	if service.Extends != "" {
-		contents += tab + fmt.Sprintf("F%sClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])\n", servTitle)
+		contents += tab + fmt.Sprintf("%s(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])\n", clientClassname)
 		contents += tabtabtab + ": super(provider, middleware) {\n"
 	} else {
-		contents += tab + fmt.Sprintf("F%sClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {\n", servTitle)
+		contents += tab + fmt.Sprintf("%s(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {\n", clientClassname)
 	}
 	contents += tabtab + "_transport = provider.transport;\n"
 	contents += tabtab + "_protocolFactory = provider.protocolFactory;\n"
