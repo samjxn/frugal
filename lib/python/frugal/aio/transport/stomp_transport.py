@@ -34,8 +34,8 @@ class FStompPublisherTransportFactory(FPublisherTransportFactory):
     """
 
     def __init__(self, stomp_client: AioStomp,
-                 topic_prefix: str='',
-                 max_message_size: int=32 * 1024 * 1024):
+                 topic_prefix: str = '',
+                 max_message_size: int = 32 * 1024 * 1024):
         """
         Create an FStompPublisherTransportFactory.
 
@@ -65,8 +65,8 @@ class _FStompPublisherTransport(FPublisherTransport):
     """
 
     def __init__(self, stomp_client: AioStomp,
-                 topic_prefix: str='',
-                 max_message_size: int=32 * 1024 * 1024):
+                 topic_prefix: str = '',
+                 max_message_size: int = 32 * 1024 * 1024):
         super().__init__(max_message_size)
         self._stomp_client = stomp_client
         self._topic_prefix = topic_prefix
@@ -128,8 +128,8 @@ class FStompSubscriberTransportFactory(FSubscriberTransportFactory):
     FStompSubscriberTransports.
     """
 
-    def __init__(self, stomp_client: AioStomp, topic_prefix: str='',
-                 use_queue: bool=False):
+    def __init__(self, stomp_client: AioStomp, topic_prefix: str = '',
+                 use_queue: bool = False):
         """
         Create a new FStompSubscriberTransportFactory.
 
@@ -160,7 +160,7 @@ class _FStompSubscriberTransport(FSubscriberTransport):
     """
 
     def __init__(self, stomp_client: AioStomp, topic_prefix: str,
-                 use_queue: bool=True):
+                 use_queue: bool = True):
         self._stomp_client = stomp_client
         self._topic_prefix = topic_prefix
         self._use_queue = use_queue
