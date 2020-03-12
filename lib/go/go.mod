@@ -5,9 +5,8 @@ require (
 	github.com/Sirupsen/logrus v0.11.5
 	github.com/go-stomp/stomp v2.0.5+incompatible
 	github.com/mattrobenolt/gocql v0.0.0-20130828033103-56c5a46b65ee
-	github.com/nats-io/gnatsd v0.9.6
 	github.com/nats-io/go-nats v0.0.0-20161120202126-6b6bf392d34d
-	github.com/nats-io/nuid v1.0.0 // indirect
+	github.com/nats-io/nats-server/v2 v2.1.4
 	github.com/stretchr/testify v1.5.1
 	golang.org/x/crypto v0.0.0-20190829043050-9756ffdc2472 // indirect
 )
