@@ -17,25 +17,18 @@ import 'package:include_vendor/include_vendor.dart' as t_include_vendor;
 
 const String delimiter = '.';
 
-class MyScopePublisher {
-  frugal.FPublisherTransport transport;
-  frugal.FProtocolFactory protocolFactory;
+MyScopePublisherFactory(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) =>
+    MyScopePublisher(provider, middleware);
+
+class MyScopePublisher extends frugal.FBasePublisher {
   Map<String, frugal.FMethod> _methods;
-  MyScopePublisher(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) {
-    transport = provider.publisherTransportFactory.getTransport();
+  frugal.FProtocolFactory protocolFactory;
+  MyScopePublisher(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) : super(provider) {
     protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
     combined.addAll(provider.middleware);
     this._methods = {};
     this._methods['newItem'] = frugal.FMethod(this._publishnewItem, 'MyScope', 'publishnewItem', combined);
-  }
-
-  Future open() {
-    return transport.open();
-  }
-
-  Future close() {
-    return transport.close();
   }
 
   Future publishnewItem(frugal.FContext ctx, t_vendor_namespace.Item req) {

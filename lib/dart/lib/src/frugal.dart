@@ -30,6 +30,7 @@ part 'frugal/f_error.dart';
 part 'frugal/f_middleware.dart';
 part 'frugal/f_provider.dart';
 part 'frugal/f_subscription.dart';
+part 'frugal/base_scope/base_publisher.dart';
 part 'frugal/internal/f_byte_buffer.dart';
 part 'frugal/internal/f_obj_to_json.dart';
 part 'frugal/internal/headers.dart';

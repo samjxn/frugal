@@ -1500,13 +1500,11 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	publishers += tab + fmt.Sprintf("%s(provider, middleware);\n\n", publisherClassname)
 
 	// Generate publisher class
-	publishers += fmt.Sprintf("class %s {\n", publisherClassname)
-	publishers += tab + "frugal.FPublisherTransport transport;\n"
+	publishers += fmt.Sprintf("class %s extends frugal.FBasePublisher {\n", publisherClassname)
 	publishers += tab + "frugal.FProtocolFactory protocolFactory;\n"
 	publishers += tab + "Map<String, frugal.FMethod> _methods;\n"
 
-	publishers += fmt.Sprintf(tab+"%s(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) {\n", publisherClassname)
-	publishers += tabtab + "transport = provider.publisherTransportFactory.getTransport();\n"
+	publishers += fmt.Sprintf(tab+"%s(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) : super(provider) {\n", publisherClassname)
 	publishers += tabtab + "protocolFactory = provider.protocolFactory;\n"
 	publishers += tabtab + "var combined = middleware ?? [];\n"
 	publishers += tabtab + "combined.addAll(provider.middleware);\n"
@@ -1515,14 +1513,6 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 		publishers += fmt.Sprintf(tabtab+"this._methods['%s'] = frugal.FMethod(this._publish%s, '%s', 'publish%s', combined);\n",
 			operation.Name, operation.Name, strings.Title(scope.Name), operation.Name)
 	}
-	publishers += tab + "}\n\n"
-
-	publishers += tab + "Future open() {\n"
-	publishers += tabtab + "return transport.open();\n"
-	publishers += tab + "}\n\n"
-
-	publishers += tab + "Future close() {\n"
-	publishers += tabtab + "return transport.close();\n"
 	publishers += tab + "}\n\n"
 
 	args := ""
