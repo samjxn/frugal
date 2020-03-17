@@ -20,6 +20,7 @@ export 'src/frugal.dart'
         FAsyncCallback,
         FAdapterTransport,
         FAsyncTransport,
+        FBasePublisher,
         FContext,
         FHttpTransport,
         FMethod,

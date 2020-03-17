@@ -1493,12 +1493,11 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	if scope.Comment != nil {
 		publishers += g.GenerateInlineComment(scope.Comment, "/")
 	}
-	publishers += fmt.Sprintf("class %sPublisher {\n", strings.Title(scope.Name))
-	publishers += tab + "frugal.FPublisherTransport transport;\n"
+	publishers += fmt.Sprintf("class %sPublisher extends frugal.FBasePublisher {\n", strings.Title(scope.Name))
 	publishers += tab + "frugal.FProtocolFactory protocolFactory;\n"
 	publishers += tab + "Map<String, frugal.FMethod> _methods;\n"
 
-	publishers += fmt.Sprintf(tab+"%sPublisher(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) {\n", strings.Title(scope.Name))
+	publishers += fmt.Sprintf(tab+"%sPublisher(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) : super(provider) {\n", strings.Title(scope.Name))
 	publishers += tabtab + "transport = provider.publisherTransportFactory.getTransport();\n"
 	publishers += tabtab + "protocolFactory = provider.protocolFactory;\n"
 	publishers += tabtab + "var combined = middleware ?? [];\n"
@@ -1508,14 +1507,6 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 		publishers += fmt.Sprintf(tabtab+"this._methods['%s'] = frugal.FMethod(this._publish%s, '%s', 'publish%s', combined);\n",
 			operation.Name, operation.Name, strings.Title(scope.Name), operation.Name)
 	}
-	publishers += tab + "}\n\n"
-
-	publishers += tab + "Future open() {\n"
-	publishers += tabtab + "return transport.open();\n"
-	publishers += tab + "}\n\n"
-
-	publishers += tab + "Future close() {\n"
-	publishers += tabtab + "return transport.close();\n"
 	publishers += tab + "}\n\n"
 
 	args := ""

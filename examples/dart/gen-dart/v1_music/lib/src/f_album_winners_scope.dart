@@ -19,11 +19,10 @@ const String delimiter = '.';
 /// Scopes are a Frugal extension to the IDL for declaring PubSub
 /// semantics. Subscribers to this scope will be notified if they win a contest.
 /// Scopes must have a prefix.
-class AlbumWinnersPublisher {
-  frugal.FPublisherTransport transport;
+class AlbumWinnersPublisher extends frugal.FBasePublisher {
   frugal.FProtocolFactory protocolFactory;
   Map<String, frugal.FMethod> _methods;
-  AlbumWinnersPublisher(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) {
+  AlbumWinnersPublisher(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) : super(provider) {
     transport = provider.publisherTransportFactory.getTransport();
     protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
@@ -32,14 +31,6 @@ class AlbumWinnersPublisher {
     this._methods['ContestStart'] = frugal.FMethod(this._publishContestStart, 'AlbumWinners', 'publishContestStart', combined);
     this._methods['TimeLeft'] = frugal.FMethod(this._publishTimeLeft, 'AlbumWinners', 'publishTimeLeft', combined);
     this._methods['Winner'] = frugal.FMethod(this._publishWinner, 'AlbumWinners', 'publishWinner', combined);
-  }
-
-  Future open() {
-    return transport.open();
-  }
-
-  Future close() {
-    return transport.close();
   }
 
   Future publishContestStart(frugal.FContext ctx, List<t_v1_music.Album> req) {
