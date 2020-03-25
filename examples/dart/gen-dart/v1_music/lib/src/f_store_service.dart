@@ -26,7 +26,7 @@ abstract class FStore {
   Future<bool> enterAlbumGiveaway(frugal.FContext ctx, String email, String name);
 }
 
-FStoreClientFactory(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) => 
+FStoreClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
   FStoreClient(provider, middleware);
 
 /// Services are the API for client and server interaction.

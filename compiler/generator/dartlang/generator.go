@@ -1493,7 +1493,7 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	publisherClassname :=  fmt.Sprintf("%sPublisher", strings.Title(scope.Name))
 
 	// Generate publisher factory
-	publishers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) =>\n", publisherClassname)
+	publishers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n", publisherClassname)
 	publishers += tabtab + fmt.Sprintf("%s(provider, middleware);\n\n", publisherClassname)
 
 	if scope.Comment != nil {
@@ -1599,7 +1599,7 @@ func (g *Generator) GenerateSubscriber(file *os.File, scope *parser.Scope) error
 	subscriberClassname :=  fmt.Sprintf("%sSubscriber", strings.Title(scope.Name))
 
 	// Generate subscriber factory
-	subscribers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) =>\n", subscriberClassname)
+	subscribers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n", subscriberClassname)
 	subscribers += tabtab + fmt.Sprintf("%s(provider, middleware);\n\n", subscriberClassname)
 
 	if scope.Comment != nil {
@@ -1743,7 +1743,7 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	contents := ""
 
 	// Generate client factory
-	contents += fmt.Sprintf("%sFactory(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) =>\n", clientClassname)
+	contents += fmt.Sprintf("%sFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>\n", clientClassname)
 	contents += tabtab + fmt.Sprintf("%s(provider, middleware);\n\n", clientClassname)
 
 	if service.Comment != nil {

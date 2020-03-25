@@ -16,7 +16,7 @@ import 'package:v1_music/v1_music.dart' as t_v1_music;
 
 const String delimiter = '.';
 
-AlbumWinnersPublisherFactory(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) => 
+AlbumWinnersPublisherFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>
   AlbumWinnersPublisher(provider, middleware);
 
 /// Scopes are a Frugal extension to the IDL for declaring PubSub
@@ -113,7 +113,7 @@ class AlbumWinnersPublisher {
 }
 
 
-AlbumWinnersSubscriberFactory(frugal.FScopeProvider provider, [List<frugal.Middleware> middleware]) => 
+AlbumWinnersSubscriberFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>
   AlbumWinnersSubscriber(provider, middleware);
 
 /// Scopes are a Frugal extension to the IDL for declaring PubSub

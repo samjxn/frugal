@@ -22,7 +22,7 @@ abstract class FMyService extends t_vendor_namespace.FVendoredBase {
   Future<t_vendor_namespace.Item> getItem(frugal.FContext ctx);
 }
 
-FMyServiceClientFactory(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) =>
+FMyServiceClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
     FMyServiceClient(provider, middleware);
 
 class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements FMyService {

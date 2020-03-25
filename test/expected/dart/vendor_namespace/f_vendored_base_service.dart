@@ -18,7 +18,7 @@ import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 
 abstract class FVendoredBase {}
 
-FVendoredBaseClientFactory(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) =>
+FVendoredBaseClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
     FVendoredBaseClient(provider, middleware);
 
 class FVendoredBaseClient implements FVendoredBase {

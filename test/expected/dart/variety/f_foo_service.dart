@@ -53,7 +53,7 @@ abstract class FFoo extends t_actual_base_dart.FBaseFoo {
   Future<String> sayAgain(frugal.FContext ctx, String messageResult);
 }
 
-FFooClientFactory(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) =>
+FFooClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
     FFooClient(provider, middleware);
 
 /// This is a thrift service. Frugal will generate bindings that include
