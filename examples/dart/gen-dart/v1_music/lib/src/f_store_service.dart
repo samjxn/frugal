@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart';
 
 import 'package:v1_music/v1_music.dart' as t_v1_music;
 
@@ -28,11 +29,12 @@ abstract class FStore {
 
 /// Services are the API for client and server interaction.
 /// Users can buy an album or enter a giveaway for a free album.
-class FStoreClient implements FStore {
+class FStoreClient extends Disposable implements FStore {
   static final logging.Logger _frugalLog = logging.Logger('Store');
   Map<String, frugal.FMethod> _methods;
 
   FStoreClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
+    manageDisposable(provider);
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];

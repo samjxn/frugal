@@ -19,6 +19,12 @@ part of frugal.src.frugal;
 /// [FProtocolFactory]. This also provides a shim for adding middleware to a
 /// publisher or subscriber.
 class FScopeProvider {
+  /// Creates a new [FScopeProvider].
+  FScopeProvider(this.publisherTransportFactory,
+      this.subscriberTransportFactory, this.protocolFactory,
+      {List<Middleware> middleware})
+      : _middleware = middleware ?? [];
+
   /// [FPublisherTransportFactory] used by the scope.
   final FPublisherTransportFactory publisherTransportFactory;
 
@@ -31,12 +37,6 @@ class FScopeProvider {
   /// Middleware applied to publishers and subscribers.
   final List<Middleware> _middleware;
 
-  /// Creates a new [FScopeProvider].
-  FScopeProvider(this.publisherTransportFactory,
-      this.subscriberTransportFactory, this.protocolFactory,
-      {List<Middleware> middleware: null})
-      : _middleware = middleware ?? [];
-
   /// The middleware stored on this FScopeProvider.
   List<Middleware> get middleware => new List.from(this._middleware);
 }
@@ -44,7 +44,16 @@ class FScopeProvider {
 /// The service equivalent of [FScopeProvider]. It produces [FTransport] and
 /// [FProtocol] instances for use by RPC service clients. The main purpose of
 /// this is to provide a shim for adding middleware to a client.
-class FServiceProvider {
+class FServiceProvider extends Disposable {
+  /// Creates a new [FServiceProvider].
+  FServiceProvider(this.transport, this.protocolFactory,
+      {List<Middleware> middleware})
+      : _middleware = middleware ?? [] {
+    // The transport is created by the messaging-sdk, and goes out of scope
+    // besides this reference, so it is safe to manage here.
+    manageDisposable(this.transport);
+  }
+
   /// [FTransport] used by the service.
   final FTransport transport;
 
@@ -53,11 +62,6 @@ class FServiceProvider {
 
   /// Middleware applied to clients.
   final List<Middleware> _middleware;
-
-  /// Creates a new [FServiceProvider].
-  FServiceProvider(this.transport, this.protocolFactory,
-      {List<Middleware> middleware: null})
-      : _middleware = middleware ?? [];
 
   /// The middleware stored on this FServiceProvider.
   List<Middleware> get middleware => new List.from(this._middleware);
