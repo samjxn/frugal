@@ -16,7 +16,7 @@ import 'package:variety/variety.dart' as t_variety;
 
 const String delimiter = '.';
 
-EventsPublisherFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>
+EventsPublisher eventsPublisherFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>
     EventsPublisher(provider, middleware);
 
 /// This docstring gets added to the generated code because it has
@@ -145,7 +145,7 @@ class EventsPublisher {
 }
 
 
-EventsSubscriberFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>
+EventsSubscriber eventsSubscriberFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>
     EventsSubscriber(provider, middleware);
 
 /// This docstring gets added to the generated code because it has
