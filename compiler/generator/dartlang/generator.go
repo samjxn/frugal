@@ -1753,7 +1753,6 @@ func (g *Generator) generateClient(service *parser.Service) string {
 
 	// Generate client class
 	if service.Extends != "" {
-
 		contents += fmt.Sprintf("class %s extends %sClient with disposable.Disposable implements F%s {\n",
 			clientClassname, g.getServiceExtendsName(service), servTitle)
 	} else {
