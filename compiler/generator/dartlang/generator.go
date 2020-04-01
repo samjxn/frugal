@@ -2175,5 +2175,8 @@ func ignoreDeprecationWarningIfNeeded(tabs string, a parser.Annotations) string 
 }
 
 func lowercaseFirstCharacter(s string) string {
-	return string(unicode.ToLower(rune(s[0]))) + s[1:]
+	if len(s) > 0 {
+		return string(unicode.ToLower(rune(s[0]))) + s[1:]
+	}
+	return ""
 }
