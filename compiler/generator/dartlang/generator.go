@@ -1430,7 +1430,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	imports += "import 'package:logging/logging.dart' as logging;\n"
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	imports += "import 'package:frugal/frugal.dart' as frugal;\n"
-	imports += "import 'package:w_common/disposable.dart';\n\n"
+	imports += "import 'package:w_common/disposable.dart' as disposable;\n\n"
 	// import included packages
 	includes, err := s.ReferencedIncludes()
 	if err != nil {
@@ -1732,10 +1732,10 @@ func (g *Generator) generateClient(service *parser.Service) string {
 		contents += g.GenerateInlineComment(service.Comment, "/")
 	}
 	if service.Extends != "" {
-		contents += fmt.Sprintf("class F%sClient extends %sClient with Disposable implements F%s {\n",
+		contents += fmt.Sprintf("class F%sClient extends %sClient with disposable.Disposable implements F%s {\n",
 			servTitle, g.getServiceExtendsName(service), servTitle)
 	} else {
-		contents += fmt.Sprintf("class F%sClient extends Disposable implements F%s {\n",
+		contents += fmt.Sprintf("class F%sClient extends disposable.Disposable implements F%s {\n",
 			servTitle, servTitle)
 	}
 	contents += fmt.Sprintf(tab+"static final logging.Logger _frugalLog = logging.Logger('%s');\n", servTitle)
