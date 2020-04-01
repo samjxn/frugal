@@ -198,7 +198,7 @@ func (g *Generator) addToPubspec(dir string) error {
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
 			Version: "^0.0.9",
 		},
-		"w_common":   "1.20.2",
+		"w_common":   "^1.20.2",
 	}
 
 	if g.Frugal.ContainsFrugalDefinitions() {

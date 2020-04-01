@@ -12,17 +12,19 @@ import 'package:collection/collection.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 
 
 abstract class FVendoredBase {}
 
-class FVendoredBaseClient implements FVendoredBase {
+class FVendoredBaseClient extends disposable.Disposable implements FVendoredBase {
   static final logging.Logger _frugalLog = logging.Logger('VendoredBase');
   Map<String, frugal.FMethod> _methods;
 
   FVendoredBaseClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
+    manageDisposable(provider);
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];

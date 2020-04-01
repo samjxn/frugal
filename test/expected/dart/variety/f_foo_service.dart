@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 import 'package:validStructs/validStructs.dart' as t_validStructs;
@@ -55,12 +56,13 @@ abstract class FFoo extends t_actual_base_dart.FBaseFoo {
 
 /// This is a thrift service. Frugal will generate bindings that include
 /// a frugal Context for each service call.
-class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
+class FFooClient extends t_actual_base_dart.FBaseFooClient with disposable.Disposable implements FFoo {
   static final logging.Logger _frugalLog = logging.Logger('Foo');
   Map<String, frugal.FMethod> _methods;
 
   FFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
       : super(provider, middleware) {
+    manageDisposable(provider);
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
