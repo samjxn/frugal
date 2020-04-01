@@ -19,6 +19,9 @@ import 'package:vendor_namespace/vendor_namespace.dart' as t_vendor_namespace;
 
 abstract class FVendoredBase {}
 
+FVendoredBaseClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
+    FVendoredBaseClient(provider, middleware);
+
 class FVendoredBaseClient extends disposable.Disposable implements FVendoredBase {
   static final logging.Logger _frugalLog = logging.Logger('VendoredBase');
   Map<String, frugal.FMethod> _methods;
