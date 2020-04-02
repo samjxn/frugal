@@ -13,7 +13,7 @@ void main() {
   const utf8Codec = const Utf8Codec();
 
   group('FHttpTransport', () {
-    Client client;
+    HttpClient client;
     FHttpTransport transport;
     FHttpTransport transportWithContext;
 
@@ -38,7 +38,7 @@ void main() {
     String transportResponseB64 = base64.encode(transportResponseFramed);
 
     setUp(() {
-      client = new Client();
+      client = new HttpClient();
       transport = new FHttpTransport(client, Uri.parse('http://localhost'),
           responseSizeLimit: 10, additionalHeaders: {'foo': 'bar'});
       transportWithContext = new FHttpTransport(
@@ -182,11 +182,11 @@ void main() {
   });
 
   group('FHttpTransport request size too large', () {
-    Client client;
+    HttpClient client;
     FHttpTransport transport;
 
     setUp(() {
-      client = new Client();
+      client = new HttpClient();
       transport = new FHttpTransport(client, Uri.parse('http://localhost'),
           requestSizeLimit: 10);
     });
@@ -204,7 +204,7 @@ void main() {
 
     setUp(() {
       transport =
-          new FHttpTransport(new Client(), Uri.parse('http://localhost'));
+          new FHttpTransport(new HttpClient(), Uri.parse('http://localhost'));
     });
 
     test('Test transport receives error on 401 response', () async {

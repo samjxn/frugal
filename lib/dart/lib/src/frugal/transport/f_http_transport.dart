@@ -27,7 +27,7 @@ class FHttpTransport extends FTransport {
   final Logger _log = new Logger('FHttpTransport');
 
   /// Client used by the transport to make HTTP requests.
-  final wt.Client client;
+  final wt.HttpClient client;
 
   /// URI of the frugal HTTP server.
   final Uri uri;
