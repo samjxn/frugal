@@ -1493,7 +1493,8 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	publisherClassname :=  fmt.Sprintf("%sPublisher", strings.Title(scope.Name))
 
 	// Generate publisher factory
-	publishers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n", publisherClassname)
+	publishers += fmt.Sprintf("%s %sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n",
+		publisherClassname, lowercaseFirstCharacter(publisherClassname))
 	publishers += tabtab + fmt.Sprintf("%s(provider, middleware);\n\n", publisherClassname)
 
 	if scope.Comment != nil {
@@ -1599,7 +1600,8 @@ func (g *Generator) GenerateSubscriber(file *os.File, scope *parser.Scope) error
 	subscriberClassname :=  fmt.Sprintf("%sSubscriber", strings.Title(scope.Name))
 
 	// Generate subscriber factory
-	subscribers += fmt.Sprintf("%sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n", subscriberClassname)
+	subscribers += fmt.Sprintf("%s %sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n",
+		subscriberClassname, lowercaseFirstCharacter(subscriberClassname))
 	subscribers += tabtab + fmt.Sprintf("%s(provider, middleware);\n\n", subscriberClassname)
 
 	if scope.Comment != nil {
@@ -1743,7 +1745,8 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	contents := ""
 
 	// Generate client factory
-	contents += fmt.Sprintf("%sFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>\n", clientClassname)
+	contents += fmt.Sprintf("%s %sFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>\n",
+		clientClassname, lowercaseFirstCharacter(clientClassname))
 	contents += tabtab + fmt.Sprintf("%s(provider, middleware);\n\n", clientClassname)
 
 	if service.Comment != nil {
@@ -2167,6 +2170,13 @@ func toFieldName(name string) string {
 func ignoreDeprecationWarningIfNeeded(tabs string, a parser.Annotations) string {
 	if a.IsDeprecated() {
 		return tabs + "// ignore: deprecated_member_use\n"
+	}
+	return ""
+}
+
+func lowercaseFirstCharacter(s string) string {
+	if len(s) > 0 {
+		return string(unicode.ToLower(rune(s[0]))) + s[1:]
 	}
 	return ""
 }
