@@ -13,7 +13,7 @@ import asyncio
 import base64
 
 import async_timeout
-from aiohttp.client import ClientSession
+from aiohttp.client import ClientTimeout, ClientSession
 from thrift.transport.TTransport import TTransportBase
 from thrift.transport.TTransport import TMemoryBuffer
 from thrift.transport.TTransport import TTransportException
@@ -130,12 +130,13 @@ class FHttpTransport(FTransportBase):
         # apply the default headers so their values cannot be modified
         request_headers.update(self._headers)
 
-        async with ClientSession() as session:
+        timeout = context.timeout / 1000
+        async with ClientSession(timeout=ClientTimeout(total=timeout)) as s:
             try:
-                with async_timeout.timeout(context.timeout / 1000):
-                    async with session.post(self._url,
-                                            data=payload,
-                                            headers=request_headers) \
+                with async_timeout.timeout(timeout):
+                    async with s.post(self._url,
+                                      data=payload,
+                                      headers=request_headers) \
                             as response:
                         return response.status, await response.content.read()
             except asyncio.TimeoutError:
