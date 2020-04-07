@@ -26,7 +26,7 @@ import 'package:frugal_test_client/test_cases.dart';
 import 'package:frugal_test/frugal_test.dart';
 import 'package:w_transport/w_transport.dart' as wt;
 // ignore: deprecated_member_use
-import 'package:w_transport/w_transport_vm.dart' show configureWTransportForVM;
+import 'package:w_transport/vm.dart' show configureWTransportForVM;
 
 List<FTest> _tests;
 FFrugalTestClient client;
