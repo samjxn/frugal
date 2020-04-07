@@ -19,6 +19,7 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:mockito/mockito.dart';
 import 'package:logging/logging.dart';
 import 'package:thrift/thrift.dart';
 import 'package:uuid/uuid.dart';
