@@ -6,7 +6,7 @@ import 'package:v1_music/v1_music.dart' as music;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
 import 'package:w_transport/w_transport.dart' as wt;
-import 'package:w_transport/w_transport_browser.dart'
+import 'package:w_transport/browser.dart'
     show configureWTransportForBrowser;
 
 frugal.FSubscription sub;
