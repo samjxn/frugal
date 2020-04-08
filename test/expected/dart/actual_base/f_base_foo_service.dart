@@ -9,9 +9,11 @@ import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:collection/collection.dart';
+import 'package:mockito/mockito.dart' show Mock;
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
@@ -23,11 +25,14 @@ abstract class FBaseFoo {
 FBaseFooClient fBaseFooClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
     FBaseFooClient(provider, middleware);
 
-class FBaseFooClient implements FBaseFoo {
+class FBaseFooClient extends disposable.Disposable implements FBaseFoo {
   static final logging.Logger _frugalLog = logging.Logger('BaseFoo');
   Map<String, frugal.FMethod> _methods;
 
   FBaseFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
+    if (provider != null && provider is disposable.Disposable && provider is! Mock && !provider.isOrWillBeDisposed) {
+      manageDisposable(provider);
+    }
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];

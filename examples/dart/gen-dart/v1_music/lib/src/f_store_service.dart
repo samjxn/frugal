@@ -9,9 +9,11 @@ import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:collection/collection.dart';
+import 'package:mockito/mockito.dart' show Mock;
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:v1_music/v1_music.dart' as t_v1_music;
 
@@ -31,11 +33,14 @@ FStoreClient fStoreClientFactory(frugal.FServiceProvider provider, {List<frugal.
 
 /// Services are the API for client and server interaction.
 /// Users can buy an album or enter a giveaway for a free album.
-class FStoreClient implements FStore {
+class FStoreClient extends disposable.Disposable implements FStore {
   static final logging.Logger _frugalLog = logging.Logger('Store');
   Map<String, frugal.FMethod> _methods;
 
   FStoreClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
+    if (provider != null && provider is disposable.Disposable && provider is! Mock && !provider.isOrWillBeDisposed) {
+      manageDisposable(provider);
+    }
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
