@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:collection/collection.dart';
+import 'package:mockito/mockito.dart' show Mock;
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
@@ -27,7 +28,9 @@ class FVendoredBaseClient extends disposable.Disposable implements FVendoredBase
   Map<String, frugal.FMethod> _methods;
 
   FVendoredBaseClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
-    manageDisposable(provider);
+    if (provider != null && provider is disposable.Disposable && provider is! Mock && !provider.isOrWillBeDisposed) {
+      manageDisposable(provider);
+    }
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];

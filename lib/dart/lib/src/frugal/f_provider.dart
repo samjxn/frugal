@@ -51,7 +51,9 @@ class FServiceProvider extends Disposable {
       : _middleware = middleware ?? [] {
     // The transport is created by the messaging-sdk, and goes out of scope
     // besides this reference, so it is safe to manage here.
-    if (this.transport != null && this.transport is! Mock && !this.transport.isOrWillBeDisposed) {
+    if (this.transport != null &&
+        this.transport is! Mock &&
+        !this.transport.isOrWillBeDisposed) {
       manageDisposable(this.transport);
     }
   }

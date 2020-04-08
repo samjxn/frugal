@@ -194,6 +194,7 @@ func (g *Generator) addToPubspec(dir string) error {
 	deps := map[interface{}]interface{}{
 		"collection": "^1.14.12",
 		"logging":    "^0.11.2",
+		"mockito":    "^4.1.1",
 		"thrift": dep{
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
 			Version: "^0.0.9",
@@ -1427,6 +1428,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	imports += "import 'dart:typed_data' show Uint8List;\n\n"
 
 	imports += "import 'package:collection/collection.dart';\n"
+	imports += "import 'package:mockito/mockito.dart' show Mock;\n"
 	imports += "import 'package:logging/logging.dart' as logging;\n"
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
 	imports += "import 'package:frugal/frugal.dart' as frugal;\n"
@@ -1771,7 +1773,9 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	} else {
 		contents += tab + fmt.Sprintf("%s(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {\n", clientClassname)
 	}
-	contents += tabtab + "manageDisposable(provider);\n"
+	contents += tabtab+ "if (provider != null && provider is disposable.Disposable && provider is! Mock && !provider.isOrWillBeDisposed) {\n"
+	contents += tabtabtab + "manageDisposable(provider);\n"
+	contents += tabtab+ "}\n"
 	contents += tabtab + "_transport = provider.transport;\n"
 	contents += tabtab + "_protocolFactory = provider.protocolFactory;\n"
 	contents += tabtab + "var combined = middleware ?? [];\n"
