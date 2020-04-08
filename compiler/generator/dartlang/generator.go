@@ -42,7 +42,6 @@ const (
 	tabtabtabtab          = tab + tab + tab + tab
 	tabtabtabtabtab       = tab + tab + tab + tab + tab
 	tabtabtabtabtabtab    = tab + tab + tab + tab + tab + tab
-	tabtabtabtabtabtabtab = tab + tab + tab + tab + tab + tab + tab
 	libraryPrefixOption   = "library_prefix"
 	useVendorOption       = "use_vendor"
 )
@@ -199,6 +198,7 @@ func (g *Generator) addToPubspec(dir string) error {
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
 			Version: "^0.0.9",
 		},
+		"w_common":   "^1.20.2",
 	}
 
 	if g.Frugal.ContainsFrugalDefinitions() {
@@ -1429,7 +1429,8 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	imports += "import 'package:collection/collection.dart';\n"
 	imports += "import 'package:logging/logging.dart' as logging;\n"
 	imports += "import 'package:thrift/thrift.dart' as thrift;\n"
-	imports += "import 'package:frugal/frugal.dart' as frugal;\n\n"
+	imports += "import 'package:frugal/frugal.dart' as frugal;\n"
+	imports += "import 'package:w_common/disposable.dart' as disposable;\n\n"
 	// import included packages
 	includes, err := s.ReferencedIncludes()
 	if err != nil {
@@ -1755,10 +1756,10 @@ func (g *Generator) generateClient(service *parser.Service) string {
 
 	// Generate client class
 	if service.Extends != "" {
-		contents += fmt.Sprintf("class %s extends %sClient implements F%s {\n",
+		contents += fmt.Sprintf("class %s extends %sClient with disposable.Disposable implements F%s {\n",
 			clientClassname, g.getServiceExtendsName(service), servTitle)
 	} else {
-		contents += fmt.Sprintf("class %s implements F%s {\n",
+		contents += fmt.Sprintf("class %s extends disposable.Disposable implements F%s {\n",
 			clientClassname, servTitle)
 	}
 	contents += fmt.Sprintf(tab+"static final logging.Logger _frugalLog = logging.Logger('%s');\n", servTitle)
@@ -1770,6 +1771,7 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	} else {
 		contents += tab + fmt.Sprintf("%s(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {\n", clientClassname)
 	}
+	contents += tabtab + "manageDisposable(provider);\n"
 	contents += tabtab + "_transport = provider.transport;\n"
 	contents += tabtab + "_protocolFactory = provider.protocolFactory;\n"
 	contents += tabtab + "var combined = middleware ?? [];\n"
