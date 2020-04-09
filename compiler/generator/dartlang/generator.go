@@ -1792,8 +1792,8 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	/// Dispose of the provider if possible
 	contents += tab + "@override\n"
 	contents += tab + "Future<Null> onDispose() async {\n"
-	contents += tabtab + "if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {\n"
-	contents += tabtabtab + "return _provider?.dispose();\n"
+	contents += tabtab + "if (_provider is disposable.Disposable && !(_provider?.isOrWillBeDisposed ?? true))  {\n"
+	contents += tabtabtab + "return _provider.dispose();\n"
 	contents += tabtab + "}\n"
 	contents += tabtab + "return null;\n"
 	contents += tab + "}\n"

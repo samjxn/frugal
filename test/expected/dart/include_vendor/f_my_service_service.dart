@@ -47,8 +47,8 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient with dispo
 
   @override
   Future<Null> onDispose() async {
-    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
-      return _provider?.dispose();
+    if (_provider is disposable.Disposable && !(_provider?.isOrWillBeDisposed ?? true))  {
+      return _provider.dispose();
     }
     return null;
   }

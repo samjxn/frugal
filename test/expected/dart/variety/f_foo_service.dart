@@ -91,8 +91,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient with disposable.Dispo
 
   @override
   Future<Null> onDispose() async {
-    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
-      return _provider?.dispose();
+    if (_provider is disposable.Disposable && !(_provider?.isOrWillBeDisposed ?? true))  {
+      return _provider.dispose();
     }
     return null;
   }
