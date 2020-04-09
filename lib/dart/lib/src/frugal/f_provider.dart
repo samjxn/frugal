@@ -52,10 +52,9 @@ class FServiceProvider extends Disposable {
 
   @override
   Future<Null> onDispose() async {
-    if (!(transport?.isOrWillBeDisposed ?? true)) {
-      return transport.dispose();
-    }
-    return null;
+    if (transport == null) return null;
+    if (transport.isOrWillBeDisposed) return null;
+    return transport.dispose();
   }
 
   /// [FTransport] used by the service.

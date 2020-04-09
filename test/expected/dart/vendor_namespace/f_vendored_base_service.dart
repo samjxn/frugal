@@ -41,7 +41,7 @@ class FVendoredBaseClient extends disposable.Disposable implements FVendoredBase
 
   @override
   Future<Null> onDispose() async {
-    if (_provider is disposable.Disposable && !(_provider?.isOrWillBeDisposed ?? true))  {
+    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
       return _provider.dispose();
     }
     return null;
