@@ -9,7 +9,6 @@ import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:collection/collection.dart';
-import 'package:mockito/mockito.dart' show Mock;
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
@@ -65,10 +64,8 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient with disposable.Dispo
   Map<String, frugal.FMethod> _methods;
 
   FFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
-      : super(provider, middleware) {
-    if (provider != null && provider is disposable.Disposable && provider is! Mock && !provider.isOrWillBeDisposed) {
-      manageDisposable(provider);
-    }
+      : this._provider = provider,
+        super(provider, middleware) {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
@@ -88,8 +85,17 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient with disposable.Dispo
     this._methods['sayAgain'] = frugal.FMethod(this._sayAgain, 'Foo', 'sayAgain', combined);
   }
 
+  frugal.FServiceProvider _provider;
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
+
+  @override
+  Future<Null> onDispose() async {
+    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
+      return _provider?.dispose();
+    }
+    return null;
+  }
 
   /// Ping the server.
   /// Deprecated: don't use this; use "something else"

@@ -48,14 +48,14 @@ class FServiceProvider extends Disposable {
   /// Creates a new [FServiceProvider].
   FServiceProvider(this.transport, this.protocolFactory,
       {List<Middleware> middleware})
-      : _middleware = middleware ?? [] {
-    // The transport is created by the messaging-sdk, and goes out of scope
-    // besides this reference, so it is safe to manage here.
-    if (this.transport != null &&
-        this.transport is! Mock &&
-        !this.transport.isOrWillBeDisposed) {
-      manageDisposable(this.transport);
+      : _middleware = middleware ?? [];
+
+  @override
+  Future<Null> onDispose() async {
+    if (!transport.isOrWillBeDisposed)  {
+      return transport?.dispose();
     }
+    return null;
   }
 
   /// [FTransport] used by the service.
