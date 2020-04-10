@@ -9,7 +9,6 @@ import 'dart:async';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:collection/collection.dart';
-import 'package:mockito/mockito.dart' show Mock;
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
@@ -29,10 +28,8 @@ class FBaseFooClient extends disposable.Disposable implements FBaseFoo {
   static final logging.Logger _frugalLog = logging.Logger('BaseFoo');
   Map<String, frugal.FMethod> _methods;
 
-  FBaseFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
-    if (provider != null && provider is disposable.Disposable && provider is! Mock && !provider.isOrWillBeDisposed) {
-      manageDisposable(provider);
-    }
+  FBaseFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
+      : this._provider = provider {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
@@ -41,8 +38,17 @@ class FBaseFooClient extends disposable.Disposable implements FBaseFoo {
     this._methods['basePing'] = frugal.FMethod(this._basePing, 'BaseFoo', 'basePing', combined);
   }
 
+  frugal.FServiceProvider _provider;
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
+
+  @override
+  Future<Null> onDispose() async {
+    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
+      return _provider.dispose();
+    }
+    return null;
+  }
 
   @override
   Future basePing(frugal.FContext ctx) {
