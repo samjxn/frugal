@@ -5,8 +5,6 @@ target/
 .idea
 .vscode
 py3env
-.vscode
-
 
 # Do not commit the following directories created by pub.
 .buildlog
@@ -53,6 +51,7 @@ lib/gopherjs/glide.lock
 artifacts/
 test/integration/log/*
 test/integration/*/gen*
+!test/integration/dart/gen-dart/
 test/integration/go/bin/*
 test/integration/java/frugal-integration-test/cross.jar
 test/integration/java/frugal-integration-test/gen-java
