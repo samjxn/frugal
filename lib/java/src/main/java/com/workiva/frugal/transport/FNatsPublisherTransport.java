@@ -65,12 +65,12 @@ public class FNatsPublisherTransport implements FPublisherTransport {
     }
 
     @Override
-    public synchronized boolean isOpen() {
+    public boolean isOpen() {
         return conn.getStatus() == Status.CONNECTED;
     }
 
     @Override
-    public synchronized void open() throws TTransportException {
+    public void open() throws TTransportException {
         // We only need to check that the NATS client is connected
         if (conn.getStatus() != Status.CONNECTED) {
             throw new TTransportException(TTransportExceptionType.NOT_OPEN,
@@ -79,7 +79,7 @@ public class FNatsPublisherTransport implements FPublisherTransport {
     }
 
     @Override
-    public synchronized void close() {
+    public void close() {
         /* Do nothing */
     }
 
