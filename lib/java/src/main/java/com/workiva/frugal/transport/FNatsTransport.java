@@ -169,7 +169,10 @@ public class FNatsTransport extends FAsyncTransport {
      */
     protected static TTransportException getClosedConditionException(Status connStatus, String prefix) {
         if (connStatus != Status.CONNECTED) {
-            return new TTransportException(TTransportExceptionType.NOT_OPEN,
+            int ttype = connStatus == Status.DISCONNECTED || connStatus == Status.RECONNECTING
+                    ? TTransportExceptionType.DISCONNECTED
+                    : TTransportExceptionType.NOT_OPEN;
+            return new TTransportException(ttype,
                     String.format("%s NATS client not connected (has status %s)", prefix, connStatus.name()));
         }
         return new TTransportException(TTransportExceptionType.NOT_OPEN,

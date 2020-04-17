@@ -1,5 +1,6 @@
 package com.workiva.frugal.transport;
 
+import com.workiva.frugal.exception.TTransportExceptionType;
 import io.nats.client.Connection;
 import io.nats.client.Connection.Status;
 import org.apache.thrift.transport.TTransportException;
@@ -11,6 +12,7 @@ import static com.workiva.frugal.transport.FNatsTransport.NATS_MAX_MESSAGE_SIZE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -69,12 +71,43 @@ public class FNatsPublisherTransportTest {
         verify(conn).publish(formattedSubject, payload);
     }
 
-    @Test(expected = TTransportException.class)
+    @Test
     public void testPublishNotConnected() throws TTransportException {
         when(conn.getStatus()).thenReturn(Status.DISCONNECTED);
         byte[] payload = new byte[]{1, 2, 3, 4};
 
-        transport.publish(topic, payload);
+        try {
+            transport.publish(topic, payload);
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.NOT_OPEN, e.getType());
+        }
+    }
+
+    @Test
+    public void testPublishDisconnected() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.DISCONNECTED);
+        byte[] payload = new byte[]{1, 2, 3, 4};
+
+        try {
+            transport.publish(topic, payload);
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
+    }
+
+    @Test
+    public void testPublishReconnecting() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.RECONNECTING);
+        byte[] payload = new byte[]{1, 2, 3, 4};
+
+        try {
+            transport.publish(topic, payload);
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
     }
 
     @Test(expected = TTransportException.class)
