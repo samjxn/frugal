@@ -23,6 +23,7 @@ class TTransportExceptionType(object):
 
     REQUEST_TOO_LARGE = 100
     RESPONSE_TOO_LARGE = 101
+    DISCONNECTED = 102
 
 
 class TApplicationExceptionType(object):
