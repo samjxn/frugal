@@ -66,15 +66,19 @@ public class FNatsPublisherTransport implements FPublisherTransport {
 
     @Override
     public boolean isOpen() {
-        return conn.getStatus() == Status.CONNECTED;
+        return isOpen(conn.getStatus());
+    }
+
+    private boolean isOpen(Status status) {
+        return status == Status.CONNECTED;
     }
 
     @Override
     public void open() throws TTransportException {
         // We only need to check that the NATS client is connected
-        if (conn.getStatus() != Status.CONNECTED) {
-            throw new TTransportException(TTransportExceptionType.NOT_OPEN,
-                    "NATS not connected, has status " + conn.getStatus());
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "open:");
         }
     }
 
@@ -90,8 +94,9 @@ public class FNatsPublisherTransport implements FPublisherTransport {
 
     @Override
     public void publish(String topic, byte[] payload) throws TTransportException {
-        if (!isOpen()) {
-            throw getClosedConditionException(conn.getStatus(), "publish:");
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "publish:");
         }
 
         if ("".equals(topic)) {

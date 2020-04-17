@@ -85,7 +85,11 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public boolean isOpen() {
-        return dispatcher != null && conn.getStatus() == Status.CONNECTED;
+        return isOpen(conn.getStatus());
+    }
+
+    private boolean isOpen(Status status) {
+        return dispatcher != null && status == Status.CONNECTED;
     }
 
     /**
@@ -95,8 +99,9 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public void open() throws TTransportException {
-        if (conn.getStatus() != Status.CONNECTED) {
-            throw getClosedConditionException(conn.getStatus(), "open:");
+        Status status = conn.getStatus();
+        if (status != Status.CONNECTED) {
+            throw getClosedConditionException(status, "open:");
         }
         if (dispatcher != null) {
             throw new TTransportException(TTransportExceptionType.ALREADY_OPEN, "NATS transport already open");
@@ -119,8 +124,9 @@ public class FNatsTransport extends FAsyncTransport {
 
     @Override
     protected void flush(byte[] payload) throws TTransportException {
-        if (!isOpen()) {
-            throw getClosedConditionException(conn.getStatus(), "flush:");
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "flush:");
         }
         conn.publish(subject, inbox, payload);
     }
@@ -138,6 +144,20 @@ public class FNatsTransport extends FAsyncTransport {
             }
         }
 
+    }
+
+    protected void preflightRequestCheck(int length) throws TTransportException {
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "request:");
+        }
+
+        int requestSizeLimit = getRequestSizeLimit();
+        if (requestSizeLimit > 0 && length > requestSizeLimit) {
+            throw new TTransportException(TTransportExceptionType.REQUEST_TOO_LARGE,
+                    String.format("Message exceeds %d bytes, was %d bytes",
+                            requestSizeLimit, length));
+        }
     }
 
     /**
