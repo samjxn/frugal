@@ -72,8 +72,8 @@ public class FNatsPublisherTransportTest {
     }
 
     @Test
-    public void testPublishNotConnected() throws TTransportException {
-        when(conn.getStatus()).thenReturn(Status.DISCONNECTED);
+    public void testPublishClosed() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CLOSED);
         byte[] payload = new byte[]{1, 2, 3, 4};
 
         try {
