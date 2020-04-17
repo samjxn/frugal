@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:some_vendored_place/vendor_namespace.dart' as t_vendor_namespace;
 import 'package:excepts/excepts.dart' as t_excepts;
@@ -25,12 +26,13 @@ abstract class FMyService extends t_vendor_namespace.FVendoredBase {
 FMyServiceClient fMyServiceClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
     FMyServiceClient(provider, middleware);
 
-class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements FMyService {
+class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient with disposable.Disposable implements FMyService {
   static final logging.Logger _frugalLog = logging.Logger('MyService');
   Map<String, frugal.FMethod> _methods;
 
   FMyServiceClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
-      : super(provider, middleware) {
+      : this._provider = provider,
+        super(provider, middleware) {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
@@ -39,8 +41,17 @@ class FMyServiceClient extends t_vendor_namespace.FVendoredBaseClient implements
     this._methods['getItem'] = frugal.FMethod(this._getItem, 'MyService', 'getItem', combined);
   }
 
+  frugal.FServiceProvider _provider;
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
+
+  @override
+  Future<Null> onDispose() async {
+    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
+      return _provider.dispose();
+    }
+    return null;
+  }
 
   @override
   Future<t_vendor_namespace.Item> getItem(frugal.FContext ctx) {

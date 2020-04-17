@@ -57,9 +57,11 @@ def update_tests(version, root):
     """Update the frugal generation tests."""
     os.chdir('{0}/test'.format(root))
     if call(['go', 'get', 'github.com/stretchr/testify/assert/...']) != 0:
-        raise Exception('Failed to get testify depdendency')
+        raise Exception('Failed to get testify dependency')
     if call(['go', 'test', '--copy-files']) != 0:
         raise Exception('Failed to update generated tests')
+    if call(['frugal', '--gen', 'dart:use_enums=true', '-r', '--out=\'../test/integration/dart/gen-dart\'', '../test/integration/frugalTest.frugal'])
+        raise Exception('Failed to generate Dart test code')
 
 
 def update_examples(version, root):

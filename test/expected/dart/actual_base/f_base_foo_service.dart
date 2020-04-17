@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 
@@ -23,11 +24,12 @@ abstract class FBaseFoo {
 FBaseFooClient fBaseFooClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
     FBaseFooClient(provider, middleware);
 
-class FBaseFooClient implements FBaseFoo {
+class FBaseFooClient extends disposable.Disposable implements FBaseFoo {
   static final logging.Logger _frugalLog = logging.Logger('BaseFoo');
   Map<String, frugal.FMethod> _methods;
 
-  FBaseFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
+  FBaseFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
+      : this._provider = provider {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
@@ -36,8 +38,17 @@ class FBaseFooClient implements FBaseFoo {
     this._methods['basePing'] = frugal.FMethod(this._basePing, 'BaseFoo', 'basePing', combined);
   }
 
+  frugal.FServiceProvider _provider;
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
+
+  @override
+  Future<Null> onDispose() async {
+    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
+      return _provider.dispose();
+    }
+    return null;
+  }
 
   @override
   Future basePing(frugal.FContext ctx) {

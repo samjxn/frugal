@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:v1_music/v1_music.dart' as t_v1_music;
 
@@ -31,11 +32,12 @@ FStoreClient fStoreClientFactory(frugal.FServiceProvider provider, {List<frugal.
 
 /// Services are the API for client and server interaction.
 /// Users can buy an album or enter a giveaway for a free album.
-class FStoreClient implements FStore {
+class FStoreClient extends disposable.Disposable implements FStore {
   static final logging.Logger _frugalLog = logging.Logger('Store');
   Map<String, frugal.FMethod> _methods;
 
-  FStoreClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware]) {
+  FStoreClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
+      : this._provider = provider {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
@@ -45,8 +47,17 @@ class FStoreClient implements FStore {
     this._methods['enterAlbumGiveaway'] = frugal.FMethod(this._enterAlbumGiveaway, 'Store', 'enterAlbumGiveaway', combined);
   }
 
+  frugal.FServiceProvider _provider;
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
+
+  @override
+  Future<Null> onDispose() async {
+    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
+      return _provider.dispose();
+    }
+    return null;
+  }
 
   @override
   Future<t_v1_music.Album> buyAlbum(frugal.FContext ctx, String aSIN, String acct) {

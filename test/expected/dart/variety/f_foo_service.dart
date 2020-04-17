@@ -12,6 +12,7 @@ import 'package:collection/collection.dart';
 import 'package:logging/logging.dart' as logging;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
+import 'package:w_common/disposable.dart' as disposable;
 
 import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
 import 'package:validStructs/validStructs.dart' as t_validStructs;
@@ -58,12 +59,13 @@ FFooClient fFooClientFactory(frugal.FServiceProvider provider, {List<frugal.Midd
 
 /// This is a thrift service. Frugal will generate bindings that include
 /// a frugal Context for each service call.
-class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
+class FFooClient extends t_actual_base_dart.FBaseFooClient with disposable.Disposable implements FFoo {
   static final logging.Logger _frugalLog = logging.Logger('Foo');
   Map<String, frugal.FMethod> _methods;
 
   FFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
-      : super(provider, middleware) {
+      : this._provider = provider,
+        super(provider, middleware) {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
@@ -83,8 +85,17 @@ class FFooClient extends t_actual_base_dart.FBaseFooClient implements FFoo {
     this._methods['sayAgain'] = frugal.FMethod(this._sayAgain, 'Foo', 'sayAgain', combined);
   }
 
+  frugal.FServiceProvider _provider;
   frugal.FTransport _transport;
   frugal.FProtocolFactory _protocolFactory;
+
+  @override
+  Future<Null> onDispose() async {
+    if (_provider is disposable.Disposable && !_provider.isOrWillBeDisposed)  {
+      return _provider.dispose();
+    }
+    return null;
+  }
 
   /// Ping the server.
   /// Deprecated: don't use this; use "something else"
