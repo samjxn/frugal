@@ -17,8 +17,6 @@ import com.workiva.frugal.exception.TTransportExceptionType;
 import io.nats.client.Connection;
 import io.nats.client.Connection.Status;
 import org.apache.thrift.transport.TTransportException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 import static com.workiva.frugal.transport.FNatsTransport.NATS_MAX_MESSAGE_SIZE;
@@ -29,8 +27,6 @@ import static com.workiva.frugal.transport.FNatsTransport.getClosedConditionExce
  * Messages are limited to 1MB in size.
  */
 public class FNatsPublisherTransport implements FPublisherTransport {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FNatsPublisherTransport.class);
-
     private final Connection conn;
 
     /**
