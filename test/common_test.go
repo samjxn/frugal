@@ -39,13 +39,7 @@ const (
 	vendorNamespace         = "idl/vendor_namespace.frugal"
 )
 
-var copyFiles bool
-
-func init() {
-	copyFilesPtr := flag.Bool("copy-files", false, "")
-	flag.Parse()
-	copyFiles = *copyFilesPtr
-}
+var copyFilesPtr = flag.Bool("copy-files", false, "")
 
 type FileComparisonPair struct {
 	ExpectedPath  string
@@ -90,7 +84,10 @@ func compareAllFiles(t *testing.T, pairs []FileComparisonPair) {
 }
 
 func copyAllFiles(t *testing.T, pairs []FileComparisonPair) {
-	if !copyFiles {
+	if !flag.Parsed() {
+		flag.Parse()
+	}
+	if !*copyFilesPtr {
 		return
 	}
 
