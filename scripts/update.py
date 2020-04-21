@@ -13,11 +13,12 @@ LANGUAGES = {
     "python": Python(),
 }
 
-_VERSION_MATCH = '.*?\..*?\..*?'
+_VERSION_MATCH = '.*?..*?..*?'
 
 
 def main(args):
     root = os.getcwd().rstrip('/')
+    print(LANGUAGES.keys())
     if args.version:
         update_frugal_version(args.version.strip('v'), root)
         update_expected_tests(root)
@@ -60,7 +61,7 @@ def update_tests(version, root):
         raise Exception('Failed to get testify dependency')
     if call(['go', 'test', '--copy-files']) != 0:
         raise Exception('Failed to update generated tests')
-    if call(['frugal', '--gen', 'dart:use_enums=true', '-r', '--out=\'../test/integration/dart/gen-dart\'', '../test/integration/frugalTest.frugal'])
+    if call(['frugal', '--gen', 'dart:use_enums=true', '-r', '--out=\'../test/integration/dart/gen-dart\'', '../test/integration/frugalTest.frugal']):
         raise Exception('Failed to generate Dart test code')
 
 
