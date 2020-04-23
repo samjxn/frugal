@@ -40,4 +40,8 @@ public class TTransportExceptionType {
      */
     public static final int RESPONSE_TOO_LARGE = 101;
 
+    /**
+     * TTransportException code that indicates the transport was disconnected.
+     */
+    public static final int DISCONNECTED = 102;
 }
