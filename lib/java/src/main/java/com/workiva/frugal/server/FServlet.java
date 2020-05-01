@@ -84,10 +84,18 @@ public class FServlet extends HttpServlet {
             FProtocolFactory inProtocolFactory,
             FProtocolFactory outProtocolFactory,
             int maxRequestSize) {
-        this.processor = processor;
-        this.inProtocolFactory = inProtocolFactory;
-        this.outProtocolFactory = outProtocolFactory;
-        this.maxRequestSize = maxRequestSize;
+        this(builder()
+                .processor(processor)
+                .inProtocolFactory(inProtocolFactory)
+                .outProtocolFactory(outProtocolFactory)
+                .maxRequestSize(maxRequestSize));
+    }
+
+    private FServlet(Builder b) {
+        this.processor = b.processor;
+        this.inProtocolFactory = b.inProtocolFactory;
+        this.outProtocolFactory = b.outProtocolFactory;
+        this.maxRequestSize = b.maxRequestSize;
     }
 
     @Override
@@ -159,5 +167,40 @@ public class FServlet extends HttpServlet {
             responseLimit = 0;
         }
         return responseLimit;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private FProcessor processor;
+        private FProtocolFactory inProtocolFactory;
+        private FProtocolFactory outProtocolFactory;
+        private int maxRequestSize;
+
+        public FServlet build() {
+            return new FServlet(this);
+        }
+
+        public Builder processor(FProcessor processor) {
+            this.processor = processor;
+            return this;
+        }
+
+        public Builder inProtocolFactory(FProtocolFactory inProtocolFactory) {
+            this.inProtocolFactory = inProtocolFactory;
+            return this;
+        }
+
+        public Builder outProtocolFactory(FProtocolFactory outProtocolFactory) {
+            this.outProtocolFactory = outProtocolFactory;
+            return this;
+        }
+
+        public Builder maxRequestSize(int maxRequestSize) {
+            this.maxRequestSize = maxRequestSize;
+            return this;
+        }
     }
 }
