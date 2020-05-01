@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
@@ -50,6 +52,7 @@ public class FServlet extends HttpServlet {
     private final FProtocolFactory outProtocolFactory;
     private final int maxRequestSize;
     private final ExecutorService exec;
+    private final FServerEventHandler eventHandler;
 
     /**
      * Creates a servlet for the specified processor and protocol factory, which
@@ -101,10 +104,21 @@ public class FServlet extends HttpServlet {
         this.outProtocolFactory = b.outProtocolFactory;
         this.maxRequestSize = b.maxRequestSize;
         this.exec = b.exec;
+        this.eventHandler = b.eventHandler != null ? b.eventHandler : new FDefaultServerEventHandler(5000);
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Map<Object, Object> ephemeralProperties = new HashMap<>();
+        eventHandler.onRequestReceived(ephemeralProperties);
+        try {
+            process(req, resp, ephemeralProperties);
+        } finally {
+            eventHandler.onRequestEnded(ephemeralProperties);
+        }
+    }
+
+    private void process(HttpServletRequest req, HttpServletResponse resp, Map<Object, Object> ephemeralProperties) throws ServletException, IOException {
         byte[] frame;
         try (InputStream decoderIn = Base64.getDecoder().wrap(req.getInputStream());
                 DataInputStream dataIn = new DataInputStream(decoderIn)) {
@@ -134,10 +148,10 @@ public class FServlet extends HttpServlet {
         byte[] data;
         try {
             if (exec == null) {
-                data = process(frame);
+                data = process(frame, ephemeralProperties);
             } else {
                 try {
-                    data = exec.submit(() -> process(frame)).get();
+                    data = exec.submit(() -> process(frame, ephemeralProperties)).get();
                 } catch (ExecutionException e) {
                     Throwable cause = e.getCause();
                     if (cause instanceof Error) {
@@ -173,7 +187,9 @@ public class FServlet extends HttpServlet {
         }
     }
 
-    private byte[] process(byte[] frame) throws TException {
+    private byte[] process(byte[] frame, Map<Object, Object> ephemeralProperties) throws TException {
+        eventHandler.onRequestStarted(ephemeralProperties);
+
         TTransport inTransport = new TMemoryInputTransport(frame);
         TMemoryOutputBuffer outTransport = new TMemoryOutputBuffer();
         try {
@@ -211,6 +227,7 @@ public class FServlet extends HttpServlet {
         private FProtocolFactory outProtocolFactory;
         private int maxRequestSize = DEFAULT_MAX_REQUEST_SIZE;
         private ExecutorService exec;
+        private FServerEventHandler eventHandler;
 
         public FServlet build() {
             return new FServlet(this);
@@ -243,6 +260,11 @@ public class FServlet extends HttpServlet {
 
         public Builder executorService(ExecutorService exec) {
             this.exec = exec;
+            return this;
+        }
+
+        public Builder eventHandler(FServerEventHandler eventHandler) {
+            this.eventHandler = eventHandler;
             return this;
         }
     }

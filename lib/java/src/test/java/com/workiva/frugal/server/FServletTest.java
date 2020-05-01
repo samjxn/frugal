@@ -6,6 +6,8 @@ import org.apache.thrift.TException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -21,6 +23,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Base64;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -34,9 +37,11 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.hamcrest.MockitoHamcrest.argThat;
 
 /**
  * Tests for {@link FServlet}.
@@ -97,6 +102,7 @@ public class FServletTest {
     private final FProcessor mockProcessor = mock(FProcessor.class);
     private final FProtocolFactory mockProtocolFactory = mock(FProtocolFactory.class);
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    private final FServerEventHandler mockEventHandler = mock(FServerEventHandler.class);
     private FServlet servlet = new FServlet(mockProcessor, mockProtocolFactory);
 
     private final HttpServletRequest mockRequest = mock(HttpServletRequest.class);
@@ -125,6 +131,14 @@ public class FServletTest {
                 .processor(mockProcessor)
                 .protocolFactory(mockProtocolFactory)
                 .executorService(executorService)
+                .build();
+    }
+
+    private void setupEventHandler() {
+        servlet = FServlet.builder()
+                .processor(mockProcessor)
+                .protocolFactory(mockProtocolFactory)
+                .eventHandler(mockEventHandler)
                 .build();
     }
 
@@ -315,6 +329,21 @@ public class FServletTest {
         verify(mockResponse).setContentType("application/x-frugal");
         verify(mockResponse).setHeader("Content-Transfer-Encoding", "base64");
         verify(mockResponse).getOutputStream();
+    }
+
+    @Test
+    public void testOkWithEventHandler() throws Exception {
+        setupEventHandler();
+        testOk();
+
+        InOrder inOrder = inOrder(mockEventHandler, mockProcessor);
+        @SuppressWarnings("unchecked")
+        ArgumentCaptor<Map<Object, Object>> propsCaptor = ArgumentCaptor.forClass(Map.class);
+        inOrder.verify(mockEventHandler).onRequestReceived(propsCaptor.capture());
+        Map<Object, Object> props = propsCaptor.getValue();
+        inOrder.verify(mockEventHandler).onRequestStarted(argThat(sameInstance(props)));
+        inOrder.verify(mockProcessor).process(any(), any());
+        inOrder.verify(mockEventHandler).onRequestEnded(argThat(sameInstance(props)));
     }
 
     @Test
