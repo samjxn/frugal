@@ -1,6 +1,7 @@
 package com.workiva.frugal.server;
 
 import com.workiva.frugal.processor.FProcessor;
+import com.workiva.frugal.protocol.FProtocol;
 import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;
 import org.apache.thrift.TException;
@@ -126,26 +127,19 @@ public class FServlet extends HttpServlet {
             }
         }
 
-        TTransport inTransport = new TMemoryInputTransport(frame);
-        TMemoryOutputBuffer outTransport = new TMemoryOutputBuffer();
+        byte[] data;
         try {
-            processor.process(inProtocolFactory.getProtocol(inTransport), outProtocolFactory.getProtocol(outTransport));
-        } catch (RuntimeException e) {
-            // Already logged by FBaseProcessor and written to the output buffer
-            // as an application exception, so write that response back to the
-            // client just like FNatsServer.
+            data = process(frame);
         } catch (TException e) {
             LOGGER.error("Frugal processor returned unhandled error", e);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
 
-        byte[] data = outTransport.getWriteBytes();
-
         int responseLimit = getResponseLimit(req);
-        if (responseLimit > 0 && outTransport.size() > responseLimit) {
+        if (responseLimit > 0 && data.length > responseLimit) {
             LOGGER.debug("Response size too large for client. Received: {}, Limit: {}",
-                    outTransport.size(), responseLimit);
+                    data.length, responseLimit);
             resp.setStatus(HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE);
             return;
         }
@@ -155,6 +149,22 @@ public class FServlet extends HttpServlet {
         try (OutputStream out = Base64.getEncoder().wrap(resp.getOutputStream())) {
             out.write(data);
         }
+    }
+
+    private byte[] process(byte[] frame) throws TException {
+        TTransport inTransport = new TMemoryInputTransport(frame);
+        TMemoryOutputBuffer outTransport = new TMemoryOutputBuffer();
+        try {
+            FProtocol inProtocol = inProtocolFactory.getProtocol(inTransport);
+            FProtocol outProtocol = outProtocolFactory.getProtocol(outTransport);
+            processor.process(inProtocol, outProtocol);
+        } catch (RuntimeException e) {
+            // Already logged by FBaseProcessor and written to the output buffer
+            // as an application exception, so write that response back to the
+            // client just like FNatsServer.
+        }
+
+        return outTransport.getWriteBytes();
     }
 
     // Visible for testing.
