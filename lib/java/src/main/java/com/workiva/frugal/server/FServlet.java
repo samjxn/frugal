@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Base64;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Processes POST requests as Frugal requests for a processor.
@@ -47,6 +49,7 @@ public class FServlet extends HttpServlet {
     private final FProtocolFactory inProtocolFactory;
     private final FProtocolFactory outProtocolFactory;
     private final int maxRequestSize;
+    private final ExecutorService exec;
 
     /**
      * Creates a servlet for the specified processor and protocol factory, which
@@ -97,6 +100,7 @@ public class FServlet extends HttpServlet {
         this.inProtocolFactory = b.inProtocolFactory;
         this.outProtocolFactory = b.outProtocolFactory;
         this.maxRequestSize = b.maxRequestSize;
+        this.exec = b.exec;
     }
 
     @Override
@@ -129,8 +133,26 @@ public class FServlet extends HttpServlet {
 
         byte[] data;
         try {
-            data = process(frame);
-        } catch (TException e) {
+            if (exec == null) {
+                data = process(frame);
+            } else {
+                try {
+                    data = exec.submit(() -> process(frame)).get();
+                } catch (ExecutionException e) {
+                    Throwable cause = e.getCause();
+                    if (cause instanceof Error) {
+                        throw (Error) cause;
+                    }
+                    if (cause instanceof RuntimeException) {
+                        throw (RuntimeException) cause;
+                    }
+                    if (cause instanceof TException) {
+                        throw (TException) cause;
+                    }
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (InterruptedException | TException e) {
             LOGGER.error("Frugal processor returned unhandled error", e);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
@@ -187,7 +209,8 @@ public class FServlet extends HttpServlet {
         private FProcessor processor;
         private FProtocolFactory inProtocolFactory;
         private FProtocolFactory outProtocolFactory;
-        private int maxRequestSize;
+        private int maxRequestSize = DEFAULT_MAX_REQUEST_SIZE;
+        private ExecutorService exec;
 
         public FServlet build() {
             return new FServlet(this);
@@ -196,6 +219,11 @@ public class FServlet extends HttpServlet {
         public Builder processor(FProcessor processor) {
             this.processor = processor;
             return this;
+        }
+
+        public Builder protocolFactory(FProtocolFactory protocolFactory) {
+            return inProtocolFactory(protocolFactory)
+                    .outProtocolFactory(protocolFactory);
         }
 
         public Builder inProtocolFactory(FProtocolFactory inProtocolFactory) {
@@ -210,6 +238,11 @@ public class FServlet extends HttpServlet {
 
         public Builder maxRequestSize(int maxRequestSize) {
             this.maxRequestSize = maxRequestSize;
+            return this;
+        }
+
+        public Builder executorService(ExecutorService exec) {
+            this.exec = exec;
             return this;
         }
     }

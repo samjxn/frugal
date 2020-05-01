@@ -21,11 +21,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Base64;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.sameInstance;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -90,6 +96,7 @@ public class FServletTest {
 
     private final FProcessor mockProcessor = mock(FProcessor.class);
     private final FProtocolFactory mockProtocolFactory = mock(FProtocolFactory.class);
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     private FServlet servlet = new FServlet(mockProcessor, mockProtocolFactory);
 
     private final HttpServletRequest mockRequest = mock(HttpServletRequest.class);
@@ -107,8 +114,18 @@ public class FServletTest {
     }
 
     @After
-    public void after() {
+    public void after() throws Exception {
         verifyNoMoreInteractions(mockResponse);
+        executorService.shutdown();
+        assertThat(executorService.awaitTermination(5, TimeUnit.SECONDS), equalTo(true));
+    }
+
+    private void setupExecutor() {
+        servlet = FServlet.builder()
+                .processor(mockProcessor)
+                .protocolFactory(mockProtocolFactory)
+                .executorService(executorService)
+                .build();
     }
 
     @Test
@@ -223,6 +240,12 @@ public class FServletTest {
     }
 
     @Test
+    public void testProcessorRuntimeExceptionWithExecutor() throws Exception {
+        setupExecutor();
+        testProcessorRuntimeException();
+    }
+
+    @Test
     public void testProcessorUnhandledException() throws Exception {
         byte[] bytes = Base64.getEncoder().encode(withLength(new byte[0]));
         ByteArrayInputStream in = new ByteArrayInputStream(bytes);
@@ -233,6 +256,12 @@ public class FServletTest {
         servlet.service(mockRequest, mockResponse);
 
         verify(mockResponse).setStatus(eq(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
+    }
+
+    @Test
+    public void testProcessorUnhandledExceptionWithExecutor() throws Exception {
+        setupExecutor();
+        testProcessorUnhandledException();
     }
 
     @Test
@@ -253,6 +282,33 @@ public class FServletTest {
         byte[] bytes = Base64.getEncoder().encode(withLength(new byte[0]));
         ByteArrayInputStream in = new ByteArrayInputStream(bytes);
         doReturn(new ProxyServletInputStream(in)).when(mockRequest).getInputStream();
+
+        Thread testThread = Thread.currentThread();
+        doAnswer(inv -> {
+            assertThat(Thread.currentThread(), sameInstance(testThread));
+            return null;
+        }).when(mockProcessor).process(any(), any());
+
+        servlet.service(mockRequest, mockResponse);
+
+        verify(mockResponse).setContentType("application/x-frugal");
+        verify(mockResponse).setHeader("Content-Transfer-Encoding", "base64");
+        verify(mockResponse).getOutputStream();
+    }
+
+    @Test
+    public void testOkWithExecutor() throws Exception {
+        setupExecutor();
+
+        byte[] bytes = Base64.getEncoder().encode(withLength(new byte[0]));
+        ByteArrayInputStream in = new ByteArrayInputStream(bytes);
+        doReturn(new ProxyServletInputStream(in)).when(mockRequest).getInputStream();
+
+        Thread testThread = Thread.currentThread();
+        doAnswer(inv -> {
+            assertThat(Thread.currentThread(), not(sameInstance(testThread)));
+            return null;
+        }).when(mockProcessor).process(any(), any());
 
         servlet.service(mockRequest, mockResponse);
 
