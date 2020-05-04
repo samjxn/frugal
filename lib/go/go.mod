@@ -11,4 +11,7 @@ require (
 	golang.org/x/crypto v0.0.0-20190829043050-9756ffdc2472 // indirect
 )
 
-replace git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20161221203622-b2a4d4ae21c7
+replace (
+	git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20161221203622-b2a4d4ae21c7
+	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.6.0
+)

@@ -5,7 +5,6 @@ ARG GIT_MERGE_BRANCH
 ARG GIT_SSH_KEY
 ARG KNOWN_HOSTS_CONTENT
 WORKDIR /go/src/github.com/Workiva/frugal/
-ADD . /go/src/github.com/Workiva/frugal/
 
 RUN mkdir /root/.ssh && \
     echo "$KNOWN_HOSTS_CONTENT" > "/root/.ssh/known_hosts" && \
@@ -24,6 +23,8 @@ ENV PATH $GOPATH/bin:$PATH
 RUN git config --global url.git@github.com:.insteadOf https://github.com
 ENV FRUGAL_HOME=/go/src/github.com/Workiva/frugal
 ENV CODECOV_TOKEN='d88d0bbe-b5f0-4dce-92ae-a110aa028ddb'
+ENV GO111MODULE=on
+ADD . /go/src/github.com/Workiva/frugal/
 RUN echo "Starting the script section" && \
 		./scripts/smithy.sh && \
 		cat $FRUGAL_HOME/test_results/smithy_dart.sh_out.txt && \

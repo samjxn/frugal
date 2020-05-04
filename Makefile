@@ -12,7 +12,7 @@ unit-cli:
 	go test ./test -race
 
 unit-go:
-	cd lib/go && GO111MODULE=on go mod vendor && go test -v -race 
+	cd lib/go && GO111MODULE=on go mod download && go test -v -race 
 
 unit-java:
 	mvn -f lib/java/pom.xml clean verify

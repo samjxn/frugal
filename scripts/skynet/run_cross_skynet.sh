@@ -26,9 +26,6 @@ frugal --gen py:asyncio -r --out='test/integration/python/aio/gen_py_asyncio' te
 frugal --gen py -r -out='test/integration/python/tornado/gen-py' test/integration/frugalTest.frugal
 frugal --gen dart:use_enums=true -r --out='test/integration/dart/gen-dart' test/integration/frugalTest.frugal
 
-# integration tests use logrus, but frugal does not so it won't be in /vendor
-go get github.com/Sirupsen/logrus
-
 # Set everything up in parallel (code generation is fast enough to not require in parallel)
 go run scripts/skynet/cross/cross_setup.go
 
