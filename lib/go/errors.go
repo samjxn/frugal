@@ -34,6 +34,10 @@ const (
 	// TRANSPORT_EXCEPTION_RESPONSE_TOO_LARGE is a TTransportException
 	// error type indicating the response exceeded the size limit.
 	TRANSPORT_EXCEPTION_RESPONSE_TOO_LARGE = 101
+
+	// TRANSPORT_EXCEPTION_DISCONNECTED is a TTransportException error type
+	// indicating the transport was disconnected
+	TRANSPORT_EXCEPTION_DISCONNECTED = 102
 )
 
 // TApplicationException types used in frugal instantiated

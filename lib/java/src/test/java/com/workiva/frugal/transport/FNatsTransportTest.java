@@ -105,9 +105,80 @@ public class FNatsTransportTest {
         verify(conn).publish(subject, inbox, buff);
     }
 
-    @Test(expected = TTransportException.class)
+    @Test
+    public void testFlush_closed() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.CLOSED);
+
+        byte[] buff = "helloworld".getBytes();
+        try {
+            transport.flush(buff);
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.NOT_OPEN, e.getType());
+        }
+    }
+
+    @Test
+    public void testFlushReconnecting() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.RECONNECTING);
+        try {
+            transport.flush("helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
+    }
+
+    @Test
     public void testRequestNotOpen() throws TTransportException {
         when(conn.getStatus()).thenReturn(Status.CONNECTED);
-        transport.request(new FContext(), "helloworld".getBytes());
+        try {
+            transport.request(new FContext(), "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.NOT_OPEN, e.getType());
+        }
+    }
+
+    @Test
+    public void testRequestDisconnected() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.DISCONNECTED);
+        try {
+            transport.request(new FContext(), "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
+    }
+
+    @Test
+    public void testRequestReconnecting() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.RECONNECTING);
+        try {
+            transport.request(new FContext(), "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
     }
 }

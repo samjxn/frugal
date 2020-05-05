@@ -17,9 +17,10 @@ import (
 	"flag"
 
 	"fmt"
-	"github.com/Workiva/frugal/test/integration/crossrunner"
 	"os/exec"
 	"strings"
+
+	"github.com/Workiva/frugal/test/integration/crossrunner"
 )
 
 func main() {

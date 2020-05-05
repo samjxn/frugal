@@ -22,7 +22,6 @@ ARG GOPATH=/go/
 ENV PATH $GOPATH/bin:$PATH
 RUN git config --global url.git@github.com:.insteadOf https://github.com
 ENV FRUGAL_HOME=/go/src/github.com/Workiva/frugal
-ENV CODECOV_TOKEN='d88d0bbe-b5f0-4dce-92ae-a110aa028ddb'
 ENV GO111MODULE=on
 ADD . /go/src/github.com/Workiva/frugal/
 RUN echo "Starting the script section" && \

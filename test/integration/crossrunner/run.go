@@ -17,10 +17,10 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os/exec"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
-	"os/exec"
+	log "github.com/sirupsen/logrus"
 )
 
 // RunConfig runs a client against a server.  Client/Server logs are created and
@@ -30,7 +30,7 @@ func RunConfig(pair *Pair, port int, getCommand func(config Config, port int) (c
 	var err error
 	// Create client/server log files
 	if err = createLogs(pair); err != nil {
-		log.Debugf("Failed to create logs for % client and %s server", pair.Client.Name, pair.Server.Name)
+		log.Debugf("Failed to create logs for %s client and %s server", pair.Client.Name, pair.Server.Name)
 		reportCrossrunnerFailure(pair, err)
 		return
 	}
@@ -84,7 +84,7 @@ func RunConfig(pair *Pair, port int, getCommand func(config Config, port int) (c
 
 	if total >= stimeout {
 		if err = writeServerTimeout(pair.Server.Logs, pair.Server.Name); err != nil {
-			log.Debugf("Failed to write server timeout to %s", pair.Server.Logs.Name)
+			log.Debugf("Failed to write server timeout to %s", pair.Server.Logs.Name())
 			reportCrossrunnerFailure(pair, err)
 			return
 		}

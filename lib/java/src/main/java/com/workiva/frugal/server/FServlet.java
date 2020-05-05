@@ -1,6 +1,7 @@
 package com.workiva.frugal.server;
 
 import com.workiva.frugal.processor.FProcessor;
+import com.workiva.frugal.protocol.FProtocol;
 import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;
 import org.apache.thrift.TException;
@@ -20,6 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
 
 /**
  * Processes POST requests as Frugal requests for a processor.
@@ -46,6 +51,8 @@ public class FServlet extends HttpServlet {
     private final FProtocolFactory inProtocolFactory;
     private final FProtocolFactory outProtocolFactory;
     private final int maxRequestSize;
+    private final ExecutorService exec;
+    private final FServerEventHandler eventHandler;
 
     /**
      * Creates a servlet for the specified processor and protocol factory, which
@@ -84,14 +91,34 @@ public class FServlet extends HttpServlet {
             FProtocolFactory inProtocolFactory,
             FProtocolFactory outProtocolFactory,
             int maxRequestSize) {
-        this.processor = processor;
-        this.inProtocolFactory = inProtocolFactory;
-        this.outProtocolFactory = outProtocolFactory;
-        this.maxRequestSize = maxRequestSize;
+        this(builder()
+                .processor(processor)
+                .inProtocolFactory(inProtocolFactory)
+                .outProtocolFactory(outProtocolFactory)
+                .maxRequestSize(maxRequestSize));
+    }
+
+    private FServlet(Builder b) {
+        this.processor = b.processor;
+        this.inProtocolFactory = b.inProtocolFactory;
+        this.outProtocolFactory = b.outProtocolFactory;
+        this.maxRequestSize = b.maxRequestSize;
+        this.exec = b.exec;
+        this.eventHandler = b.eventHandler != null ? b.eventHandler : new FDefaultServerEventHandler(5000);
     }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Map<Object, Object> ephemeralProperties = new HashMap<>();
+        eventHandler.onRequestReceived(ephemeralProperties);
+        try {
+            process(req, resp, ephemeralProperties);
+        } finally {
+            eventHandler.onRequestEnded(ephemeralProperties);
+        }
+    }
+
+    private void process(HttpServletRequest req, HttpServletResponse resp, Map<Object, Object> ephemeralProperties) throws ServletException, IOException {
         byte[] frame;
         try (InputStream decoderIn = Base64.getDecoder().wrap(req.getInputStream());
                 DataInputStream dataIn = new DataInputStream(decoderIn)) {
@@ -118,26 +145,37 @@ public class FServlet extends HttpServlet {
             }
         }
 
-        TTransport inTransport = new TMemoryInputTransport(frame);
-        TMemoryOutputBuffer outTransport = new TMemoryOutputBuffer();
+        byte[] data;
         try {
-            processor.process(inProtocolFactory.getProtocol(inTransport), outProtocolFactory.getProtocol(outTransport));
-        } catch (RuntimeException e) {
-            // Already logged by FBaseProcessor and written to the output buffer
-            // as an application exception, so write that response back to the
-            // client just like FNatsServer.
-        } catch (TException e) {
+            if (exec == null) {
+                data = process(frame, ephemeralProperties);
+            } else {
+                try {
+                    data = exec.submit(() -> process(frame, ephemeralProperties)).get();
+                } catch (ExecutionException e) {
+                    Throwable cause = e.getCause();
+                    if (cause instanceof Error) {
+                        throw (Error) cause;
+                    }
+                    if (cause instanceof RuntimeException) {
+                        throw (RuntimeException) cause;
+                    }
+                    if (cause instanceof TException) {
+                        throw (TException) cause;
+                    }
+                    throw new RuntimeException(e);
+                }
+            }
+        } catch (InterruptedException | TException e) {
             LOGGER.error("Frugal processor returned unhandled error", e);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
 
-        byte[] data = outTransport.getWriteBytes();
-
         int responseLimit = getResponseLimit(req);
-        if (responseLimit > 0 && outTransport.size() > responseLimit) {
+        if (responseLimit > 0 && data.length > responseLimit) {
             LOGGER.debug("Response size too large for client. Received: {}, Limit: {}",
-                    outTransport.size(), responseLimit);
+                    data.length, responseLimit);
             resp.setStatus(HttpServletResponse.SC_REQUEST_ENTITY_TOO_LARGE);
             return;
         }
@@ -147,6 +185,24 @@ public class FServlet extends HttpServlet {
         try (OutputStream out = Base64.getEncoder().wrap(resp.getOutputStream())) {
             out.write(data);
         }
+    }
+
+    private byte[] process(byte[] frame, Map<Object, Object> ephemeralProperties) throws TException {
+        eventHandler.onRequestStarted(ephemeralProperties);
+
+        TTransport inTransport = new TMemoryInputTransport(frame);
+        TMemoryOutputBuffer outTransport = new TMemoryOutputBuffer();
+        try {
+            FProtocol inProtocol = inProtocolFactory.getProtocol(inTransport);
+            FProtocol outProtocol = outProtocolFactory.getProtocol(outTransport);
+            processor.process(inProtocol, outProtocol);
+        } catch (RuntimeException e) {
+            // Already logged by FBaseProcessor and written to the output buffer
+            // as an application exception, so write that response back to the
+            // client just like FNatsServer.
+        }
+
+        return outTransport.getWriteBytes();
     }
 
     // Visible for testing.
@@ -159,5 +215,57 @@ public class FServlet extends HttpServlet {
             responseLimit = 0;
         }
         return responseLimit;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private FProcessor processor;
+        private FProtocolFactory inProtocolFactory;
+        private FProtocolFactory outProtocolFactory;
+        private int maxRequestSize = DEFAULT_MAX_REQUEST_SIZE;
+        private ExecutorService exec;
+        private FServerEventHandler eventHandler;
+
+        public FServlet build() {
+            return new FServlet(this);
+        }
+
+        public Builder processor(FProcessor processor) {
+            this.processor = processor;
+            return this;
+        }
+
+        public Builder protocolFactory(FProtocolFactory protocolFactory) {
+            return inProtocolFactory(protocolFactory)
+                    .outProtocolFactory(protocolFactory);
+        }
+
+        public Builder inProtocolFactory(FProtocolFactory inProtocolFactory) {
+            this.inProtocolFactory = inProtocolFactory;
+            return this;
+        }
+
+        public Builder outProtocolFactory(FProtocolFactory outProtocolFactory) {
+            this.outProtocolFactory = outProtocolFactory;
+            return this;
+        }
+
+        public Builder maxRequestSize(int maxRequestSize) {
+            this.maxRequestSize = maxRequestSize;
+            return this;
+        }
+
+        public Builder executorService(ExecutorService exec) {
+            this.exec = exec;
+            return this;
+        }
+
+        public Builder eventHandler(FServerEventHandler eventHandler) {
+            this.eventHandler = eventHandler;
+            return this;
+        }
     }
 }

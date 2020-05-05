@@ -1198,7 +1198,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	} else {
 		imports += "\t\"github.com/Workiva/frugal/lib/go\"\n"
 	}
-	imports += "\t\"github.com/Sirupsen/logrus\"\n"
+	imports += "\t\"github.com/sirupsen/logrus\"\n"
 
 	pkgPrefix := g.Options[packagePrefixOption]
 	includes, err := s.ReferencedIncludes()
