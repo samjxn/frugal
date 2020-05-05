@@ -61,7 +61,7 @@ def update_tests(version, root):
         raise Exception('Failed to get testify dependency')
     if subprocess.call(['go', 'test', '--copy-files']) != 0:
         raise Exception('Failed to update generated tests')
-    if subprocess.call(['frugal', '--gen', 'dart:use_enums=true', '-r', '--out=\'../test/integration/dart/gen-dart\'', '../test/integration/frugalTest.frugal']):
+    if subprocess.call(['frugal', '--gen', 'dart:use_enums=true', '-r', '--out=../test/integration/dart/gen-dart', '../test/integration/frugalTest.frugal']):
         raise Exception('Failed to generate Dart test code')
 
 
