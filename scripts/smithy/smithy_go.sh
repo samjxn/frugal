@@ -2,7 +2,7 @@
 set -e
 
 # Compile library code
-cd $FRUGAL_HOME/lib/go && GO111MODULE=on go mod vendor
+cd $FRUGAL_HOME/lib/go && GO111MODULE=on go mod download
 
 # Run the tests
 go test -race -coverprofile=$FRUGAL_HOME/gocoverage.txt
