@@ -1,7 +1,7 @@
 import argparse
 import os
 import re
-from subprocess import call
+import subprocess
 
 from lang import Dart, Go, Java, Python
 
@@ -50,18 +50,18 @@ def update_compiler(version, root):
         f.write(s)
     # Install the binary with the updated version
     os.chdir(root)
-    if call(['godep', 'go', 'install']) != 0:
+    if subprocess.call(['godep', 'go', 'install']) != 0:
         raise Exception('installing frugal binary failed')
 
 
 def update_tests(version, root):
     """Update the frugal generation tests."""
     os.chdir('{0}/test'.format(root))
-    if call(['go', 'get', 'github.com/stretchr/testify/assert/...']) != 0:
+    if subprocess.call(['go', 'get', 'github.com/stretchr/testify/assert/...']) != 0:
         raise Exception('Failed to get testify dependency')
-    if call(['go', 'test', '--copy-files']) != 0:
+    if subprocess.call(['go', 'test', '--copy-files']) != 0:
         raise Exception('Failed to update generated tests')
-    if call(['frugal', '--gen', 'dart:use_enums=true', '-r', '--out=\'../test/integration/dart/gen-dart\'', '../test/integration/frugalTest.frugal']):
+    if subprocess.call(['frugal', '--gen', 'dart:use_enums=true', '-r', '--out=../test/integration/dart/gen-dart', '../test/integration/frugalTest.frugal']):
         raise Exception('Failed to generate Dart test code')
 
 
@@ -69,7 +69,7 @@ def update_examples(version, root):
     """Update the examples."""
     os.chdir('{0}/examples'.format(root))
     # TODO: Replace the generate example shell script
-    if call(['make', 'generate']) != 0:
+    if subprocess.call(['make', 'generate'], stdout=subprocess.DEVNULL) != 0:
         raise Exception('Failed to generate example code')
 
 
