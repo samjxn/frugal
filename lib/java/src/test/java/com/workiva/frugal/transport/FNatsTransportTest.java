@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 import static com.workiva.frugal.transport.FAsyncTransportTest.mockFrame;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
@@ -179,6 +181,24 @@ public class FNatsTransportTest {
             fail();
         } catch (TTransportException e) {
             assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
+    }
+
+    @Test
+    public void testRequestTimedOut() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        try {
+            FContext fContext = new FContext();
+            fContext.setTimeout(0);
+            transport.request(fContext, "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.TIMED_OUT, e.getType());
+            assertThat(e.getMessage(), containsString("foo"));
         }
     }
 }

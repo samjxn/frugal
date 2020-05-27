@@ -13,6 +13,7 @@
 
 package com.workiva.frugal.transport;
 
+import com.workiva.frugal.FContext;
 import com.workiva.frugal.exception.TTransportExceptionType;
 import io.nats.client.Connection;
 import io.nats.client.Connection.Status;
@@ -20,6 +21,7 @@ import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
 import org.apache.thrift.TException;
+import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,6 +159,19 @@ public class FNatsTransport extends FAsyncTransport {
             throw new TTransportException(TTransportExceptionType.REQUEST_TOO_LARGE,
                     String.format("Message exceeds %d bytes, was %d bytes",
                             requestSizeLimit, length));
+        }
+    }
+
+    @Override
+    public TTransport request(FContext context, byte[] payload) throws TTransportException {
+        try {
+            return super.request(context, payload);
+        } catch (TTransportException e) {
+            if (e.getType() == TTransportExceptionType.TIMED_OUT) {
+                String newMessage = e.getMessage() + " for NATS subject: " + subject;
+                throw new TTransportException(e.getType(), newMessage, e);
+            }
+            throw e;
         }
     }
 
