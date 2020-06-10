@@ -17,3 +17,6 @@ dependencies:
       url: https://pub.workiva.org
     version: ^0.0.9
   w_common: ^1.20.2
+
+workiva:
+  disable_core_checks: true
