@@ -9,5 +9,4 @@ export 'src/f_nested_thing.dart' show nested_thing;
 export 'src/f_api_exception.dart' show api_exception;
 export 'src/f_base_health_condition.dart' show base_health_condition;
 
-export 'src/f_base_foo_service.dart' show FBaseFoo;
-export 'src/f_base_foo_service.dart' show FBaseFooClient;
+export 'src/f_base_foo_service.dart' show FBaseFoo, FBaseFooClient, fBaseFooClientFactory;
