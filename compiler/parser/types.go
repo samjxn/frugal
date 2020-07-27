@@ -370,7 +370,7 @@ func addInclude(includesSet map[string]*Include, includes []*Include, t *Type, f
 		includeName := t.Name[0:strings.Index(t.Name, ".")]
 		include := frugal.Include(includeName)
 		if include == nil {
-			return nil, nil, fmt.Errorf("Type %s references invalid include %s", t.Name, include.Name)
+			return nil, nil, fmt.Errorf("Type %s references invalid include %s", t.Name, includeName)
 		}
 		if _, ok := includesSet[includeName]; !ok {
 			includesSet[includeName] = include

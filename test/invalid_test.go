@@ -115,3 +115,16 @@ func TestWildcardNamespaceWithVendorAnnotation(t *testing.T) {
 		t.Fatal("Expected error")
 	}
 }
+
+// Ensures an error is returned when a scope operation has an invalid type.
+func TestInvalidScopeOperationType(t *testing.T) {
+	options := compiler.Options{
+		File:  badOpType,
+		Gen:   "go",
+		Out:   outputDir,
+		Delim: delim,
+	}
+	if err := compiler.Compile(options); err == nil {
+		t.Fatal("Expected error")
+	}
+}
