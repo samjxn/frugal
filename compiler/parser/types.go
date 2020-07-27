@@ -1052,6 +1052,9 @@ func (f *Frugal) validate() error {
 	if err := f.validateServices(f.ParsedIncludes); err != nil {
 		return err
 	}
+	if err := f.validateScopes(f.ParsedIncludes); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -1280,6 +1283,24 @@ func (f *Frugal) validateServiceTypes(service *Service, includes map[string]*Fru
 				return fmt.Errorf("Invalid exception type %s for %s.%s",
 					field.Type.Name, service.Name, method.Name)
 			}
+		}
+	}
+	return nil
+}
+func (f *Frugal) validateScopes(includes map[string]*Frugal) error {
+	for _, scope := range f.Scopes {
+		if err := f.validateScopeTypes(scope, includes); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (f *Frugal) validateScopeTypes(scope *Scope, includes map[string]*Frugal) error {
+	for _, op := range scope.Operations {
+		if !f.isValidType(op.Type) {
+			return fmt.Errorf("Invalid operation type %s for %s.%s",
+				op.Type.Name, scope.Name, op.Name)
 		}
 	}
 	return nil
