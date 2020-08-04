@@ -46,8 +46,6 @@ class TestingUnions implements thrift.TBase {
   bool __isset_anInt16 = false;
   bool __isset_depr = false;
 
-  TestingUnions();
-
   int get anID => this._anID;
 
   set anID(int anID) {

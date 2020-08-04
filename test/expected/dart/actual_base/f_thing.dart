@@ -21,8 +21,6 @@ class thing implements thrift.TBase {
 
   bool __isset_an_id = false;
 
-  thing();
-
   int get an_id => this._an_id;
 
   set an_id(int an_id) {

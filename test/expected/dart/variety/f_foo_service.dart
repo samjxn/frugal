@@ -574,8 +574,6 @@ class Ping_args implements thrift.TBase {
 
 
 
-  Ping_args();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -663,8 +661,6 @@ class Ping_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('Ping_result');
 
 
-
-  Ping_result();
 
   @override
   getFieldValue(int fieldID) {
@@ -763,8 +759,6 @@ class blah_args implements thrift.TBase {
   static const int EVENT = 3;
 
   bool __isset_num = false;
-
-  blah_args();
 
   int get num => this._num;
 
@@ -1006,8 +1000,6 @@ class blah_result implements thrift.TBase {
   static const int API = 2;
 
   bool __isset_success = false;
-
-  blah_result();
 
   int get success => this._success;
 
@@ -1256,8 +1248,6 @@ class oneWay_args implements thrift.TBase {
 
   bool __isset_id = false;
 
-  oneWay_args();
-
   int get id => this._id;
 
   set id(int id) {
@@ -1458,8 +1448,6 @@ class bin_method_args implements thrift.TBase {
   static const int STR = 2;
 
 
-  bin_method_args();
-
   Uint8List get bin => this._bin;
 
   set bin(Uint8List bin) {
@@ -1651,8 +1639,6 @@ class bin_method_result implements thrift.TBase {
   t_actual_base_dart.api_exception _api;
   static const int API = 1;
 
-
-  bin_method_result();
 
   Uint8List get success => this._success;
 
@@ -1856,8 +1842,6 @@ class param_modifiers_args implements thrift.TBase {
   bool __isset_opt_num = false;
   bool __isset_default_num = false;
   bool __isset_req_num = false;
-
-  param_modifiers_args();
 
   int get opt_num => this._opt_num;
 
@@ -2088,8 +2072,6 @@ class param_modifiers_result implements thrift.TBase {
 
   bool __isset_success = false;
 
-  param_modifiers_result();
-
   int get success => this._success;
 
   set success(int success) {
@@ -2233,8 +2215,6 @@ class underlying_types_test_args implements thrift.TBase {
   Set<int> _set_type;
   static const int SET_TYPE = 2;
 
-
-  underlying_types_test_args();
 
   List<int> get list_type => this._list_type;
 
@@ -2445,8 +2425,6 @@ class underlying_types_test_result implements thrift.TBase {
   static const int SUCCESS = 0;
 
 
-  underlying_types_test_result();
-
   List<int> get success => this._success;
 
   set success(List<int> success) {
@@ -2597,8 +2575,6 @@ class getThing_args implements thrift.TBase {
 
 
 
-  getThing_args();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -2689,8 +2665,6 @@ class getThing_result implements thrift.TBase {
   t_validStructs.Thing _success;
   static const int SUCCESS = 0;
 
-
-  getThing_result();
 
   t_validStructs.Thing get success => this._success;
 
@@ -2833,8 +2807,6 @@ class getMyInt_args implements thrift.TBase {
 
 
 
-  getMyInt_args();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -2926,8 +2898,6 @@ class getMyInt_result implements thrift.TBase {
   static const int SUCCESS = 0;
 
   bool __isset_success = false;
-
-  getMyInt_result();
 
   int get success => this._success;
 
@@ -3070,8 +3040,6 @@ class use_subdir_struct_args implements thrift.TBase {
   static const int A = 1;
 
 
-  use_subdir_struct_args();
-
   t_subdir_include_ns.A get a => this._a;
 
   set a(t_subdir_include_ns.A a) {
@@ -3213,8 +3181,6 @@ class use_subdir_struct_result implements thrift.TBase {
   t_subdir_include_ns.A _success;
   static const int SUCCESS = 0;
 
-
-  use_subdir_struct_result();
 
   t_subdir_include_ns.A get success => this._success;
 
@@ -3360,8 +3326,6 @@ class sayHelloWith_args implements thrift.TBase {
   static const int NEWMESSAGE = 1;
 
 
-  sayHelloWith_args();
-
   String get newMessage => this._newMessage;
 
   set newMessage(String newMessage) {
@@ -3502,8 +3466,6 @@ class sayHelloWith_result implements thrift.TBase {
   String _success;
   static const int SUCCESS = 0;
 
-
-  sayHelloWith_result();
 
   String get success => this._success;
 
@@ -3648,8 +3610,6 @@ class whatDoYouSay_args implements thrift.TBase {
   static const int MESSAGEARGS = 1;
 
 
-  whatDoYouSay_args();
-
   String get messageArgs => this._messageArgs;
 
   set messageArgs(String messageArgs) {
@@ -3790,8 +3750,6 @@ class whatDoYouSay_result implements thrift.TBase {
   String _success;
   static const int SUCCESS = 0;
 
-
-  whatDoYouSay_result();
 
   String get success => this._success;
 
@@ -3936,8 +3894,6 @@ class sayAgain_args implements thrift.TBase {
   static const int MESSAGERESULT = 1;
 
 
-  sayAgain_args();
-
   String get messageResult => this._messageResult;
 
   set messageResult(String messageResult) {
@@ -4078,8 +4034,6 @@ class sayAgain_result implements thrift.TBase {
   String _success;
   static const int SUCCESS = 0;
 
-
-  sayAgain_result();
 
   String get success => this._success;
 

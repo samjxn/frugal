@@ -90,8 +90,6 @@ class basePing_args implements thrift.TBase {
 
 
 
-  basePing_args();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -179,8 +177,6 @@ class basePing_result implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('basePing_result');
 
 
-
-  basePing_result();
 
   @override
   getFieldValue(int fieldID) {

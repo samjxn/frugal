@@ -18,8 +18,6 @@ class nested_thing implements thrift.TBase {
   static const int THINGS = 1;
 
 
-  nested_thing();
-
   List<t_actual_base_dart.thing> get things => this._things;
 
   set things(List<t_actual_base_dart.thing> things) {

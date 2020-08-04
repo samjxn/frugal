@@ -23,8 +23,6 @@ class TestLowercase implements thrift.TBase {
 
   bool __isset_lowercaseInt = false;
 
-  TestLowercase();
-
   int get lowercaseInt => this._lowercaseInt;
 
   set lowercaseInt(int lowercaseInt) {

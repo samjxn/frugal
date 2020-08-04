@@ -14,8 +14,6 @@ class Item implements thrift.TBase {
 
 
 
-  Item();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {

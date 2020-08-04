@@ -31,19 +31,19 @@ import (
 )
 
 const (
-	lang                  = "dart"
-	defaultOutputDir      = "gen-dart"
-	serviceSuffix         = "_service"
-	scopeSuffix           = "_scope"
-	allowedDartSdkRange   = ">=2.4.0 <3.0.0"
-	tab                   = "  "
-	tabtab                = tab + tab
-	tabtabtab             = tab + tab + tab
-	tabtabtabtab          = tab + tab + tab + tab
-	tabtabtabtabtab       = tab + tab + tab + tab + tab
-	tabtabtabtabtabtab    = tab + tab + tab + tab + tab + tab
-	libraryPrefixOption   = "library_prefix"
-	useVendorOption       = "use_vendor"
+	lang                = "dart"
+	defaultOutputDir    = "gen-dart"
+	serviceSuffix       = "_service"
+	scopeSuffix         = "_scope"
+	allowedDartSdkRange = ">=2.4.0 <3.0.0"
+	tab                 = "  "
+	tabtab              = tab + tab
+	tabtabtab           = tab + tab + tab
+	tabtabtabtab        = tab + tab + tab + tab
+	tabtabtabtabtab     = tab + tab + tab + tab + tab
+	tabtabtabtabtabtab  = tab + tab + tab + tab + tab + tab
+	libraryPrefixOption = "library_prefix"
+	useVendorOption     = "use_vendor"
 )
 
 // Generator implements the LanguageGenerator interface for Dart.
@@ -198,7 +198,7 @@ func (g *Generator) addToPubspec(dir string) error {
 			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
 			Version: "^0.0.9",
 		},
-		"w_common":   "^1.20.2",
+		"w_common": "^1.20.2",
 	}
 
 	if g.Frugal.ContainsFrugalDefinitions() {
@@ -704,24 +704,22 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 			contents += fmt.Sprintf(tab+"bool __isset_%s = false;\n", toFieldName(field.Name))
 		}
 	}
+	contents += "\n"
 
 	// Constructor
-	contents += "\n"
-	contents += fmt.Sprintf(tab+"%s()", s.Name)
-	constructorContent := ""
 	if len(s.Fields) > 0 {
+		constructorContent := ""
 		for _, field := range s.Fields {
 			if field.Default != nil {
 				value, _ := g.generateConstantValue(field.Type, field.Default, tab, false)
 				constructorContent += fmt.Sprintf(tabtab+"this._%s = %s;\n", toFieldName(field.Name), value)
 			}
 		}
-	}
 
-	if len(constructorContent) > 0 {
-		contents += " {\n" + constructorContent + tab + "}\n\n"
-	} else {
-		contents += ";\n\n"
+		if len(constructorContent) > 0 {
+			contents += fmt.Sprintf(tab+"%s()", s.Name)
+			contents += " {\n" + constructorContent + tab + "}\n\n"
+		}
 	}
 
 	// methods for getting/setting fields
@@ -1490,7 +1488,7 @@ func (g *Generator) GenerateConstants(file *os.File, name string) error {
 // GeneratePublisher generates the publisher for the given scope.
 func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error {
 	publishers := ""
-	publisherClassname :=  fmt.Sprintf("%sPublisher", strings.Title(scope.Name))
+	publisherClassname := fmt.Sprintf("%sPublisher", strings.Title(scope.Name))
 
 	// Generate publisher factory
 	publishers += fmt.Sprintf("%s %sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n",
@@ -1597,7 +1595,7 @@ func generatePrefixStringTemplate(scope *parser.Scope) string {
 // GenerateSubscriber generates the subscriber for the given scope.
 func (g *Generator) GenerateSubscriber(file *os.File, scope *parser.Scope) error {
 	subscribers := ""
-	subscriberClassname :=  fmt.Sprintf("%sSubscriber", strings.Title(scope.Name))
+	subscriberClassname := fmt.Sprintf("%sSubscriber", strings.Title(scope.Name))
 
 	// Generate subscriber factory
 	subscribers += fmt.Sprintf("%s %sFactory(frugal.FScopeProvider provider, {List<frugal.Middleware> middleware}) =>\n",

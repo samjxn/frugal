@@ -15,8 +15,6 @@ class api_exception extends Error implements thrift.TBase {
 
 
 
-  api_exception();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {

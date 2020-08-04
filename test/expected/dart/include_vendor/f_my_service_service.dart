@@ -103,8 +103,6 @@ class getItem_args implements thrift.TBase {
 
 
 
-  getItem_args();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -198,8 +196,6 @@ class getItem_result implements thrift.TBase {
   t_excepts.InvalidData _d;
   static const int D = 1;
 
-
-  getItem_result();
 
   t_vendor_namespace.Item get success => this._success;
 
