@@ -24,45 +24,28 @@ class TestingUnions implements thrift.TBase {
   static final thrift.TField _BIN_FIELD_IN_UNION_FIELD_DESC = thrift.TField('bin_field_in_union', thrift.TType.STRING, 6);
   static final thrift.TField _DEPR_FIELD_DESC = thrift.TField('depr', thrift.TType.BOOL, 7);
 
-  int _anID;
+  int anID;
   static const int ANID = 1;
-  String _aString;
+  String aString;
   static const int ASTRING = 2;
-  int _someotherthing;
+  int someotherthing;
   static const int SOMEOTHERTHING = 3;
-  int _anInt16;
+  int anInt16;
   static const int ANINT16 = 4;
-  Map<int, String> _requests;
+  Map<int, String> requests;
   static const int REQUESTS = 5;
-  Uint8List _bin_field_in_union;
+  Uint8List bin_field_in_union;
   static const int BIN_FIELD_IN_UNION = 6;
   /// Deprecated: use something else
   @deprecated
-  bool _depr;
+  bool depr;
   static const int DEPR = 7;
 
-  bool __isset_anID = false;
-  bool __isset_someotherthing = false;
-  bool __isset_anInt16 = false;
-  bool __isset_depr = false;
 
-  int get anID => this._anID;
-
-  set anID(int anID) {
-    this._anID = anID;
-    this.__isset_anID = true;
-  }
-
-  bool isSetAnID() => this.__isset_anID;
+  bool isSetAnID() => this.anID != null;
 
   unsetAnID() {
-    this.__isset_anID = false;
-  }
-
-  String get aString => this._aString;
-
-  set aString(String aString) {
-    this._aString = aString;
+    this.anID = null;
   }
 
   bool isSetAString() => this.aString != null;
@@ -71,36 +54,16 @@ class TestingUnions implements thrift.TBase {
     this.aString = null;
   }
 
-  int get someotherthing => this._someotherthing;
-
-  set someotherthing(int someotherthing) {
-    this._someotherthing = someotherthing;
-    this.__isset_someotherthing = true;
-  }
-
-  bool isSetSomeotherthing() => this.__isset_someotherthing;
+  bool isSetSomeotherthing() => this.someotherthing != null;
 
   unsetSomeotherthing() {
-    this.__isset_someotherthing = false;
+    this.someotherthing = null;
   }
 
-  int get anInt16 => this._anInt16;
-
-  set anInt16(int anInt16) {
-    this._anInt16 = anInt16;
-    this.__isset_anInt16 = true;
-  }
-
-  bool isSetAnInt16() => this.__isset_anInt16;
+  bool isSetAnInt16() => this.anInt16 != null;
 
   unsetAnInt16() {
-    this.__isset_anInt16 = false;
-  }
-
-  Map<int, String> get requests => this._requests;
-
-  set requests(Map<int, String> requests) {
-    this._requests = requests;
+    this.anInt16 = null;
   }
 
   bool isSetRequests() => this.requests != null;
@@ -109,33 +72,17 @@ class TestingUnions implements thrift.TBase {
     this.requests = null;
   }
 
-  Uint8List get bin_field_in_union => this._bin_field_in_union;
-
-  set bin_field_in_union(Uint8List bin_field_in_union) {
-    this._bin_field_in_union = bin_field_in_union;
-  }
-
   bool isSetBin_field_in_union() => this.bin_field_in_union != null;
 
   unsetBin_field_in_union() {
     this.bin_field_in_union = null;
   }
 
-  /// Deprecated: use something else
-  @deprecated
-  bool get depr => this._depr;
-
-  /// Deprecated: use something else
-  @deprecated
-  set depr(bool depr) {
-    this._depr = depr;
-    this.__isset_depr = true;
-  }
-
-  @deprecated  bool isSetDepr() => this.__isset_depr;
+  @deprecated  bool isSetDepr() => this.depr != null;
 
   unsetDepr() {
-    this.__isset_depr = false;
+    // ignore: deprecated_member_use
+    this.depr = null;
   }
 
   @override
@@ -260,7 +207,6 @@ class TestingUnions implements thrift.TBase {
         case ANID:
           if (field.type == thrift.TType.I64) {
             this.anID = iprot.readI64();
-            this.__isset_anID = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -275,7 +221,6 @@ class TestingUnions implements thrift.TBase {
         case SOMEOTHERTHING:
           if (field.type == thrift.TType.I32) {
             this.someotherthing = iprot.readI32();
-            this.__isset_someotherthing = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -283,7 +228,6 @@ class TestingUnions implements thrift.TBase {
         case ANINT16:
           if (field.type == thrift.TType.I16) {
             this.anInt16 = iprot.readI16();
-            this.__isset_anInt16 = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -313,7 +257,6 @@ class TestingUnions implements thrift.TBase {
           if (field.type == thrift.TType.BOOL) {
             // ignore: deprecated_member_use
             this.depr = iprot.readBool();
-            this.__isset_depr = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -339,7 +282,7 @@ class TestingUnions implements thrift.TBase {
       oprot.writeI64(this.anID);
       oprot.writeFieldEnd();
     }
-    if (isSetAString() && this.aString != null) {
+    if (isSetAString()) {
       oprot.writeFieldBegin(_A_STRING_FIELD_DESC);
       oprot.writeString(this.aString);
       oprot.writeFieldEnd();
@@ -354,7 +297,7 @@ class TestingUnions implements thrift.TBase {
       oprot.writeI16(this.anInt16);
       oprot.writeFieldEnd();
     }
-    if (isSetRequests() && this.requests != null) {
+    if (isSetRequests()) {
       oprot.writeFieldBegin(_REQUESTS_FIELD_DESC);
       oprot.writeMapBegin(thrift.TMap(thrift.TType.I32, thrift.TType.STRING, this.requests.length));
       for(var elem67 in this.requests.keys) {
@@ -364,7 +307,7 @@ class TestingUnions implements thrift.TBase {
       oprot.writeMapEnd();
       oprot.writeFieldEnd();
     }
-    if (isSetBin_field_in_union() && this.bin_field_in_union != null) {
+    if (isSetBin_field_in_union()) {
       oprot.writeFieldBegin(_BIN_FIELD_IN_UNION_FIELD_DESC);
       oprot.writeBinary(this.bin_field_in_union);
       oprot.writeFieldEnd();

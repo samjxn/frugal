@@ -18,22 +18,14 @@ class TestLowercase implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('TestLowercase');
   static final thrift.TField _LOWERCASE_INT_FIELD_DESC = thrift.TField('lowercaseInt', thrift.TType.I32, 1);
 
-  int _lowercaseInt = 0;
+  int lowercaseInt;
   static const int LOWERCASEINT = 1;
 
-  bool __isset_lowercaseInt = false;
 
-  int get lowercaseInt => this._lowercaseInt;
-
-  set lowercaseInt(int lowercaseInt) {
-    this._lowercaseInt = lowercaseInt;
-    this.__isset_lowercaseInt = true;
-  }
-
-  bool isSetLowercaseInt() => this.__isset_lowercaseInt;
+  bool isSetLowercaseInt() => this.lowercaseInt != null;
 
   unsetLowercaseInt() {
-    this.__isset_lowercaseInt = false;
+    this.lowercaseInt = null;
   }
 
   @override
@@ -83,7 +75,6 @@ class TestLowercase implements thrift.TBase {
         case LOWERCASEINT:
           if (field.type == thrift.TType.I32) {
             this.lowercaseInt = iprot.readI32();
-            this.__isset_lowercaseInt = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -104,9 +95,11 @@ class TestLowercase implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    oprot.writeFieldBegin(_LOWERCASE_INT_FIELD_DESC);
-    oprot.writeI32(this.lowercaseInt);
-    oprot.writeFieldEnd();
+    if (isSetLowercaseInt()) {
+      oprot.writeFieldBegin(_LOWERCASE_INT_FIELD_DESC);
+      oprot.writeI32(this.lowercaseInt);
+      oprot.writeFieldEnd();
+    }
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }

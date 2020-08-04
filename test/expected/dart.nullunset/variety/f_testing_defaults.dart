@@ -35,109 +35,74 @@ class TestingDefaults implements thrift.TBase {
   static final thrift.TField _STATUS_FIELD_DESC = thrift.TField('status', thrift.TType.I32, 17);
   static final thrift.TField _BASE_STATUS_FIELD_DESC = thrift.TField('base_status', thrift.TType.I32, 18);
 
-  int _iD2;
+  int iD2 = t_variety.VarietyConstants.DEFAULT_ID;
   static const int ID2 = 1;
-  t_variety.Event _ev1;
-  static const int EV1 = 2;
-  t_variety.Event _ev2;
-  static const int EV2 = 3;
-  int _iD = 0;
-  static const int ID = 4;
-  String _thing;
-  static const int THING = 5;
-  String _thing2;
-  static const int THING2 = 6;
-  List<int> _listfield;
-  static const int LISTFIELD = 7;
-  int _iD3 = 0;
-  static const int ID3 = 8;
-  Uint8List _bin_field;
-  static const int BIN_FIELD = 9;
-  Uint8List _bin_field2;
-  static const int BIN_FIELD2 = 10;
-  Uint8List _bin_field3;
-  static const int BIN_FIELD3 = 11;
-  Uint8List _bin_field4;
-  static const int BIN_FIELD4 = 12;
-  List<int> _list2;
-  static const int LIST2 = 13;
-  List<int> _list3;
-  static const int LIST3 = 14;
-  List<int> _list4;
-  static const int LIST4 = 15;
-  Map<String, String> _a_map;
-  static const int A_MAP = 16;
-  /// [t_variety.HealthCondition] Comment for enum field.
-  int _status;
-  static const int STATUS = 17;
-  /// [t_actual_base_dart.base_health_condition]
-  int _base_status;
-  static const int BASE_STATUS = 18;
-
-  bool __isset_iD2 = false;
-  bool __isset_iD = false;
-  bool __isset_iD3 = false;
-  bool __isset_status = false;
-  bool __isset_base_status = false;
-
-  TestingDefaults() {
-    this._iD2 = t_variety.VarietyConstants.DEFAULT_ID;
-    this._ev1 = t_variety.Event()
+  t_variety.Event ev1 = t_variety.Event()
       ..iD = t_variety.VarietyConstants.DEFAULT_ID
       ..message = "a message";
-    this._ev2 = t_variety.Event()
+  static const int EV1 = 2;
+  t_variety.Event ev2 = t_variety.Event()
       ..iD = 5
       ..message = "a message2";
-    this._iD = -2;
-    this._thing = "a constant";
-    this._thing2 = "another constant";
-    this._listfield = [
+  static const int EV2 = 3;
+  int iD = -2;
+  static const int ID = 4;
+  String thing = "a constant";
+  static const int THING = 5;
+  String thing2 = "another constant";
+  static const int THING2 = 6;
+  List<int> listfield = [
       1,
       2,
       3,
       4,
       5,
     ];
-    this._iD3 = t_variety.VarietyConstants.other_default;
-    this._bin_field4 = t_variety.VarietyConstants.bin_const;
-    this._list2 = [
+  static const int LISTFIELD = 7;
+  int iD3 = t_variety.VarietyConstants.other_default;
+  static const int ID3 = 8;
+  Uint8List bin_field;
+  static const int BIN_FIELD = 9;
+  Uint8List bin_field2;
+  static const int BIN_FIELD2 = 10;
+  Uint8List bin_field3;
+  static const int BIN_FIELD3 = 11;
+  Uint8List bin_field4 = t_variety.VarietyConstants.bin_const;
+  static const int BIN_FIELD4 = 12;
+  List<int> list2 = [
       1,
       3,
       4,
       5,
       8,
     ];
-    this._list4 = [
+  static const int LIST2 = 13;
+  List<int> list3;
+  static const int LIST3 = 14;
+  List<int> list4 = [
       1,
       2,
       3,
       6,
     ];
-    this._a_map = {
+  static const int LIST4 = 15;
+  Map<String, String> a_map = {
       "k1": "v1",
       "k2": "v2",
     };
-    this._status = t_variety.HealthCondition.PASS;
-    this._base_status = t_actual_base_dart.base_health_condition.FAIL;
-  }
+  static const int A_MAP = 16;
+  /// [t_variety.HealthCondition] Comment for enum field.
+  int status = t_variety.HealthCondition.PASS;
+  static const int STATUS = 17;
+  /// [t_actual_base_dart.base_health_condition]
+  int base_status = t_actual_base_dart.base_health_condition.FAIL;
+  static const int BASE_STATUS = 18;
 
-  int get iD2 => this._iD2;
 
-  set iD2(int iD2) {
-    this._iD2 = iD2;
-    this.__isset_iD2 = true;
-  }
-
-  bool isSetID2() => this.__isset_iD2;
+  bool isSetID2() => this.iD2 != null;
 
   unsetID2() {
-    this.__isset_iD2 = false;
-  }
-
-  t_variety.Event get ev1 => this._ev1;
-
-  set ev1(t_variety.Event ev1) {
-    this._ev1 = ev1;
+    this.iD2 = null;
   }
 
   bool isSetEv1() => this.ev1 != null;
@@ -146,35 +111,16 @@ class TestingDefaults implements thrift.TBase {
     this.ev1 = null;
   }
 
-  t_variety.Event get ev2 => this._ev2;
-
-  set ev2(t_variety.Event ev2) {
-    this._ev2 = ev2;
-  }
-
   bool isSetEv2() => this.ev2 != null;
 
   unsetEv2() {
     this.ev2 = null;
   }
 
-  int get iD => this._iD;
-
-  set iD(int iD) {
-    this._iD = iD;
-    this.__isset_iD = true;
-  }
-
-  bool isSetID() => this.__isset_iD;
+  bool isSetID() => this.iD != -2;
 
   unsetID() {
-    this.__isset_iD = false;
-  }
-
-  String get thing => this._thing;
-
-  set thing(String thing) {
-    this._thing = thing;
+    this.iD = -2;
   }
 
   bool isSetThing() => this.thing != null;
@@ -183,22 +129,10 @@ class TestingDefaults implements thrift.TBase {
     this.thing = null;
   }
 
-  String get thing2 => this._thing2;
-
-  set thing2(String thing2) {
-    this._thing2 = thing2;
-  }
-
   bool isSetThing2() => this.thing2 != null;
 
   unsetThing2() {
     this.thing2 = null;
-  }
-
-  List<int> get listfield => this._listfield;
-
-  set listfield(List<int> listfield) {
-    this._listfield = listfield;
   }
 
   bool isSetListfield() => this.listfield != null;
@@ -207,23 +141,10 @@ class TestingDefaults implements thrift.TBase {
     this.listfield = null;
   }
 
-  int get iD3 => this._iD3;
-
-  set iD3(int iD3) {
-    this._iD3 = iD3;
-    this.__isset_iD3 = true;
-  }
-
-  bool isSetID3() => this.__isset_iD3;
+  bool isSetID3() => this.iD3 != t_variety.VarietyConstants.other_default;
 
   unsetID3() {
-    this.__isset_iD3 = false;
-  }
-
-  Uint8List get bin_field => this._bin_field;
-
-  set bin_field(Uint8List bin_field) {
-    this._bin_field = bin_field;
+    this.iD3 = t_variety.VarietyConstants.other_default;
   }
 
   bool isSetBin_field() => this.bin_field != null;
@@ -232,22 +153,10 @@ class TestingDefaults implements thrift.TBase {
     this.bin_field = null;
   }
 
-  Uint8List get bin_field2 => this._bin_field2;
-
-  set bin_field2(Uint8List bin_field2) {
-    this._bin_field2 = bin_field2;
-  }
-
   bool isSetBin_field2() => this.bin_field2 != null;
 
   unsetBin_field2() {
     this.bin_field2 = null;
-  }
-
-  Uint8List get bin_field3 => this._bin_field3;
-
-  set bin_field3(Uint8List bin_field3) {
-    this._bin_field3 = bin_field3;
   }
 
   bool isSetBin_field3() => this.bin_field3 != null;
@@ -256,22 +165,10 @@ class TestingDefaults implements thrift.TBase {
     this.bin_field3 = null;
   }
 
-  Uint8List get bin_field4 => this._bin_field4;
-
-  set bin_field4(Uint8List bin_field4) {
-    this._bin_field4 = bin_field4;
-  }
-
   bool isSetBin_field4() => this.bin_field4 != null;
 
   unsetBin_field4() {
     this.bin_field4 = null;
-  }
-
-  List<int> get list2 => this._list2;
-
-  set list2(List<int> list2) {
-    this._list2 = list2;
   }
 
   bool isSetList2() => this.list2 != null;
@@ -280,22 +177,10 @@ class TestingDefaults implements thrift.TBase {
     this.list2 = null;
   }
 
-  List<int> get list3 => this._list3;
-
-  set list3(List<int> list3) {
-    this._list3 = list3;
-  }
-
   bool isSetList3() => this.list3 != null;
 
   unsetList3() {
     this.list3 = null;
-  }
-
-  List<int> get list4 => this._list4;
-
-  set list4(List<int> list4) {
-    this._list4 = list4;
   }
 
   bool isSetList4() => this.list4 != null;
@@ -304,46 +189,22 @@ class TestingDefaults implements thrift.TBase {
     this.list4 = null;
   }
 
-  Map<String, String> get a_map => this._a_map;
-
-  set a_map(Map<String, String> a_map) {
-    this._a_map = a_map;
-  }
-
   bool isSetA_map() => this.a_map != null;
 
   unsetA_map() {
     this.a_map = null;
   }
 
-  /// [t_variety.HealthCondition] Comment for enum field.
-  int get status => this._status;
-
-  /// [t_variety.HealthCondition] Comment for enum field.
-  set status(int status) {
-    this._status = status;
-    this.__isset_status = true;
-  }
-
-  bool isSetStatus() => this.__isset_status;
+  bool isSetStatus() => this.status != null;
 
   unsetStatus() {
-    this.__isset_status = false;
+    this.status = null;
   }
 
-  /// [t_actual_base_dart.base_health_condition]
-  int get base_status => this._base_status;
-
-  /// [t_actual_base_dart.base_health_condition]
-  set base_status(int base_status) {
-    this._base_status = base_status;
-    this.__isset_base_status = true;
-  }
-
-  bool isSetBase_status() => this.__isset_base_status;
+  bool isSetBase_status() => this.base_status != null;
 
   unsetBase_status() {
-    this.__isset_base_status = false;
+    this.base_status = null;
   }
 
   @override
@@ -597,7 +458,6 @@ class TestingDefaults implements thrift.TBase {
         case ID2:
           if (field.type == thrift.TType.I64) {
             this.iD2 = iprot.readI64();
-            this.__isset_iD2 = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -621,7 +481,6 @@ class TestingDefaults implements thrift.TBase {
         case ID:
           if (field.type == thrift.TType.I64) {
             this.iD = iprot.readI64();
-            this.__isset_iD = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -656,7 +515,6 @@ class TestingDefaults implements thrift.TBase {
         case ID3:
           if (field.type == thrift.TType.I64) {
             this.iD3 = iprot.readI64();
-            this.__isset_iD3 = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -745,7 +603,6 @@ class TestingDefaults implements thrift.TBase {
         case STATUS:
           if (field.type == thrift.TType.I32) {
             this.status = iprot.readI32();
-            this.__isset_status = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -753,7 +610,6 @@ class TestingDefaults implements thrift.TBase {
         case BASE_STATUS:
           if (field.type == thrift.TType.I32) {
             this.base_status = iprot.readI32();
-            this.__isset_base_status = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -779,30 +635,32 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeI64(this.iD2);
       oprot.writeFieldEnd();
     }
-    if (this.ev1 != null) {
+    if (isSetEv1()) {
       oprot.writeFieldBegin(_EV1_FIELD_DESC);
       this.ev1.write(oprot);
       oprot.writeFieldEnd();
     }
-    if (this.ev2 != null) {
+    if (isSetEv2()) {
       oprot.writeFieldBegin(_EV2_FIELD_DESC);
       this.ev2.write(oprot);
       oprot.writeFieldEnd();
     }
-    oprot.writeFieldBegin(_ID_FIELD_DESC);
-    oprot.writeI64(this.iD);
-    oprot.writeFieldEnd();
-    if (this.thing != null) {
+    if (isSetID()) {
+      oprot.writeFieldBegin(_ID_FIELD_DESC);
+      oprot.writeI64(this.iD);
+      oprot.writeFieldEnd();
+    }
+    if (isSetThing()) {
       oprot.writeFieldBegin(_THING_FIELD_DESC);
       oprot.writeString(this.thing);
       oprot.writeFieldEnd();
     }
-    if (isSetThing2() && this.thing2 != null) {
+    if (isSetThing2()) {
       oprot.writeFieldBegin(_THING2_FIELD_DESC);
       oprot.writeString(this.thing2);
       oprot.writeFieldEnd();
     }
-    if (this.listfield != null) {
+    if (isSetListfield()) {
       oprot.writeFieldBegin(_LISTFIELD_FIELD_DESC);
       oprot.writeListBegin(thrift.TList(thrift.TType.I32, this.listfield.length));
       for(var elem16 in this.listfield) {
@@ -811,30 +669,32 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    oprot.writeFieldBegin(_I_D3_FIELD_DESC);
-    oprot.writeI64(this.iD3);
-    oprot.writeFieldEnd();
-    if (this.bin_field != null) {
+    if (isSetID3()) {
+      oprot.writeFieldBegin(_I_D3_FIELD_DESC);
+      oprot.writeI64(this.iD3);
+      oprot.writeFieldEnd();
+    }
+    if (isSetBin_field()) {
       oprot.writeFieldBegin(_BIN_FIELD_FIELD_DESC);
       oprot.writeBinary(this.bin_field);
       oprot.writeFieldEnd();
     }
-    if (isSetBin_field2() && this.bin_field2 != null) {
+    if (isSetBin_field2()) {
       oprot.writeFieldBegin(_BIN_FIELD2_FIELD_DESC);
       oprot.writeBinary(this.bin_field2);
       oprot.writeFieldEnd();
     }
-    if (this.bin_field3 != null) {
+    if (isSetBin_field3()) {
       oprot.writeFieldBegin(_BIN_FIELD3_FIELD_DESC);
       oprot.writeBinary(this.bin_field3);
       oprot.writeFieldEnd();
     }
-    if (isSetBin_field4() && this.bin_field4 != null) {
+    if (isSetBin_field4()) {
       oprot.writeFieldBegin(_BIN_FIELD4_FIELD_DESC);
       oprot.writeBinary(this.bin_field4);
       oprot.writeFieldEnd();
     }
-    if (isSetList2() && this.list2 != null) {
+    if (isSetList2()) {
       oprot.writeFieldBegin(_LIST2_FIELD_DESC);
       oprot.writeListBegin(thrift.TList(thrift.TType.I32, this.list2.length));
       for(var elem17 in this.list2) {
@@ -843,7 +703,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (isSetList3() && this.list3 != null) {
+    if (isSetList3()) {
       oprot.writeFieldBegin(_LIST3_FIELD_DESC);
       oprot.writeListBegin(thrift.TList(thrift.TType.I32, this.list3.length));
       for(var elem18 in this.list3) {
@@ -852,7 +712,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (this.list4 != null) {
+    if (isSetList4()) {
       oprot.writeFieldBegin(_LIST4_FIELD_DESC);
       oprot.writeListBegin(thrift.TList(thrift.TType.I32, this.list4.length));
       for(var elem19 in this.list4) {
@@ -861,7 +721,7 @@ class TestingDefaults implements thrift.TBase {
       oprot.writeListEnd();
       oprot.writeFieldEnd();
     }
-    if (isSetA_map() && this.a_map != null) {
+    if (isSetA_map()) {
       oprot.writeFieldBegin(_A_MAP_FIELD_DESC);
       oprot.writeMapBegin(thrift.TMap(thrift.TType.STRING, thrift.TType.STRING, this.a_map.length));
       for(var elem20 in this.a_map.keys) {

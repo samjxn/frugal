@@ -659,6 +659,11 @@ func (g *Generator) generateServiceArgsResults(service *parser.Service) string {
 	return contents
 }
 
+func (g *Generator) useNullForUnset() bool {
+	_, ok := g.Options["use_null_for_unset"]
+	return ok
+}
+
 func (g *Generator) generateStruct(s *parser.Struct) string {
 	contents := ""
 
@@ -692,22 +697,28 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 	// Fields
 	for _, field := range s.Fields {
 		contents += g.generateFieldComment(field, tab)
-		contents += fmt.Sprintf(tab+"%s _%s%s;\n",
-			g.getDartTypeFromThriftType(field.Type), toFieldName(field.Name), g.generateInitValue(field))
+		fieldName := toFieldName(field.Name)
+		if !g.useNullForUnset() {
+			fieldName = fmt.Sprintf("_%s", fieldName)
+		}
+		contents += fmt.Sprintf(tab+"%s %s%s;\n",
+			g.getDartTypeFromThriftType(field.Type), fieldName, g.generateInitValue(field))
 		contents += fmt.Sprintf(tab+"static const int %s = %d;\n", strings.ToUpper(field.Name), field.ID)
 	}
 	contents += "\n"
 
 	// Is set helpers for primitive types.
-	for _, field := range s.Fields {
-		if g.isDartPrimitive(field.Type) {
-			contents += fmt.Sprintf(tab+"bool __isset_%s = false;\n", toFieldName(field.Name))
+	if !g.useNullForUnset() {
+		for _, field := range s.Fields {
+			if g.isDartPrimitive(field.Type) {
+				contents += fmt.Sprintf(tab+"bool __isset_%s = false;\n", toFieldName(field.Name))
+			}
 		}
 	}
 	contents += "\n"
 
 	// Constructor
-	if len(s.Fields) > 0 {
+	if !g.useNullForUnset() {
 		constructorContent := ""
 		for _, field := range s.Fields {
 			if field.Default != nil {
@@ -751,6 +762,14 @@ func (g *Generator) generateStruct(s *parser.Struct) string {
 }
 
 func (g *Generator) generateInitValue(field *parser.Field) string {
+	if g.useNullForUnset() {
+		if field.Default == nil {
+			return ""
+		}
+		value, _ := g.generateConstantValue(field.Type, field.Default, tab, false)
+		return fmt.Sprintf(" = %s", value)
+	}
+
 	underlyingType := g.Frugal.UnderlyingType(field.Type)
 	if !underlyingType.IsPrimitive() || field.Modifier == parser.Optional {
 		return ""
@@ -802,20 +821,32 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 		fName := toFieldName(field.Name)
 		titleName := strings.Title(field.Name)
 
-		contents += g.generateFieldComment(field, tab)
-		contents += fmt.Sprintf(tab+"%s get %s => this._%s;\n\n", dartType, fName, fName)
-		contents += g.generateFieldComment(field, tab)
-		contents += fmt.Sprintf(tab+"set %s(%s %s) {\n", fName, dartType, fName)
-		contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", fName, fName)
-		if dartPrimitive {
-			contents += fmt.Sprintf(tabtab+"this.__isset_%s = true;\n", fName)
+		if !g.useNullForUnset() {
+			contents += g.generateFieldComment(field, tab)
+			contents += fmt.Sprintf(tab+"%s get %s => this._%s;\n\n", dartType, fName, fName)
+			contents += g.generateFieldComment(field, tab)
+			contents += fmt.Sprintf(tab+"set %s(%s %s) {\n", fName, dartType, fName)
+			contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", fName, fName)
+			if !g.useNullForUnset() && dartPrimitive {
+				contents += fmt.Sprintf(tabtab+"this.__isset_%s = true;\n", fName)
+			}
+			contents += tab + "}\n\n"
 		}
-		contents += tab + "}\n\n"
 
 		if field.Annotations.IsDeprecated() {
 			contents += tab + "@deprecated"
 		}
-		if dartPrimitive {
+		if g.useNullForUnset() {
+			unsetValue := "null"
+			if field.Modifier == parser.Default && field.Default != nil && dartPrimitive {
+				unsetValue, _ = g.generateConstantValue(field.Type, field.Default, tab, false)
+			}
+			contents += fmt.Sprintf(tab+"bool isSet%s() => this.%s != %s;\n\n", titleName, fName, unsetValue)
+			contents += fmt.Sprintf(tab+"unset%s() {\n", titleName)
+			contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
+			contents += fmt.Sprintf(tabtab+"this.%s = %s;\n", fName, unsetValue)
+			contents += tab + "}\n\n"
+		} else if dartPrimitive {
 			contents += fmt.Sprintf(tab+"bool isSet%s() => this.__isset_%s;\n\n", titleName, fName)
 			contents += fmt.Sprintf(tab+"unset%s() {\n", titleName)
 			contents += fmt.Sprintf(tabtab+"this.__isset_%s = false;\n", fName)
@@ -952,7 +983,7 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 
 		contents += ignoreDeprecationWarningIfNeeded(ind, field.Annotations)
 		contents += fmt.Sprintf(ind+"%s%s = iprot.read%s();\n", prefix, fName, thriftType)
-		if primitive && first {
+		if !g.useNullForUnset() && primitive && first {
 			contents += fmt.Sprintf(ind+"this.__isset_%s = true;\n", fName)
 		}
 	} else if g.Frugal.IsEnum(underlyingType) {
@@ -965,7 +996,7 @@ func (g *Generator) generateReadFieldRec(field *parser.Field, first bool, ind st
 			contents += fmt.Sprintf(ind+"%s%s = iprot.readI32();\n", prefix, fName)
 		}
 
-		if first {
+		if !g.useNullForUnset() && first {
 			contents += fmt.Sprintf(ind+"this.__isset_%s = true;\n", fName)
 		}
 	} else if g.Frugal.IsStruct(underlyingType) {
@@ -1031,20 +1062,28 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 	contents += tabtab + "oprot.writeStructBegin(_STRUCT_DESC);\n"
 	for _, field := range s.Fields {
 		fName := toFieldName(field.Name)
-		optional := field.Modifier == parser.Optional
-		nullable := !g.isDartPrimitive(g.Frugal.UnderlyingType(field.Type))
+		var isSet bool
+		var isNull bool
+		if g.useNullForUnset() {
+			isSet = field.Modifier != parser.Required
+			isNull = false
+		} else {
+			isSet = field.Modifier == parser.Optional
+			isNull = !g.isDartPrimitive(g.Frugal.UnderlyingType(field.Type))
+		}
+
 		ind := ""
-		if optional || nullable {
+		if isSet || isNull {
 			ind = tab
 			contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
 			contents += tabtab + "if ("
-			if optional {
+			if isSet {
 				contents += fmt.Sprintf("isSet%s()", strings.Title(field.Name))
 			}
-			if optional && nullable {
+			if isSet && isNull {
 				contents += " && "
 			}
-			if nullable {
+			if isNull {
 				contents += fmt.Sprintf("this.%s != null", fName)
 			}
 			contents += ") {\n"
@@ -1054,7 +1093,7 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 		contents += g.generateWriteFieldRec(field, true, ind)
 		contents += fmt.Sprintf(tabtab + ind + "oprot.writeFieldEnd();\n")
 
-		if optional || nullable {
+		if isSet || isNull {
 			contents += tabtab + "}\n"
 		}
 	}

@@ -22,39 +22,17 @@ class Event implements thrift.TBase {
   static final thrift.TField _MESSAGE_FIELD_DESC = thrift.TField('Message', thrift.TType.STRING, 2);
 
   /// ID is a unique identifier for an event.
-  int _iD = 0;
+  int iD = t_variety.VarietyConstants.DEFAULT_ID;
   static const int ID = 1;
   /// Message contains the event payload.
-  String _message;
+  String message;
   static const int MESSAGE = 2;
 
-  bool __isset_iD = false;
 
-  Event() {
-    this._iD = t_variety.VarietyConstants.DEFAULT_ID;
-  }
-
-  /// ID is a unique identifier for an event.
-  int get iD => this._iD;
-
-  /// ID is a unique identifier for an event.
-  set iD(int iD) {
-    this._iD = iD;
-    this.__isset_iD = true;
-  }
-
-  bool isSetID() => this.__isset_iD;
+  bool isSetID() => this.iD != t_variety.VarietyConstants.DEFAULT_ID;
 
   unsetID() {
-    this.__isset_iD = false;
-  }
-
-  /// Message contains the event payload.
-  String get message => this._message;
-
-  /// Message contains the event payload.
-  set message(String message) {
-    this._message = message;
+    this.iD = t_variety.VarietyConstants.DEFAULT_ID;
   }
 
   bool isSetMessage() => this.message != null;
@@ -122,7 +100,6 @@ class Event implements thrift.TBase {
         case ID:
           if (field.type == thrift.TType.I64) {
             this.iD = iprot.readI64();
-            this.__isset_iD = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -150,10 +127,12 @@ class Event implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    oprot.writeFieldBegin(_ID_FIELD_DESC);
-    oprot.writeI64(this.iD);
-    oprot.writeFieldEnd();
-    if (this.message != null) {
+    if (isSetID()) {
+      oprot.writeFieldBegin(_ID_FIELD_DESC);
+      oprot.writeI64(this.iD);
+      oprot.writeFieldEnd();
+    }
+    if (isSetMessage()) {
       oprot.writeFieldBegin(_MESSAGE_FIELD_DESC);
       oprot.writeString(this.message);
       oprot.writeFieldEnd();

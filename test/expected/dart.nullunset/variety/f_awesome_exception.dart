@@ -21,40 +21,21 @@ class AwesomeException extends Error implements thrift.TBase {
   static final thrift.TField _DEPR_FIELD_DESC = thrift.TField('depr', thrift.TType.BOOL, 3);
 
   /// ID is a unique identifier for an awesome exception.
-  int _iD = 0;
+  int iD;
   static const int ID = 1;
   /// Reason contains the error message.
-  String _reason;
+  String reason;
   static const int REASON = 2;
   /// Deprecated: use something else
   @deprecated
-  bool _depr = false;
+  bool depr;
   static const int DEPR = 3;
 
-  bool __isset_iD = false;
-  bool __isset_depr = false;
 
-  /// ID is a unique identifier for an awesome exception.
-  int get iD => this._iD;
-
-  /// ID is a unique identifier for an awesome exception.
-  set iD(int iD) {
-    this._iD = iD;
-    this.__isset_iD = true;
-  }
-
-  bool isSetID() => this.__isset_iD;
+  bool isSetID() => this.iD != null;
 
   unsetID() {
-    this.__isset_iD = false;
-  }
-
-  /// Reason contains the error message.
-  String get reason => this._reason;
-
-  /// Reason contains the error message.
-  set reason(String reason) {
-    this._reason = reason;
+    this.iD = null;
   }
 
   bool isSetReason() => this.reason != null;
@@ -63,21 +44,11 @@ class AwesomeException extends Error implements thrift.TBase {
     this.reason = null;
   }
 
-  /// Deprecated: use something else
-  @deprecated
-  bool get depr => this._depr;
-
-  /// Deprecated: use something else
-  @deprecated
-  set depr(bool depr) {
-    this._depr = depr;
-    this.__isset_depr = true;
-  }
-
-  @deprecated  bool isSetDepr() => this.__isset_depr;
+  @deprecated  bool isSetDepr() => this.depr != null;
 
   unsetDepr() {
-    this.__isset_depr = false;
+    // ignore: deprecated_member_use
+    this.depr = null;
   }
 
   @override
@@ -154,7 +125,6 @@ class AwesomeException extends Error implements thrift.TBase {
         case ID:
           if (field.type == thrift.TType.I64) {
             this.iD = iprot.readI64();
-            this.__isset_iD = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -170,7 +140,6 @@ class AwesomeException extends Error implements thrift.TBase {
           if (field.type == thrift.TType.BOOL) {
             // ignore: deprecated_member_use
             this.depr = iprot.readBool();
-            this.__isset_depr = true;
           } else {
             thrift.TProtocolUtil.skip(iprot, field.type);
           }
@@ -191,18 +160,23 @@ class AwesomeException extends Error implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    oprot.writeFieldBegin(_ID_FIELD_DESC);
-    oprot.writeI64(this.iD);
-    oprot.writeFieldEnd();
-    if (this.reason != null) {
+    if (isSetID()) {
+      oprot.writeFieldBegin(_ID_FIELD_DESC);
+      oprot.writeI64(this.iD);
+      oprot.writeFieldEnd();
+    }
+    if (isSetReason()) {
       oprot.writeFieldBegin(_REASON_FIELD_DESC);
       oprot.writeString(this.reason);
       oprot.writeFieldEnd();
     }
-    oprot.writeFieldBegin(_DEPR_FIELD_DESC);
     // ignore: deprecated_member_use
-    oprot.writeBool(this.depr);
-    oprot.writeFieldEnd();
+    if (isSetDepr()) {
+      oprot.writeFieldBegin(_DEPR_FIELD_DESC);
+    // ignore: deprecated_member_use
+      oprot.writeBool(this.depr);
+      oprot.writeFieldEnd();
+    }
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }

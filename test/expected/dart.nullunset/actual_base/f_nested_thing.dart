@@ -14,15 +14,9 @@ class nested_thing implements thrift.TBase {
   static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('nested_thing');
   static final thrift.TField _THINGS_FIELD_DESC = thrift.TField('things', thrift.TType.LIST, 1);
 
-  List<t_actual_base_dart.thing> _things;
+  List<t_actual_base_dart.thing> things;
   static const int THINGS = 1;
 
-
-  List<t_actual_base_dart.thing> get things => this._things;
-
-  set things(List<t_actual_base_dart.thing> things) {
-    this._things = things;
-  }
 
   bool isSetThings() => this.things != null;
 
@@ -104,7 +98,7 @@ class nested_thing implements thrift.TBase {
     validate();
 
     oprot.writeStructBegin(_STRUCT_DESC);
-    if (this.things != null) {
+    if (isSetThings()) {
       oprot.writeFieldBegin(_THINGS_FIELD_DESC);
       oprot.writeListBegin(thrift.TList(thrift.TType.STRUCT, this.things.length));
       for(var elem97 in this.things) {
