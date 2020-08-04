@@ -167,8 +167,6 @@ class basePing_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -254,7 +252,5 @@ class basePing_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

@@ -651,8 +651,6 @@ class Ping_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -738,8 +736,6 @@ class Ping_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -978,8 +974,6 @@ class blah_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -1227,8 +1221,6 @@ class blah_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -1427,8 +1419,6 @@ class oneWay_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -1618,8 +1608,6 @@ class bin_method_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -1814,8 +1802,6 @@ class bin_method_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -2051,7 +2037,6 @@ class param_modifiers_args implements thrift.TBase {
     if (this.req_num == null) {
       throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "Required field 'req_num' was not present in struct param_modifiers_args");
     }
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -2191,8 +2176,6 @@ class param_modifiers_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -2402,8 +2385,6 @@ class underlying_types_test_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -2554,8 +2535,6 @@ class underlying_types_test_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -2641,8 +2620,6 @@ class getThing_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -2784,8 +2761,6 @@ class getThing_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -2871,8 +2846,6 @@ class getMyInt_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -3012,8 +2985,6 @@ class getMyInt_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -3153,8 +3124,6 @@ class use_subdir_struct_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -3296,8 +3265,6 @@ class use_subdir_struct_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -3436,8 +3403,6 @@ class sayHelloWith_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -3578,8 +3543,6 @@ class sayHelloWith_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -3718,8 +3681,6 @@ class whatDoYouSay_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -3860,8 +3821,6 @@ class whatDoYouSay_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -4000,8 +3959,6 @@ class sayAgain_args implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
 // ignore: camel_case_types
@@ -4142,7 +4099,5 @@ class sayAgain_result implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

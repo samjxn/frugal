@@ -1101,6 +1101,5 @@ class EventWrapper implements thrift.TBase {
     if (this.ev == null) {
       throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, "Required field 'ev' was not present in struct EventWrapper");
     }
-    // check that fields of type enum have valid values
   }
 }

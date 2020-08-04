@@ -1312,9 +1312,13 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 	contents := tab + "validate() {\n"
 
 	if s.Type != parser.StructTypeUnion {
-		contents += tabtab + "// check for required fields\n"
+		any := false
 		for _, field := range s.Fields {
 			if field.Modifier == parser.Required {
+				if !any {
+					contents += tabtab + "// check for required fields\n"
+					any = true
+				}
 				fName := toFieldName(field.Name)
 				contents += fmt.Sprintf(tabtab+"if (this.%s == null) {\n", fName)
 				contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"Required field '%s' was not present in struct %s\");\n", fName, s.Name)
@@ -1335,9 +1339,13 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 	}
 
 	if !g.useEnums() {
-		contents += tabtab + "// check that fields of type enum have valid values\n"
+		any := false
 		for _, field := range s.Fields {
 			if g.Frugal.IsEnum(field.Type) {
+				if !any {
+					contents += tabtab + "// check that fields of type enum have valid values\n"
+					any = true
+				}
 				fName := toFieldName(field.Name)
 				isSetCheck := fmt.Sprintf("isSet%s()", strings.Title(field.Name))
 				contents += fmt.Sprintf(tabtab+"if (%s && !%s.VALID_VALUES.contains(this.%s)) {\n",
