@@ -905,17 +905,6 @@ func (g *Generator) generateRead(s *parser.Struct) string {
 	contents += tabtabtab + "iprot.readFieldEnd();\n"
 	contents += tabtab + "}\n"
 	contents += tabtab + "iprot.readStructEnd();\n\n"
-
-	// validate primitives
-	contents += tabtab + "// check for required fields of primitive type, which can't be checked in the validate method\n"
-	for _, field := range s.Fields {
-		if field.Modifier == parser.Required && g.isDartPrimitive(field.Type) {
-			fName := toFieldName(field.Name)
-			contents += fmt.Sprintf(tabtab+"if (!__isset_%s) {\n", fName)
-			contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.UNKNOWN, \"Required field '%s' is not present in struct '%s'\");\n", fName, s.Name)
-			contents += tabtab + "}\n"
-		}
-	}
 	contents += tabtab + "validate();\n"
 	contents += tab + "}\n\n"
 
@@ -1327,11 +1316,9 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 		for _, field := range s.Fields {
 			if field.Modifier == parser.Required {
 				fName := toFieldName(field.Name)
-				if !g.isDartPrimitive(field.Type) {
-					contents += fmt.Sprintf(tabtab+"if (this.%s == null) {\n", fName)
-					contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"Required field '%s' was not present in struct %s\");\n", fName, s.Name)
-					contents += tabtab + "}\n"
-				}
+				contents += fmt.Sprintf(tabtab+"if (this.%s == null) {\n", fName)
+				contents += fmt.Sprintf(tabtabtab+"throw thrift.TProtocolError(thrift.TProtocolErrorType.INVALID_DATA, \"Required field '%s' was not present in struct %s\");\n", fName, s.Name)
+				contents += tabtab + "}\n"
 			}
 		}
 	} else {
