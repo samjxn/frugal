@@ -1106,7 +1106,7 @@ func (g *Generator) generateWrite(s *parser.Struct) string {
 func (g *Generator) generateWriteFieldRec(field *parser.Field, first bool, ind string) string {
 	contents := ""
 
-	contents += ignoreDeprecationWarningIfNeeded(tabtab, field.Annotations)
+	contents += ignoreDeprecationWarningIfNeeded(tabtab + ind, field.Annotations)
 
 	fName := toFieldName(field.Name)
 	thisPrefix := ""

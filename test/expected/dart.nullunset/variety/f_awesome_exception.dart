@@ -173,7 +173,7 @@ class AwesomeException extends Error implements thrift.TBase {
     // ignore: deprecated_member_use
     if (isSetDepr()) {
       oprot.writeFieldBegin(_DEPR_FIELD_DESC);
-    // ignore: deprecated_member_use
+      // ignore: deprecated_member_use
       oprot.writeBool(this.depr);
       oprot.writeFieldEnd();
     }

@@ -818,14 +818,14 @@ class EventWrapper implements thrift.TBase {
     // ignore: deprecated_member_use
     if (this.deprBinary != null) {
       oprot.writeFieldBegin(_DEPR_BINARY_FIELD_DESC);
-    // ignore: deprecated_member_use
+      // ignore: deprecated_member_use
       oprot.writeBinary(this.deprBinary);
       oprot.writeFieldEnd();
     }
     // ignore: deprecated_member_use
     if (this.deprList != null) {
       oprot.writeFieldBegin(_DEPR_LIST_FIELD_DESC);
-    // ignore: deprecated_member_use
+      // ignore: deprecated_member_use
       oprot.writeListBegin(thrift.TList(thrift.TType.BOOL, this.deprList.length));
       // ignore: deprecated_member_use
       for(var elem59 in this.deprList) {
