@@ -827,7 +827,7 @@ func (g *Generator) generateFieldMethods(s *parser.Struct) string {
 			contents += g.generateFieldComment(field, tab)
 			contents += fmt.Sprintf(tab+"set %s(%s %s) {\n", fName, dartType, fName)
 			contents += fmt.Sprintf(tabtab+"this._%s = %s;\n", fName, fName)
-			if !g.useNullForUnset() && dartPrimitive {
+			if dartPrimitive {
 				contents += fmt.Sprintf(tabtab+"this.__isset_%s = true;\n", fName)
 			}
 			contents += tab + "}\n\n"
