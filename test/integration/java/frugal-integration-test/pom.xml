@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.workiva</groupId>
             <artifactId>frugal</artifactId>
-            <version>3.9.7</version>
+            <version>3.9.8</version>
         </dependency>
         <dependency>
             <groupId>io.nats</groupId>
@@ -58,7 +58,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.50.Final</version>
+            <version>4.1.51.Final</version>
         </dependency>
         <dependency>
             <groupId>org.nanohttpd</groupId>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
-            <version>9.4.30.v20200611</version>
+            <version>9.4.31.v20200723</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

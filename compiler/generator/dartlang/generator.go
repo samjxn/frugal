@@ -309,19 +309,18 @@ func (g *Generator) exportClasses(dir string) error {
 		}
 
 		servTitle := strings.Title(service.Name)
-		exports += fmt.Sprintf("export '%s/%s%s%s.%s' show F%s;\n",
-			servSrcDir, generator.FilePrefix, toFileName(service.Name), serviceSuffix, lang, servTitle)
-		exports += fmt.Sprintf("export '%s/%s%s%s.%s' show F%sClient;\n",
-			servSrcDir, generator.FilePrefix, toFileName(service.Name), serviceSuffix, lang, servTitle)
+		exports += fmt.Sprintf("export '%s/%s%s%s.%s' show F%s, F%sClient, f%sClientFactory;\n",
+			servSrcDir, generator.FilePrefix, toFileName(service.Name), serviceSuffix, lang, servTitle, servTitle, servTitle)
 	}
 	for _, scope := range g.Frugal.Scopes {
 		scopeSrcDir := "src"
 		if _, ok := g.Options[libraryPrefixOption]; ok {
 			scopeSrcDir = filename
 		}
+
 		scopeTitle := strings.Title(scope.Name)
-		exports += fmt.Sprintf("export '%s/%s%s%s.%s' show %sPublisher, %sSubscriber;\n",
-			scopeSrcDir, generator.FilePrefix, toFileName(scope.Name), scopeSuffix, lang, scopeTitle, scopeTitle)
+		exports += fmt.Sprintf("export '%s/%s%s%s.%s' show %sPublisher, %sSubscriber, %sPublisherFactory, %sSubscriberFactory;\n",
+			scopeSrcDir, generator.FilePrefix, toFileName(scope.Name), scopeSuffix, lang, scopeTitle, scopeTitle, lowercaseFirstCharacter(scopeTitle), lowercaseFirstCharacter(scopeTitle))
 	}
 	stat, err := mainFile.Stat()
 	if err != nil {
