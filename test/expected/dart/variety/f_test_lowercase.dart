@@ -23,8 +23,6 @@ class TestLowercase implements thrift.TBase {
 
   bool __isset_lowercaseInt = false;
 
-  TestLowercase();
-
   int get lowercaseInt => this._lowercaseInt;
 
   set lowercaseInt(int lowercaseInt) {
@@ -98,7 +96,6 @@ class TestLowercase implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -149,7 +146,5 @@ class TestLowercase implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }

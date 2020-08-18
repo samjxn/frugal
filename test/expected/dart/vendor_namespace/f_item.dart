@@ -14,8 +14,6 @@ class Item implements thrift.TBase {
 
 
 
-  Item();
-
   @override
   getFieldValue(int fieldID) {
     switch (fieldID) {
@@ -56,7 +54,6 @@ class Item implements thrift.TBase {
     }
     iprot.readStructEnd();
 
-    // check for required fields of primitive type, which can't be checked in the validate method
     validate();
   }
 
@@ -94,7 +91,5 @@ class Item implements thrift.TBase {
   }
 
   validate() {
-    // check for required fields
-    // check that fields of type enum have valid values
   }
 }
