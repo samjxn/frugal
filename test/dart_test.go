@@ -58,7 +58,46 @@ func TestValidDartFrugalCompiler(t *testing.T) {
 	}
 	copyAllFiles(t, files)
 	compareAllFiles(t, files)
+}
 
+func TestValidDartUseNullForUnset(t *testing.T) {
+	options := compiler.Options{
+		File:    frugalGenFile,
+		Gen:     "dart:use_null_for_unset",
+		Out:     outputDir + "/nullunset",
+		Delim:   delim,
+		Recurse: true,
+	}
+	if err := compiler.Compile(options); err != nil {
+		t.Fatal("unexpected error", err)
+	}
+
+	files := []FileComparisonPair{
+		{"expected/dart.nullunset/variety/f_awesome_exception.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_awesome_exception.dart")},
+		{"expected/dart.nullunset/variety/f_event.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_event.dart")},
+		{"expected/dart.nullunset/variety/f_event_wrapper.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_event_wrapper.dart")},
+		{"expected/dart.nullunset/variety/f_its_an_enum.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_its_an_enum.dart")},
+		{"expected/dart.nullunset/variety/f_test_base.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_test_base.dart")},
+		{"expected/dart.nullunset/variety/f_testing_defaults.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_testing_defaults.dart")},
+		{"expected/dart.nullunset/variety/f_testing_unions.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_testing_unions.dart")},
+		{"expected/dart.nullunset/variety/f_health_condition.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_health_condition.dart")},
+		{"expected/dart.nullunset/variety/f_test_lowercase.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_test_lowercase.dart")},
+		{"expected/dart.nullunset/variety/f_foo_args.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_foo_args.dart")},
+		{"expected/dart.nullunset/variety/f_variety_constants.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_variety_constants.dart")},
+		{"expected/dart.nullunset/variety/f_events_scope.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_events_scope.dart")},
+		{"expected/dart.nullunset/variety/f_foo_service.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "src", "f_foo_service.dart")},
+		{"expected/dart.nullunset/variety/variety.dart", filepath.Join(outputDir, "nullunset", "variety", "lib", "variety.dart")},
+
+		{"expected/dart.nullunset/actual_base/f_actual_base_dart_constants.dart", filepath.Join(outputDir, "nullunset", "actual_base_dart", "lib", "src", "f_actual_base_dart_constants.dart")},
+		{"expected/dart.nullunset/actual_base/f_api_exception.dart", filepath.Join(outputDir, "nullunset", "actual_base_dart", "lib", "src", "f_api_exception.dart")},
+		{"expected/dart.nullunset/actual_base/f_thing.dart", filepath.Join(outputDir, "nullunset", "actual_base_dart", "lib", "src", "f_thing.dart")},
+		{"expected/dart.nullunset/actual_base/f_base_health_condition.dart", filepath.Join(outputDir, "nullunset", "actual_base_dart", "lib", "src", "f_base_health_condition.dart")},
+		{"expected/dart.nullunset/actual_base/f_base_foo_service.dart", filepath.Join(outputDir, "nullunset", "actual_base_dart", "lib", "src", "f_base_foo_service.dart")},
+		{"expected/dart.nullunset/actual_base/f_nested_thing.dart", filepath.Join(outputDir, "nullunset", "actual_base_dart", "lib", "src", "f_nested_thing.dart")},
+		{"expected/dart.nullunset/actual_base/actual_base_dart.dart", filepath.Join(outputDir, "nullunset", "actual_base_dart", "lib", "actual_base_dart.dart")},
+	}
+	copyAllFiles(t, files)
+	compareAllFiles(t, files)
 }
 
 func TestValidDartEnums(t *testing.T) {
