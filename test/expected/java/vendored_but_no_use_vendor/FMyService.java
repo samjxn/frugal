@@ -87,45 +87,17 @@ public class FMyService {
 
 	private static class InternalClient extends vendor_namespace.java.FVendoredBase.Client implements Iface {
 
-		private FTransport transport;
-		private FProtocolFactory protocolFactory;
+		private FProtocolHelper helper;
+
 		public InternalClient(FServiceProvider provider) {
 			super(provider);
-			this.transport = provider.getTransport();
-			this.protocolFactory = provider.getProtocolFactory();
+			this.helper = new FProtocolHelper(provider.getTransport(), provider.getProtocolFactory());
 		}
 
 		public vendor_namespace.java.Item getItem(FContext ctx) throws TException, InvalidData {
-			TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(this.transport.getRequestSizeLimit());
-			FProtocol oprot = this.protocolFactory.getProtocol(memoryBuffer);
-			oprot.writeRequestHeader(ctx);
-			oprot.writeMessageBegin(new TMessage("getItem", TMessageType.CALL, 0));
 			getItem_args args = new getItem_args();
-			args.write(oprot);
-			oprot.writeMessageEnd();
-			TTransport response = this.transport.request(ctx, memoryBuffer.getWriteBytes());
-
-			FProtocol iprot = this.protocolFactory.getProtocol(response);
-			iprot.readResponseHeader(ctx);
-			TMessage message = iprot.readMessageBegin();
-			if (!message.name.equals("getItem")) {
-				throw new TApplicationException(TApplicationExceptionType.WRONG_METHOD_NAME, "getItem failed: wrong method name");
-			}
-			if (message.type == TMessageType.EXCEPTION) {
-				TApplicationException e = TApplicationException.read(iprot);
-				iprot.readMessageEnd();
-				TException returnedException = e;
-				if (e.getType() == TApplicationExceptionType.RESPONSE_TOO_LARGE) {
-					returnedException = new TTransportException(TTransportExceptionType.RESPONSE_TOO_LARGE, e.getMessage());
-				}
-				throw returnedException;
-			}
-			if (message.type != TMessageType.REPLY) {
-				throw new TApplicationException(TApplicationExceptionType.INVALID_MESSAGE_TYPE, "getItem failed: invalid message type");
-			}
 			getItem_result res = new getItem_result();
-			res.read(iprot);
-			iprot.readMessageEnd();
+			this.helper.request(ctx, "getItem", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}

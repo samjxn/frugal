@@ -80,11 +80,10 @@ public class FVendoredBase {
 
 	private static class InternalClient implements Iface {
 
-		private FTransport transport;
-		private FProtocolFactory protocolFactory;
+		private FProtocolHelper helper;
+
 		public InternalClient(FServiceProvider provider) {
-			this.transport = provider.getTransport();
-			this.protocolFactory = provider.getProtocolFactory();
+			this.helper = new FProtocolHelper(provider.getTransport(), provider.getProtocolFactory());
 		}
 
 	}
