@@ -2179,6 +2179,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	imports += "import com.workiva.frugal.processor.FProcessor;\n"
 	imports += "import com.workiva.frugal.processor.FProcessorFunction;\n"
 	imports += "import com.workiva.frugal.protocol.*;\n"
+	imports += "import com.workiva.frugal.provider.FServiceClient;\n"
 	imports += "import com.workiva.frugal.provider.FServiceProvider;\n"
 	imports += "import com.workiva.frugal.transport.FTransport;\n"
 	imports += "import com.workiva.frugal.transport.TMemoryOutputBuffer;\n"

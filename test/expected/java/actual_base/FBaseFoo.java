@@ -43,6 +43,7 @@ import com.workiva.frugal.processor.FBaseProcessor;
 import com.workiva.frugal.processor.FProcessor;
 import com.workiva.frugal.processor.FProcessorFunction;
 import com.workiva.frugal.protocol.*;
+import com.workiva.frugal.provider.FServiceClient;
 import com.workiva.frugal.provider.FServiceProvider;
 import com.workiva.frugal.transport.FTransport;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;

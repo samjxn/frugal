@@ -11,13 +11,16 @@
  * limitations under the License.
  */
 
-package com.workiva.frugal.protocol;
+package com.workiva.frugal.provider;
 
 import com.workiva.frugal.exception.TApplicationExceptionType;
 import com.workiva.frugal.exception.TTransportExceptionType;
 import com.workiva.frugal.FContext;
 import com.workiva.frugal.transport.FTransport;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;
+import com.workiva.frugal.protocol.FProtocol;
+import com.workiva.frugal.protocol.FProtocolFactory;
+import com.workiva.frugal.provider.FServiceProvider;
 import org.apache.thrift.protocol.TMessage;
 import org.apache.thrift.protocol.TMessageType;
 import org.apache.thrift.protocol.TProtocolFactory;
