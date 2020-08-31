@@ -2765,17 +2765,12 @@ func (g *Generator) generateInternalClient(service *parser.Service, indent strin
 		contents += indent + fmt.Sprintf("private static class InternalClient extends %s.Client implements Iface {\n\n",
 			g.getServiceExtendsName(service))
 	} else {
-		contents += indent + "private static class InternalClient implements Iface {\n\n"
+		contents += indent + "private static class InternalClient extends FServiceClient implements Iface {\n"
 	}
-
-	contents += indent + tab + "private FProtocolHelper helper;\n\n"
 
 	contents += indent + tab + "public InternalClient(FServiceProvider provider) {\n"
-	if service.Extends != "" {
-		contents += indent + tabtab + "super(provider);\n"
-	}
-	contents += indent + tabtab + "this.helper = new FProtocolHelper(provider.getTransport(), provider.getProtocolFactory());\n"
-	contents += indent + tab + "}\n\n"
+	contents += indent + tabtab + "super(provider);\n"
+	contents += indent + tab + "}\n"
 
 	for _, method := range service.Methods {
 		contents += g.generateClientMethod(service, method, indent)
@@ -2799,13 +2794,13 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 		contents += indent + tabtab + fmt.Sprintf("args.set%s(%s);\n", strings.Title(arg.Name), arg.Name)
 	}
 	if method.Oneway {
-		contents += indent + tabtab + fmt.Sprintf("this.helper.oneway(ctx, \"%s\", args);\n", methodLower)
+		contents += indent + tabtab + fmt.Sprintf("onewayBase(ctx, \"%s\", args);\n", methodLower)
 		contents += indent + tab + "}\n"
 		return contents
 	}
 
 	contents += indent + tabtab + fmt.Sprintf("%s_result res = new %s_result();\n", method.Name, method.Name)
-	contents += indent + tabtab + fmt.Sprintf("this.helper.request(ctx, \"%s\", args, res);\n", methodLower)
+	contents += indent + tabtab + fmt.Sprintf("requestBase(ctx, \"%s\", args, res);\n", methodLower)
 
 	if method.ReturnType != nil {
 		contents += indent + tabtab + "if (res.isSetSuccess()) {\n"

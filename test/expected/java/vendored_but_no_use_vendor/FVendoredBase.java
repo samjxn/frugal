@@ -78,14 +78,10 @@ public class FVendoredBase {
 
 	}
 
-	private static class InternalClient implements Iface {
-
-		private FProtocolHelper helper;
-
+	private static class InternalClient extends FServiceClient implements Iface {
 		public InternalClient(FServiceProvider provider) {
-			this.helper = new FProtocolHelper(provider.getTransport(), provider.getProtocolFactory());
+			super(provider);
 		}
-
 	}
 
 	public static class Processor extends FBaseProcessor implements FProcessor {

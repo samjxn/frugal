@@ -30,25 +30,25 @@ import org.apache.thrift.TSerializable;
 /**
  * FProtocolHelper is used by generated code to consolidate the logic generated.
  */
-public class FProtocolHelper {
+public class FServiceClient {
 
-	private FTransport transport;
-	private FProtocolFactory protocolFactory;
+	protected FTransport transport_;
+	protected FProtocolFactory protocolFactory_;
 
-	public FProtocolHelper(FTransport transport, FProtocolFactory protocolFactory) {
-		this.transport = transport;
-		this.protocolFactory = protocolFactory;
+	public FServiceClient(FServiceProvider provider) {
+		this.transport_ = provider.getTransport();
+		this.protocolFactory_ = provider.getProtocolFactory();
 	}
 
-	public void request(FContext ctx, String method, TSerializable args, TSerializable res) throws TException {
-		TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(transport.getRequestSizeLimit());
-		FProtocol oprot = protocolFactory.getProtocol(memoryBuffer);
+	protected void requestBase(FContext ctx, String method, TSerializable args, TSerializable res) throws TException {
+		TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(transport_.getRequestSizeLimit());
+		FProtocol oprot = protocolFactory_.getProtocol(memoryBuffer);
 		oprot.writeRequestHeader(ctx);
 		oprot.writeMessageBegin(new TMessage(method, TMessageType.CALL, 0));
 		args.write(oprot);
 		oprot.writeMessageEnd();
-		TTransport response = transport.request(ctx, memoryBuffer.getWriteBytes());
-		FProtocol iprot = protocolFactory.getProtocol(response);
+		TTransport response = transport_.request(ctx, memoryBuffer.getWriteBytes());
+		FProtocol iprot = protocolFactory_.getProtocol(response);
 		iprot.readResponseHeader(ctx);
 		TMessage message = iprot.readMessageBegin();
 		if (!message.name.equals(method)) {
@@ -70,13 +70,13 @@ public class FProtocolHelper {
 		iprot.readMessageEnd();
 	}
 
-	public void oneway(FContext ctx, String method, TSerializable args) throws TException {
-		TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(transport.getRequestSizeLimit());
-		FProtocol oprot = protocolFactory.getProtocol(memoryBuffer);
+	protected void onewayBase(FContext ctx, String method, TSerializable args) throws TException {
+		TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(transport_.getRequestSizeLimit());
+		FProtocol oprot = protocolFactory_.getProtocol(memoryBuffer);
 		oprot.writeRequestHeader(ctx);
 		oprot.writeMessageBegin(new TMessage(method, TMessageType.ONEWAY, 0));
 		args.write(oprot);
 		oprot.writeMessageEnd();
-		transport.oneway(ctx, memoryBuffer.getWriteBytes());
+		transport_.oneway(ctx, memoryBuffer.getWriteBytes());
 	}
 }

@@ -87,17 +87,13 @@ public class FMyService {
 
 	private static class InternalClient extends some.vendored.pkg.FVendoredBase.Client implements Iface {
 
-		private FProtocolHelper helper;
-
 		public InternalClient(FServiceProvider provider) {
 			super(provider);
-			this.helper = new FProtocolHelper(provider.getTransport(), provider.getProtocolFactory());
 		}
-
 		public some.vendored.pkg.Item getItem(FContext ctx) throws TException, InvalidData {
 			getItem_args args = new getItem_args();
 			getItem_result res = new getItem_result();
-			this.helper.request(ctx, "getItem", args, res);
+			requestBase(ctx, "getItem", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}

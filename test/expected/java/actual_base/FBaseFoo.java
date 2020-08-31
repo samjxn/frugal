@@ -84,18 +84,14 @@ public class FBaseFoo {
 
 	}
 
-	private static class InternalClient implements Iface {
-
-		private FProtocolHelper helper;
-
+	private static class InternalClient extends FServiceClient implements Iface {
 		public InternalClient(FServiceProvider provider) {
-			this.helper = new FProtocolHelper(provider.getTransport(), provider.getProtocolFactory());
+			super(provider);
 		}
-
 		public void basePing(FContext ctx) throws TException {
 			basePing_args args = new basePing_args();
 			basePing_result res = new basePing_result();
-			this.helper.request(ctx, "basePing", args, res);
+			requestBase(ctx, "basePing", args, res);
 		}
 	}
 

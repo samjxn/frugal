@@ -178,20 +178,16 @@ public class FFoo {
 
 	private static class InternalClient extends actual_base.java.FBaseFoo.Client implements Iface {
 
-		private FProtocolHelper helper;
-
 		public InternalClient(FServiceProvider provider) {
 			super(provider);
-			this.helper = new FProtocolHelper(provider.getTransport(), provider.getProtocolFactory());
 		}
-
 		/**
 		 * Ping the server.
 		 */
 		public void Ping(FContext ctx) throws TException {
 			Ping_args args = new Ping_args();
 			Ping_result res = new Ping_result();
-			this.helper.request(ctx, "ping", args, res);
+			requestBase(ctx, "ping", args, res);
 		}
 		/**
 		 * Blah the server.
@@ -202,7 +198,7 @@ public class FFoo {
 			args.setStr(Str);
 			args.setEvent(event);
 			blah_result res = new blah_result();
-			this.helper.request(ctx, "blah", args, res);
+			requestBase(ctx, "blah", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -221,14 +217,14 @@ public class FFoo {
 			oneWay_args args = new oneWay_args();
 			args.setId(id);
 			args.setReq(req);
-			this.helper.oneway(ctx, "oneWay", args);
+			onewayBase(ctx, "oneWay", args);
 		}
 		public java.nio.ByteBuffer bin_method(FContext ctx, java.nio.ByteBuffer bin, String Str) throws TException, actual_base.java.api_exception {
 			bin_method_args args = new bin_method_args();
 			args.setBin(bin);
 			args.setStr(Str);
 			bin_method_result res = new bin_method_result();
-			this.helper.request(ctx, "bin_method", args, res);
+			requestBase(ctx, "bin_method", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -243,7 +239,7 @@ public class FFoo {
 			args.setDefault_num(default_num);
 			args.setReq_num(req_num);
 			param_modifiers_result res = new param_modifiers_result();
-			this.helper.request(ctx, "param_modifiers", args, res);
+			requestBase(ctx, "param_modifiers", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -254,7 +250,7 @@ public class FFoo {
 			args.setList_type(list_type);
 			args.setSet_type(set_type);
 			underlying_types_test_result res = new underlying_types_test_result();
-			this.helper.request(ctx, "underlying_types_test", args, res);
+			requestBase(ctx, "underlying_types_test", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -263,7 +259,7 @@ public class FFoo {
 		public Thing getThing(FContext ctx) throws TException {
 			getThing_args args = new getThing_args();
 			getThing_result res = new getThing_result();
-			this.helper.request(ctx, "getThing", args, res);
+			requestBase(ctx, "getThing", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -272,7 +268,7 @@ public class FFoo {
 		public int getMyInt(FContext ctx) throws TException {
 			getMyInt_args args = new getMyInt_args();
 			getMyInt_result res = new getMyInt_result();
-			this.helper.request(ctx, "getMyInt", args, res);
+			requestBase(ctx, "getMyInt", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -282,7 +278,7 @@ public class FFoo {
 			use_subdir_struct_args args = new use_subdir_struct_args();
 			args.setA(a);
 			use_subdir_struct_result res = new use_subdir_struct_result();
-			this.helper.request(ctx, "use_subdir_struct", args, res);
+			requestBase(ctx, "use_subdir_struct", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -292,7 +288,7 @@ public class FFoo {
 			sayHelloWith_args args = new sayHelloWith_args();
 			args.setNewMessage(newMessage);
 			sayHelloWith_result res = new sayHelloWith_result();
-			this.helper.request(ctx, "sayHelloWith", args, res);
+			requestBase(ctx, "sayHelloWith", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -302,7 +298,7 @@ public class FFoo {
 			whatDoYouSay_args args = new whatDoYouSay_args();
 			args.setMessageArgs(messageArgs);
 			whatDoYouSay_result res = new whatDoYouSay_result();
-			this.helper.request(ctx, "whatDoYouSay", args, res);
+			requestBase(ctx, "whatDoYouSay", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
@@ -312,7 +308,7 @@ public class FFoo {
 			sayAgain_args args = new sayAgain_args();
 			args.setMessageResult(messageResult);
 			sayAgain_result res = new sayAgain_result();
-			this.helper.request(ctx, "sayAgain", args, res);
+			requestBase(ctx, "sayAgain", args, res);
 			if (res.isSetSuccess()) {
 				return res.success;
 			}
