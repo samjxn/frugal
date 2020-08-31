@@ -24,7 +24,7 @@ exception InvalidOperation {
 scope Foo prefix foo.bar.{baz}.{biz}.qux {
 
     /**@ This is an operation docstring. */
-    Foo: int // This is an operation.
+    Foo: i32 // This is an operation.
     Bar: Stuff
 }
 

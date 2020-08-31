@@ -34,6 +34,7 @@ const (
 	duplicateStructFieldIds = "idl/duplicate_field_ids.frugal"
 	frugalGenFile           = "idl/variety.frugal"
 	badNamespace            = "idl/bad_namespace.frugal"
+	badOpType               = "idl/bad_op_type.frugal"
 	includeVendor           = "idl/include_vendor.frugal"
 	includeVendorNoPath     = "idl/include_vendor_no_path.frugal"
 	vendorNamespace         = "idl/vendor_namespace.frugal"
