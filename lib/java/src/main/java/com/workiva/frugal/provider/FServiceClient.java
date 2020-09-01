@@ -44,13 +44,8 @@ public class FServiceClient {
 	}
 
 	protected void requestBase(FContext ctx, String method, TSerializable args, TSerializable res) throws TException {
-		TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(transport_.getRequestSizeLimit());
-		FProtocol oprot = protocolFactory_.getProtocol(memoryBuffer);
-		oprot.writeRequestHeader(ctx);
-		oprot.writeMessageBegin(new TMessage(method, TMessageType.CALL, 0));
-		args.write(oprot);
-		oprot.writeMessageEnd();
-		TTransport response = transport_.request(ctx, memoryBuffer.getWriteBytes());
+		byte[] payload = prepareMessage(ctx, method, args, TMessageType.CALL);
+		TTransport response = transport_.request(ctx, payload);
 		FProtocol iprot = protocolFactory_.getProtocol(response);
 		iprot.readResponseHeader(ctx);
 		TMessage message = iprot.readMessageBegin();
@@ -74,12 +69,17 @@ public class FServiceClient {
 	}
 
 	protected void onewayBase(FContext ctx, String method, TSerializable args) throws TException {
+		byte[] payload = prepareMessage(ctx, method, args, TMessageType.ONEWAY);
+		transport_.oneway(ctx, payload);
+	}
+
+	private byte[] prepareMessage(FContext ctx, String method, TSerializable args, byte type) throws TException {
 		TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(transport_.getRequestSizeLimit());
 		FProtocol oprot = protocolFactory_.getProtocol(memoryBuffer);
 		oprot.writeRequestHeader(ctx);
-		oprot.writeMessageBegin(new TMessage(method, TMessageType.ONEWAY, 0));
+		oprot.writeMessageBegin(new TMessage(method, type, 0));
 		args.write(oprot);
 		oprot.writeMessageEnd();
-		transport_.oneway(ctx, memoryBuffer.getWriteBytes());
+		return memoryBuffer.getWriteBytes();
 	}
 }
