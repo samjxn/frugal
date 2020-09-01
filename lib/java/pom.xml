@@ -3,7 +3,7 @@
 
     <groupId>com.workiva</groupId>
     <artifactId>frugal</artifactId>
-    <version>3.10.0-SNAPSHOT</version>
+    <version>3.9.9</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -50,7 +50,7 @@
         <dependency>
             <groupId>org.apache.thrift</groupId>
             <artifactId>libthrift</artifactId>
-            <version>0.13.0</version>
+            <version>0.9.3</version>
         </dependency>
         <dependency>
             <groupId>io.nats</groupId>
@@ -181,7 +181,7 @@
                 <configuration>
                     <configLocation>checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
-
+                    
                     <failOnViolation>false</failOnViolation>
                     <includeTestSourceDirectory>true</includeTestSourceDirectory>
                     <includeResources>false</includeResources>
@@ -195,7 +195,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-
+                            
                             <failOnViolation>false</failOnViolation>
                         </configuration>
                     </execution>
