@@ -5,7 +5,7 @@ import com.workiva.frugal.protocol.FProtocol;
 import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.transport.FTransport;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;
-import org.apache.thrift.TSerializable;
+import org.apache.thrift.TBase;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TMessage;
 import org.apache.thrift.protocol.TMessageType;
@@ -38,8 +38,8 @@ public class FServiceClientTest {
         when(protocolFactory.getProtocol(response)).thenReturn(iprot);
         FServiceProvider provider = new FServiceProvider(transport, protocolFactory);
         FContext ctx = new FContext("request");
-        TSerializable args = mock(TSerializable.class);
-        TSerializable res = mock(TSerializable.class);
+        TBase<?, ?> args = mock(TBase.class);
+        TBase<?, ?> res = mock(TBase.class);
 
         // Call
         FServiceClient client = new FServiceClient(provider);
@@ -72,7 +72,7 @@ public class FServiceClientTest {
         when(protocolFactory.getProtocol(any(TMemoryOutputBuffer.class))).thenReturn(oprot);
         FServiceProvider provider = new FServiceProvider(transport, protocolFactory);
         FContext ctx = new FContext("oneway");
-        TSerializable args = mock(TSerializable.class);
+        TBase<?, ?> args = mock(TBase.class);
 
         // Call
         FServiceClient client = new FServiceClient(provider);
