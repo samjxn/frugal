@@ -43,6 +43,7 @@ import com.workiva.frugal.processor.FBaseProcessor;
 import com.workiva.frugal.processor.FProcessor;
 import com.workiva.frugal.processor.FProcessorFunction;
 import com.workiva.frugal.protocol.*;
+import com.workiva.frugal.provider.FServiceClient;
 import com.workiva.frugal.provider.FServiceProvider;
 import com.workiva.frugal.transport.FTransport;
 import com.workiva.frugal.transport.TMemoryOutputBuffer;
@@ -84,46 +85,14 @@ public class FBaseFoo {
 
 	}
 
-	private static class InternalClient implements Iface {
-
-		private FTransport transport;
-		private FProtocolFactory protocolFactory;
+	private static class InternalClient extends FServiceClient implements Iface {
 		public InternalClient(FServiceProvider provider) {
-			this.transport = provider.getTransport();
-			this.protocolFactory = provider.getProtocolFactory();
+			super(provider);
 		}
-
 		public void basePing(FContext ctx) throws TException {
-			TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(this.transport.getRequestSizeLimit());
-			FProtocol oprot = this.protocolFactory.getProtocol(memoryBuffer);
-			oprot.writeRequestHeader(ctx);
-			oprot.writeMessageBegin(new TMessage("basePing", TMessageType.CALL, 0));
 			basePing_args args = new basePing_args();
-			args.write(oprot);
-			oprot.writeMessageEnd();
-			TTransport response = this.transport.request(ctx, memoryBuffer.getWriteBytes());
-
-			FProtocol iprot = this.protocolFactory.getProtocol(response);
-			iprot.readResponseHeader(ctx);
-			TMessage message = iprot.readMessageBegin();
-			if (!message.name.equals("basePing")) {
-				throw new TApplicationException(TApplicationExceptionType.WRONG_METHOD_NAME, "basePing failed: wrong method name");
-			}
-			if (message.type == TMessageType.EXCEPTION) {
-				TApplicationException e = TApplicationException.read(iprot);
-				iprot.readMessageEnd();
-				TException returnedException = e;
-				if (e.getType() == TApplicationExceptionType.RESPONSE_TOO_LARGE) {
-					returnedException = new TTransportException(TTransportExceptionType.RESPONSE_TOO_LARGE, e.getMessage());
-				}
-				throw returnedException;
-			}
-			if (message.type != TMessageType.REPLY) {
-				throw new TApplicationException(TApplicationExceptionType.INVALID_MESSAGE_TYPE, "basePing failed: invalid message type");
-			}
 			basePing_result res = new basePing_result();
-			res.read(iprot);
-			iprot.readMessageEnd();
+			requestBase(ctx, "basePing", args, res);
 		}
 	}
 

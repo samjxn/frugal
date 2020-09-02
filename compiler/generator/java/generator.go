@@ -2179,6 +2179,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	imports += "import com.workiva.frugal.processor.FProcessor;\n"
 	imports += "import com.workiva.frugal.processor.FProcessorFunction;\n"
 	imports += "import com.workiva.frugal.protocol.*;\n"
+	imports += "import com.workiva.frugal.provider.FServiceClient;\n"
 	imports += "import com.workiva.frugal.provider.FServiceProvider;\n"
 	imports += "import com.workiva.frugal.transport.FTransport;\n"
 	imports += "import com.workiva.frugal.transport.TMemoryOutputBuffer;\n"
@@ -2765,19 +2766,12 @@ func (g *Generator) generateInternalClient(service *parser.Service, indent strin
 		contents += indent + fmt.Sprintf("private static class InternalClient extends %s.Client implements Iface {\n\n",
 			g.getServiceExtendsName(service))
 	} else {
-		contents += indent + "private static class InternalClient implements Iface {\n\n"
+		contents += indent + "private static class InternalClient extends FServiceClient implements Iface {\n"
 	}
-
-	contents += indent + tab + "private FTransport transport;\n"
-	contents += indent + tab + "private FProtocolFactory protocolFactory;\n"
 
 	contents += indent + tab + "public InternalClient(FServiceProvider provider) {\n"
-	if service.Extends != "" {
-		contents += indent + tabtab + "super(provider);\n"
-	}
-	contents += indent + tabtab + "this.transport = provider.getTransport();\n"
-	contents += indent + tabtab + "this.protocolFactory = provider.getProtocolFactory();\n"
-	contents += indent + tab + "}\n\n"
+	contents += indent + tabtab + "super(provider);\n"
+	contents += indent + tab + "}\n"
 
 	for _, method := range service.Methods {
 		contents += g.generateClientMethod(service, method, indent)
@@ -2796,56 +2790,19 @@ func (g *Generator) generateClientMethod(service *parser.Service, method *parser
 	}
 	contents += indent + tab + fmt.Sprintf("public %s %s(FContext ctx%s) %s {\n",
 		g.generateReturnValue(method), method.Name, g.generateArgs(method.Arguments, false), g.generateExceptions(method.Exceptions))
-	contents += indent + tabtab + "TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(this.transport.getRequestSizeLimit());\n"
-	contents += indent + tabtab + "FProtocol oprot = this.protocolFactory.getProtocol(memoryBuffer);\n"
-	contents += indent + tabtab + "oprot.writeRequestHeader(ctx);\n"
-	msgType := "CALL"
-	if method.Oneway {
-		msgType = "ONEWAY"
-	}
-	contents += indent + tabtab + fmt.Sprintf("oprot.writeMessageBegin(new TMessage(\"%s\", TMessageType.%s, 0));\n", methodLower, msgType)
 	contents += indent + tabtab + fmt.Sprintf("%s_args args = new %s_args();\n", method.Name, method.Name)
 	for _, arg := range method.Arguments {
 		contents += indent + tabtab + fmt.Sprintf("args.set%s(%s);\n", strings.Title(arg.Name), arg.Name)
 	}
-	contents += indent + tabtab + "args.write(oprot);\n"
-	contents += indent + tabtab + "oprot.writeMessageEnd();\n"
 	if method.Oneway {
-		contents += indent + tabtab + "this.transport.oneway(ctx, memoryBuffer.getWriteBytes());\n"
-	} else {
-		contents += indent + tabtab + "TTransport response = this.transport.request(ctx, memoryBuffer.getWriteBytes());\n"
-	}
-	if method.Oneway {
+		contents += indent + tabtab + fmt.Sprintf("onewayBase(ctx, \"%s\", args);\n", methodLower)
 		contents += indent + tab + "}\n"
 		return contents
 	}
 
-	contents += "\n"
-	contents += indent + tabtab + "FProtocol iprot = this.protocolFactory.getProtocol(response);\n"
-	contents += indent + tabtab + "iprot.readResponseHeader(ctx);\n"
-	contents += indent + tabtab + "TMessage message = iprot.readMessageBegin();\n"
-	contents += indent + tabtab + fmt.Sprintf("if (!message.name.equals(\"%s\")) {\n", methodLower)
-	contents += indent + tabtabtab + fmt.Sprintf(
-		"throw new TApplicationException(TApplicationExceptionType.WRONG_METHOD_NAME, \"%s failed: wrong method name\");\n",
-		method.Name)
-	contents += indent + tabtab + "}\n"
-	contents += indent + tabtab + "if (message.type == TMessageType.EXCEPTION) {\n"
-	contents += indent + tabtabtab + "TApplicationException e = TApplicationException.read(iprot);\n"
-	contents += indent + tabtabtab + "iprot.readMessageEnd();\n"
-	contents += indent + tabtabtab + "TException returnedException = e;\n"
-	contents += indent + tabtabtab + "if (e.getType() == TApplicationExceptionType.RESPONSE_TOO_LARGE) {\n"
-	contents += indent + tabtabtabtab + "returnedException = new TTransportException(TTransportExceptionType.RESPONSE_TOO_LARGE, e.getMessage());\n"
-	contents += indent + tabtabtab + "}\n"
-	contents += indent + tabtabtab + "throw returnedException;\n"
-	contents += indent + tabtab + "}\n"
-	contents += indent + tabtab + "if (message.type != TMessageType.REPLY) {\n"
-	contents += indent + tabtabtab + fmt.Sprintf(
-		"throw new TApplicationException(TApplicationExceptionType.INVALID_MESSAGE_TYPE, \"%s failed: invalid message type\");\n",
-		method.Name)
-	contents += indent + tabtab + "}\n"
 	contents += indent + tabtab + fmt.Sprintf("%s_result res = new %s_result();\n", method.Name, method.Name)
-	contents += indent + tabtab + "res.read(iprot);\n"
-	contents += indent + tabtab + "iprot.readMessageEnd();\n"
+	contents += indent + tabtab + fmt.Sprintf("requestBase(ctx, \"%s\", args, res);\n", methodLower)
+
 	if method.ReturnType != nil {
 		contents += indent + tabtab + "if (res.isSetSuccess()) {\n"
 		contents += indent + tabtabtab + "return res.success;\n"
