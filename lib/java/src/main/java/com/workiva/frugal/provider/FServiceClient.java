@@ -23,13 +23,12 @@ import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.provider.FServiceProvider;
 import org.apache.thrift.protocol.TMessage;
 import org.apache.thrift.protocol.TMessageType;
-import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.TApplicationException;
-import org.apache.thrift.TBase;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
+import org.apache.thrift.TSerializable;
 
 /**
  * FProtocolHelper is used by generated code to consolidate the logic generated.
@@ -44,7 +43,7 @@ public class FServiceClient {
 		this.protocolFactory_ = provider.getProtocolFactory();
 	}
 
-	protected void requestBase(FContext ctx, String method, TBase<?, ?> args, TBase<?, ?> res) throws TException {
+	protected void requestBase(FContext ctx, String method, TSerializable args, TSerializable res) throws TException {
 		byte[] payload = prepareMessage(ctx, method, args, TMessageType.CALL);
 		TTransport response = transport_.request(ctx, payload);
 		FProtocol iprot = protocolFactory_.getProtocol(response);
@@ -54,7 +53,7 @@ public class FServiceClient {
 			throw new TApplicationException(TApplicationExceptionType.WRONG_METHOD_NAME, method + " failed: wrong method name");
 		}
 		if (message.type == TMessageType.EXCEPTION) {
-			TApplicationException e = TApplicationException.read(iprot); // CHANGES IN THRIFT 0.10.0, TODO: readFrom
+			TApplicationException e = TApplicationException.readFrom(iprot);
 			iprot.readMessageEnd();
 			TException returnedException = e;
 			if (e.getType() == TApplicationExceptionType.RESPONSE_TOO_LARGE) {
@@ -69,12 +68,12 @@ public class FServiceClient {
 		iprot.readMessageEnd();
 	}
 
-	protected void onewayBase(FContext ctx, String method, TBase<?, ?> args) throws TException {
+	protected void onewayBase(FContext ctx, String method, TSerializable args) throws TException {
 		byte[] payload = prepareMessage(ctx, method, args, TMessageType.ONEWAY);
 		transport_.oneway(ctx, payload);
 	}
 
-	private byte[] prepareMessage(FContext ctx, String method, TBase<?, ?> args, byte type) throws TException {
+	private byte[] prepareMessage(FContext ctx, String method, TSerializable args, byte type) throws TException {
 		TMemoryOutputBuffer memoryBuffer = new TMemoryOutputBuffer(transport_.getRequestSizeLimit());
 		FProtocol oprot = protocolFactory_.getProtocol(memoryBuffer);
 		oprot.writeRequestHeader(ctx);
