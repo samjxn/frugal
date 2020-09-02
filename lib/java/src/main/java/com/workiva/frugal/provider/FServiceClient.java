@@ -23,7 +23,6 @@ import com.workiva.frugal.protocol.FProtocolFactory;
 import com.workiva.frugal.provider.FServiceProvider;
 import org.apache.thrift.protocol.TMessage;
 import org.apache.thrift.protocol.TMessageType;
-import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.TApplicationException;
 import org.apache.thrift.TBase;
@@ -54,7 +53,7 @@ public class FServiceClient {
 			throw new TApplicationException(TApplicationExceptionType.WRONG_METHOD_NAME, method + " failed: wrong method name");
 		}
 		if (message.type == TMessageType.EXCEPTION) {
-			TApplicationException e = TApplicationException.read(iprot); // CHANGES IN THRIFT 0.10.0, TODO: readFrom
+			TApplicationException e = TApplicationException.readFrom(iprot);
 			iprot.readMessageEnd();
 			TException returnedException = e;
 			if (e.getType() == TApplicationExceptionType.RESPONSE_TOO_LARGE) {
