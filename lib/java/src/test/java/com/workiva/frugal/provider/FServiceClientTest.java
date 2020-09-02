@@ -38,7 +38,7 @@ public class FServiceClientTest {
         when(protocolFactory.getProtocol(response)).thenReturn(iprot);
         FServiceProvider provider = new FServiceProvider(transport, protocolFactory);
         FContext ctx = new FContext("request");
-        TBase<?, ?> args = mock(TBase.class); // ADDED IN THRIFT 0.10.0.  TODO: replace with org.apache.thrift.TSerializable
+        TBase<?, ?> args = mock(TBase.class);
         TBase<?, ?> res = mock(TBase.class);
 
         // Call
@@ -72,7 +72,7 @@ public class FServiceClientTest {
         when(protocolFactory.getProtocol(any(TMemoryOutputBuffer.class))).thenReturn(oprot);
         FServiceProvider provider = new FServiceProvider(transport, protocolFactory);
         FContext ctx = new FContext("oneway");
-        TBase<?, ?> args = mock(TBase.class); // ADDED IN THRIFT 0.10.0.  TODO: replace with org.apache.thrift.TSerializable
+        TBase<?, ?> args = mock(TBase.class);
 
         // Call
         FServiceClient client = new FServiceClient(provider);
