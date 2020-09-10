@@ -14,7 +14,6 @@
 package frugal
 
 import (
-	"context"
 	"fmt"
 	"strconv"
 	"strings"
@@ -63,8 +62,6 @@ const (
 //			header name "_cid"
 //		2)	Threadsafe
 type FContext interface {
-	context.Context
-
 	// CorrelationID returns the correlation id for the context.
 	CorrelationID() string
 
@@ -127,9 +124,8 @@ func Clone(ctx FContext) FContext {
 	}
 
 	clone := &FContextImpl{
-		Context:             context.TODO(),
-		requestHeaders:      ctx.RequestHeaders(),
-		responseHeaders:     ctx.ResponseHeaders(),
+		requestHeaders:  ctx.RequestHeaders(),
+		responseHeaders: ctx.ResponseHeaders(),
 		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 
@@ -145,7 +141,6 @@ func getNextOpID() string {
 
 // FContextImpl is an implementation of FContext.
 type FContextImpl struct {
-	context.Context
 	requestHeaders      map[string]string
 	responseHeaders     map[string]string
 	ephemeralProperties map[interface{}]interface{}
@@ -166,7 +161,7 @@ func NewFContext(correlationID string) FContext {
 			opIDHeader:    getNextOpID(),
 			timeoutHeader: strconv.FormatInt(int64(defaultTimeout/time.Millisecond), 10),
 		},
-		responseHeaders:     make(map[string]string),
+		responseHeaders: make(map[string]string),
 		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 
@@ -263,8 +258,8 @@ func (c *FContextImpl) Timeout() time.Duration {
 // handling opids correctly.
 func (c *FContextImpl) Clone() FContextWithEphemeralProperties {
 	cloned := &FContextImpl{
-		requestHeaders:      c.RequestHeaders(),
-		responseHeaders:     c.ResponseHeaders(),
+		requestHeaders: c.RequestHeaders(),
+		responseHeaders: c.ResponseHeaders(),
 		ephemeralProperties: c.EphemeralProperties(),
 	}
 	cloned.requestHeaders[opIDHeader] = getNextOpID()

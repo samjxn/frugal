@@ -14,7 +14,6 @@
 package frugal
 
 import (
-	"context"
 	"errors"
 	"io"
 	"testing"
@@ -70,8 +69,8 @@ func (m *mockTTransport) Write(b []byte) (int, error) {
 	return args.Int(0), args.Error(1)
 }
 
-func (m *mockTTransport) Flush(ctx context.Context) error {
-	return m.Called(ctx).Error(0)
+func (m *mockTTransport) Flush() error {
+	return m.Called().Error(0)
 }
 
 func (m *mockTTransport) RemainingBytes() uint64 {
@@ -82,9 +81,8 @@ type mockTTransportFactory struct {
 	mock.Mock
 }
 
-func (m *mockTTransportFactory) GetTransport(tr thrift.TTransport) (thrift.TTransport, error) {
-	res := m.Called(tr)
-	return res.Get(0).(thrift.TTransport), res.Error(1)
+func (m *mockTTransportFactory) GetTransport(tr thrift.TTransport) thrift.TTransport {
+	return m.Called(tr).Get(0).(thrift.TTransport)
 }
 
 // Ensures NewTFramedTransportFactory creates a tFramedTransportFactory with
@@ -94,10 +92,10 @@ func TestTFramedTransportFactory(t *testing.T) {
 	mockTrFactory := new(mockTTransportFactory)
 	trFactory := NewTFramedTransportFactory(mockTrFactory)
 	mockTr := new(mockTTransport)
-	mockTrFactory.On("GetTransport", mockTr).Return(mockTr, nil)
+	mockTrFactory.On("GetTransport", mockTr).Return(mockTr)
 
-	tr, err := trFactory.GetTransport(mockTr)
-	assert.NoError(t, err)
+	tr := trFactory.GetTransport(mockTr)
+
 	assert.Equal(t, mockTr, tr.(*TFramedTransport).transport)
 	assert.Equal(t, uint32(defaultMaxLength), tr.(*TFramedTransport).maxLength)
 	mockTrFactory.AssertExpectations(t)
@@ -111,10 +109,10 @@ func TestTFramedTransportFactoryMaxLength(t *testing.T) {
 	maxLength := uint32(1024)
 	trFactory := NewTFramedTransportFactoryMaxLength(mockTrFactory, maxLength)
 	mockTr := new(mockTTransport)
-	mockTrFactory.On("GetTransport", mockTr).Return(mockTr, nil)
+	mockTrFactory.On("GetTransport", mockTr).Return(mockTr)
 
-	tr, err := trFactory.GetTransport(mockTr)
-	assert.NoError(t, err)
+	tr := trFactory.GetTransport(mockTr)
+
 	assert.Equal(t, mockTr, tr.(*TFramedTransport).transport)
 	assert.Equal(t, maxLength, tr.(*TFramedTransport).maxLength)
 	mockTrFactory.AssertExpectations(t)
@@ -253,9 +251,9 @@ func TestFlush(t *testing.T) {
 	assert.Nil(t, err)
 	mockTr.On("Write", []byte{0, 0, 0, 10}).Return(4, nil)
 	mockTr.On("Write", buff).Return(len(buff), nil)
-	mockTr.On("Flush", context.TODO()).Return(nil)
+	mockTr.On("Flush").Return(nil)
 
-	assert.Nil(t, tr.Flush(context.TODO()))
+	assert.Nil(t, tr.Flush())
 	mockTr.AssertExpectations(t)
 }
 
@@ -269,7 +267,7 @@ func TestFlushFrameSizeError(t *testing.T) {
 	assert.Nil(t, err)
 	mockTr.On("Write", []byte{0, 0, 0, 10}).Return(0, errors.New("error"))
 
-	assert.Error(t, tr.Flush(context.TODO()))
+	assert.Error(t, tr.Flush())
 	mockTr.AssertExpectations(t)
 }
 
@@ -284,7 +282,7 @@ func TestFlushWriteError(t *testing.T) {
 	mockTr.On("Write", []byte{0, 0, 0, 10}).Return(4, nil)
 	mockTr.On("Write", buff).Return(0, errors.New("error"))
 
-	assert.Error(t, tr.Flush(context.TODO()))
+	assert.Error(t, tr.Flush())
 	mockTr.AssertExpectations(t)
 }
 
@@ -297,9 +295,9 @@ func TestFlushError(t *testing.T) {
 	assert.Nil(t, err)
 	mockTr.On("Write", []byte{0, 0, 0, 10}).Return(4, nil)
 	mockTr.On("Write", buff).Return(len(buff), nil)
-	mockTr.On("Flush", context.TODO()).Return(errors.New("error"))
+	mockTr.On("Flush").Return(errors.New("error"))
 
-	assert.Error(t, tr.Flush(context.TODO()))
+	assert.Error(t, tr.Flush())
 	mockTr.AssertExpectations(t)
 }
 
