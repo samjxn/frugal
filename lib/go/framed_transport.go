@@ -26,6 +26,8 @@ import (
 
 const defaultMaxLength = 16384000
 
+var _ thrift.TTransport = (*TFramedTransport)(nil)
+
 // TFramedTransport is an implementation of thrift.TTransport which frames
 // messages with their size.
 type TFramedTransport struct {
