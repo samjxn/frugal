@@ -14,6 +14,7 @@
 package frugal
 
 import (
+	"context"
 	"errors"
 	"sync"
 	"testing"
@@ -357,7 +358,7 @@ func (m *mockFTransport) RemainingBytes() uint64 {
 	return args.Get(0).(uint64)
 }
 
-func (m *mockFTransport) Flush() (err error) {
+func (m *mockFTransport) Flush(ctx context.Context) (err error) {
 	m.Lock()
 	defer m.Unlock()
 	args := m.Called()

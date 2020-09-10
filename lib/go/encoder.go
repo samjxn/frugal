@@ -1,9 +1,13 @@
 package frugal
 
-import "git.apache.org/thrift.git/lib/go/thrift"
+import (
+	"context"
+
+	"git.apache.org/thrift.git/lib/go/thrift"
+)
 
 // WriteString writes string `value` of field name and id `name` and `field` respectively into `p`.
-func WriteString(p thrift.TProtocol, value, name string, field int16) error {
+func WriteString(ctx context.Context, p thrift.TProtocol, value, name string, field int16) error {
 	if err := p.WriteFieldBegin(name, thrift.STRING, field); err != nil {
 		return thrift.PrependError("write field begin error: ", err)
 	}

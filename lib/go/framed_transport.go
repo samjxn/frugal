@@ -16,6 +16,7 @@ package frugal
 import (
 	"bufio"
 	"bytes"
+	"context"
 	"encoding/binary"
 	"fmt"
 	"io"
@@ -59,8 +60,12 @@ func NewTFramedTransportFactoryMaxLength(factory thrift.TTransportFactory, maxLe
 }
 
 // GetTransport creates a new TFramedTransport wrapping the given TTransport.
-func (p *tFramedTransportFactory) GetTransport(base thrift.TTransport) thrift.TTransport {
-	return NewTFramedTransportMaxLength(p.factory.GetTransport(base), p.maxLength)
+func (p *tFramedTransportFactory) GetTransport(base thrift.TTransport) (thrift.TTransport, error) {
+	transport, err := p.factory.GetTransport(base)
+	if err != nil {
+		return nil, err
+	}
+	return NewTFramedTransportMaxLength(transport, p.maxLength), nil
 }
 
 // NewTFramedTransport creates a new TFramedTransport wrapping the given
@@ -127,7 +132,7 @@ func (p *TFramedTransport) Write(buf []byte) (int, error) {
 }
 
 // Flush the transport.
-func (p *TFramedTransport) Flush() error {
+func (p *TFramedTransport) Flush(ctx context.Context) error {
 	size := p.buf.Len()
 	buf := p.writeBuffer[:4]
 	binary.BigEndian.PutUint32(buf, uint32(size))
@@ -143,7 +148,7 @@ func (p *TFramedTransport) Flush() error {
 			return thrift.NewTTransportExceptionFromError(err)
 		}
 	}
-	err = p.transport.Flush()
+	err = p.transport.Flush(ctx)
 	return thrift.NewTTransportExceptionFromError(err)
 }
 

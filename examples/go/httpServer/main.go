@@ -9,7 +9,7 @@ import (
 	"github.com/rs/cors"
 
 	"github.com/Workiva/frugal/examples/go/gen-go/v1/music"
-	"github.com/Workiva/frugal/lib/go"
+	frugal "github.com/Workiva/frugal/lib/go"
 )
 
 // Run an HTTP server
