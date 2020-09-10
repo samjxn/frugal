@@ -80,7 +80,7 @@ func (f *FStoreClient) buyAlbum(ctx frugal.FContext, asin string, acct string) (
 	if err = oprot.WriteMessageEnd(); err != nil {
 		return
 	}
-	if err = oprot.Flush(); err != nil {
+	if err = oprot.Flush(ctx); err != nil {
 		return
 	}
 	var resultTransport thrift.TTransport
@@ -101,9 +101,8 @@ func (f *FStoreClient) buyAlbum(ctx frugal.FContext, asin string, acct string) (
 		return
 	}
 	if mTypeId == thrift.EXCEPTION {
-		error0 := thrift.NewTApplicationException(frugal.APPLICATION_EXCEPTION_UNKNOWN, "Unknown Exception")
 		var error1 thrift.TApplicationException
-		error1, err = error0.Read(iprot)
+		err = error1.Read(iprot)
 		if err != nil {
 			return
 		}
@@ -171,7 +170,7 @@ func (f *FStoreClient) enterAlbumGiveaway(ctx frugal.FContext, email string, nam
 	if err = oprot.WriteMessageEnd(); err != nil {
 		return
 	}
-	if err = oprot.Flush(); err != nil {
+	if err = oprot.Flush(ctx); err != nil {
 		return
 	}
 	var resultTransport thrift.TTransport
@@ -192,9 +191,8 @@ func (f *FStoreClient) enterAlbumGiveaway(ctx frugal.FContext, email string, nam
 		return
 	}
 	if mTypeId == thrift.EXCEPTION {
-		error0 := thrift.NewTApplicationException(frugal.APPLICATION_EXCEPTION_UNKNOWN, "Unknown Exception")
 		var error1 thrift.TApplicationException
-		error1, err = error0.Read(iprot)
+		err = error1.Read(iprot)
 		if err != nil {
 			return
 		}
@@ -269,7 +267,7 @@ func (p *storeFBuyAlbum) Process(ctx frugal.FContext, iprot, oprot *frugal.FProt
 			oprot.WriteMessageBegin("buyAlbum", thrift.EXCEPTION, 0)
 			err3.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			p.GetWriteMutex().Unlock()
 			return nil
 		}
@@ -316,7 +314,7 @@ func (p *storeFBuyAlbum) Process(ctx frugal.FContext, iprot, oprot *frugal.FProt
 		}
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		if frugal.IsErrTooLarge(err2) {
 			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "buyAlbum", err2.Error())
 			return nil
@@ -359,7 +357,7 @@ func (p *storeFEnterAlbumGiveaway) Process(ctx frugal.FContext, iprot, oprot *fr
 			oprot.WriteMessageBegin("enterAlbumGiveaway", thrift.EXCEPTION, 0)
 			err3.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			p.GetWriteMutex().Unlock()
 			return nil
 		}
@@ -401,7 +399,7 @@ func (p *storeFEnterAlbumGiveaway) Process(ctx frugal.FContext, iprot, oprot *fr
 		}
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		if frugal.IsErrTooLarge(err2) {
 			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "enterAlbumGiveaway", err2.Error())
 			return nil
@@ -417,7 +415,7 @@ func storeWriteApplicationError(ctx frugal.FContext, oprot *frugal.FProtocol, ty
 	oprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)
 	x.Write(oprot)
 	oprot.WriteMessageEnd()
-	oprot.Flush()
+	oprot.Flush(ctx)
 	return x
 }
 

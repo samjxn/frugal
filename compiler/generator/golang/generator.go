@@ -1441,7 +1441,7 @@ func (g *Generator) generateInternalPublishMethod(scope *parser.Scope, op *parse
 	publisher += "\tif err := oprot.WriteMessageEnd(); err != nil {\n"
 	publisher += "\t\treturn err\n"
 	publisher += "\t}\n"
-	publisher += "\tif err := oprot.Flush(); err != nil {\n"
+	publisher += "\tif err := oprot.Flush(ctx); err != nil {\n"
 	publisher += "\t\treturn err\n"
 	publisher += "\t}\n"
 	publisher += "\treturn p.transport.Publish(topic, buffer.Bytes())\n"
@@ -1844,7 +1844,7 @@ func (g *Generator) generateInternalClientMethod(service *parser.Service, method
 	contents += "\tif err = oprot.WriteMessageEnd(); err != nil {\n"
 	contents += "\t\treturn\n"
 	contents += "\t}\n"
-	contents += "\tif err = oprot.Flush(); err != nil {\n"
+	contents += "\tif err = oprot.Flush(ctx); err != nil {\n"
 	contents += "\t\treturn\n"
 	contents += "\t}\n"
 
@@ -1874,9 +1874,8 @@ func (g *Generator) generateInternalClientMethod(service *parser.Service, method
 	contents += "\t\treturn\n"
 	contents += "\t}\n"
 	contents += "\tif mTypeId == thrift.EXCEPTION {\n"
-	contents += "\t\terror0 := thrift.NewTApplicationException(frugal.APPLICATION_EXCEPTION_UNKNOWN, \"Unknown Exception\")\n"
 	contents += "\t\tvar error1 thrift.TApplicationException\n"
-	contents += "\t\terror1, err = error0.Read(iprot)\n"
+	contents += "\t\terr = error1.Read(iprot)\n"
 	contents += "\t\tif err != nil {\n"
 	contents += "\t\t\t\treturn\n"
 	contents += "\t\t}\n"
@@ -2033,7 +2032,7 @@ func (g *Generator) generateMethodProcessor(service *parser.Service, method *par
 	contents += fmt.Sprintf("\t\t\toprot.WriteMessageBegin(\"%s\", thrift.EXCEPTION, 0)\n", nameLower)
 	contents += "\t\t\terr3.Write(oprot)\n"
 	contents += "\t\t\toprot.WriteMessageEnd()\n"
-	contents += "\t\t\toprot.Flush()\n"
+	contents += "\t\t\toprot.Flush(ctx)\n"
 	contents += "\t\t\tp.GetWriteMutex().Unlock()\n"
 	contents += "\t\t\treturn nil\n"
 	contents += "\t\t}\n"
@@ -2082,7 +2081,7 @@ func (g *Generator) generateMethodProcessor(service *parser.Service, method *par
 	contents += "\tif err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {\n"
 	contents += g.generateErrTooLarge(service, method)
 	contents += "\t}\n"
-	contents += "\tif err2 = oprot.Flush(); err == nil && err2 != nil {\n"
+	contents += "\tif err2 = oprot.Flush(ctx); err == nil && err2 != nil {\n"
 	contents += g.generateErrTooLarge(service, method)
 	contents += "\t}\n"
 	contents += "\treturn err\n"
@@ -2163,7 +2162,7 @@ func (g *Generator) generateWriteApplicationError(service *parser.Service) strin
 	contents += "\toprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)\n"
 	contents += "\tx.Write(oprot)\n"
 	contents += "\toprot.WriteMessageEnd()\n"
-	contents += "\toprot.Flush()\n"
+	contents += "\toprot.Flush(ctx)\n"
 	contents += "\treturn x\n"
 	contents += "}\n\n"
 	return contents

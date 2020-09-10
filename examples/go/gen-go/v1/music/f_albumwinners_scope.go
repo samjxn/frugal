@@ -86,7 +86,7 @@ func (p *albumWinnersPublisher) publishContestStart(ctx frugal.FContext, req []*
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())
@@ -118,7 +118,7 @@ func (p *albumWinnersPublisher) publishTimeLeft(ctx frugal.FContext, req Minutes
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())
@@ -150,7 +150,7 @@ func (p *albumWinnersPublisher) publishWinner(ctx frugal.FContext, req *Album) e
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())
