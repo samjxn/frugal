@@ -72,7 +72,7 @@ func (p *myScopePublisher) publishnewItem(ctx frugal.FContext, req *vendor_names
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())

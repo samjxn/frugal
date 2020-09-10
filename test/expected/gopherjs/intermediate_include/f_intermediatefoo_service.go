@@ -59,7 +59,7 @@ func (f *FIntermediateFooClient) intermeidateFoo(ctx frugal.FContext) (err error
 	if err = oprot.WriteMessageEnd(); err != nil {
 		return
 	}
-	if err = oprot.Flush(); err != nil {
+	if err = oprot.Flush(ctx); err != nil {
 		return
 	}
 	var resultTransport thrift.TTransport
@@ -80,9 +80,8 @@ func (f *FIntermediateFooClient) intermeidateFoo(ctx frugal.FContext) (err error
 		return
 	}
 	if mTypeId == thrift.EXCEPTION {
-		error0 := thrift.NewTApplicationException(frugal.APPLICATION_EXCEPTION_UNKNOWN, "Unknown Exception")
 		var error1 thrift.TApplicationException
-		error1, err = error0.Read(iprot)
+		err = error1.Read(iprot)
 		if err != nil {
 			return
 		}
@@ -152,7 +151,7 @@ func (p *intermediatefooFIntermeidateFoo) Process(ctx frugal.FContext, iprot, op
 			oprot.WriteMessageBegin("intermeidateFoo", thrift.EXCEPTION, 0)
 			err3.Write(oprot)
 			oprot.WriteMessageEnd()
-			oprot.Flush()
+			oprot.Flush(ctx)
 			p.GetWriteMutex().Unlock()
 			return nil
 		}
@@ -191,7 +190,7 @@ func (p *intermediatefooFIntermeidateFoo) Process(ctx frugal.FContext, iprot, op
 		}
 		err = err2
 	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
+	if err2 = oprot.Flush(ctx); err == nil && err2 != nil {
 		if frugal.IsErrTooLarge(err2) {
 			intermediatefooWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "intermeidateFoo", err2.Error())
 			return nil
@@ -207,7 +206,7 @@ func intermediatefooWriteApplicationError(ctx frugal.FContext, oprot *frugal.FPr
 	oprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)
 	x.Write(oprot)
 	oprot.WriteMessageEnd()
-	oprot.Flush()
+	oprot.Flush(ctx)
 	return x
 }
 

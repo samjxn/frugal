@@ -82,7 +82,7 @@ func (p *eventsPublisher) publishEventCreated(ctx frugal.FContext, user string, 
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())
@@ -115,7 +115,7 @@ func (p *eventsPublisher) publishSomeInt(ctx frugal.FContext, user string, req i
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())
@@ -148,7 +148,7 @@ func (p *eventsPublisher) publishSomeStr(ctx frugal.FContext, user string, req s
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())
@@ -200,7 +200,7 @@ func (p *eventsPublisher) publishSomeList(ctx frugal.FContext, user string, req 
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(ctx); err != nil {
 		return err
 	}
 	return p.transport.Publish(topic, buffer.Bytes())

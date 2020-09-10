@@ -53,6 +53,6 @@ func vendoredbaseWriteApplicationError(ctx frugal.FContext, oprot *frugal.FProto
 	oprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)
 	x.Write(oprot)
 	oprot.WriteMessageEnd()
-	oprot.Flush()
+	oprot.Flush(ctx)
 	return x
 }
