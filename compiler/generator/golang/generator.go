@@ -1684,9 +1684,9 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	contents += fmt.Sprintf("type F%sClient struct {\n", servTitle)
 	if service.Extends != "" {
 		contents += fmt.Sprintf("\t*%sClient\n", g.getServiceExtendsName(service))
+	} else {
+		contents += "\tc       frugal.FClient\n"
 	}
-	contents += "\ttransport       frugal.FTransport\n"
-	contents += "\tprotocolFactory *frugal.FProtocolFactory\n"
 	contents += "\tmethods         map[string]*frugal.Method\n"
 	contents += "}\n\n"
 
@@ -1698,9 +1698,9 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	if service.Extends != "" {
 		contents += fmt.Sprintf("\t\tF%sClient: %sNewF%sClient(provider, middleware...),\n",
 			service.ExtendsService(), g.getServiceExtendsNamespace(service), service.ExtendsService())
+	} else {
+		contents += "c:    frugal.NewFStandardClient(provider),\n"
 	}
-	contents += "\t\ttransport:       provider.GetTransport(),\n"
-	contents += "\t\tprotocolFactory: provider.GetProtocolFactory(),\n"
 	contents += "\t\tmethods:         methods,\n"
 	contents += "\t}\n"
 	contents += "\tmiddleware = append(middleware, provider.GetMiddleware()...)\n"
@@ -1710,6 +1710,10 @@ func (g *Generator) generateClient(service *parser.Service) string {
 	}
 	contents += "\treturn client\n"
 	contents += "}\n\n"
+
+	if service.Extends == "" {
+		contents += fmt.Sprintf("func (f *F%sClient) Client_() frugal.FClient { return f.c }\n\n", servTitle)
+	}
 
 	for _, method := range service.Methods {
 		contents += g.generateClientMethod(service, method)
@@ -1822,86 +1826,22 @@ func (g *Generator) generateInternalClientMethod(service *parser.Service, method
 	contents += fmt.Sprintf("func (f *F%sClient) %s(ctx frugal.FContext%s) %s {\n",
 		servTitle, nameLower, g.generateInputArgs(method.Arguments), g.generateReturnArgs(method))
 
-	contents += "\tbuffer := frugal.NewTMemoryOutputBuffer(f.transport.GetRequestSizeLimit())\n"
-	contents += "\toprot := f.protocolFactory.GetProtocol(buffer)\n"
-	contents += "\tif err = oprot.WriteRequestHeader(ctx); err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	msgType := "CALL"
-	if method.Oneway {
-		msgType = "ONEWAY"
-	}
-	contents += fmt.Sprintf(
-		"\tif err = oprot.WriteMessageBegin(\"%s\", thrift.%s, 0); err != nil {\n", nameLower, msgType)
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
 	contents += fmt.Sprintf("\targs := %s%sArgs{\n", servTitle, nameTitle)
 	contents += g.generateStructArgs(method.Arguments)
 	contents += "\t}\n"
-	contents += "\tif err = args.Write(oprot); err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += "\tif err = oprot.WriteMessageEnd(); err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += "\tif err = oprot.Flush(); err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
 
 	if method.Oneway {
-		contents += "\terr = f.transport.Oneway(ctx, buffer.Bytes())\n"
-		contents += "\treturn\n"
+		contents += fmt.Sprintf("\treturn f.Client_().Oneway(ctx, %q, &args)\n", nameLower)
 		contents += "}\n\n"
 		return contents
 	}
-	contents += "\tvar resultTransport thrift.TTransport\n"
-	contents += "\tresultTransport, err = f.transport.Request(ctx, buffer.Bytes())\n"
+
+	contents += fmt.Sprintf("\tresult := %s%sResult{}\n", servTitle, nameTitle)
+	contents += fmt.Sprintf("\terr = f.Client_().Call(ctx, %q, &args, &result)\n", nameLower)
 	contents += "\tif err != nil {\n"
 	contents += "\t\treturn\n"
 	contents += "\t}\n"
 
-	contents += "\tiprot := f.protocolFactory.GetProtocol(resultTransport)\n"
-	contents += "\tif err = iprot.ReadResponseHeader(ctx); err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += "\tmethod, mTypeId, _, err := iprot.ReadMessageBegin()\n"
-	contents += "\tif err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += fmt.Sprintf("\tif method != \"%s\" {\n", nameLower)
-	contents += fmt.Sprintf(
-		"\t\terr = thrift.NewTApplicationException(frugal.APPLICATION_EXCEPTION_WRONG_METHOD_NAME, \"%s failed: wrong method name\")\n", nameLower)
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += "\tif mTypeId == thrift.EXCEPTION {\n"
-	contents += "\t\terror0 := thrift.NewTApplicationException(frugal.APPLICATION_EXCEPTION_UNKNOWN, \"Unknown Exception\")\n"
-	contents += "\t\tvar error1 thrift.TApplicationException\n"
-	contents += "\t\terror1, err = error0.Read(iprot)\n"
-	contents += "\t\tif err != nil {\n"
-	contents += "\t\t\t\treturn\n"
-	contents += "\t\t}\n"
-	contents += "\t\tif err = iprot.ReadMessageEnd(); err != nil {\n"
-	contents += "\t\t\treturn\n"
-	contents += "\t\t}\n"
-	contents += "\t\tif error1.TypeId() == frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE {\n"
-	contents += "\t\t\terr = thrift.NewTTransportException(frugal.TRANSPORT_EXCEPTION_RESPONSE_TOO_LARGE, error1.Error())\n"
-	contents += "\t\t\t\treturn\n"
-	contents += "\t\t}\n"
-	contents += "\t\terr = error1\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += "\tif mTypeId != thrift.REPLY {\n"
-	contents += fmt.Sprintf(
-		"\t\terr = thrift.NewTApplicationException(frugal.APPLICATION_EXCEPTION_INVALID_MESSAGE_TYPE, \"%s failed: invalid message type\")\n", nameLower)
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += fmt.Sprintf("\tresult := %s%sResult{}\n", servTitle, nameTitle)
-	contents += "\tif err = result.Read(iprot); err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
-	contents += "\tif err = iprot.ReadMessageEnd(); err != nil {\n"
-	contents += "\t\treturn\n"
-	contents += "\t}\n"
 	for _, err := range method.Exceptions {
 		errTitle := snakeToCamel(err.Name)
 		contents += fmt.Sprintf("\tif result.%s != nil {\n", errTitle)
