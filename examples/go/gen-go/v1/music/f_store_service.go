@@ -129,87 +129,35 @@ type storeFBuyAlbum struct {
 
 func (p *storeFBuyAlbum) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) error {
 	args := StoreBuyAlbumArgs{}
-	var err error
-	if err = args.Read(iprot); err != nil {
-		iprot.ReadMessageEnd()
-		p.GetWriteMutex().Lock()
-		err = storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "buyAlbum", err.Error())
-		p.GetWriteMutex().Unlock()
-		return err
-	}
-
+	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
+	if err != nil {
+		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "buyAlbum", err.Error())
+	}
 	result := StoreBuyAlbumResult{}
-	var err2 error
 	ret := p.InvokeMethod([]interface{}{ctx, args.ASIN, args.Acct})
 	if len(ret) != 2 {
 		panic(fmt.Sprintf("Middleware returned %d arguments, expected 2", len(ret)))
 	}
 	if ret[1] != nil {
-		err2 = ret[1].(error)
+		err = ret[1].(error)
 	}
-	if err2 != nil {
-		if err3, ok := err2.(thrift.TApplicationException); ok {
-			p.GetWriteMutex().Lock()
-			oprot.WriteResponseHeader(ctx)
-			oprot.WriteMessageBegin("buyAlbum", thrift.EXCEPTION, 0)
-			err3.Write(oprot)
-			oprot.WriteMessageEnd()
-			oprot.Flush()
-			p.GetWriteMutex().Unlock()
+	if err != nil {
+		if typedError, ok := err.(thrift.TApplicationException); ok {
+			p.SendError(ctx, oprot, typedError.TypeId(), "buyAlbum", typedError.Error())
 			return nil
 		}
-		switch v := err2.(type) {
+		switch v := err.(type) {
 		case *PurchasingError:
 			result.Error = v
 		default:
-			p.GetWriteMutex().Lock()
-			err2 := storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "buyAlbum", "Internal error processing buyAlbum: "+err2.Error())
-			p.GetWriteMutex().Unlock()
-			return err2
+			return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "buyAlbum", "Internal error processing buyAlbum: "+err.Error())
 		}
 	} else {
 		var retval *Album = ret[0].(*Album)
 		result.Success = retval
 	}
-	p.GetWriteMutex().Lock()
-	defer p.GetWriteMutex().Unlock()
-	if err2 = oprot.WriteResponseHeader(ctx); err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "buyAlbum", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = oprot.WriteMessageBegin("buyAlbum", thrift.REPLY, 0); err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "buyAlbum", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = result.Write(oprot); err == nil && err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "buyAlbum", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "buyAlbum", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "buyAlbum", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	return err
+	return p.SendReply(ctx, oprot, "buyAlbum", result)
 }
 
 type storeFEnterAlbumGiveaway struct {
@@ -219,92 +167,30 @@ type storeFEnterAlbumGiveaway struct {
 func (p *storeFEnterAlbumGiveaway) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) error {
 	logrus.Warn("Deprecated function 'Store.EnterAlbumGiveaway' was called by a client")
 	args := StoreEnterAlbumGiveawayArgs{}
-	var err error
-	if err = args.Read(iprot); err != nil {
-		iprot.ReadMessageEnd()
-		p.GetWriteMutex().Lock()
-		err = storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "enterAlbumGiveaway", err.Error())
-		p.GetWriteMutex().Unlock()
-		return err
-	}
-
+	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
+	if err != nil {
+		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "enterAlbumGiveaway", err.Error())
+	}
 	result := StoreEnterAlbumGiveawayResult{}
-	var err2 error
 	ret := p.InvokeMethod([]interface{}{ctx, args.Email, args.Name})
 	if len(ret) != 2 {
 		panic(fmt.Sprintf("Middleware returned %d arguments, expected 2", len(ret)))
 	}
 	if ret[1] != nil {
-		err2 = ret[1].(error)
+		err = ret[1].(error)
 	}
-	if err2 != nil {
-		if err3, ok := err2.(thrift.TApplicationException); ok {
-			p.GetWriteMutex().Lock()
-			oprot.WriteResponseHeader(ctx)
-			oprot.WriteMessageBegin("enterAlbumGiveaway", thrift.EXCEPTION, 0)
-			err3.Write(oprot)
-			oprot.WriteMessageEnd()
-			oprot.Flush()
-			p.GetWriteMutex().Unlock()
+	if err != nil {
+		if typedError, ok := err.(thrift.TApplicationException); ok {
+			p.SendError(ctx, oprot, typedError.TypeId(), "enterAlbumGiveaway", typedError.Error())
 			return nil
 		}
-		p.GetWriteMutex().Lock()
-		err2 := storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "enterAlbumGiveaway", "Internal error processing enterAlbumGiveaway: "+err2.Error())
-		p.GetWriteMutex().Unlock()
-		return err2
+		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "enterAlbumGiveaway", "Internal error processing enterAlbumGiveaway: "+err.Error())
 	} else {
 		var retval bool = ret[0].(bool)
 		result.Success = &retval
 	}
-	p.GetWriteMutex().Lock()
-	defer p.GetWriteMutex().Unlock()
-	if err2 = oprot.WriteResponseHeader(ctx); err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "enterAlbumGiveaway", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = oprot.WriteMessageBegin("enterAlbumGiveaway", thrift.REPLY, 0); err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "enterAlbumGiveaway", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = result.Write(oprot); err == nil && err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "enterAlbumGiveaway", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = oprot.WriteMessageEnd(); err == nil && err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "enterAlbumGiveaway", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	if err2 = oprot.Flush(); err == nil && err2 != nil {
-		if frugal.IsErrTooLarge(err2) {
-			storeWriteApplicationError(ctx, oprot, frugal.APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, "enterAlbumGiveaway", err2.Error())
-			return nil
-		}
-		err = err2
-	}
-	return err
-}
-
-func storeWriteApplicationError(ctx frugal.FContext, oprot *frugal.FProtocol, type_ int32, method, message string) error {
-	x := thrift.NewTApplicationException(type_, message)
-	oprot.WriteResponseHeader(ctx)
-	oprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)
-	x.Write(oprot)
-	oprot.WriteMessageEnd()
-	oprot.Flush()
-	return x
+	return p.SendReply(ctx, oprot, "enterAlbumGiveaway", result)
 }
 
 type StoreBuyAlbumArgs struct {
