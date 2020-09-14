@@ -7,10 +7,8 @@ import (
 	"fmt"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	frugal "github.com/Workiva/frugal/lib/go"
+	"github.com/Workiva/frugal/lib/go"
 )
-
-const delimiter = "."
 
 // Scopes are a Frugal extension to the IDL for declaring PubSub
 // semantics. Subscribers to this scope will be notified if they win a contest.
@@ -49,15 +47,14 @@ func (p *albumWinnersPublisher) PublishContestStart(ctx frugal.FContext, req []*
 }
 
 func (p *albumWinnersPublisher) publishContestStart(ctx frugal.FContext, req []*Album) error {
-	op := "ContestStart"
 	prefix := "v1.music."
-	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
-	return p.client.Publish(ctx, op, topic, albumWinnersMessage(req))
+	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
+	return p.client.Publish(ctx, "ContestStart", topic, albumWinnersContestStartMessage(req))
 }
 
-type albumWinnersMessage []*Album
+type albumWinnersContestStartMessage []*Album
 
-func (p albumWinnersMessage) Write(oprot thrift.TProtocol) error {
+func (p albumWinnersContestStartMessage) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteListBegin(thrift.STRUCT, len(p)); err != nil {
 		return thrift.PrependError("error writing list begin: ", err)
 	}
@@ -72,7 +69,7 @@ func (p albumWinnersMessage) Write(oprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p albumWinnersMessage) Read(iprot thrift.TProcotol) error {
+func (p albumWinnersContestStartMessage) Read(iprot thrift.TProcotol) error {
 	panic("Not Implemented!")
 }
 
@@ -85,22 +82,21 @@ func (p *albumWinnersPublisher) PublishTimeLeft(ctx frugal.FContext, req Minutes
 }
 
 func (p *albumWinnersPublisher) publishTimeLeft(ctx frugal.FContext, req Minutes) error {
-	op := "TimeLeft"
 	prefix := "v1.music."
-	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
-	return p.client.Publish(ctx, op, topic, albumWinnersMessage(req))
+	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
+	return p.client.Publish(ctx, "TimeLeft", topic, albumWinnersTimeLeftMessage(req))
 }
 
-type albumWinnersMessage Minutes
+type albumWinnersTimeLeftMessage Minutes
 
-func (p albumWinnersMessage) Write(oprot thrift.TProtocol) error {
+func (p albumWinnersTimeLeftMessage) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteDouble(float64(p)); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T. (0) field write error: ", p), err)
 	}
 	return nil
 }
 
-func (p albumWinnersMessage) Read(iprot thrift.TProcotol) error {
+func (p albumWinnersTimeLeftMessage) Read(iprot thrift.TProcotol) error {
 	panic("Not Implemented!")
 }
 
@@ -113,23 +109,9 @@ func (p *albumWinnersPublisher) PublishWinner(ctx frugal.FContext, req *Album) e
 }
 
 func (p *albumWinnersPublisher) publishWinner(ctx frugal.FContext, req *Album) error {
-	op := "Winner"
 	prefix := "v1.music."
-	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
-	return p.client.Publish(ctx, op, topic, albumWinnersMessage(req))
-}
-
-type albumWinnersMessage *Album
-
-func (p albumWinnersMessage) Write(oprot thrift.TProtocol) error {
-	if err := p.Write(oprot); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p), err)
-	}
-	return nil
-}
-
-func (p albumWinnersMessage) Read(iprot thrift.TProcotol) error {
-	panic("Not Implemented!")
+	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
+	return p.client.Publish(ctx, "Winner", topic, req)
 }
 
 // Scopes are a Frugal extension to the IDL for declaring PubSub
@@ -175,7 +157,7 @@ func (l *albumWinnersSubscriber) SubscribeContestStart(handler func(frugal.FCont
 func (l *albumWinnersSubscriber) SubscribeContestStartErrorable(handler func(frugal.FContext, []*Album) error) (*frugal.FSubscription, error) {
 	op := "ContestStart"
 	prefix := "v1.music."
-	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
+	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
 	transport, protocolFactory := l.provider.NewSubscriber()
 	cb := l.recvContestStart(op, protocolFactory, handler)
 	if err := transport.Subscribe(topic, cb); err != nil {
@@ -236,7 +218,7 @@ func (l *albumWinnersSubscriber) SubscribeTimeLeft(handler func(frugal.FContext,
 func (l *albumWinnersSubscriber) SubscribeTimeLeftErrorable(handler func(frugal.FContext, Minutes) error) (*frugal.FSubscription, error) {
 	op := "TimeLeft"
 	prefix := "v1.music."
-	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
+	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
 	transport, protocolFactory := l.provider.NewSubscriber()
 	cb := l.recvTimeLeft(op, protocolFactory, handler)
 	if err := transport.Subscribe(topic, cb); err != nil {
@@ -289,7 +271,7 @@ func (l *albumWinnersSubscriber) SubscribeWinner(handler func(frugal.FContext, *
 func (l *albumWinnersSubscriber) SubscribeWinnerErrorable(handler func(frugal.FContext, *Album) error) (*frugal.FSubscription, error) {
 	op := "Winner"
 	prefix := "v1.music."
-	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
+	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
 	transport, protocolFactory := l.provider.NewSubscriber()
 	cb := l.recvWinner(op, protocolFactory, handler)
 	if err := transport.Subscribe(topic, cb); err != nil {

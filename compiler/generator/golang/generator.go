@@ -46,13 +46,12 @@ const (
 // Generator implements the LanguageGenerator interface for Go.
 type Generator struct {
 	*generator.BaseGenerator
-	generateConstants bool
-	typesFile         *os.File
+	typesFile *os.File
 }
 
 // NewGenerator creates a new Go LanguageGenerator.
 func NewGenerator(options map[string]string) generator.LanguageGenerator {
-	return &Generator{&generator.BaseGenerator{Options: options}, true, nil}
+	return &Generator{&generator.BaseGenerator{Options: options}, nil}
 }
 
 // Suppress deprecated API usage warning logging
@@ -63,7 +62,6 @@ func (g *Generator) suppressDeprecatedLogging() bool {
 
 // SetupGenerator initializes globals the generator needs, like the types file.
 func (g *Generator) SetupGenerator(outputDir string) error {
-	g.generateConstants = true
 	t, err := g.GenerateFile("", outputDir, generator.TypeFile)
 	if err != nil {
 		return err
@@ -1303,15 +1301,6 @@ func (g *Generator) generateImportProtection(include *parser.Include) string {
 
 // GenerateConstants generates any static constants.
 func (g *Generator) GenerateConstants(file *os.File, name string) error {
-	if !g.generateConstants {
-		return nil
-	}
-	constants := fmt.Sprintf("const delimiter = \"%s\"", globals.TopicDelimiter)
-	_, err := file.WriteString(constants)
-	if err != nil {
-		return err
-	}
-	g.generateConstants = false
 	return nil
 }
 
@@ -1400,9 +1389,11 @@ func (g *Generator) generatePublishMethod(scope *parser.Scope, op *parser.Operat
 
 func (g *Generator) generateInternalPublishMethod(scope *parser.Scope, op *parser.Operation, args string) string {
 	var (
-		scopeLower = parser.LowercaseFirstLetter(scope.Name)
-		scopeTitle = strings.Title(scope.Name)
-		publisher  = ""
+		scopeLower  = parser.LowercaseFirstLetter(scope.Name)
+		scopeTitle  = strings.Title(scope.Name)
+		needsHelper = !g.Frugal.IsStruct(g.Frugal.UnderlyingType(op.Type))
+		helper      = scopeLower + op.Name + "Message"
+		publisher   = ""
 	)
 
 	publisher += fmt.Sprintf("func (p *%sPublisher) publish%s(ctx frugal.FContext, %sreq %s) error {\n",
@@ -1413,20 +1404,25 @@ func (g *Generator) generateInternalPublishMethod(scope *parser.Scope, op *parse
 		publisher += fmt.Sprintf("\tctx.AddRequestHeader(\"_topic_%s\", %s)\n", prefixVar, prefixVar)
 	}
 
-	publisher += fmt.Sprintf("\top := \"%s\"\n", op.Name)
 	publisher += fmt.Sprintf("\tprefix := %s\n", generatePrefixStringTemplate(scope))
-	publisher += "\ttopic := fmt.Sprintf(\"%s" + scopeTitle + "%s%s\", prefix, delimiter, op)\n"
-	// TODO: dereference object pointer?
-	publisher += fmt.Sprintf("\treturn p.client.Publish(ctx, op, topic, %sMessage(req))\n", scopeLower)
+	publisher += "\ttopic := fmt.Sprintf(\"%s" + scopeTitle + ".%s\", prefix, op)\n"
+	if needsHelper {
+		publisher += fmt.Sprintf("\treturn p.client.Publish(ctx, %q, topic, %s(req))\n", op.Name, helper)
+	} else {
+		publisher += fmt.Sprintf("\treturn p.client.Publish(ctx, %q, topic, req)\n", op.Name)
+	}
 	publisher += "}\n\n"
+	if !needsHelper {
+		return publisher
+	}
 
 	// Pub/Sub argument parser!
-	publisher += fmt.Sprintf("type %sMessage %s\n\n", scopeLower, g.getGoTypeFromThriftType(op.Type))
-	publisher += fmt.Sprintf("func (p %sMessage) Write(oprot thrift.TProtocol) error {\n", scopeLower)
+	publisher += fmt.Sprintf("type %s %s\n\n", helper, g.getGoTypeFromThriftType(op.Type))
+	publisher += fmt.Sprintf("func (p %s) Write(oprot thrift.TProtocol) error {\n", helper)
 	publisher += g.generateWriteFieldRec(parser.FieldFromType(op.Type, ""), "p")
 	publisher += "\treturn nil\n"
 	publisher += "}\n\n"
-	publisher += fmt.Sprintf("func (p %sMessage) Read(iprot thrift.TProcotol) error {\n", scopeLower)
+	publisher += fmt.Sprintf("func (p %s) Read(iprot thrift.TProcotol) error {\n", helper)
 	publisher += "\tpanic(\"Not Implemented!\")\n"
 	publisher += "}\n"
 	return publisher
@@ -1546,7 +1542,7 @@ func (g *Generator) generateSubscribeMethod(scope *parser.Scope, op *parser.Oper
 		scopeLower, op.Name, args, g.getGoTypeFromThriftType(op.Type))
 	subscriber += fmt.Sprintf("\top := \"%s\"\n", op.Name)
 	subscriber += fmt.Sprintf("\tprefix := %s\n", generatePrefixStringTemplate(scope))
-	subscriber += "\ttopic := fmt.Sprintf(\"%s" + scopeTitle + "%s%s\", prefix, delimiter, op)\n"
+	subscriber += "\ttopic := fmt.Sprintf(\"%s" + scopeTitle + ".%s\", prefix, op)\n"
 	subscriber += "\ttransport, protocolFactory := l.provider.NewSubscriber()\n"
 	subscriber += fmt.Sprintf("\tcb := l.recv%s(op, protocolFactory, handler)\n", op.Name)
 	subscriber += "\tif err := transport.Subscribe(topic, cb); err != nil {\n"
