@@ -18,9 +18,5 @@ dependencies:
       name: some_vendored_place
       url: https://pub.workiva.org
     version: any
-  thrift:
-    hosted:
-      name: thrift
-      url: https://pub.workiva.org
-    version: ^0.0.9
+  thrift: ^0.13.0
   w_common: ^1.20.2
