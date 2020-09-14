@@ -12,6 +12,8 @@ import (
 )
 
 type MyScopePublisher interface {
+	Open() error
+	Close() error
 	PublishnewItem(ctx frugal.FContext, req *vendor_namespace.Item) error
 }
 
@@ -29,6 +31,9 @@ func NewMyScopePublisher(provider *frugal.FScopeProvider, middleware ...frugal.S
 	publisher.methods["publishnewItem"] = frugal.NewMethod(publisher, publisher.publishnewItem, "publishnewItem", middleware)
 	return publisher
 }
+
+func (p myScopePublisher) Open() error  { return p.client.Open() }
+func (p myScopePublisher) Close() error { return p.client.Close() }
 
 func (p *myScopePublisher) PublishnewItem(ctx frugal.FContext, req *vendor_namespace.Item) error {
 	ret := p.methods["publishnewItem"].Invoke([]interface{}{ctx, req})

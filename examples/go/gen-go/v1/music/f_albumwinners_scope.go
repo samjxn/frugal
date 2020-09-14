@@ -14,6 +14,8 @@ import (
 // semantics. Subscribers to this scope will be notified if they win a contest.
 // Scopes must have a prefix.
 type AlbumWinnersPublisher interface {
+	Open() error
+	Close() error
 	PublishContestStart(ctx frugal.FContext, req []*Album) error
 	PublishTimeLeft(ctx frugal.FContext, req Minutes) error
 	PublishWinner(ctx frugal.FContext, req *Album) error
@@ -35,6 +37,9 @@ func NewAlbumWinnersPublisher(provider *frugal.FScopeProvider, middleware ...fru
 	publisher.methods["publishWinner"] = frugal.NewMethod(publisher, publisher.publishWinner, "publishWinner", middleware)
 	return publisher
 }
+
+func (p albumWinnersPublisher) Open() error  { return p.client.Open() }
+func (p albumWinnersPublisher) Close() error { return p.client.Close() }
 
 func (p *albumWinnersPublisher) PublishContestStart(ctx frugal.FContext, req []*Album) error {
 	ret := p.methods["publishContestStart"].Invoke([]interface{}{ctx, req})

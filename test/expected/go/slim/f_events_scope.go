@@ -14,6 +14,8 @@ import (
 // the @ sign. Prefix specifies topic prefix tokens, which can be static or
 // variable.
 type EventsPublisher interface {
+	Open() error
+	Close() error
 	PublishEventCreated(ctx frugal.FContext, user string, req *Event) error
 	PublishSomeInt(ctx frugal.FContext, user string, req int64) error
 	PublishSomeStr(ctx frugal.FContext, user string, req string) error
@@ -37,6 +39,9 @@ func NewEventsPublisher(provider *frugal.FScopeProvider, middleware ...frugal.Se
 	publisher.methods["publishSomeList"] = frugal.NewMethod(publisher, publisher.publishSomeList, "publishSomeList", middleware)
 	return publisher
 }
+
+func (p eventsPublisher) Open() error  { return p.client.Open() }
+func (p eventsPublisher) Close() error { return p.client.Close() }
 
 // This is a docstring.
 func (p *eventsPublisher) PublishEventCreated(ctx frugal.FContext, user string, req *Event) error {

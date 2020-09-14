@@ -1326,8 +1326,8 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	}
 
 	publisher += fmt.Sprintf("type %sPublisher interface {\n", scopeCamel)
-	// publisher += "\tOpen() error\n"
-	// publisher += "\tClose() error\n"
+	publisher += "\tOpen() error\n"
+	publisher += "\tClose() error\n"
 	for _, op := range scope.Operations {
 		publisher += fmt.Sprintf("\tPublish%s(ctx frugal.FContext, %sreq %s) error\n", op.Name, args, g.getGoTypeFromThriftType(op.Type))
 	}
@@ -1351,6 +1351,9 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	}
 	publisher += "\treturn publisher\n"
 	publisher += "}\n\n"
+
+	publisher += fmt.Sprintf("func (p %sPublisher) Open() error { return p.client.Open() }\n", scopeLower)
+	publisher += fmt.Sprintf("func (p %sPublisher) Close() error { return p.client.Close() }\n\n", scopeLower)
 
 	prefix := ""
 	for _, op := range scope.Operations {
