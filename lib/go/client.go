@@ -8,20 +8,36 @@ var _ FClient = (*FStandardClient)(nil)
 type FClient interface {
 	Call(ctx FContext, method string, args, result thrift.TStruct) error
 	Oneway(ctx FContext, method string, args thrift.TStruct) error
+	Publish(ctx FContext, op, topic string, message thrift.TStruct) error
 }
 
 // FStandardClient implements FClient, and uses the standard message format for Frugal.
 type FStandardClient struct {
 	transport       FTransport
+	publisher       FPublisherTransport
 	protocolFactory *FProtocolFactory
+	limit           uint
 }
 
 // NewFStandardClient implements FClient, and uses the standard message format for Frugal.
 func NewFStandardClient(provider *FServiceProvider) *FStandardClient {
-	return &FStandardClient{
+	client := &FStandardClient{
 		transport:       provider.GetTransport(),
 		protocolFactory: provider.GetProtocolFactory(),
 	}
+	client.limit = client.transport.GetRequestSizeLimit()
+	return client
+}
+
+// NewFScopeClient ...
+func NewFScopeClient(provider *FScopeProvider) *FStandardClient {
+	transport, protocolFactory := provider.NewPublisher()
+	client := &FStandardClient{
+		publisher:       transport,
+		protocolFactory: protocolFactory,
+	}
+	client.limit = client.publisher.GetPublishSizeLimit()
+	return client
 }
 
 // Call invokes a service.
@@ -78,8 +94,17 @@ func (client *FStandardClient) Oneway(ctx FContext, method string, args thrift.T
 	return client.transport.Oneway(ctx, payload)
 }
 
+// Publish ...
+func (client *FStandardClient) Publish(ctx FContext, op, topic string, message thrift.TStruct) error {
+	payload, err := client.prepareMessage(ctx, op, message, thrift.CALL)
+	if err != nil {
+		return err
+	}
+	return client.publisher.Publish(topic, payload)
+}
+
 func (client FStandardClient) prepareMessage(ctx FContext, method string, args thrift.TStruct, kind thrift.TMessageType) ([]byte, error) {
-	buffer := NewTMemoryOutputBuffer(client.transport.GetRequestSizeLimit())
+	buffer := NewTMemoryOutputBuffer(client.limit)
 	oprot := client.protocolFactory.GetProtocol(buffer)
 	if err := oprot.WriteRequestHeader(ctx); err != nil {
 		return nil, err

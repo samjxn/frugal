@@ -1345,35 +1345,22 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	publisher += "}\n\n"
 
 	publisher += fmt.Sprintf("type %sPublisher struct {\n", scopeLower)
-	publisher += "\ttransport frugal.FPublisherTransport\n"
-	publisher += "\tprotocolFactory *frugal.FProtocolFactory\n"
-	publisher += "\tmethods   map[string]*frugal.Method\n"
+	publisher += "\tclient  frugal.FClient\n"
+	publisher += "\tmethods map[string]*frugal.Method\n"
 	publisher += "}\n\n"
 
 	publisher += fmt.Sprintf("func New%sPublisher(provider *frugal.FScopeProvider, middleware ...frugal.ServiceMiddleware) %sPublisher {\n",
 		scopeCamel, scopeCamel)
-	publisher += "\ttransport, protocolFactory := provider.NewPublisher()\n"
-	publisher += "\tmethods := make(map[string]*frugal.Method)\n"
 	publisher += fmt.Sprintf("\tpublisher := &%sPublisher{\n", scopeLower)
-	publisher += "\t\ttransport: transport,\n"
-	publisher += "\t\tprotocolFactory:  protocolFactory,\n"
-	publisher += "\t\tmethods:   methods,\n"
+	publisher += "\t\tclient:  frugal.NewFPublisherClient(provider),\n"
+	publisher += "\t\tmethods: make(map[string]*frugal.Method),\n"
 	publisher += "\t}\n"
 	publisher += "\tmiddleware = append(middleware, provider.GetMiddleware()...)\n"
 	for _, op := range scope.Operations {
-		publisher += fmt.Sprintf("\tmethods[\"publish%s\"] = frugal.NewMethod(publisher, publisher.publish%s, \"publish%s\", middleware)\n",
+		publisher += fmt.Sprintf("\tpublisher.methods[\"publish%s\"] = frugal.NewMethod(publisher, publisher.publish%s, \"publish%s\", middleware)\n",
 			op.Name, op.Name, op.Name)
 	}
 	publisher += "\treturn publisher\n"
-	publisher += "}\n\n"
-
-	publisher += fmt.Sprintf("func (p *%sPublisher) Open() error {\n", scopeLower)
-
-	publisher += "\treturn p.transport.Open()\n"
-	publisher += "}\n\n"
-
-	publisher += fmt.Sprintf("func (p *%sPublisher) Close() error {\n", scopeLower)
-	publisher += "\treturn p.transport.Close()\n"
 	publisher += "}\n\n"
 
 	prefix := ""
@@ -1429,22 +1416,18 @@ func (g *Generator) generateInternalPublishMethod(scope *parser.Scope, op *parse
 	publisher += fmt.Sprintf("\top := \"%s\"\n", op.Name)
 	publisher += fmt.Sprintf("\tprefix := %s\n", generatePrefixStringTemplate(scope))
 	publisher += "\ttopic := fmt.Sprintf(\"%s" + scopeTitle + "%s%s\", prefix, delimiter, op)\n"
-	publisher += "\tbuffer := frugal.NewTMemoryOutputBuffer(p.transport.GetPublishSizeLimit())\n"
-	publisher += "\toprot := p.protocolFactory.GetProtocol(buffer)\n"
-	publisher += "\tif err := oprot.WriteRequestHeader(ctx); err != nil {\n"
-	publisher += "\t\treturn err\n"
-	publisher += "\t}\n"
-	publisher += "\tif err := oprot.WriteMessageBegin(op, thrift.CALL, 0); err != nil {\n"
-	publisher += "\t\treturn err\n"
-	publisher += "\t}\n"
-	publisher += g.generateWriteFieldRec(parser.FieldFromType(op.Type, ""), "req")
-	publisher += "\tif err := oprot.WriteMessageEnd(); err != nil {\n"
-	publisher += "\t\treturn err\n"
-	publisher += "\t}\n"
-	publisher += "\tif err := oprot.Flush(); err != nil {\n"
-	publisher += "\t\treturn err\n"
-	publisher += "\t}\n"
-	publisher += "\treturn p.transport.Publish(topic, buffer.Bytes())\n"
+	// TODO: dereference object pointer?
+	publisher += fmt.Sprintf("\treturn p.client.Publish(ctx, op, topic, %sMessage(req))\n", scopeLower)
+	publisher += "}\n\n"
+
+	// Pub/Sub argument parser!
+	publisher += fmt.Sprintf("type %sMessage %s\n\n", scopeLower, g.getGoTypeFromThriftType(op.Type))
+	publisher += fmt.Sprintf("func (p %sMessage) Write(oprot thrift.TProtocol) error {\n", scopeLower)
+	publisher += g.generateWriteFieldRec(parser.FieldFromType(op.Type, ""), "p")
+	publisher += "\treturn nil\n"
+	publisher += "}\n\n"
+	publisher += fmt.Sprintf("func (p %sMessage) Read(iprot thrift.TProcotol) error {\n", scopeLower)
+	publisher += "\tpanic(\"Not Implemented!\")\n"
 	publisher += "}\n"
 	return publisher
 }

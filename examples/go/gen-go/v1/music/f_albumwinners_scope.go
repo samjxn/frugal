@@ -7,7 +7,7 @@ import (
 	"fmt"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/lib/go"
+	frugal "github.com/Workiva/frugal/lib/go"
 )
 
 const delimiter = "."
@@ -24,32 +24,20 @@ type AlbumWinnersPublisher interface {
 }
 
 type albumWinnersPublisher struct {
-	transport       frugal.FPublisherTransport
-	protocolFactory *frugal.FProtocolFactory
-	methods         map[string]*frugal.Method
+	client  frugal.FClient
+	methods map[string]*frugal.Method
 }
 
 func NewAlbumWinnersPublisher(provider *frugal.FScopeProvider, middleware ...frugal.ServiceMiddleware) AlbumWinnersPublisher {
-	transport, protocolFactory := provider.NewPublisher()
-	methods := make(map[string]*frugal.Method)
 	publisher := &albumWinnersPublisher{
-		transport:       transport,
-		protocolFactory: protocolFactory,
-		methods:         methods,
+		client:  frugal.NewFPublisherClient(provider),
+		methods: make(map[string]*frugal.Method),
 	}
 	middleware = append(middleware, provider.GetMiddleware()...)
-	methods["publishContestStart"] = frugal.NewMethod(publisher, publisher.publishContestStart, "publishContestStart", middleware)
-	methods["publishTimeLeft"] = frugal.NewMethod(publisher, publisher.publishTimeLeft, "publishTimeLeft", middleware)
-	methods["publishWinner"] = frugal.NewMethod(publisher, publisher.publishWinner, "publishWinner", middleware)
+	publisher.methods["publishContestStart"] = frugal.NewMethod(publisher, publisher.publishContestStart, "publishContestStart", middleware)
+	publisher.methods["publishTimeLeft"] = frugal.NewMethod(publisher, publisher.publishTimeLeft, "publishTimeLeft", middleware)
+	publisher.methods["publishWinner"] = frugal.NewMethod(publisher, publisher.publishWinner, "publishWinner", middleware)
 	return publisher
-}
-
-func (p *albumWinnersPublisher) Open() error {
-	return p.transport.Open()
-}
-
-func (p *albumWinnersPublisher) Close() error {
-	return p.transport.Close()
 }
 
 func (p *albumWinnersPublisher) PublishContestStart(ctx frugal.FContext, req []*Album) error {
@@ -64,18 +52,16 @@ func (p *albumWinnersPublisher) publishContestStart(ctx frugal.FContext, req []*
 	op := "ContestStart"
 	prefix := "v1.music."
 	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
-	buffer := frugal.NewTMemoryOutputBuffer(p.transport.GetPublishSizeLimit())
-	oprot := p.protocolFactory.GetProtocol(buffer)
-	if err := oprot.WriteRequestHeader(ctx); err != nil {
-		return err
-	}
-	if err := oprot.WriteMessageBegin(op, thrift.CALL, 0); err != nil {
-		return err
-	}
-	if err := oprot.WriteListBegin(thrift.STRUCT, len(req)); err != nil {
+	return p.client.Publish(ctx, op, topic, albumWinnersMessage(req))
+}
+
+type albumWinnersMessage []*Album
+
+func (p albumWinnersMessage) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteListBegin(thrift.STRUCT, len(p)); err != nil {
 		return thrift.PrependError("error writing list begin: ", err)
 	}
-	for _, v := range req {
+	for _, v := range p {
 		if err := v.Write(oprot); err != nil {
 			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", v), err)
 		}
@@ -83,13 +69,11 @@ func (p *albumWinnersPublisher) publishContestStart(ctx frugal.FContext, req []*
 	if err := oprot.WriteListEnd(); err != nil {
 		return thrift.PrependError("error writing list end: ", err)
 	}
-	if err := oprot.WriteMessageEnd(); err != nil {
-		return err
-	}
-	if err := oprot.Flush(); err != nil {
-		return err
-	}
-	return p.transport.Publish(topic, buffer.Bytes())
+	return nil
+}
+
+func (p albumWinnersMessage) Read(iprot thrift.TProcotol) error {
+	panic("Not Implemented!")
 }
 
 func (p *albumWinnersPublisher) PublishTimeLeft(ctx frugal.FContext, req Minutes) error {
@@ -104,24 +88,20 @@ func (p *albumWinnersPublisher) publishTimeLeft(ctx frugal.FContext, req Minutes
 	op := "TimeLeft"
 	prefix := "v1.music."
 	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
-	buffer := frugal.NewTMemoryOutputBuffer(p.transport.GetPublishSizeLimit())
-	oprot := p.protocolFactory.GetProtocol(buffer)
-	if err := oprot.WriteRequestHeader(ctx); err != nil {
-		return err
-	}
-	if err := oprot.WriteMessageBegin(op, thrift.CALL, 0); err != nil {
-		return err
-	}
-	if err := oprot.WriteDouble(float64(req)); err != nil {
+	return p.client.Publish(ctx, op, topic, albumWinnersMessage(req))
+}
+
+type albumWinnersMessage Minutes
+
+func (p albumWinnersMessage) Write(oprot thrift.TProtocol) error {
+	if err := oprot.WriteDouble(float64(p)); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T. (0) field write error: ", p), err)
 	}
-	if err := oprot.WriteMessageEnd(); err != nil {
-		return err
-	}
-	if err := oprot.Flush(); err != nil {
-		return err
-	}
-	return p.transport.Publish(topic, buffer.Bytes())
+	return nil
+}
+
+func (p albumWinnersMessage) Read(iprot thrift.TProcotol) error {
+	panic("Not Implemented!")
 }
 
 func (p *albumWinnersPublisher) PublishWinner(ctx frugal.FContext, req *Album) error {
@@ -136,24 +116,20 @@ func (p *albumWinnersPublisher) publishWinner(ctx frugal.FContext, req *Album) e
 	op := "Winner"
 	prefix := "v1.music."
 	topic := fmt.Sprintf("%sAlbumWinners%s%s", prefix, delimiter, op)
-	buffer := frugal.NewTMemoryOutputBuffer(p.transport.GetPublishSizeLimit())
-	oprot := p.protocolFactory.GetProtocol(buffer)
-	if err := oprot.WriteRequestHeader(ctx); err != nil {
-		return err
+	return p.client.Publish(ctx, op, topic, albumWinnersMessage(req))
+}
+
+type albumWinnersMessage *Album
+
+func (p albumWinnersMessage) Write(oprot thrift.TProtocol) error {
+	if err := p.Write(oprot); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p), err)
 	}
-	if err := oprot.WriteMessageBegin(op, thrift.CALL, 0); err != nil {
-		return err
-	}
-	if err := req.Write(oprot); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", req), err)
-	}
-	if err := oprot.WriteMessageEnd(); err != nil {
-		return err
-	}
-	if err := oprot.Flush(); err != nil {
-		return err
-	}
-	return p.transport.Publish(topic, buffer.Bytes())
+	return nil
+}
+
+func (p albumWinnersMessage) Read(iprot thrift.TProcotol) error {
+	panic("Not Implemented!")
 }
 
 // Scopes are a Frugal extension to the IDL for declaring PubSub
