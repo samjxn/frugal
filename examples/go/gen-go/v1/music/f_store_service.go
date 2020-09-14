@@ -132,7 +132,7 @@ func (p *storeFBuyAlbum) Process(ctx frugal.FContext, iprot, oprot *frugal.FProt
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "buyAlbum", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "buyAlbum", err.Error())
 	}
 	result := StoreBuyAlbumResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.ASIN, args.Acct})
@@ -151,13 +151,13 @@ func (p *storeFBuyAlbum) Process(ctx frugal.FContext, iprot, oprot *frugal.FProt
 		case *PurchasingError:
 			result.Error = v
 		default:
-			return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "buyAlbum", "Internal error processing buyAlbum: "+err.Error())
+			return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "buyAlbum", "Internal error processing buyAlbum: "+err.Error())
 		}
 	} else {
 		var retval *Album = ret[0].(*Album)
 		result.Success = retval
 	}
-	return p.SendReply(ctx, oprot, "buyAlbum", result)
+	return p.SendReply(ctx, oprot, "buyAlbum", &result)
 }
 
 type storeFEnterAlbumGiveaway struct {
@@ -170,7 +170,7 @@ func (p *storeFEnterAlbumGiveaway) Process(ctx frugal.FContext, iprot, oprot *fr
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "enterAlbumGiveaway", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "enterAlbumGiveaway", err.Error())
 	}
 	result := StoreEnterAlbumGiveawayResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.Email, args.Name})
@@ -185,12 +185,12 @@ func (p *storeFEnterAlbumGiveaway) Process(ctx frugal.FContext, iprot, oprot *fr
 			p.SendError(ctx, oprot, typedError.TypeId(), "enterAlbumGiveaway", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "enterAlbumGiveaway", "Internal error processing enterAlbumGiveaway: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "enterAlbumGiveaway", "Internal error processing enterAlbumGiveaway: "+err.Error())
 	} else {
 		var retval bool = ret[0].(bool)
 		result.Success = &retval
 	}
-	return p.SendReply(ctx, oprot, "enterAlbumGiveaway", result)
+	return p.SendReply(ctx, oprot, "enterAlbumGiveaway", &result)
 }
 
 type StoreBuyAlbumArgs struct {

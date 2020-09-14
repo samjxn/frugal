@@ -1326,8 +1326,8 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	}
 
 	publisher += fmt.Sprintf("type %sPublisher interface {\n", scopeCamel)
-	publisher += "\tOpen() error\n"
-	publisher += "\tClose() error\n"
+	// publisher += "\tOpen() error\n"
+	// publisher += "\tClose() error\n"
 	for _, op := range scope.Operations {
 		publisher += fmt.Sprintf("\tPublish%s(ctx frugal.FContext, %sreq %s) error\n", op.Name, args, g.getGoTypeFromThriftType(op.Type))
 	}
@@ -1341,7 +1341,7 @@ func (g *Generator) GeneratePublisher(file *os.File, scope *parser.Scope) error 
 	publisher += fmt.Sprintf("func New%sPublisher(provider *frugal.FScopeProvider, middleware ...frugal.ServiceMiddleware) %sPublisher {\n",
 		scopeCamel, scopeCamel)
 	publisher += fmt.Sprintf("\tpublisher := &%sPublisher{\n", scopeLower)
-	publisher += "\t\tclient:  frugal.NewFPublisherClient(provider),\n"
+	publisher += "\t\tclient:  frugal.NewFScopeClient(provider),\n"
 	publisher += "\t\tmethods: make(map[string]*frugal.Method),\n"
 	publisher += "\t}\n"
 	publisher += "\tmiddleware = append(middleware, provider.GetMiddleware()...)\n"
@@ -1405,11 +1405,12 @@ func (g *Generator) generateInternalPublishMethod(scope *parser.Scope, op *parse
 	}
 
 	publisher += fmt.Sprintf("\tprefix := %s\n", generatePrefixStringTemplate(scope))
+	publisher += fmt.Sprintf("\top := %q\n", op.Name)
 	publisher += "\ttopic := fmt.Sprintf(\"%s" + scopeTitle + ".%s\", prefix, op)\n"
 	if needsHelper {
-		publisher += fmt.Sprintf("\treturn p.client.Publish(ctx, %q, topic, %s(req))\n", op.Name, helper)
+		publisher += fmt.Sprintf("\treturn p.client.Publish(ctx, op, topic, %s(req))\n", helper)
 	} else {
-		publisher += fmt.Sprintf("\treturn p.client.Publish(ctx, %q, topic, req)\n", op.Name)
+		publisher += "\treturn p.client.Publish(ctx, op, topic, req)\n"
 	}
 	publisher += "}\n\n"
 	if !needsHelper {
@@ -1422,7 +1423,7 @@ func (g *Generator) generateInternalPublishMethod(scope *parser.Scope, op *parse
 	publisher += g.generateWriteFieldRec(parser.FieldFromType(op.Type, ""), "p")
 	publisher += "\treturn nil\n"
 	publisher += "}\n\n"
-	publisher += fmt.Sprintf("func (p %s) Read(iprot thrift.TProcotol) error {\n", helper)
+	publisher += fmt.Sprintf("func (p %s) Read(iprot thrift.TProtocol) error {\n", helper)
 	publisher += "\tpanic(\"Not Implemented!\")\n"
 	publisher += "}\n"
 	return publisher
@@ -1912,7 +1913,7 @@ func (g *Generator) generateMethodProcessor(service *parser.Service, method *par
 	contents += "\terr := args.Read(iprot)\n"
 	contents += "\tiprot.ReadMessageEnd()\n"
 	contents += "\tif err != nil {\n"
-	contents += fmt.Sprintf("\t\treturn f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, %q, err.Error())\n", nameLower)
+	contents += fmt.Sprintf("\t\treturn p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, %q, err.Error())\n", nameLower)
 	contents += "\t}\n"
 	if !method.Oneway {
 		contents += fmt.Sprintf("\tresult := %s%sResult{}\n", servTitle, nameTitle)
@@ -1946,10 +1947,10 @@ func (g *Generator) generateMethodProcessor(service *parser.Service, method *par
 			contents += fmt.Sprintf("\t\t\tresult.%s = v\n", snakeToCamel(err.Name))
 		}
 		contents += "\t\tdefault:\n"
-		contents += fmt.Sprintf("\t\t\treturn f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, %q, \"Internal error processing %s: \"+err.Error())", nameLower, nameLower)
+		contents += fmt.Sprintf("\t\t\treturn p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, %q, \"Internal error processing %s: \"+err.Error())", nameLower, nameLower)
 		contents += "\t\t}\n"
 	} else {
-		contents += fmt.Sprintf("\t\treturn f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, %q, \"Internal error processing %s: \"+err.Error())", nameLower, nameLower)
+		contents += fmt.Sprintf("\t\treturn p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, %q, \"Internal error processing %s: \"+err.Error())", nameLower, nameLower)
 	}
 	if method.ReturnType != nil {
 		contents += "\t} else {\n"
@@ -1969,7 +1970,7 @@ func (g *Generator) generateMethodProcessor(service *parser.Service, method *par
 		return contents
 	}
 
-	contents += fmt.Sprintf("\treturn p.SendReply(ctx, oprot, %q, result)\n", nameLower)
+	contents += fmt.Sprintf("\treturn p.SendReply(ctx, oprot, %q, &result)\n", nameLower)
 	contents += "}\n\n"
 
 	return contents

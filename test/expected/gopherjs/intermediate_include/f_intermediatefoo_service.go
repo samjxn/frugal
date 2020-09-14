@@ -72,7 +72,7 @@ func (p *intermediatefooFIntermeidateFoo) Process(ctx frugal.FContext, iprot, op
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "intermeidateFoo", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "intermeidateFoo", err.Error())
 	}
 	result := IntermediateFooIntermeidateFooResult{}
 	ret := p.InvokeMethod([]interface{}{ctx})
@@ -87,9 +87,9 @@ func (p *intermediatefooFIntermeidateFoo) Process(ctx frugal.FContext, iprot, op
 			p.SendError(ctx, oprot, typedError.TypeId(), "intermeidateFoo", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "intermeidateFoo", "Internal error processing intermeidateFoo: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "intermeidateFoo", "Internal error processing intermeidateFoo: "+err.Error())
 	}
-	return p.SendReply(ctx, oprot, "intermeidateFoo", result)
+	return p.SendReply(ctx, oprot, "intermeidateFoo", &result)
 }
 
 type IntermediateFooIntermeidateFooArgs struct {

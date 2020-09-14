@@ -14,8 +14,6 @@ import (
 // the @ sign. Prefix specifies topic prefix tokens, which can be static or
 // variable.
 type EventsPublisher interface {
-	Open() error
-	Close() error
 	PublishEventCreated(ctx frugal.FContext, user string, req *Event) error
 	PublishSomeInt(ctx frugal.FContext, user string, req int64) error
 	PublishSomeStr(ctx frugal.FContext, user string, req string) error
@@ -29,7 +27,7 @@ type eventsPublisher struct {
 
 func NewEventsPublisher(provider *frugal.FScopeProvider, middleware ...frugal.ServiceMiddleware) EventsPublisher {
 	publisher := &eventsPublisher{
-		client:  frugal.NewFPublisherClient(provider),
+		client:  frugal.NewFScopeClient(provider),
 		methods: make(map[string]*frugal.Method),
 	}
 	middleware = append(middleware, provider.GetMiddleware()...)
@@ -52,8 +50,9 @@ func (p *eventsPublisher) PublishEventCreated(ctx frugal.FContext, user string, 
 func (p *eventsPublisher) publishEventCreated(ctx frugal.FContext, user string, req *Event) error {
 	ctx.AddRequestHeader("_topic_user", user)
 	prefix := fmt.Sprintf("foo.%s.", user)
+	op := "EventCreated"
 	topic := fmt.Sprintf("%sEvents.%s", prefix, op)
-	return p.client.Publish(ctx, "EventCreated", topic, req)
+	return p.client.Publish(ctx, op, topic, req)
 }
 
 func (p *eventsPublisher) PublishSomeInt(ctx frugal.FContext, user string, req int64) error {
@@ -67,8 +66,9 @@ func (p *eventsPublisher) PublishSomeInt(ctx frugal.FContext, user string, req i
 func (p *eventsPublisher) publishSomeInt(ctx frugal.FContext, user string, req int64) error {
 	ctx.AddRequestHeader("_topic_user", user)
 	prefix := fmt.Sprintf("foo.%s.", user)
+	op := "SomeInt"
 	topic := fmt.Sprintf("%sEvents.%s", prefix, op)
-	return p.client.Publish(ctx, "SomeInt", topic, eventsSomeIntMessage(req))
+	return p.client.Publish(ctx, op, topic, eventsSomeIntMessage(req))
 }
 
 type eventsSomeIntMessage int64
@@ -80,7 +80,7 @@ func (p eventsSomeIntMessage) Write(oprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p eventsSomeIntMessage) Read(iprot thrift.TProcotol) error {
+func (p eventsSomeIntMessage) Read(iprot thrift.TProtocol) error {
 	panic("Not Implemented!")
 }
 
@@ -95,8 +95,9 @@ func (p *eventsPublisher) PublishSomeStr(ctx frugal.FContext, user string, req s
 func (p *eventsPublisher) publishSomeStr(ctx frugal.FContext, user string, req string) error {
 	ctx.AddRequestHeader("_topic_user", user)
 	prefix := fmt.Sprintf("foo.%s.", user)
+	op := "SomeStr"
 	topic := fmt.Sprintf("%sEvents.%s", prefix, op)
-	return p.client.Publish(ctx, "SomeStr", topic, eventsSomeStrMessage(req))
+	return p.client.Publish(ctx, op, topic, eventsSomeStrMessage(req))
 }
 
 type eventsSomeStrMessage string
@@ -108,7 +109,7 @@ func (p eventsSomeStrMessage) Write(oprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p eventsSomeStrMessage) Read(iprot thrift.TProcotol) error {
+func (p eventsSomeStrMessage) Read(iprot thrift.TProtocol) error {
 	panic("Not Implemented!")
 }
 
@@ -123,8 +124,9 @@ func (p *eventsPublisher) PublishSomeList(ctx frugal.FContext, user string, req 
 func (p *eventsPublisher) publishSomeList(ctx frugal.FContext, user string, req []map[ID]*Event) error {
 	ctx.AddRequestHeader("_topic_user", user)
 	prefix := fmt.Sprintf("foo.%s.", user)
+	op := "SomeList"
 	topic := fmt.Sprintf("%sEvents.%s", prefix, op)
-	return p.client.Publish(ctx, "SomeList", topic, eventsSomeListMessage(req))
+	return p.client.Publish(ctx, op, topic, eventsSomeListMessage(req))
 }
 
 type eventsSomeListMessage []map[ID]*Event
@@ -155,7 +157,7 @@ func (p eventsSomeListMessage) Write(oprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p eventsSomeListMessage) Read(iprot thrift.TProcotol) error {
+func (p eventsSomeListMessage) Read(iprot thrift.TProtocol) error {
 	panic("Not Implemented!")
 }
 

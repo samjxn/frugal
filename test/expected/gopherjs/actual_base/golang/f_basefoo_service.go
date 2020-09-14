@@ -72,7 +72,7 @@ func (p *basefooFBasePing) Process(ctx frugal.FContext, iprot, oprot *frugal.FPr
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "basePing", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "basePing", err.Error())
 	}
 	result := BaseFooBasePingResult{}
 	ret := p.InvokeMethod([]interface{}{ctx})
@@ -87,9 +87,9 @@ func (p *basefooFBasePing) Process(ctx frugal.FContext, iprot, oprot *frugal.FPr
 			p.SendError(ctx, oprot, typedError.TypeId(), "basePing", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "basePing", "Internal error processing basePing: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "basePing", "Internal error processing basePing: "+err.Error())
 	}
-	return p.SendReply(ctx, oprot, "basePing", result)
+	return p.SendReply(ctx, oprot, "basePing", &result)
 }
 
 type BaseFooBasePingArgs struct {

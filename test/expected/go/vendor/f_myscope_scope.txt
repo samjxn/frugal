@@ -12,8 +12,6 @@ import (
 )
 
 type MyScopePublisher interface {
-	Open() error
-	Close() error
 	PublishnewItem(ctx frugal.FContext, req *vendor_namespace.Item) error
 }
 
@@ -24,7 +22,7 @@ type myScopePublisher struct {
 
 func NewMyScopePublisher(provider *frugal.FScopeProvider, middleware ...frugal.ServiceMiddleware) MyScopePublisher {
 	publisher := &myScopePublisher{
-		client:  frugal.NewFPublisherClient(provider),
+		client:  frugal.NewFScopeClient(provider),
 		methods: make(map[string]*frugal.Method),
 	}
 	middleware = append(middleware, provider.GetMiddleware()...)
@@ -42,8 +40,9 @@ func (p *myScopePublisher) PublishnewItem(ctx frugal.FContext, req *vendor_names
 
 func (p *myScopePublisher) publishnewItem(ctx frugal.FContext, req *vendor_namespace.Item) error {
 	prefix := ""
+	op := "newItem"
 	topic := fmt.Sprintf("%sMyScope.%s", prefix, op)
-	return p.client.Publish(ctx, "newItem", topic, req)
+	return p.client.Publish(ctx, op, topic, req)
 }
 
 type MyScopeSubscriber interface {

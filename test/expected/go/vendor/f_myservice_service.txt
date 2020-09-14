@@ -90,7 +90,7 @@ func (p *myserviceFGetItem) Process(ctx frugal.FContext, iprot, oprot *frugal.FP
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "getItem", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "getItem", err.Error())
 	}
 	result := MyServiceGetItemResult{}
 	ret := p.InvokeMethod([]interface{}{ctx})
@@ -109,13 +109,13 @@ func (p *myserviceFGetItem) Process(ctx frugal.FContext, iprot, oprot *frugal.FP
 		case *excepts.InvalidData:
 			result.D = v
 		default:
-			return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "getItem", "Internal error processing getItem: "+err.Error())
+			return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "getItem", "Internal error processing getItem: "+err.Error())
 		}
 	} else {
 		var retval *vendor_namespace.Item = ret[0].(*vendor_namespace.Item)
 		result.Success = retval
 	}
-	return p.SendReply(ctx, oprot, "getItem", result)
+	return p.SendReply(ctx, oprot, "getItem", &result)
 }
 
 type MyServiceGetItemArgs struct {

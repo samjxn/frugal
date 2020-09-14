@@ -427,7 +427,7 @@ func (p *fooFPing) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) 
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "ping", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "ping", err.Error())
 	}
 	result := FooPingResult{}
 	ret := p.InvokeMethod([]interface{}{ctx})
@@ -442,9 +442,9 @@ func (p *fooFPing) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) 
 			p.SendError(ctx, oprot, typedError.TypeId(), "ping", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "ping", "Internal error processing ping: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "ping", "Internal error processing ping: "+err.Error())
 	}
-	return p.SendReply(ctx, oprot, "ping", result)
+	return p.SendReply(ctx, oprot, "ping", &result)
 }
 
 type fooFBlah struct {
@@ -456,7 +456,7 @@ func (p *fooFBlah) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) 
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "blah", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "blah", err.Error())
 	}
 	result := FooBlahResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.Num, args.Str, args.Event})
@@ -477,13 +477,13 @@ func (p *fooFBlah) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol) 
 		case *golang.APIException:
 			result.API = v
 		default:
-			return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "blah", "Internal error processing blah: "+err.Error())
+			return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "blah", "Internal error processing blah: "+err.Error())
 		}
 	} else {
 		var retval int64 = ret[0].(int64)
 		result.Success = &retval
 	}
-	return p.SendReply(ctx, oprot, "blah", result)
+	return p.SendReply(ctx, oprot, "blah", &result)
 }
 
 type fooFOneWay struct {
@@ -495,7 +495,7 @@ func (p *fooFOneWay) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "oneWay", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "oneWay", err.Error())
 	}
 	ret := p.InvokeMethod([]interface{}{ctx, args.ID, args.Req})
 	if len(ret) != 1 {
@@ -509,7 +509,7 @@ func (p *fooFOneWay) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtocol
 			p.SendError(ctx, oprot, typedError.TypeId(), "oneWay", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "oneWay", "Internal error processing oneWay: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "oneWay", "Internal error processing oneWay: "+err.Error())
 	}
 	return err
 }
@@ -523,7 +523,7 @@ func (p *fooFBinMethod) Process(ctx frugal.FContext, iprot, oprot *frugal.FProto
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "bin_method", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "bin_method", err.Error())
 	}
 	result := FooBinMethodResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.Bin, args.Str})
@@ -542,13 +542,13 @@ func (p *fooFBinMethod) Process(ctx frugal.FContext, iprot, oprot *frugal.FProto
 		case *golang.APIException:
 			result.API = v
 		default:
-			return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "bin_method", "Internal error processing bin_method: "+err.Error())
+			return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "bin_method", "Internal error processing bin_method: "+err.Error())
 		}
 	} else {
 		var retval []byte = ret[0].([]byte)
 		result.Success = retval
 	}
-	return p.SendReply(ctx, oprot, "bin_method", result)
+	return p.SendReply(ctx, oprot, "bin_method", &result)
 }
 
 type fooFParamModifiers struct {
@@ -560,7 +560,7 @@ func (p *fooFParamModifiers) Process(ctx frugal.FContext, iprot, oprot *frugal.F
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "param_modifiers", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "param_modifiers", err.Error())
 	}
 	result := FooParamModifiersResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.OptNum, args.DefaultNum, args.ReqNum})
@@ -575,12 +575,12 @@ func (p *fooFParamModifiers) Process(ctx frugal.FContext, iprot, oprot *frugal.F
 			p.SendError(ctx, oprot, typedError.TypeId(), "param_modifiers", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "param_modifiers", "Internal error processing param_modifiers: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "param_modifiers", "Internal error processing param_modifiers: "+err.Error())
 	} else {
 		var retval int64 = ret[0].(int64)
 		result.Success = &retval
 	}
-	return p.SendReply(ctx, oprot, "param_modifiers", result)
+	return p.SendReply(ctx, oprot, "param_modifiers", &result)
 }
 
 type fooFUnderlyingTypesTest struct {
@@ -592,7 +592,7 @@ func (p *fooFUnderlyingTypesTest) Process(ctx frugal.FContext, iprot, oprot *fru
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "underlying_types_test", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "underlying_types_test", err.Error())
 	}
 	result := FooUnderlyingTypesTestResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.ListType, args.SetType})
@@ -607,12 +607,12 @@ func (p *fooFUnderlyingTypesTest) Process(ctx frugal.FContext, iprot, oprot *fru
 			p.SendError(ctx, oprot, typedError.TypeId(), "underlying_types_test", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "underlying_types_test", "Internal error processing underlying_types_test: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "underlying_types_test", "Internal error processing underlying_types_test: "+err.Error())
 	} else {
 		var retval []ID = ret[0].([]ID)
 		result.Success = retval
 	}
-	return p.SendReply(ctx, oprot, "underlying_types_test", result)
+	return p.SendReply(ctx, oprot, "underlying_types_test", &result)
 }
 
 type fooFGetThing struct {
@@ -624,7 +624,7 @@ func (p *fooFGetThing) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtoc
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "getThing", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "getThing", err.Error())
 	}
 	result := FooGetThingResult{}
 	ret := p.InvokeMethod([]interface{}{ctx})
@@ -639,12 +639,12 @@ func (p *fooFGetThing) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtoc
 			p.SendError(ctx, oprot, typedError.TypeId(), "getThing", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "getThing", "Internal error processing getThing: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "getThing", "Internal error processing getThing: "+err.Error())
 	} else {
 		var retval *validStructs.Thing = ret[0].(*validStructs.Thing)
 		result.Success = retval
 	}
-	return p.SendReply(ctx, oprot, "getThing", result)
+	return p.SendReply(ctx, oprot, "getThing", &result)
 }
 
 type fooFGetMyInt struct {
@@ -656,7 +656,7 @@ func (p *fooFGetMyInt) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtoc
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "getMyInt", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "getMyInt", err.Error())
 	}
 	result := FooGetMyIntResult{}
 	ret := p.InvokeMethod([]interface{}{ctx})
@@ -671,12 +671,12 @@ func (p *fooFGetMyInt) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtoc
 			p.SendError(ctx, oprot, typedError.TypeId(), "getMyInt", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "getMyInt", "Internal error processing getMyInt: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "getMyInt", "Internal error processing getMyInt: "+err.Error())
 	} else {
 		var retval ValidTypes.MyInt = ret[0].(ValidTypes.MyInt)
 		result.Success = &retval
 	}
-	return p.SendReply(ctx, oprot, "getMyInt", result)
+	return p.SendReply(ctx, oprot, "getMyInt", &result)
 }
 
 type fooFUseSubdirStruct struct {
@@ -688,7 +688,7 @@ func (p *fooFUseSubdirStruct) Process(ctx frugal.FContext, iprot, oprot *frugal.
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "use_subdir_struct", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "use_subdir_struct", err.Error())
 	}
 	result := FooUseSubdirStructResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.A})
@@ -703,12 +703,12 @@ func (p *fooFUseSubdirStruct) Process(ctx frugal.FContext, iprot, oprot *frugal.
 			p.SendError(ctx, oprot, typedError.TypeId(), "use_subdir_struct", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "use_subdir_struct", "Internal error processing use_subdir_struct: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "use_subdir_struct", "Internal error processing use_subdir_struct: "+err.Error())
 	} else {
 		var retval *subdir_include.A = ret[0].(*subdir_include.A)
 		result.Success = retval
 	}
-	return p.SendReply(ctx, oprot, "use_subdir_struct", result)
+	return p.SendReply(ctx, oprot, "use_subdir_struct", &result)
 }
 
 type fooFSayHelloWith struct {
@@ -720,7 +720,7 @@ func (p *fooFSayHelloWith) Process(ctx frugal.FContext, iprot, oprot *frugal.FPr
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "sayHelloWith", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "sayHelloWith", err.Error())
 	}
 	result := FooSayHelloWithResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.NewMessage_})
@@ -735,12 +735,12 @@ func (p *fooFSayHelloWith) Process(ctx frugal.FContext, iprot, oprot *frugal.FPr
 			p.SendError(ctx, oprot, typedError.TypeId(), "sayHelloWith", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "sayHelloWith", "Internal error processing sayHelloWith: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "sayHelloWith", "Internal error processing sayHelloWith: "+err.Error())
 	} else {
 		var retval string = ret[0].(string)
 		result.Success = &retval
 	}
-	return p.SendReply(ctx, oprot, "sayHelloWith", result)
+	return p.SendReply(ctx, oprot, "sayHelloWith", &result)
 }
 
 type fooFWhatDoYouSay struct {
@@ -752,7 +752,7 @@ func (p *fooFWhatDoYouSay) Process(ctx frugal.FContext, iprot, oprot *frugal.FPr
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "whatDoYouSay", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "whatDoYouSay", err.Error())
 	}
 	result := FooWhatDoYouSayResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.MessageArgs_})
@@ -767,12 +767,12 @@ func (p *fooFWhatDoYouSay) Process(ctx frugal.FContext, iprot, oprot *frugal.FPr
 			p.SendError(ctx, oprot, typedError.TypeId(), "whatDoYouSay", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "whatDoYouSay", "Internal error processing whatDoYouSay: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "whatDoYouSay", "Internal error processing whatDoYouSay: "+err.Error())
 	} else {
 		var retval string = ret[0].(string)
 		result.Success = &retval
 	}
-	return p.SendReply(ctx, oprot, "whatDoYouSay", result)
+	return p.SendReply(ctx, oprot, "whatDoYouSay", &result)
 }
 
 type fooFSayAgain struct {
@@ -784,7 +784,7 @@ func (p *fooFSayAgain) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtoc
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "sayAgain", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "sayAgain", err.Error())
 	}
 	result := FooSayAgainResult{}
 	ret := p.InvokeMethod([]interface{}{ctx, args.MessageResult_})
@@ -799,12 +799,12 @@ func (p *fooFSayAgain) Process(ctx frugal.FContext, iprot, oprot *frugal.FProtoc
 			p.SendError(ctx, oprot, typedError.TypeId(), "sayAgain", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "sayAgain", "Internal error processing sayAgain: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "sayAgain", "Internal error processing sayAgain: "+err.Error())
 	} else {
 		var retval string = ret[0].(string)
 		result.Success = &retval
 	}
-	return p.SendReply(ctx, oprot, "sayAgain", result)
+	return p.SendReply(ctx, oprot, "sayAgain", &result)
 }
 
 type FooPingArgs struct {

@@ -14,8 +14,6 @@ import (
 // semantics. Subscribers to this scope will be notified if they win a contest.
 // Scopes must have a prefix.
 type AlbumWinnersPublisher interface {
-	Open() error
-	Close() error
 	PublishContestStart(ctx frugal.FContext, req []*Album) error
 	PublishTimeLeft(ctx frugal.FContext, req Minutes) error
 	PublishWinner(ctx frugal.FContext, req *Album) error
@@ -28,7 +26,7 @@ type albumWinnersPublisher struct {
 
 func NewAlbumWinnersPublisher(provider *frugal.FScopeProvider, middleware ...frugal.ServiceMiddleware) AlbumWinnersPublisher {
 	publisher := &albumWinnersPublisher{
-		client:  frugal.NewFPublisherClient(provider),
+		client:  frugal.NewFScopeClient(provider),
 		methods: make(map[string]*frugal.Method),
 	}
 	middleware = append(middleware, provider.GetMiddleware()...)
@@ -48,8 +46,9 @@ func (p *albumWinnersPublisher) PublishContestStart(ctx frugal.FContext, req []*
 
 func (p *albumWinnersPublisher) publishContestStart(ctx frugal.FContext, req []*Album) error {
 	prefix := "v1.music."
+	op := "ContestStart"
 	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
-	return p.client.Publish(ctx, "ContestStart", topic, albumWinnersContestStartMessage(req))
+	return p.client.Publish(ctx, op, topic, albumWinnersContestStartMessage(req))
 }
 
 type albumWinnersContestStartMessage []*Album
@@ -69,7 +68,7 @@ func (p albumWinnersContestStartMessage) Write(oprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p albumWinnersContestStartMessage) Read(iprot thrift.TProcotol) error {
+func (p albumWinnersContestStartMessage) Read(iprot thrift.TProtocol) error {
 	panic("Not Implemented!")
 }
 
@@ -83,8 +82,9 @@ func (p *albumWinnersPublisher) PublishTimeLeft(ctx frugal.FContext, req Minutes
 
 func (p *albumWinnersPublisher) publishTimeLeft(ctx frugal.FContext, req Minutes) error {
 	prefix := "v1.music."
+	op := "TimeLeft"
 	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
-	return p.client.Publish(ctx, "TimeLeft", topic, albumWinnersTimeLeftMessage(req))
+	return p.client.Publish(ctx, op, topic, albumWinnersTimeLeftMessage(req))
 }
 
 type albumWinnersTimeLeftMessage Minutes
@@ -96,7 +96,7 @@ func (p albumWinnersTimeLeftMessage) Write(oprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p albumWinnersTimeLeftMessage) Read(iprot thrift.TProcotol) error {
+func (p albumWinnersTimeLeftMessage) Read(iprot thrift.TProtocol) error {
 	panic("Not Implemented!")
 }
 
@@ -110,8 +110,9 @@ func (p *albumWinnersPublisher) PublishWinner(ctx frugal.FContext, req *Album) e
 
 func (p *albumWinnersPublisher) publishWinner(ctx frugal.FContext, req *Album) error {
 	prefix := "v1.music."
+	op := "Winner"
 	topic := fmt.Sprintf("%sAlbumWinners.%s", prefix, op)
-	return p.client.Publish(ctx, "Winner", topic, req)
+	return p.client.Publish(ctx, op, topic, req)
 }
 
 // Scopes are a Frugal extension to the IDL for declaring PubSub

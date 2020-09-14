@@ -73,7 +73,7 @@ func (p *footransitivedepsFPing) Process(ctx frugal.FContext, iprot, oprot *frug
 	err := args.Read(iprot)
 	iprot.ReadMessageEnd()
 	if err != nil {
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "ping", err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_PROTOCOL_ERROR, "ping", err.Error())
 	}
 	result := FooTransitiveDepsPingResult{}
 	ret := p.InvokeMethod([]interface{}{ctx})
@@ -88,9 +88,9 @@ func (p *footransitivedepsFPing) Process(ctx frugal.FContext, iprot, oprot *frug
 			p.SendError(ctx, oprot, typedError.TypeId(), "ping", typedError.Error())
 			return nil
 		}
-		return f.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "ping", "Internal error processing ping: "+err.Error())
+		return p.SendError(ctx, oprot, frugal.APPLICATION_EXCEPTION_INTERNAL_ERROR, "ping", "Internal error processing ping: "+err.Error())
 	}
-	return p.SendReply(ctx, oprot, "ping", result)
+	return p.SendReply(ctx, oprot, "ping", &result)
 }
 
 type FooTransitiveDepsPingArgs struct {
