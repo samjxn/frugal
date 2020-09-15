@@ -130,7 +130,6 @@ func TestFClientOneway(t *testing.T) {
 }
 
 func TestFClientCall(t *testing.T) {
-	t.Skip("fails")
 	ctx := NewFContext("uuid")
 	args := new(mockTStruct)
 	result := new(mockTStruct)
@@ -143,18 +142,27 @@ func TestFClientCall(t *testing.T) {
 	}
 	mockTransport := new(mockFTransport)
 	proto := thrift.NewTJSONProtocol(mockTransport)
+	resultTransport := new(mockFTransport)
 
 	mockTProtocolFactory.On("GetProtocol", mock.Anything).Return(proto)
 	mockTransport.On("Write", mock.Anything).Return(55, nil)
 	args.On("Write", mock.Anything).Return(nil)
 	mockTransport.On("Flush").Return(nil)
-	transport.On("Request").Return(nil)
+	transport.On("Request").Return(resultTransport, nil)
+	calls := 0
+	output := append([]byte{0, 0, 0, 0, 0}, []byte(`[1, "method", 2, 0]`)...)
+	mockTransport.On("Read", mock.Anything).Run(func(args mock.Arguments) {
+		args.Get(0).([]byte)[0] = output[calls]
+		calls++
+	}).Return(1, nil)
+	mockTransport.On("Read", mock.Anything).Run(func(args mock.Arguments) { copy(args.Get(0).([]byte), []byte("[]")) }).Return(2, nil).Once()
+	result.On("Read", mock.Anything).Return(nil)
 
 	assert.NoError(t, client.Call(ctx, "method", args, result))
 
 	args.AssertExpectations(t)
 	result.AssertExpectations(t)
 	mockTProtocolFactory.AssertExpectations(t)
-	mockTransport.AssertExpectations(t)
 	transport.AssertExpectations(t)
+	resultTransport.AssertExpectations(t)
 }
