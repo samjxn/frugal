@@ -11,8 +11,6 @@
 
 import functools
 import sys
-import types
-from thrift.protocol.TProtocol import TProtocolBase
 from thrift.protocol.TCompactProtocol import CLEAR, TCompactProtocol
 
 from frugal.context import FContext, _OPID_HEADER, _CID_HEADER, _get_next_op_id
@@ -44,35 +42,7 @@ def _state_reset_decorator(func):
     return wrapper
 
 
-class TProtocolDecorator():
-    def __init__(self, protocol):
-        TProtocolBase(protocol)
-        self.protocol = protocol
-
-    def __getattr__(self, name):
-        if hasattr(self.protocol, name):
-            member = getattr(self.protocol, name)
-            if type(member) in [
-                types.MethodType,
-                types.FunctionType,
-                types.LambdaType,
-                types.BuiltinFunctionType,
-                types.BuiltinMethodType,
-            ]:
-                return lambda *args, **kwargs: self._wrap(member, args, kwargs)
-            else:
-                return member
-        raise AttributeError(name)
-
-    def _wrap(self, func, args, kwargs):
-        if isinstance(func, types.MethodType):
-            result = func(*args, **kwargs)
-        else:
-            result = func(self.protocol, *args, **kwargs)
-        return result
-
-
-class FProtocol(TProtocolDecorator, object):
+class FProtocol(object):
     """
     FProtocol is an extension of thrift TProtocol with the addition of headers
     """
@@ -85,7 +55,9 @@ class FProtocol(TProtocolDecorator, object):
             wrapped_protocol: wrapped thrift protocol extending TProtocolBase.
         """
         self._wrapped_protocol = wrapped_protocol
-        super(FProtocol, self).__init__(self._wrapped_protocol)
+
+    def __getattr__(self, name):
+        return getattr(self._wrapped_protocol, name)
 
     def get_transport(self):
         """
