@@ -49,12 +49,10 @@ class FHttpServer(FServer):
                 """
                 do_POST implements POST method on a frugal server.
                 """
-                # length = self.headers.getheader('Content-Length')
                 length = self.headers['Content-Length']
                 payload = b64decode(self.rfile.read(int(length)))
-                # response_limit = int(self.headers[
-                    # 'x-frugal-payload-limit'])
-                response_limit = int(self.headers.get('x-frugal-payload-limit', 0))
+                response_limit = int(
+                    self.headers.get('x-frugal-payload-limit', 0))
 
                 if len(payload) <= 4:
                     logging.exception(

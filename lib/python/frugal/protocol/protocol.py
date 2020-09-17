@@ -12,7 +12,6 @@
 import functools
 import sys
 import types
-# from thrift.protocol.TProtocolDecorator import TProtocolDecorator
 from thrift.protocol.TProtocol import TProtocolBase
 from thrift.protocol.TCompactProtocol import CLEAR, TCompactProtocol
 
