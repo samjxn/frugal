@@ -11,7 +11,8 @@ The cross language tests assume that the test environment has:
 - `go` executable exists on the `$PATH` and is v1.12 ??
 - `dart` executable exists on the `$PATH` and is v??
 - `/usr/bin/java` executable exists and is v1.8 or greater
-- `virtualenv` module has been installed for `python2` (`venv` is used for `python3` and comes shipped with it)
+- `virtualenv` module has been installed for `python2`
+- `venv` module has been installed for `python3`
 - The artifactory username in `~/.pip/pip.conf` is not URL encoded (e.g. `ryan.wilson@workiva.com` instead of `ryan.wilson%40workiva.com`... we may need to update a base Docker image to have a later version of pip)
 - You must be on the Workiva Admin VPN to be able to download Dart packages
 - The `frugal` version in `scripts/skynet/cross/setup_java.sh` matches the version in `lib/java/pom.xml` (currently not automated)
