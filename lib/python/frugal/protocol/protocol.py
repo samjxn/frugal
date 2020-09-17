@@ -122,7 +122,6 @@ class FProtocol(object):
         Returns:
             FContext
         """
-
         headers = _Headers._read(self.get_transport())
 
         for key, value in headers.items():
