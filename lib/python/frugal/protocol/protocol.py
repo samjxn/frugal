@@ -11,11 +11,14 @@
 
 import functools
 import sys
-from thrift.protocol.TProtocolDecorator import TProtocolDecorator
+import types
+# from thrift.protocol.TProtocolDecorator import TProtocolDecorator
+from thrift.protocol.TProtocol import TProtocolBase
 from thrift.protocol.TCompactProtocol import CLEAR, TCompactProtocol
 
 from frugal.context import FContext, _OPID_HEADER, _CID_HEADER, _get_next_op_id
 from frugal.util.headers import _Headers
+
 
 _V0 = 0
 
@@ -42,6 +45,34 @@ def _state_reset_decorator(func):
     return wrapper
 
 
+class TProtocolDecorator():
+    def __init__(self, protocol):
+        TProtocolBase(protocol)
+        self.protocol = protocol
+
+    def __getattr__(self, name):
+        if hasattr(self.protocol, name):
+            member = getattr(self.protocol, name)
+            if type(member) in [
+                types.MethodType,
+                types.FunctionType,
+                types.LambdaType,
+                types.BuiltinFunctionType,
+                types.BuiltinMethodType,
+            ]:
+                return lambda *args, **kwargs: self._wrap(member, args, kwargs)
+            else:
+                return member
+        raise AttributeError(name)
+
+    def _wrap(self, func, args, kwargs):
+        if isinstance(func, types.MethodType):
+            result = func(*args, **kwargs)
+        else:
+            result = func(self.protocol, *args, **kwargs)
+        return result
+
+
 class FProtocol(TProtocolDecorator, object):
     """
     FProtocol is an extension of thrift TProtocol with the addition of headers
@@ -59,7 +90,7 @@ class FProtocol(TProtocolDecorator, object):
 
     def get_transport(self):
         """
-        Return the extended TProtocolBase's underlying tranpsort
+        Return the extended TProtocolBase's underlying transport
 
         Returns:
             TTransportBase
@@ -69,7 +100,7 @@ class FProtocol(TProtocolDecorator, object):
     @_state_reset_decorator
     def write_request_headers(self, context):
         """
-        Write the request headers to the underlying TTranpsort.
+        Write the request headers to the underlying TTransport.
         """
 
         self._write_headers(context.get_request_headers())
@@ -120,6 +151,7 @@ class FProtocol(TProtocolDecorator, object):
         Returns:
             FContext
         """
+
         headers = _Headers._read(self.get_transport())
 
         for key, value in headers.items():
