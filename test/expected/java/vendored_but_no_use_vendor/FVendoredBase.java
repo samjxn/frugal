@@ -70,7 +70,7 @@ public class FVendoredBase {
 		private Iface proxy;
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
-			Iface client = new RawClient(provider);
+			Iface client = new InternalClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
@@ -79,8 +79,9 @@ public class FVendoredBase {
 
 	}
 
-	public static class RawClient extends FServiceClient implements Iface {
-		public RawClient(FServiceProvider provider) {
+	@Deprecated
+	public static class InternalClient extends FServiceClient implements Iface {
+		public InternalClient(FServiceProvider provider) {
 			super(provider);
 		}
 	}

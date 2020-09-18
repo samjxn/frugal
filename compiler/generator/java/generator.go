@@ -2699,7 +2699,7 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 	if service.Extends != "" {
 		contents += indent + tabtab + "super(provider, middleware);\n"
 	}
-	contents += indent + tabtab + "Iface client = new RawClient(provider);\n"
+	contents += indent + tabtab + "Iface client = new InternalClient(provider);\n"
 	contents += indent + tabtab + "List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));\n"
 	contents += indent + tabtab + "combined.addAll(provider.getMiddleware());\n"
 	contents += indent + tabtab + "middleware = combined.toArray(new ServiceMiddleware[0]);\n"
@@ -2735,7 +2735,7 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 		}
 	}
 	contents += indent + "}\n\n"
-	contents += g.generateRawClient(service, indent)
+	contents += g.generateInternalClient(service, indent)
 	return contents
 }
 
@@ -2760,16 +2760,17 @@ func (g *Generator) generateAsyncClientMethod(service *parser.Service, method *p
 	return contents
 }
 
-func (g *Generator) generateRawClient(service *parser.Service, indent string) string {
+func (g *Generator) generateInternalClient(service *parser.Service, indent string) string {
 	contents := ""
+	contents += indent + "@Deprecated\n"
 	if service.Extends != "" {
-		contents += indent + fmt.Sprintf("public static class RawClient extends %s.RawClient implements Iface {\n\n",
+		contents += indent + fmt.Sprintf("public static class InternalClient extends %s.InternalClient implements Iface {\n\n",
 			g.getServiceExtendsName(service))
 	} else {
-		contents += indent + "public static class RawClient extends FServiceClient implements Iface {\n"
+		contents += indent + "public static class InternalClient extends FServiceClient implements Iface {\n"
 	}
 
-	contents += indent + tab + "public RawClient(FServiceProvider provider) {\n"
+	contents += indent + tab + "public InternalClient(FServiceProvider provider) {\n"
 	contents += indent + tabtab + "super(provider);\n"
 	contents += indent + tab + "}\n"
 

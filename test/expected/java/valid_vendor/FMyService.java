@@ -73,7 +73,7 @@ public class FMyService {
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
 			super(provider, middleware);
-			Iface client = new RawClient(provider);
+			Iface client = new InternalClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
@@ -86,9 +86,10 @@ public class FMyService {
 
 	}
 
-	public static class RawClient extends some.vendored.pkg.FVendoredBase.RawClient implements Iface {
+	@Deprecated
+	public static class InternalClient extends some.vendored.pkg.FVendoredBase.InternalClient implements Iface {
 
-		public RawClient(FServiceProvider provider) {
+		public InternalClient(FServiceProvider provider) {
 			super(provider);
 		}
 		public some.vendored.pkg.Item getItem(FContext ctx) throws TException, InvalidData {
