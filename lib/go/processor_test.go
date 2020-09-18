@@ -17,6 +17,7 @@ import (
 	"bytes"
 	"errors"
 	"strings"
+	"sync"
 	"testing"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
@@ -261,4 +262,24 @@ func TestFBaseProcessorAnnotations(t *testing.T) {
 	annoMap = processor.Annotations()
 	assert.Equal("baz", annoMap["foo"]["bar"])
 	assert.Equal("boom", annoMap["foo"]["boosh"])
+}
+
+func TestFBaseProcessorFunctionSendError(t *testing.T) {
+	ctx := NewFContext("guid")
+	fn := &FBaseProcessorFunction{writeMu: &sync.Mutex{}}
+	buffer := NewTMemoryOutputBuffer(100)
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(buffer)}
+	assert.EqualError(t, fn.SendError(ctx, proto, 0, "method", "message"), "message")
+	assert.Equal(t, string(buffer.Bytes()[9:]), `[1,"method",3,0,{"1":{"str":"message"},"2":{"i32":0}}]`)
+}
+
+func TestFBaseProcessorFunctionSendReply(t *testing.T) {
+	ctx := NewFContext("guid")
+	fn := &FBaseProcessorFunction{writeMu: &sync.Mutex{}}
+	buffer := NewTMemoryOutputBuffer(100)
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(buffer)}
+	obj := new(mockTStruct)
+	obj.On("Write", mock.Anything).Return(nil)
+	assert.NoError(t, fn.SendReply(ctx, proto, "method", obj))
+	assert.Equal(t, string(buffer.Bytes()[9:]), `[1,"method",2,0]`)
 }
