@@ -15,7 +15,6 @@ The cross language tests assume that the test environment has:
 - `venv` module has been installed for `python3`
 - The artifactory username in `~/.pip/pip.conf` is not URL encoded (e.g. `ryan.wilson@workiva.com` instead of `ryan.wilson%40workiva.com`... we may need to update a base Docker image to have a later version of pip)
 - You must be on the Workiva Admin VPN to be able to download Dart packages
-- The `frugal` version in `scripts/skynet/cross/setup_java.sh` matches the version in `lib/java/pom.xml` (currently not automated)
 
 ## To Run:
 ##### In Skynet:
