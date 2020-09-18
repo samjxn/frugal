@@ -2686,7 +2686,7 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 		contents += indent + fmt.Sprintf("public static class Client extends %s.Client implements Iface {\n\n",
 			g.getServiceExtendsName(service))
 	} else {
-		contents += indent + "public static class Client implements Iface {\n\n"
+		contents += indent + "public static class Client extends FServiceClient implements Iface {\n\n"
 	}
 	if service.Extends == "" {
 		if g.generateAsync() {
@@ -2698,6 +2698,8 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 	contents += indent + tab + "public Client(FServiceProvider provider, ServiceMiddleware... middleware) {\n"
 	if service.Extends != "" {
 		contents += indent + tabtab + "super(provider, middleware);\n"
+	} else {
+		contents += indent + tabtab + "super(provider);\n"
 	}
 	contents += indent + tabtab + "Iface client = new InternalClient(provider);\n"
 	contents += indent + tabtab + "List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));\n"

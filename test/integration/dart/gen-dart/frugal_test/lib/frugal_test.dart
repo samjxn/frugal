@@ -14,4 +14,5 @@ export 'src/f_xception2.dart' show Xception2;
 export 'src/f_numberz.dart' show Numberz, serializeNumberz, deserializeNumberz;
 
 export 'src/f_frugal_test_service.dart' show FFrugalTest, FFrugalTestClient, fFrugalTestClientFactory;
+export 'src/f_sub_service_service.dart' show FSubService, FSubServiceClient, fSubServiceClientFactory;
 export 'src/f_events_scope.dart' show EventsPublisher, EventsSubscriber, eventsPublisherFactory, eventsSubscriberFactory;

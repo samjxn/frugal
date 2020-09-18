@@ -67,11 +67,12 @@ public class FBaseFoo {
 
 	}
 
-	public static class Client implements Iface {
+	public static class Client extends FServiceClient implements Iface {
 
 		private Iface proxy;
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
+			super(provider);
 			Iface client = new InternalClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
