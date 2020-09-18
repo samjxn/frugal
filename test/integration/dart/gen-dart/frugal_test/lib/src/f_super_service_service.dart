@@ -17,26 +17,25 @@ import 'package:w_common/disposable.dart' as disposable;
 import 'package:frugal_test/frugal_test.dart' as t_frugal_test;
 
 
-abstract class FSubService extends t_frugal_test.FFrugalTest {
-  Future testSubClass(frugal.FContext ctx);
+abstract class FSuperService {
+  Future testSuperClass(frugal.FContext ctx);
 }
 
-FSubServiceClient fSubServiceClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
-    FSubServiceClient(provider, middleware);
+FSuperServiceClient fSuperServiceClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
+    FSuperServiceClient(provider, middleware);
 
-class FSubServiceClient extends t_frugal_test.FFrugalTestClient with disposable.Disposable implements FSubService {
-  static final logging.Logger _frugalLog = logging.Logger('SubService');
+class FSuperServiceClient extends disposable.Disposable implements FSuperService {
+  static final logging.Logger _frugalLog = logging.Logger('SuperService');
   Map<String, frugal.FMethod> _methods;
 
-  FSubServiceClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
-      : this._provider = provider,
-        super(provider, middleware) {
+  FSuperServiceClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
+      : this._provider = provider {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
     combined.addAll(provider.middleware);
     this._methods = {};
-    this._methods['testSubClass'] = frugal.FMethod(this._testSubClass, 'SubService', 'testSubClass', combined);
+    this._methods['testSuperClass'] = frugal.FMethod(this._testSuperClass, 'SuperService', 'testSuperClass', combined);
   }
 
   frugal.FServiceProvider _provider;
@@ -52,16 +51,16 @@ class FSubServiceClient extends t_frugal_test.FFrugalTestClient with disposable.
   }
 
   @override
-  Future testSubClass(frugal.FContext ctx) {
-    return this._methods['testSubClass']([ctx]);
+  Future testSuperClass(frugal.FContext ctx) {
+    return this._methods['testSuperClass']([ctx]);
   }
 
-  Future _testSubClass(frugal.FContext ctx) async {
+  Future _testSuperClass(frugal.FContext ctx) async {
     var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(thrift.TMessage('testSubClass', thrift.TMessageType.CALL, 0));
-    testSubClass_args args = testSubClass_args();
+    oprot.writeMessageBegin(thrift.TMessage('testSuperClass', thrift.TMessageType.CALL, 0));
+    testSuperClass_args args = testSuperClass_args();
     args.write(oprot);
     oprot.writeMessageEnd();
     var response = await _transport.request(ctx, memoryBuffer.writeBytes);
@@ -79,15 +78,15 @@ class FSubServiceClient extends t_frugal_test.FFrugalTestClient with disposable.
       throw error;
     }
 
-    testSubClass_result result = testSubClass_result();
+    testSuperClass_result result = testSuperClass_result();
     result.read(iprot);
     iprot.readMessageEnd();
   }
 }
 
 // ignore: camel_case_types
-class testSubClass_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('testSubClass_args');
+class testSuperClass_args implements thrift.TBase {
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('testSuperClass_args');
 
 
 
@@ -145,7 +144,7 @@ class testSubClass_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = StringBuffer('testSubClass_args(');
+    StringBuffer ret = StringBuffer('testSuperClass_args(');
 
     ret.write(')');
 
@@ -154,7 +153,7 @@ class testSubClass_args implements thrift.TBase {
 
   @override
   bool operator ==(Object o) {
-    return o is testSubClass_args;
+    return o is testSuperClass_args;
   }
 
   @override
@@ -163,16 +162,16 @@ class testSubClass_args implements thrift.TBase {
     return value;
   }
 
-  testSubClass_args clone() {
-    return testSubClass_args();
+  testSuperClass_args clone() {
+    return testSuperClass_args();
   }
 
   validate() {
   }
 }
 // ignore: camel_case_types
-class testSubClass_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('testSubClass_result');
+class testSuperClass_result implements thrift.TBase {
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('testSuperClass_result');
 
 
 
@@ -230,7 +229,7 @@ class testSubClass_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = StringBuffer('testSubClass_result(');
+    StringBuffer ret = StringBuffer('testSuperClass_result(');
 
     ret.write(')');
 
@@ -239,7 +238,7 @@ class testSubClass_result implements thrift.TBase {
 
   @override
   bool operator ==(Object o) {
-    return o is testSubClass_result;
+    return o is testSuperClass_result;
   }
 
   @override
@@ -248,8 +247,8 @@ class testSubClass_result implements thrift.TBase {
     return value;
   }
 
-  testSubClass_result clone() {
-    return testSubClass_result();
+  testSuperClass_result clone() {
+    return testSuperClass_result();
   }
 
   validate() {

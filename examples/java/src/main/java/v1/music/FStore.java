@@ -85,7 +85,7 @@ public class FStore {
 		private Iface proxy;
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
-			Iface client = new InternalClient(provider);
+			Iface client = new RawClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
@@ -104,8 +104,8 @@ public class FStore {
 
 	}
 
-	private static class InternalClient extends FServiceClient implements Iface {
-		public InternalClient(FServiceProvider provider) {
+	public static class RawClient extends FServiceClient implements Iface {
+		public RawClient(FServiceProvider provider) {
 			super(provider);
 		}
 		public Album buyAlbum(FContext ctx, String ASIN, String acct) throws TException, PurchasingError {

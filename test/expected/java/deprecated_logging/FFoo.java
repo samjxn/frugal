@@ -110,7 +110,7 @@ public class FFoo {
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
 			super(provider, middleware);
-			Iface client = new InternalClient(provider);
+			Iface client = new RawClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
@@ -177,9 +177,9 @@ public class FFoo {
 
 	}
 
-	private static class InternalClient extends actual_base.java.FBaseFoo.Client implements Iface {
+	public static class RawClient extends actual_base.java.FBaseFoo.RawClient implements Iface {
 
-		public InternalClient(FServiceProvider provider) {
+		public RawClient(FServiceProvider provider) {
 			super(provider);
 		}
 		/**

@@ -73,7 +73,7 @@ public class FMyService {
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
 			super(provider, middleware);
-			Iface client = new InternalClient(provider);
+			Iface client = new RawClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
@@ -86,9 +86,9 @@ public class FMyService {
 
 	}
 
-	private static class InternalClient extends vendor_namespace.java.FVendoredBase.Client implements Iface {
+	public static class RawClient extends vendor_namespace.java.FVendoredBase.RawClient implements Iface {
 
-		public InternalClient(FServiceProvider provider) {
+		public RawClient(FServiceProvider provider) {
 			super(provider);
 		}
 		public vendor_namespace.java.Item getItem(FContext ctx) throws TException, InvalidData {

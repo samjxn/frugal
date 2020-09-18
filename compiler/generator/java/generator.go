@@ -2686,7 +2686,7 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 		contents += indent + fmt.Sprintf("public static class Client extends %s.Client implements Iface {\n\n",
 			g.getServiceExtendsName(service))
 	} else {
-		contents += indent + "public static class Client extends FServiceClient implements Iface {\n\n"
+		contents += indent + "public static class Client implements Iface {\n\n"
 	}
 	if service.Extends == "" {
 		if g.generateAsync() {
@@ -2698,10 +2698,8 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 	contents += indent + tab + "public Client(FServiceProvider provider, ServiceMiddleware... middleware) {\n"
 	if service.Extends != "" {
 		contents += indent + tabtab + "super(provider, middleware);\n"
-	} else {
-		contents += indent + tabtab + "super(provider);\n"
 	}
-	contents += indent + tabtab + "Iface client = new InternalClient(provider);\n"
+	contents += indent + tabtab + "Iface client = new RawClient(provider);\n"
 	contents += indent + tabtab + "List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));\n"
 	contents += indent + tabtab + "combined.addAll(provider.getMiddleware());\n"
 	contents += indent + tabtab + "middleware = combined.toArray(new ServiceMiddleware[0]);\n"
@@ -2737,7 +2735,7 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 		}
 	}
 	contents += indent + "}\n\n"
-	contents += g.generateInternalClient(service, indent)
+	contents += g.generateRawClient(service, indent)
 	return contents
 }
 
@@ -2762,16 +2760,16 @@ func (g *Generator) generateAsyncClientMethod(service *parser.Service, method *p
 	return contents
 }
 
-func (g *Generator) generateInternalClient(service *parser.Service, indent string) string {
+func (g *Generator) generateRawClient(service *parser.Service, indent string) string {
 	contents := ""
 	if service.Extends != "" {
-		contents += indent + fmt.Sprintf("private static class InternalClient extends %s.Client implements Iface {\n\n",
+		contents += indent + fmt.Sprintf("public static class RawClient extends %s.RawClient implements Iface {\n\n",
 			g.getServiceExtendsName(service))
 	} else {
-		contents += indent + "private static class InternalClient extends FServiceClient implements Iface {\n"
+		contents += indent + "public static class RawClient extends FServiceClient implements Iface {\n"
 	}
 
-	contents += indent + tab + "public InternalClient(FServiceProvider provider) {\n"
+	contents += indent + tab + "public RawClient(FServiceProvider provider) {\n"
 	contents += indent + tabtab + "super(provider);\n"
 	contents += indent + tab + "}\n"
 
