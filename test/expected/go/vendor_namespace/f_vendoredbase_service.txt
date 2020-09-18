@@ -22,21 +22,21 @@ type FVendoredBase interface {
 }
 
 type FVendoredBaseClient struct {
-	transport       frugal.FTransport
-	protocolFactory *frugal.FProtocolFactory
-	methods         map[string]*frugal.Method
+	c       frugal.FClient
+	methods map[string]*frugal.Method
 }
 
 func NewFVendoredBaseClient(provider *frugal.FServiceProvider, middleware ...frugal.ServiceMiddleware) *FVendoredBaseClient {
 	methods := make(map[string]*frugal.Method)
 	client := &FVendoredBaseClient{
-		transport:       provider.GetTransport(),
-		protocolFactory: provider.GetProtocolFactory(),
-		methods:         methods,
+		c:       frugal.NewFStandardClient(provider),
+		methods: methods,
 	}
 	middleware = append(middleware, provider.GetMiddleware()...)
 	return client
 }
+
+func (f *FVendoredBaseClient) Client_() frugal.FClient { return f.c }
 
 type FVendoredBaseProcessor struct {
 	*frugal.FBaseProcessor
@@ -45,14 +45,4 @@ type FVendoredBaseProcessor struct {
 func NewFVendoredBaseProcessor(handler FVendoredBase, middleware ...frugal.ServiceMiddleware) *FVendoredBaseProcessor {
 	p := &FVendoredBaseProcessor{frugal.NewFBaseProcessor()}
 	return p
-}
-
-func vendoredbaseWriteApplicationError(ctx frugal.FContext, oprot *frugal.FProtocol, type_ int32, method, message string) error {
-	x := thrift.NewTApplicationException(type_, message)
-	oprot.WriteResponseHeader(ctx)
-	oprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)
-	x.Write(oprot)
-	oprot.WriteMessageEnd()
-	oprot.Flush()
-	return x
 }
