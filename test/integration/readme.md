@@ -13,7 +13,7 @@ The cross language tests assume that the test environment has:
 - `/usr/bin/java` executable exists and is v1.8 or greater
 - `virtualenv` module has been installed for `python2`
 - `venv` module has been installed for `python3`
-- The artifactory username in `~/.pip/pip.conf` is not URL encoded (e.g. `ryan.wilson@workiva.com` instead of `ryan.wilson%40workiva.com`... we may need to update a base Docker image to have a later version of pip)
+- The artifactory username in `~/.pip/pip.conf` is not URL encoded (e.g. `john.doe@workiva.com` instead of `john.doe%40workiva.com`... we may need to update a base Docker image to have a later version of pip)
 - You must be on the Workiva Admin VPN to be able to download Dart packages
 
 ## To Run:
