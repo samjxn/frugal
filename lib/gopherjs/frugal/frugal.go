@@ -21,8 +21,8 @@ import (
 	"sync"
 	"sync/atomic"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/nats-io/nuid"
+	"github.com/sirupsen/logrus"
 )
 
 var (

@@ -16,14 +16,13 @@ package common
 import (
 	"flag"
 	"fmt"
+	"net/http"
 	"time"
 
-	"net/http"
-
-	log "github.com/Sirupsen/logrus"
-
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/lib/go"
+	log "github.com/sirupsen/logrus"
+
+	frugal "github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
 
