@@ -16,12 +16,11 @@ package frugal
 import (
 	"fmt"
 	"strconv"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/mattrobenolt/gocql/uuid"
+	"github.com/nats-io/nuid"
 )
 
 const (
@@ -124,8 +123,8 @@ func Clone(ctx FContext) FContext {
 	}
 
 	clone := &FContextImpl{
-		requestHeaders:  ctx.RequestHeaders(),
-		responseHeaders: ctx.ResponseHeaders(),
+		requestHeaders:      ctx.RequestHeaders(),
+		responseHeaders:     ctx.ResponseHeaders(),
 		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 
@@ -161,7 +160,7 @@ func NewFContext(correlationID string) FContext {
 			opIDHeader:    getNextOpID(),
 			timeoutHeader: strconv.FormatInt(int64(defaultTimeout/time.Millisecond), 10),
 		},
-		responseHeaders: make(map[string]string),
+		responseHeaders:     make(map[string]string),
 		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 
@@ -258,8 +257,8 @@ func (c *FContextImpl) Timeout() time.Duration {
 // handling opids correctly.
 func (c *FContextImpl) Clone() FContextWithEphemeralProperties {
 	cloned := &FContextImpl{
-		requestHeaders: c.RequestHeaders(),
-		responseHeaders: c.ResponseHeaders(),
+		requestHeaders:      c.RequestHeaders(),
+		responseHeaders:     c.ResponseHeaders(),
 		ephemeralProperties: c.EphemeralProperties(),
 	}
 	cloned.requestHeaders[opIDHeader] = getNextOpID()
@@ -323,5 +322,5 @@ func setResponseOpID(ctx FContext, id string) {
 // generateCorrelationID returns a random string id. It's assigned to a var for
 // testability purposes.
 var generateCorrelationID = func() string {
-	return strings.Replace(uuid.RandomUUID().String(), "-", "", -1)
+	return nuid.Next()
 }
