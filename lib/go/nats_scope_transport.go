@@ -20,7 +20,7 @@ import (
 	"time"
 
 	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/nats-io/go-nats"
+	"github.com/nats-io/nats.go"
 )
 
 // frameBufferSize is the number of message frames to buffer on the subscriber.
