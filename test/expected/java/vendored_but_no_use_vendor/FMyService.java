@@ -61,9 +61,10 @@ public class FMyService {
 
 	private static final Logger logger = LoggerFactory.getLogger(FMyService.class);
 
-	public interface Iface extends vendor_namespace.java.FVendoredBase.Iface, Service {}
+	public interface Iface extends vendor_namespace.java.FVendoredBase.Iface, InternalIface {}
 
-	public interface Service {
+	/** For internal use only. Contains only the methods defined directly by the service. */
+	public interface InternalIface {
 
 		public vendor_namespace.java.Item getItem(FContext ctx) throws TException, InvalidData;
 
@@ -71,15 +72,15 @@ public class FMyService {
 
 	public static class Client extends vendor_namespace.java.FVendoredBase.Client implements Iface {
 
-		private Service proxy;
+		private InternalIface proxy;
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
 			super(provider, middleware);
-			Service client = new InternalClient(provider);
+			InternalIface client = new InternalClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
-			proxy = InvocationHandler.composeMiddleware(client, Service.class, middleware);
+			proxy = InvocationHandler.composeMiddleware(client, InternalIface.class, middleware);
 		}
 
 		public vendor_namespace.java.Item getItem(FContext ctx) throws TException, InvalidData {
@@ -88,7 +89,7 @@ public class FMyService {
 
 	}
 
-	private static class InternalClient extends FServiceClient implements Service {
+	private static class InternalClient extends FServiceClient implements InternalIface {
 		public InternalClient(FServiceProvider provider) {
 			super(provider);
 		}

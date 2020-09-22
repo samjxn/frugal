@@ -68,9 +68,10 @@ public class FStore {
 	 * Services are the API for client and server interaction.
 	 * Users can buy an album or enter a giveaway for a free album.
 	 */
-	public interface Iface extends Service {}
+	public interface Iface extends InternalIface {}
 
-	public interface Service {
+	/** For internal use only. Contains only the methods defined directly by the service. */
+	public interface InternalIface {
 
 		public Album buyAlbum(FContext ctx, String ASIN, String acct) throws TException, PurchasingError;
 
@@ -84,14 +85,14 @@ public class FStore {
 
 	public static class Client implements Iface {
 
-		private Service proxy;
+		private InternalIface proxy;
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
-			Service client = new InternalClient(provider);
+			InternalIface client = new InternalClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
-			proxy = InvocationHandler.composeMiddleware(client, Service.class, middleware);
+			proxy = InvocationHandler.composeMiddleware(client, InternalIface.class, middleware);
 		}
 
 		public Album buyAlbum(FContext ctx, String ASIN, String acct) throws TException, PurchasingError {
@@ -106,7 +107,7 @@ public class FStore {
 
 	}
 
-	private static class InternalClient extends FServiceClient implements Service {
+	private static class InternalClient extends FServiceClient implements InternalIface {
 		public InternalClient(FServiceProvider provider) {
 			super(provider);
 		}
