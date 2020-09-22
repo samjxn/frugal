@@ -61,7 +61,9 @@ public class FBaseFoo {
 
 	private static final Logger logger = LoggerFactory.getLogger(FBaseFoo.class);
 
-	public interface Iface {
+	public interface Iface extends Service {}
+
+	public interface Service {
 
 		public void basePing(FContext ctx) throws TException;
 
@@ -69,14 +71,14 @@ public class FBaseFoo {
 
 	public static class Client implements Iface {
 
-		private Iface proxy;
+		private Service proxy;
 
 		public Client(FServiceProvider provider, ServiceMiddleware... middleware) {
-			Iface client = new InternalClient(provider);
+			Service client = new InternalClient(provider);
 			List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));
 			combined.addAll(provider.getMiddleware());
 			middleware = combined.toArray(new ServiceMiddleware[0]);
-			proxy = InvocationHandler.composeMiddleware(client, Iface.class, middleware);
+			proxy = InvocationHandler.composeMiddleware(client, Service.class, middleware);
 		}
 
 		public void basePing(FContext ctx) throws TException {
@@ -85,8 +87,7 @@ public class FBaseFoo {
 
 	}
 
-	@Deprecated
-	public static class InternalClient extends FServiceClient implements Iface {
+	private static class InternalClient extends FServiceClient implements Service {
 		public InternalClient(FServiceProvider provider) {
 			super(provider);
 		}

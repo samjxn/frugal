@@ -2622,11 +2622,13 @@ func (g *Generator) generateServiceInterface(service *parser.Service, indent str
 		contents += g.GenerateBlockComment(service.Comment, indent)
 	}
 	if service.Extends != "" {
-		contents += indent + fmt.Sprintf("public interface Iface extends %s.Iface {\n\n",
+		contents += indent + fmt.Sprintf("public interface Iface extends %s.Iface, Service {}\n\n",
 			g.getServiceExtendsName(service))
 	} else {
-		contents += indent + "public interface Iface {\n\n"
+		contents += indent + "public interface Iface extends Service {}\n\n"
 	}
+
+	contents += indent + "public interface Service {\n\n"
 	for _, method := range service.Methods {
 		contents += g.generateCommentWithDeprecated(method.Comment, indent+tab, method.Annotations)
 		contents += indent + tab + fmt.Sprintf("public %s %s(FContext ctx%s) %s;\n\n",
@@ -2693,17 +2695,17 @@ func (g *Generator) generateClient(service *parser.Service, indent string) strin
 			contents += indent + tab + "protected ExecutorService asyncExecutor = Executors.newFixedThreadPool(2);\n"
 		}
 	}
-	contents += indent + tab + "private Iface proxy;\n\n"
+	contents += indent + tab + "private Service proxy;\n\n"
 
 	contents += indent + tab + "public Client(FServiceProvider provider, ServiceMiddleware... middleware) {\n"
 	if service.Extends != "" {
-		contents += indent + tabtab + "super(provider, middleware);\n"
+		contents += indent + tabtab + "super(provider, middleware);\n";
 	}
-	contents += indent + tabtab + "Iface client = new InternalClient(provider);\n"
+	contents += indent + tabtab + "Service client = new InternalClient(provider);\n"
 	contents += indent + tabtab + "List<ServiceMiddleware> combined = new ArrayList<ServiceMiddleware>(Arrays.asList(middleware));\n"
 	contents += indent + tabtab + "combined.addAll(provider.getMiddleware());\n"
 	contents += indent + tabtab + "middleware = combined.toArray(new ServiceMiddleware[0]);\n"
-	contents += indent + tabtab + "proxy = InvocationHandler.composeMiddleware(client, Iface.class, middleware);\n"
+	contents += indent + tabtab + "proxy = InvocationHandler.composeMiddleware(client, Service.class, middleware);\n"
 	contents += indent + tab + "}\n\n"
 
 	for _, method := range service.Methods {
@@ -2762,14 +2764,7 @@ func (g *Generator) generateAsyncClientMethod(service *parser.Service, method *p
 
 func (g *Generator) generateInternalClient(service *parser.Service, indent string) string {
 	contents := ""
-	contents += indent + "@Deprecated\n"
-	if service.Extends != "" {
-		contents += indent + fmt.Sprintf("public static class InternalClient extends %s.InternalClient implements Iface {\n\n",
-			g.getServiceExtendsName(service))
-	} else {
-		contents += indent + "public static class InternalClient extends FServiceClient implements Iface {\n"
-	}
-
+	contents += indent + "private static class InternalClient extends FServiceClient implements Service {\n"
 	contents += indent + tab + "public InternalClient(FServiceProvider provider) {\n"
 	contents += indent + tabtab + "super(provider);\n"
 	contents += indent + tab + "}\n"
