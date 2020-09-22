@@ -210,4 +210,9 @@ public class FrugalTestHandler implements FFrugalTest.Iface {
         @Override
         public void testOneway(FContext ctx, int secondsToSleep) throws TException {
         }
+
+        @Override
+        public void testSuperClass(FContext ctx) throws TException {
+        }
+
 }
