@@ -245,3 +245,8 @@ func (p *printingHandler) TestOneway(ctx frugal.FContext, msToSleep int32) (err 
 	time.Sleep(time.Millisecond * time.Duration(msToSleep))
 	return
 }
+
+// TestSuperClass is inherited from a super service
+func (p *printingHandler) TestSuperClass(ctx frugal.FContext) (err error) {
+	return nil
+}
