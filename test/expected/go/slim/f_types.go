@@ -7,9 +7,9 @@ import (
 	"bytes"
 	"fmt"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/out/actual_base/golang"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 const RedefConst = golang.ConstI32FromBase

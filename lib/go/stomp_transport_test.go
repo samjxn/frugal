@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/go-stomp/stomp"
 	"github.com/go-stomp/stomp/server"
 	"github.com/stretchr/testify/assert"

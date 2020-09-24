@@ -17,7 +17,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 // TMemoryOutputBuffer implements TTransport using a bounded memory buffer.

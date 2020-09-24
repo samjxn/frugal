@@ -1105,7 +1105,7 @@ func (g *Generator) GenerateTypesImports(file *os.File) error {
 	if g.Options[thriftImportOption] != "" {
 		contents += "\t\"" + g.Options[thriftImportOption] + "\"\n"
 	} else {
-		contents += "\t\"git.apache.org/thrift.git/lib/go/thrift\"\n"
+		contents += "\t\"github.com/apache/thrift/lib/go/thrift\"\n"
 	}
 	if g.Options[frugalImportOption] != "" {
 		contents += "\t\"" + g.Options[frugalImportOption] + "\"\n"
@@ -1148,7 +1148,7 @@ func (g *Generator) GenerateServiceResultArgsImports(file *os.File) error {
 	if g.Options[thriftImportOption] != "" {
 		contents += "\t\"" + g.Options[thriftImportOption] + "\"\n"
 	} else {
-		contents += "\t\"git.apache.org/thrift.git/lib/go/thrift\"\n"
+		contents += "\t\"github.com/apache/thrift/lib/go/thrift\"\n"
 	}
 
 	protections := ""
@@ -1189,7 +1189,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	if g.Options[thriftImportOption] != "" {
 		imports += "\t\"" + g.Options[thriftImportOption] + "\"\n"
 	} else {
-		imports += "\t\"git.apache.org/thrift.git/lib/go/thrift\"\n"
+		imports += "\t\"github.com/apache/thrift/lib/go/thrift\"\n"
 	}
 	if g.Options[frugalImportOption] != "" {
 		imports += "\t\"" + g.Options[frugalImportOption] + "\"\n"
@@ -1233,7 +1233,7 @@ func (g *Generator) GenerateScopeImports(file *os.File, s *parser.Scope) error {
 	if g.Options[thriftImportOption] != "" {
 		imports += "\t\"" + g.Options[thriftImportOption] + "\"\n"
 	} else {
-		imports += "\t\"git.apache.org/thrift.git/lib/go/thrift\"\n"
+		imports += "\t\"github.com/apache/thrift/lib/go/thrift\"\n"
 	}
 	if g.Options[frugalImportOption] != "" {
 		imports += "\t\"" + g.Options[frugalImportOption] + "\"\n"

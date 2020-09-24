@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/nats-io/nats.go"
 )
 
