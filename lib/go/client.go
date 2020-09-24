@@ -1,6 +1,10 @@
 package frugal
 
-import "git.apache.org/thrift.git/lib/go/thrift"
+import (
+	"context"
+
+	"git.apache.org/thrift.git/lib/go/thrift"
+)
 
 var _ FClient = (*FStandardClient)(nil)
 
@@ -98,7 +102,7 @@ func (client FStandardClient) prepareMessage(ctx FContext, method string, args t
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return nil, err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(context.TODO()); err != nil {
 		return nil, err
 	}
 	return buffer.Bytes(), nil
@@ -118,18 +122,17 @@ func (client FStandardClient) processReply(ctx FContext, method string, result t
 	}
 	if mTypeID == thrift.EXCEPTION {
 		error0 := thrift.NewTApplicationException(APPLICATION_EXCEPTION_UNKNOWN, "Unknown Exception")
-		var error1 thrift.TApplicationException
-		error1, err = error0.Read(iprot)
+		err = error0.Read(iprot)
 		if err != nil {
 			return err
 		}
 		if err = iprot.ReadMessageEnd(); err != nil {
 			return err
 		}
-		if error1.TypeId() == APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE {
-			return thrift.NewTTransportException(TRANSPORT_EXCEPTION_RESPONSE_TOO_LARGE, error1.Error())
+		if error0.TypeId() == APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE {
+			return thrift.NewTTransportException(TRANSPORT_EXCEPTION_RESPONSE_TOO_LARGE, error0.Error())
 		}
-		return error1
+		return error0
 	}
 	if mTypeID != thrift.REPLY {
 		return thrift.NewTApplicationException(APPLICATION_EXCEPTION_INVALID_MESSAGE_TYPE, method+" failed: invalid message type")

@@ -15,6 +15,7 @@ package frugal
 
 import (
 	"bytes"
+	"context"
 	"io"
 	"sync"
 	"time"
@@ -225,7 +226,7 @@ func (f *fAdapterTransport) send(payload []byte, errorC chan error, oneway bool)
 		errorC <- err
 		return
 	}
-	if err := f.transport.Flush(); err != nil {
+	if err := f.transport.Flush(context.TODO()); err != nil {
 		errorC <- err
 		return
 	}

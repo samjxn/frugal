@@ -91,7 +91,7 @@ func TestFClientPublish(t *testing.T) {
 	mockTProtocolFactory.On("GetProtocol", mock.Anything).Return(proto)
 	mockTransport.On("Write", mock.Anything).Return(55, nil)
 	obj.On("Write", mock.Anything).Return(nil)
-	mockTransport.On("Flush").Return(nil)
+	mockTransport.On("Flush", mock.Anything).Return(nil)
 	publisher.On("Publish", "topic", []byte{0, 0, 0, 0}).Return(nil)
 
 	assert.NoError(t, client.Publish(ctx, "op", "topic", obj))
@@ -118,7 +118,7 @@ func TestFClientOneway(t *testing.T) {
 	mockTProtocolFactory.On("GetProtocol", mock.Anything).Return(proto)
 	mockTransport.On("Write", mock.Anything).Return(55, nil)
 	obj.On("Write", mock.Anything).Return(nil)
-	mockTransport.On("Flush").Return(nil)
+	mockTransport.On("Flush", mock.Anything).Return(nil)
 	transport.On("Oneway").Return(nil)
 
 	assert.NoError(t, client.Oneway(ctx, "method", obj))
@@ -147,7 +147,7 @@ func TestFClientCall(t *testing.T) {
 	mockTProtocolFactory.On("GetProtocol", mock.Anything).Return(proto)
 	mockTransport.On("Write", mock.Anything).Return(55, nil)
 	args.On("Write", mock.Anything).Return(nil)
-	mockTransport.On("Flush").Return(nil)
+	mockTransport.On("Flush", mock.Anything).Return(nil)
 	transport.On("Request").Return(resultTransport, nil)
 	calls := 0
 	output := append([]byte{0, 0, 0, 0, 0}, []byte(`[1, "method", 2, 0]`)...)

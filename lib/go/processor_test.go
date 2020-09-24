@@ -150,7 +150,7 @@ func TestFBaseProcessorNoProcessorFunction(t *testing.T) {
 		125, 125, 93,
 	}
 	mockTransport.On("Write", responseBody).Return(len(responseBody), nil).Once()
-	mockTransport.On("Flush").Return(nil)
+	mockTransport.On("Flush", mock.Anything).Return(nil)
 	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
@@ -232,7 +232,7 @@ func TestFBaseProcessorNoProcessorFunctionFlushError(t *testing.T) {
 		125, 125, 93,
 	}
 	mockTransport.On("Write", responseBody).Return(len(responseBody), nil).Once()
-	mockTransport.On("Flush").Return(errors.New("error"))
+	mockTransport.On("Flush", mock.Anything).Return(errors.New("error"))
 	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
