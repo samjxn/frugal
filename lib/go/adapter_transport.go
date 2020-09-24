@@ -187,7 +187,10 @@ func (f *fAdapterTransport) close(cause error) error {
 // present on the context.
 func (f *fAdapterTransport) Oneway(ctx FContext, payload []byte) error {
 	errorC := make(chan error, 1)
-	go f.send(payload, errorC, true)
+	c, done := toCTX(ctx)
+	defer done()
+
+	go f.send(c, payload, errorC, true)
 
 	select {
 	case err := <-errorC:
@@ -207,7 +210,10 @@ func (f *fAdapterTransport) Request(ctx FContext, payload []byte) (thrift.TTrans
 	f.registry.Register(ctx, resultC)
 	defer f.registry.Unregister(ctx)
 
-	go f.send(payload, errorC, false)
+	c, done := toCTX(ctx)
+	defer done()
+
+	go f.send(c, payload, errorC, false)
 
 	select {
 	case result := <-resultC:
@@ -219,14 +225,14 @@ func (f *fAdapterTransport) Request(ctx FContext, payload []byte) (thrift.TTrans
 	}
 }
 
-func (f *fAdapterTransport) send(payload []byte, errorC chan error, oneway bool) {
+func (f *fAdapterTransport) send(ctx context.Context, payload []byte, errorC chan error, oneway bool) {
 	// TODO: does this need to be called in a goroutine?
 	// i.e. can Write() and Flush() block?
 	if _, err := f.transport.Write(payload); err != nil {
 		errorC <- err
 		return
 	}
-	if err := f.transport.Flush(context.TODO()); err != nil {
+	if err := f.transport.Flush(ctx); err != nil {
 		errorC <- err
 		return
 	}

@@ -1,10 +1,6 @@
 package frugal
 
-import (
-	"context"
-
-	"git.apache.org/thrift.git/lib/go/thrift"
-)
+import "git.apache.org/thrift.git/lib/go/thrift"
 
 var _ FClient = (*FStandardClient)(nil)
 
@@ -102,7 +98,9 @@ func (client FStandardClient) prepareMessage(ctx FContext, method string, args t
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return nil, err
 	}
-	if err := oprot.Flush(context.TODO()); err != nil {
+	c, done := toCTX(ctx)
+	defer done()
+	if err := oprot.Flush(c); err != nil {
 		return nil, err
 	}
 	return buffer.Bytes(), nil
