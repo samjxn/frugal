@@ -19,7 +19,7 @@ import (
 	"net/http"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	log "github.com/sirupsen/logrus"
 
 	frugal "github.com/Workiva/frugal/lib/go"

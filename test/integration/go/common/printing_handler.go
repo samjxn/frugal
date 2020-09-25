@@ -19,7 +19,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	frugal "github.com/Workiva/frugal/lib/go"
 	. "github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )

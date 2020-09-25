@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/rs/cors"
 
 	"github.com/Workiva/frugal/examples/go/gen-go/v1/music"
