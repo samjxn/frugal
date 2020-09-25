@@ -98,9 +98,7 @@ func (client FStandardClient) prepareMessage(ctx FContext, method string, args t
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return nil, err
 	}
-	c, done := toCTX(ctx)
-	defer done()
-	if err := oprot.Flush(c); err != nil {
+	if err := oprot.Flush(toCTX(ctx)); err != nil {
 		return nil, err
 	}
 	return buffer.Bytes(), nil

@@ -327,9 +327,19 @@ var generateCorrelationID = func() string {
 	return strings.Replace(uuid.RandomUUID().String(), "-", "", -1)
 }
 
-func toCTX(fctx FContext) (context.Context, context.CancelFunc) {
+func toCTX(fctx FContext) context.Context {
 	if ctx, ok := fctx.(context.Context); ok {
-		return ctx, func() {}
+		return ctx
 	}
-	return context.WithTimeout(context.Background(), fctx.Timeout())
+	return timeoutCtx{
+		Context:  context.Background(),
+		deadline: time.Now().Add(fctx.Timeout()), // borrowed form https://golang.org/pkg/context/#WithTimeout
+	}
 }
+
+type timeoutCtx struct {
+	context.Context
+	deadline time.Time
+}
+
+func (ctx timeoutCtx) Deadline() (time.Time, bool) { return ctx.deadline, true }

@@ -187,10 +187,7 @@ func (f *fAdapterTransport) close(cause error) error {
 // present on the context.
 func (f *fAdapterTransport) Oneway(ctx FContext, payload []byte) error {
 	errorC := make(chan error, 1)
-	c, done := toCTX(ctx)
-	defer done()
-
-	go f.send(c, payload, errorC, true)
+	go f.send(toCTX(ctx), payload, errorC, true)
 
 	select {
 	case err := <-errorC:
@@ -210,10 +207,7 @@ func (f *fAdapterTransport) Request(ctx FContext, payload []byte) (thrift.TTrans
 	f.registry.Register(ctx, resultC)
 	defer f.registry.Unregister(ctx)
 
-	c, done := toCTX(ctx)
-	defer done()
-
-	go f.send(c, payload, errorC, false)
+	go f.send(toCTX(ctx), payload, errorC, false)
 
 	select {
 	case result := <-resultC:
