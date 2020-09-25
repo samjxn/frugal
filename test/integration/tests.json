@@ -53,12 +53,12 @@
       "transports": [ "nats", "http" ]
     },
     "publisher": {
-      "timeout": 20,
+      "timeout": 30,
       "command": [ "/usr/bin/java", "-Djava.security.egd=file:///dev/urandom", "-cp", "cross.jar", "com.workiva.TestPublisher" ],
       "transports": ["activemq"]
     },
     "subscriber": {
-      "timeout": 20,
+      "timeout": 30,
       "command": [ "/usr/bin/java", "-Djava.security.egd=file:///dev/urandom", "-cp", "cross.jar", "com.workiva.TestSubscriber" ],
       "transports": ["activemq"]
     },

@@ -1,5 +1,10 @@
 FROM drydock-prod.workiva.net/workiva/messaging-docker-images:0.1.2 as build
 
+RUN yum update -y && \
+    yum upgrade -y && \
+    yum clean all && \
+    rm -rf /var/cache/yum
+
 ARG GIT_BRANCH
 ARG GIT_MERGE_BRANCH
 ARG GIT_SSH_KEY
@@ -14,11 +19,6 @@ RUN mkdir /root/.ssh && \
     eval "$(ssh-agent -s)" && ssh-add /root/.ssh/id_rsa
 
 ARG BUILD_ID
-RUN yum update -y && \
-    yum upgrade -y && \
-    yum clean all && \
-    rm -rf /var/cache/yum
-
 ARG GOPATH=/go/
 ENV PATH $GOPATH/bin:$PATH
 RUN git config --global url.git@github.com:.insteadOf https://github.com

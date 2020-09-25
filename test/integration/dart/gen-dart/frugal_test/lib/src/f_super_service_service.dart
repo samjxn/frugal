@@ -14,28 +14,28 @@ import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
 import 'package:w_common/disposable.dart' as disposable;
 
-import 'package:actual_base_dart/actual_base_dart.dart' as t_actual_base_dart;
+import 'package:frugal_test/frugal_test.dart' as t_frugal_test;
 
 
-abstract class FBaseFoo {
-  Future basePing(frugal.FContext ctx);
+abstract class FSuperService {
+  Future testSuperClass(frugal.FContext ctx);
 }
 
-FBaseFooClient fBaseFooClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
-    FBaseFooClient(provider, middleware);
+FSuperServiceClient fSuperServiceClientFactory(frugal.FServiceProvider provider, {List<frugal.Middleware> middleware}) =>
+    FSuperServiceClient(provider, middleware);
 
-class FBaseFooClient extends disposable.Disposable implements FBaseFoo {
-  static final logging.Logger _frugalLog = logging.Logger('BaseFoo');
+class FSuperServiceClient extends disposable.Disposable implements FSuperService {
+  static final logging.Logger _frugalLog = logging.Logger('SuperService');
   Map<String, frugal.FMethod> _methods;
 
-  FBaseFooClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
+  FSuperServiceClient(frugal.FServiceProvider provider, [List<frugal.Middleware> middleware])
       : this._provider = provider {
     _transport = provider.transport;
     _protocolFactory = provider.protocolFactory;
     var combined = middleware ?? [];
     combined.addAll(provider.middleware);
     this._methods = {};
-    this._methods['basePing'] = frugal.FMethod(this._basePing, 'BaseFoo', 'basePing', combined);
+    this._methods['testSuperClass'] = frugal.FMethod(this._testSuperClass, 'SuperService', 'testSuperClass', combined);
   }
 
   frugal.FServiceProvider _provider;
@@ -51,16 +51,16 @@ class FBaseFooClient extends disposable.Disposable implements FBaseFoo {
   }
 
   @override
-  Future basePing(frugal.FContext ctx) {
-    return this._methods['basePing']([ctx]);
+  Future testSuperClass(frugal.FContext ctx) {
+    return this._methods['testSuperClass']([ctx]);
   }
 
-  Future _basePing(frugal.FContext ctx) async {
+  Future _testSuperClass(frugal.FContext ctx) async {
     var memoryBuffer = frugal.TMemoryOutputBuffer(_transport.requestSizeLimit);
     var oprot = _protocolFactory.getProtocol(memoryBuffer);
     oprot.writeRequestHeader(ctx);
-    oprot.writeMessageBegin(thrift.TMessage('basePing', thrift.TMessageType.CALL, 0));
-    basePing_args args = basePing_args();
+    oprot.writeMessageBegin(thrift.TMessage('testSuperClass', thrift.TMessageType.CALL, 0));
+    testSuperClass_args args = testSuperClass_args();
     args.write(oprot);
     oprot.writeMessageEnd();
     var response = await _transport.request(ctx, memoryBuffer.writeBytes);
@@ -78,15 +78,15 @@ class FBaseFooClient extends disposable.Disposable implements FBaseFoo {
       throw error;
     }
 
-    basePing_result result = basePing_result();
+    testSuperClass_result result = testSuperClass_result();
     result.read(iprot);
     iprot.readMessageEnd();
   }
 }
 
 // ignore: camel_case_types
-class basePing_args implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('basePing_args');
+class testSuperClass_args implements thrift.TBase {
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('testSuperClass_args');
 
 
 
@@ -144,7 +144,7 @@ class basePing_args implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = StringBuffer('basePing_args(');
+    StringBuffer ret = StringBuffer('testSuperClass_args(');
 
     ret.write(')');
 
@@ -153,7 +153,7 @@ class basePing_args implements thrift.TBase {
 
   @override
   bool operator ==(Object o) {
-    return o is basePing_args;
+    return o is testSuperClass_args;
   }
 
   @override
@@ -162,16 +162,16 @@ class basePing_args implements thrift.TBase {
     return value;
   }
 
-  basePing_args clone() {
-    return basePing_args();
+  testSuperClass_args clone() {
+    return testSuperClass_args();
   }
 
   validate() {
   }
 }
 // ignore: camel_case_types
-class basePing_result implements thrift.TBase {
-  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('basePing_result');
+class testSuperClass_result implements thrift.TBase {
+  static final thrift.TStruct _STRUCT_DESC = thrift.TStruct('testSuperClass_result');
 
 
 
@@ -229,7 +229,7 @@ class basePing_result implements thrift.TBase {
 
   @override
   String toString() {
-    StringBuffer ret = StringBuffer('basePing_result(');
+    StringBuffer ret = StringBuffer('testSuperClass_result(');
 
     ret.write(')');
 
@@ -238,7 +238,7 @@ class basePing_result implements thrift.TBase {
 
   @override
   bool operator ==(Object o) {
-    return o is basePing_result;
+    return o is testSuperClass_result;
   }
 
   @override
@@ -247,8 +247,8 @@ class basePing_result implements thrift.TBase {
     return value;
   }
 
-  basePing_result clone() {
-    return basePing_result();
+  testSuperClass_result clone() {
+    return testSuperClass_result();
   }
 
   validate() {
