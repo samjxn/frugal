@@ -104,7 +104,7 @@ func (f *FBaseProcessor) Process(iprot, oprot *FProtocol) error {
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(toCTX(ctx)); err != nil {
 		return err
 	}
 	return nil
@@ -210,7 +210,7 @@ func (f *FBaseProcessorFunction) sendError(ctx FContext, oprot *FProtocol, kind 
 	oprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)
 	err.Write(oprot)
 	oprot.WriteMessageEnd()
-	oprot.Flush()
+	oprot.Flush(toCTX(ctx))
 	return err
 }
 
@@ -230,7 +230,7 @@ func (f *FBaseProcessorFunction) SendReply(ctx FContext, oprot *FProtocol, metho
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return f.trapError(ctx, oprot, method, err)
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(toCTX(ctx)); err != nil {
 		return f.trapError(ctx, oprot, method, err)
 	}
 	return nil
