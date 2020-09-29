@@ -3,7 +3,7 @@
 
     <groupId>com.workiva</groupId>
     <artifactId>frugal</artifactId>
-    <version>3.11.0</version>
+    <version>3.11.1</version>
     <packaging>jar</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -111,7 +111,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.5.11</version>
+            <version>3.5.13</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -175,7 +175,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>8.36.1</version>
+                        <version>8.36.2</version>
                     </dependency>
                 </dependencies>
                 <configuration>
