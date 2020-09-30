@@ -1,6 +1,6 @@
 package frugal
 
-import "git.apache.org/thrift.git/lib/go/thrift"
+import "github.com/apache/thrift/lib/go/thrift"
 
 var _ FClient = (*FStandardClient)(nil)
 

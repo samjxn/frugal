@@ -14,7 +14,7 @@ rm -rf test/integration/log/*
 ./scripts/integration/generate.sh
 
 # integration tests use logrus, but frugal does not so it won't be in /vendor
-go get github.com/Sirupsen/logrus
+go get github.com/sirupsen/logrus
 
 # Set everything up in parallel (code generation is fast enough to not require in parallel)
 go run scripts/skynet/cross/cross_setup.go

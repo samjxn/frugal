@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/go-stomp/stomp"
 
 	"github.com/Workiva/frugal/examples/go/gen-go/v1/music"

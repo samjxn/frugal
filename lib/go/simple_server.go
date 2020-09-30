@@ -14,7 +14,7 @@
 package frugal
 
 import (
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 // FSimpleServer is a simple FServer which starts a goroutine for each
