@@ -6,9 +6,9 @@ package include_vendor
 import (
 	"fmt"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/some/vendored/place/vendor_namespace"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 type MyScopePublisher interface {

@@ -6,8 +6,8 @@ package variety
 import (
 	"fmt"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/lib/go"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 // This docstring gets added to the generated code because it has

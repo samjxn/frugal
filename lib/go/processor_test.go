@@ -20,8 +20,8 @@ import (
 	"sync"
 	"testing"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Sirupsen/logrus"
+	"github.com/apache/thrift/lib/go/thrift"
+	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )

@@ -17,8 +17,8 @@ import (
 	"bytes"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/nats-io/go-nats"
+	"github.com/apache/thrift/lib/go/thrift"
+	"github.com/nats-io/nats.go"
 )
 
 const (
@@ -29,23 +29,23 @@ const (
 )
 
 type frameWrapper struct {
-	frameBytes []byte
-	reply      string
+	frameBytes          []byte
+	reply               string
 	ephemeralProperties map[interface{}]interface{}
 }
 
 // FNatsServerBuilder configures and builds NATS server instances.
 type FNatsServerBuilder struct {
-	conn          *nats.Conn
-	processor     FProcessor
-	protoFactory  *FProtocolFactory
-	subjects      []string
-	queue         string
-	workerCount   uint
-	queueLen      uint
-	highWatermark time.Duration
+	conn              *nats.Conn
+	processor         FProcessor
+	protoFactory      *FProtocolFactory
+	subjects          []string
+	queue             string
+	workerCount       uint
+	queueLen          uint
+	highWatermark     time.Duration
 	onRequestReceived func(map[interface{}]interface{})
-	onRequestStarted func(map[interface{}]interface{})
+	onRequestStarted  func(map[interface{}]interface{})
 	onRequestFinished func(map[interface{}]interface{})
 }
 
@@ -170,16 +170,16 @@ func (f *FNatsServerBuilder) Build() FServer {
 	}
 
 	return &fNatsServer{
-		conn:          f.conn,
-		processor:     f.processor,
-		protoFactory:  f.protoFactory,
-		subjects:      f.subjects,
-		queue:         f.queue,
-		workerCount:   f.workerCount,
-		workC:         make(chan *frameWrapper, f.queueLen),
-		quit:          make(chan struct{}),
+		conn:              f.conn,
+		processor:         f.processor,
+		protoFactory:      f.protoFactory,
+		subjects:          f.subjects,
+		queue:             f.queue,
+		workerCount:       f.workerCount,
+		workC:             make(chan *frameWrapper, f.queueLen),
+		quit:              make(chan struct{}),
 		onRequestReceived: f.onRequestReceived,
-		onRequestStarted: f.onRequestStarted,
+		onRequestStarted:  f.onRequestStarted,
 		onRequestFinished: f.onRequestFinished,
 	}
 }
@@ -187,17 +187,17 @@ func (f *FNatsServerBuilder) Build() FServer {
 // fNatsServer implements FServer by using NATS as the underlying transport.
 // Clients must connect with the transport created by NewNatsFTransport.
 type fNatsServer struct {
-	conn          *nats.Conn
-	processor     FProcessor
-	protoFactory  *FProtocolFactory
-	subjects      []string
-	queue         string
-	workerCount   uint
-	workC         chan *frameWrapper
-	quit          chan struct{}
+	conn         *nats.Conn
+	processor    FProcessor
+	protoFactory *FProtocolFactory
+	subjects     []string
+	queue        string
+	workerCount  uint
+	workC        chan *frameWrapper
+	quit         chan struct{}
 
 	onRequestReceived func(map[interface{}]interface{})
-	onRequestStarted func(map[interface{}]interface{})
+	onRequestStarted  func(map[interface{}]interface{})
 	onRequestFinished func(map[interface{}]interface{})
 }
 

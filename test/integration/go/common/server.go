@@ -18,10 +18,10 @@ import (
 	"net/http"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
+	"github.com/apache/thrift/lib/go/thrift"
+	log "github.com/sirupsen/logrus"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/lib/go"
+	frugal "github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
 

@@ -18,9 +18,9 @@ import (
 	"reflect"
 
 	"github.com/go-stomp/stomp"
-	"github.com/nats-io/go-nats"
+	"github.com/nats-io/nats.go"
 
-	"github.com/Workiva/frugal/lib/go"
+	frugal "github.com/Workiva/frugal/lib/go"
 )
 
 const (

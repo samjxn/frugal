@@ -6,8 +6,8 @@ package music
 import (
 	"fmt"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
 	"github.com/Workiva/frugal/lib/go"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 // Scopes are a Frugal extension to the IDL for declaring PubSub

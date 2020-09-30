@@ -17,12 +17,11 @@ import (
 	"context"
 	"fmt"
 	"strconv"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/mattrobenolt/gocql/uuid"
+	"github.com/nats-io/nuid"
 )
 
 const (
@@ -324,7 +323,7 @@ func setResponseOpID(ctx FContext, id string) {
 // generateCorrelationID returns a random string id. It's assigned to a var for
 // testability purposes.
 var generateCorrelationID = func() string {
-	return strings.Replace(uuid.RandomUUID().String(), "-", "", -1)
+	return nuid.Next()
 }
 
 func toCTX(fctx FContext) context.Context {

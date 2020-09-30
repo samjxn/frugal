@@ -7,13 +7,13 @@ import (
 	"bytes"
 	"fmt"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Sirupsen/logrus"
 	"github.com/Workiva/frugal/lib/go"
 	"github.com/Workiva/frugal/test/out/ValidTypes"
 	"github.com/Workiva/frugal/test/out/actual_base/golang"
 	"github.com/Workiva/frugal/test/out/subdir_include"
 	"github.com/Workiva/frugal/test/out/validStructs"
+	"github.com/apache/thrift/lib/go/thrift"
+	"github.com/sirupsen/logrus"
 )
 
 // (needed to ensure safety because of naive import list construction.)
