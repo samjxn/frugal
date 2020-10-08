@@ -23,8 +23,10 @@ import (
 	"github.com/Workiva/frugal/compiler/generator/dartlang"
 	"github.com/Workiva/frugal/compiler/generator/gateway"
 	"github.com/Workiva/frugal/compiler/generator/golang"
+	"github.com/Workiva/frugal/compiler/generator/gopherjs"
 	"github.com/Workiva/frugal/compiler/generator/html"
 	"github.com/Workiva/frugal/compiler/generator/java"
+	"github.com/Workiva/frugal/compiler/generator/json"
 	"github.com/Workiva/frugal/compiler/generator/python"
 	"github.com/Workiva/frugal/compiler/globals"
 	"github.com/Workiva/frugal/compiler/parser"
@@ -92,7 +94,7 @@ func generateFrugal(f *parser.Frugal) error {
 	}
 
 	// The parsed frugal contains everything needed to generate
-	if err := generateFrugalRec(f, g, true, lang); err != nil {
+	if err := generateFrugalRec(f, g, lang); err != nil {
 		return err
 	}
 
@@ -101,7 +103,7 @@ func generateFrugal(f *parser.Frugal) error {
 
 // generateFrugalRec generates code for a frugal struct, recursively generating
 // code for includes
-func generateFrugalRec(f *parser.Frugal, g generator.ProgramGenerator, generate bool, lang string) error {
+func generateFrugalRec(f *parser.Frugal, g generator.ProgramGenerator, lang string) error {
 	if _, ok := globals.CompiledFiles[f.File]; ok {
 		// Already generated this file
 		return nil
@@ -118,7 +120,7 @@ func generateFrugalRec(f *parser.Frugal, g generator.ProgramGenerator, generate 
 	}
 
 	logv(fmt.Sprintf("Generating \"%s\" Frugal code for %s", lang, f.File))
-	if globals.DryRun || !generate {
+	if globals.DryRun {
 		return nil
 	}
 
@@ -126,11 +128,18 @@ func generateFrugalRec(f *parser.Frugal, g generator.ProgramGenerator, generate 
 		return err
 	}
 
-	// Iterate through includes in order to ensure determinism in
-	// generated code.
-	for _, inclFrugal := range f.OrderedIncludes() {
-		if err := generateFrugalRec(inclFrugal, g, globals.Recurse, lang); err != nil {
-			return err
+	if globals.Recurse {
+		// Iterate through includes in order to ensure determinism in
+		// generated code.
+		for _, include := range f.OrderedIncludes() {
+			// Skip recursive generation if include is marked vendor and use_vendor option is enabled
+			if _, vendored := include.Annotations.Vendor(); vendored && g.UseVendor() {
+				continue
+			}
+			inclFrugal := f.ParsedIncludes[include.Name]
+			if err := generateFrugalRec(inclFrugal, g, lang); err != nil {
+				return err
+			}
 		}
 	}
 
@@ -153,8 +162,15 @@ func getProgramGenerator(lang string, options map[string]string) (generator.Prog
 		}
 
 		g = generator.NewProgramGenerator(golang.NewGenerator(options), true, false)
+	case "gopherjs":
+		if pkg := options["package_prefix"]; pkg != "" && !strings.HasSuffix(pkg, "/") {
+			options["package_prefix"] += "/" // Make sure the package prefix ends with a "/"
+		}
+		g = generator.NewProgramGenerator(gopherjs.NewGenerator(options), false)
 	case "java":
-		g = generator.NewProgramGenerator(java.NewGenerator(options), true, true)
+		g = generator.NewProgramGenerator(java.NewGenerator(options), true)
+	case "json":
+		g = json.NewGenerator(options)
 	case "py":
 		g = generator.NewProgramGenerator(python.NewGenerator(options), true, true)
 	case "html":

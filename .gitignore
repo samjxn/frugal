@@ -5,24 +5,13 @@ target/
 .idea
 .vscode
 py3env
-.vscode
-cscope.files
-cscope.out
-tags
-
 
 # Do not commit the following directories created by pub.
 .buildlog
-.pub/
 build/
-packages
 .packages
-
-# Or the files created by dart2js.
-*.dart.js
-*.js_
-*.js.deps
-*.js.map
+.dart_tool
+.pub
 
 # Or the lock
 pubspec.lock
@@ -51,13 +40,19 @@ Library/
 # Go lib specific
 lib/go/vendor
 lib/go/glide.lock
+lib/go/go.sum
 examples/go/vendor
 examples/go/glide.lock
+
+# GopherJS lib specific
+lib/gopherjs/vendor
+lib/gopherjs/glide.lock
 
 # Integration tests
 artifacts/
 test/integration/log/*
 test/integration/*/gen*
+!test/integration/dart/gen-dart/
 test/integration/go/bin/*
 test/integration/java/frugal-integration-test/cross.jar
 test/integration/java/frugal-integration-test/gen-java
@@ -65,6 +60,7 @@ test/integration/java/frugal-integration-test/*.jar
 test/integration/python/tornado/gen-py
 test/integration/python/tornado/gen_py_tornado
 test/integration/python/asyncio/gen_py_asyncio
+test/integration/python/aio/gen_py_asyncio
 
 # test reports
 unit_tests_py2.xml

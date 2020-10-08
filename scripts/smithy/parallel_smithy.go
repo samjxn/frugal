@@ -1,14 +1,15 @@
 package main
 
 import (
-	"os/exec"
-	"sync"
 	"io/ioutil"
 	"os"
-	log "github.com/Sirupsen/logrus"
+	"os/exec"
+	"sync"
+
+	log "github.com/sirupsen/logrus"
 )
 
-func main(){
+func main() {
 	// By setting ForceColors = true, this tricks logrus into thinking it is writing
 	// to a terminal output - this allows linebreaks and colors to be displayed on the
 	// Smithy webview
@@ -30,17 +31,16 @@ func main(){
 
 }
 
-func runTestScript(script string, scriptDir string, wg *sync.WaitGroup){
+func runTestScript(script string, scriptDir string, wg *sync.WaitGroup) {
 	fullScript := scriptDir + script
 	log.Info("Running script:", script)
-	out, err := exec.Command("/bin/bash", fullScript).CombinedOutput();
+	out, err := exec.Command("/bin/bash", fullScript).CombinedOutput()
 
 	if err != nil {
 		log.Errorf("Script '%s' failed with output:\n%s", script, out)
 	}
 
-
-	logFile := os.ExpandEnv("${SMITHY_ROOT}/test_results/" + script + "_out.txt")
+	logFile := os.ExpandEnv("${FRUGAL_HOME}/test_results/" + script + "_out.txt")
 	err2 := writeFile(logFile, out)
 
 	if err2 != nil {
@@ -56,7 +56,7 @@ func runTestScript(script string, scriptDir string, wg *sync.WaitGroup){
 
 }
 
-func writeFile(logFile string, commandData []byte) (error) {
+func writeFile(logFile string, commandData []byte) error {
 
 	return ioutil.WriteFile(logFile, commandData, 0644)
 

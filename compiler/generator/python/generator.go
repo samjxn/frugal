@@ -75,14 +75,38 @@ func NewGenerator(options map[string]string) generator.LanguageGenerator {
 func (g *Generator) SetupGenerator(outputDir string) error {
 	g.outputDir = outputDir
 
-	dir := g.outputDir
-	for filepath.Dir(dir) != "." {
-		file, err := g.GenerateFile("__init__", dir, generator.ObjectFile)
+	// To prevent littering the filesystem with __init__ in every folder between outputDir and the present working
+	// directory, use the relative path between the root output directory and the target outputDir. This creates
+	// __init__ files only in the folders used for frugal generation.
+	outputRoot := globals.Out
+	if outputRoot == "" {
+		outputRoot = g.DefaultOutputDir()
+	}
+
+	absoluteOutputRoot, err := filepath.Abs(outputRoot)
+	if err != nil {
+		return err
+	}
+
+	absoluteOutputDir, err := filepath.Abs(outputDir)
+	if err != nil {
+		return err
+	}
+
+	dir, err := filepath.Rel(absoluteOutputRoot, absoluteOutputDir)
+	if err != nil {
+		return err
+	}
+
+	var priorDir string
+	for dir != priorDir {
+		file, err := g.GenerateFile("__init__", filepath.Join(absoluteOutputRoot, dir), generator.ObjectFile)
 		file.Close()
 		if err != nil {
 			return err
 		}
 
+		priorDir = dir
 		dir = filepath.Dir(dir)
 	}
 
@@ -293,8 +317,16 @@ func (g *Generator) GenerateEnum(enum *parser.Enum) error {
 	contents += fmt.Sprintf("class %s(int):\n", enum.Name)
 	comment := append([]string{}, enum.Comment...)
 	for _, value := range enum.Values {
+		valueComment := []string{}
 		if value.Comment != nil {
-			comment = append(append(comment, value.Name+": "+value.Comment[0]), value.Comment[1:]...)
+			valueComment = append(valueComment, value.Comment...)
+		}
+		deprecationValue, deprecated := value.Annotations.Deprecated()
+		if deprecated {
+			valueComment = append(valueComment, "Deprecated: "+deprecationValue)
+		}
+		if len(valueComment) != 0 {
+			comment = append(append(comment, value.Name+": "+valueComment[0]), valueComment[1:]...)
 		}
 	}
 	if len(comment) != 0 {
@@ -542,7 +574,7 @@ func (g *Generator) generateValidate(s *parser.Struct) string {
 		for _, field := range s.Fields {
 			if field.Modifier == parser.Required {
 				contents += fmt.Sprintf(tabtab+"if self.%s is None:\n", field.Name)
-				contents += fmt.Sprintf(tabtabtab+"raise TProtocol.TProtocolException(type=TProtocol.TProtocolException.INVALID_DATA, message='Required field %s is unset!')\n", field.Name)
+				contents += fmt.Sprintf(tabtabtab+"raise TProtocol.TProtocolException(type=TProtocol.TProtocolException.INVALID_DATA, message='Required field \\'%s\\' is not present in struct \\'%s\\'')\n", field.Name, s.Name)
 			}
 		}
 	} else {
@@ -1531,4 +1563,8 @@ func getAsyncOpt(options map[string]string) concurrencyModel {
 		return asyncio
 	}
 	return synchronous
+}
+
+func (g *Generator) UseVendor() bool {
+	return false
 }

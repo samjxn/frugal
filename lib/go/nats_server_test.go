@@ -18,10 +18,25 @@ import (
 	"testing"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/nats-io/go-nats"
+	"github.com/apache/thrift/lib/go/thrift"
+	"github.com/nats-io/nats.go"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestDefaultFNatsServerOnRequestReceived(t *testing.T) {
+	testingTime := time.Unix(1556627378, 0)
+	oldTimeNow := timeNow
+	defer func() {
+		timeNow = oldTimeNow
+	}()
+	timeNow = func() time.Time {
+		return testingTime
+	}
+
+	properties := make(map[interface{}]interface{})
+	DefaultFNatsServerOnRequestReceived(properties)
+	assert.Equal(t, testingTime, properties[RequestReceivedTimeKey])
+}
 
 // Ensures FStatelessNatsServer receives requests and sends back responses on
 // the correct subject.

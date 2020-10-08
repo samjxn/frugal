@@ -14,14 +14,14 @@
 package frugal
 
 import (
+	"context"
 	"fmt"
 	"strconv"
-	"strings"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/mattrobenolt/gocql/uuid"
+	"github.com/nats-io/nuid"
 )
 
 const (
@@ -95,13 +95,40 @@ type FContext interface {
 	Timeout() time.Duration
 }
 
+// FContextWithEphemeralProperties is an extension of the FContext interface
+// with support for ephemeral properties. Ephemeral properties are a map of
+// key-value pairs that won't be serialized with the rest of the FContext.
+// TODO 4.0 add this to the FContext interface
+type FContextWithEphemeralProperties interface {
+	FContext
+
+	// Clone performs a deep copy of an FContextWithEphemeralProperties while
+	// handling opids correctly.
+	Clone() FContextWithEphemeralProperties
+
+	// EphemeralProperty gets the property associated with the given key.
+	EphemeralProperty(key interface{}) (interface{}, bool)
+
+	// EphemeralProperties returns a copy of the ephemeral properties map.
+	EphemeralProperties() map[interface{}]interface{}
+
+	// AddEphemeralProperty adds a keyp-value pair to the ephemeral properties.
+	AddEphemeralProperty(key, value interface{}) FContext
+}
+
 // Clone performs a deep copy of an FContext while handling opids correctly.
-// TODO 3.0 consider adding this to the FContext interface.
+// TODO 4.0 consider adding this to the FContext interface.
 func Clone(ctx FContext) FContext {
-	clone := &FContextImpl{
-		requestHeaders: ctx.RequestHeaders(),
-		responseHeaders: ctx.ResponseHeaders(),
+	if fctxWEP, ok := ctx.(FContextWithEphemeralProperties); ok {
+		return fctxWEP.Clone()
 	}
+
+	clone := &FContextImpl{
+		requestHeaders:      ctx.RequestHeaders(),
+		responseHeaders:     ctx.ResponseHeaders(),
+		ephemeralProperties: make(map[interface{}]interface{}),
+	}
+
 	clone.requestHeaders[opIDHeader] = getNextOpID()
 	return clone
 }
@@ -114,9 +141,10 @@ func getNextOpID() string {
 
 // FContextImpl is an implementation of FContext.
 type FContextImpl struct {
-	requestHeaders  map[string]string
-	responseHeaders map[string]string
-	mu              sync.RWMutex
+	requestHeaders      map[string]string
+	responseHeaders     map[string]string
+	ephemeralProperties map[interface{}]interface{}
+	mu                  sync.RWMutex
 }
 
 // NewFContext returns a Context for the given correlation id. If an empty
@@ -133,7 +161,8 @@ func NewFContext(correlationID string) FContext {
 			opIDHeader:    getNextOpID(),
 			timeoutHeader: strconv.FormatInt(int64(defaultTimeout/time.Millisecond), 10),
 		},
-		responseHeaders: make(map[string]string),
+		responseHeaders:     make(map[string]string),
+		ephemeralProperties: make(map[interface{}]interface{}),
 	}
 
 	return ctx
@@ -225,6 +254,45 @@ func (c *FContextImpl) Timeout() time.Duration {
 	return time.Millisecond * time.Duration(timeoutMillis)
 }
 
+// Clone performs a deep copy of an FContextWithEphemeralProperties while
+// handling opids correctly.
+func (c *FContextImpl) Clone() FContextWithEphemeralProperties {
+	cloned := &FContextImpl{
+		requestHeaders:      c.RequestHeaders(),
+		responseHeaders:     c.ResponseHeaders(),
+		ephemeralProperties: c.EphemeralProperties(),
+	}
+	cloned.requestHeaders[opIDHeader] = getNextOpID()
+	return cloned
+}
+
+// EphemeralProperty gets the property associated with the given key.
+func (c *FContextImpl) EphemeralProperty(key interface{}) (interface{}, bool) {
+	c.mu.Lock()
+	value, ok := c.ephemeralProperties[key]
+	c.mu.Unlock()
+	return value, ok
+}
+
+// EphemeralProperties returns a copy of the ephemeral properties map.
+func (c *FContextImpl) EphemeralProperties() map[interface{}]interface{} {
+	c.mu.RLock()
+	properties := make(map[interface{}]interface{}, len(c.ephemeralProperties))
+	for key, value := range c.ephemeralProperties {
+		properties[key] = value
+	}
+	c.mu.RUnlock()
+	return properties
+}
+
+// AddEphemeralProperty adds a keyp-value pair to the ephemeral properties.
+func (c *FContextImpl) AddEphemeralProperty(key, value interface{}) FContext {
+	c.mu.Lock()
+	c.ephemeralProperties[key] = value
+	c.mu.Unlock()
+	return c
+}
+
 // setRequestOpID sets the request operation id for context.
 func setRequestOpID(ctx FContext, id uint64) {
 	opIDStr := strconv.FormatUint(id, 10)
@@ -255,5 +323,22 @@ func setResponseOpID(ctx FContext, id string) {
 // generateCorrelationID returns a random string id. It's assigned to a var for
 // testability purposes.
 var generateCorrelationID = func() string {
-	return strings.Replace(uuid.RandomUUID().String(), "-", "", -1)
+	return nuid.Next()
 }
+
+func toCTX(fctx FContext) context.Context {
+	if ctx, ok := fctx.(context.Context); ok {
+		return ctx
+	}
+	return timeoutCtx{
+		Context:  context.Background(),
+		deadline: time.Now().Add(fctx.Timeout()), // borrowed form https://golang.org/pkg/context/#WithTimeout
+	}
+}
+
+type timeoutCtx struct {
+	context.Context
+	deadline time.Time
+}
+
+func (ctx timeoutCtx) Deadline() (time.Time, bool) { return ctx.deadline, true }

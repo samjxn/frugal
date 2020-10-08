@@ -1,20 +1,19 @@
 import 'dart:async';
-import 'dart:convert' show BASE64;
-import 'dart:convert' show Utf8Codec;
+import 'dart:convert';
 import 'dart:typed_data' show Uint8List;
 
 import 'package:frugal/frugal.dart';
 import 'package:test/test.dart';
 import 'package:thrift/thrift.dart';
+import 'package:w_transport/mock.dart';
 import 'package:w_transport/w_transport.dart';
-import 'package:w_transport/w_transport_mock.dart';
 
 void main() {
   configureWTransportForTest();
   const utf8Codec = const Utf8Codec();
 
   group('FHttpTransport', () {
-    Client client;
+    HttpClient client;
     FHttpTransport transport;
     FHttpTransport transportWithContext;
 
@@ -32,14 +31,14 @@ void main() {
     };
     Uint8List transportRequest =
         new Uint8List.fromList([0, 0, 0, 5, 1, 2, 3, 4, 5]);
-    String transportRequestB64 = BASE64.encode(transportRequest);
+    String transportRequestB64 = base64.encode(transportRequest);
     Uint8List transportResponse = new Uint8List.fromList([6, 7, 8, 9]);
     Uint8List transportResponseFramed =
         new Uint8List.fromList([0, 0, 0, 4, 6, 7, 8, 9]);
-    String transportResponseB64 = BASE64.encode(transportResponseFramed);
+    String transportResponseB64 = base64.encode(transportResponseFramed);
 
     setUp(() {
-      client = new Client();
+      client = new HttpClient();
       transport = new FHttpTransport(client, Uri.parse('http://localhost'),
           responseSizeLimit: 10, additionalHeaders: {'foo': 'bar'});
       transportWithContext = new FHttpTransport(
@@ -76,7 +75,7 @@ void main() {
         () async {
       MockTransports.http.when(transport.uri, (FinalizedRequest request) async {
         if (request.method == 'POST') {
-          await new Future.delayed(new Duration(milliseconds: 100));
+          throw new TimeoutException("wat");
         }
       });
 
@@ -151,7 +150,7 @@ void main() {
     test('Test transport does not execute frame on oneway requests', () async {
       Uint8List responseBytes = new Uint8List.fromList([0, 0, 0, 0]);
       Response response =
-          new MockResponse.ok(body: BASE64.encode(responseBytes));
+          new MockResponse.ok(body: base64.encode(responseBytes));
       MockTransports.http.expect('POST', transport.uri, respondWith: response);
       var result = await transport.request(new FContext(), transportRequest);
       expect(result, null);
@@ -161,7 +160,7 @@ void main() {
         () async {
       Uint8List responseBytes = new Uint8List.fromList([0, 0, 0, 1]);
       Response response =
-          new MockResponse.ok(body: BASE64.encode(responseBytes));
+          new MockResponse.ok(body: base64.encode(responseBytes));
       MockTransports.http.expect('POST', transport.uri, respondWith: response);
       expect(transport.request(new FContext(), transportRequest),
           throwsA(new isInstanceOf<TTransportError>()));
@@ -183,11 +182,11 @@ void main() {
   });
 
   group('FHttpTransport request size too large', () {
-    Client client;
+    HttpClient client;
     FHttpTransport transport;
 
     setUp(() {
-      client = new Client();
+      client = new HttpClient();
       transport = new FHttpTransport(client, Uri.parse('http://localhost'),
           requestSizeLimit: 10);
     });
@@ -205,7 +204,7 @@ void main() {
 
     setUp(() {
       transport =
-          new FHttpTransport(new Client(), Uri.parse('http://localhost'));
+          new FHttpTransport(new HttpClient(), Uri.parse('http://localhost'));
     });
 
     test('Test transport receives error on 401 response', () async {

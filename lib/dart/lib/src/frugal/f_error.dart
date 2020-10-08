@@ -78,4 +78,7 @@ class FrugalTTransportErrorType extends TTransportErrorType {
 
   /// Indicates the response was too large for the transport.
   static const int RESPONSE_TOO_LARGE = 101;
+
+  /// Indicates the request failed because the transport was disconnected.
+  static const int DISCONNECTED = 102;
 }

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"reflect"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 
 	"github.com/Workiva/frugal/examples/go/gen-go/v1/music"
 	"github.com/Workiva/frugal/lib/go"

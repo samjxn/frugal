@@ -2,11 +2,12 @@ package com.workiva.frugal.transport;
 
 import com.workiva.frugal.FContext;
 import com.workiva.frugal.exception.TTransportExceptionType;
-import io.nats.client.AsyncSubscription;
 import io.nats.client.Connection;
+import io.nats.client.Connection.Status;
+import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
-import io.nats.client.Nats;
+import io.nats.client.Options;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.Before;
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 import static com.workiva.frugal.transport.FAsyncTransportTest.mockFrame;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
@@ -38,28 +41,29 @@ public class FNatsTransportTest {
     @Before
     public void setUp() {
         conn = mock(Connection.class);
+        when(conn.getOptions()).thenReturn(new Options.Builder().build());
         transport = FNatsTransport.of(conn, subject).withInbox(inbox);
     }
 
     @Test(expected = TTransportException.class)
-    public void testOpen_natsDisconnected() throws TTransportException {
+    public void testOpenNatsDisconnected() throws TTransportException {
         assertFalse(transport.isOpen());
-        when(conn.getState()).thenReturn(Nats.ConnState.CLOSED);
+        when(conn.getStatus()).thenReturn(Status.CLOSED);
         transport.open();
     }
 
     @Test
     public void testOpenCallbackClose() throws TException, IOException, InterruptedException {
         assertFalse(transport.isOpen());
-        when(conn.getState()).thenReturn(Nats.ConnState.CONNECTED);
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
         ArgumentCaptor<String> inboxCaptor = ArgumentCaptor.forClass(String.class);
         ArgumentCaptor<MessageHandler> handlerCaptor = ArgumentCaptor.forClass(MessageHandler.class);
-        AsyncSubscription sub = mock(AsyncSubscription.class);
-        when(conn.subscribe(inboxCaptor.capture(), handlerCaptor.capture())).thenReturn(sub);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(handlerCaptor.capture())).thenReturn(mockDispatcher);
 
         transport.open();
 
-        verify(conn).subscribe(inboxCaptor.getValue(), handlerCaptor.getValue());
+        verify(mockDispatcher).subscribe(inboxCaptor.capture());
         assertEquals(inbox, inboxCaptor.getValue());
 
         MessageHandler handler = handlerCaptor.getValue();
@@ -71,8 +75,9 @@ public class FNatsTransportTest {
         byte[] framedPayload = new byte[mockFrame.length + 4];
         System.arraycopy(mockFrame, 0, framedPayload, 4, mockFrame.length);
 
-        Message msg = new Message("foo", "bar", framedPayload);
-        handler.onMessage(msg);
+        Message mockMessage = mock(Message.class);
+        when(mockMessage.getData()).thenReturn(framedPayload);
+        handler.onMessage(mockMessage);
 
         try {
             transport.open();
@@ -85,16 +90,16 @@ public class FNatsTransportTest {
         transport.setClosedCallback(mockCallback);
         transport.close();
 
-        verify(sub).unsubscribe();
+        verify(conn).closeDispatcher(mockDispatcher);
         verify(mockCallback).onClose(null);
         verify(mockQueue).put(mockFrame);
     }
 
     @Test
-    public void testFlush() throws TTransportException, IOException, InterruptedException {
-        when(conn.getState()).thenReturn(Nats.ConnState.CONNECTED);
-        AsyncSubscription sub = mock(AsyncSubscription.class);
-        when(conn.subscribe(any(String.class), any(MessageHandler.class))).thenReturn(sub);
+    public void testFlush() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
         transport.open();
 
         byte[] buff = "helloworld".getBytes();
@@ -102,9 +107,98 @@ public class FNatsTransportTest {
         verify(conn).publish(subject, inbox, buff);
     }
 
-    @Test(expected = TTransportException.class)
-    public void testRequest_notOpen() throws TTransportException {
-        when(conn.getState()).thenReturn(Nats.ConnState.CONNECTED);
-        transport.request(new FContext(), "helloworld".getBytes());
+    @Test
+    public void testFlush_closed() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.CLOSED);
+
+        byte[] buff = "helloworld".getBytes();
+        try {
+            transport.flush(buff);
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.NOT_OPEN, e.getType());
+        }
+    }
+
+    @Test
+    public void testFlushReconnecting() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.RECONNECTING);
+        try {
+            transport.flush("helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
+    }
+
+    @Test
+    public void testRequestNotOpen() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        try {
+            transport.request(new FContext(), "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.NOT_OPEN, e.getType());
+        }
+    }
+
+    @Test
+    public void testRequestDisconnected() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.DISCONNECTED);
+        try {
+            transport.request(new FContext(), "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
+    }
+
+    @Test
+    public void testRequestReconnecting() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        when(conn.getStatus()).thenReturn(Status.RECONNECTING);
+        try {
+            transport.request(new FContext(), "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.DISCONNECTED, e.getType());
+        }
+    }
+
+    @Test
+    public void testRequestTimedOut() throws TTransportException {
+        when(conn.getStatus()).thenReturn(Status.CONNECTED);
+        Dispatcher mockDispatcher = mock(Dispatcher.class);
+        when(conn.createDispatcher(any(MessageHandler.class))).thenReturn(mockDispatcher);
+        transport.open();
+
+        try {
+            FContext fContext = new FContext();
+            fContext.setTimeout(0);
+            transport.request(fContext, "helloworld".getBytes());
+            fail();
+        } catch (TTransportException e) {
+            assertEquals(TTransportExceptionType.TIMED_OUT, e.getType());
+            assertThat(e.getMessage(), containsString("foo"));
+        }
     }
 }

@@ -6,7 +6,7 @@ import 'package:v1_music/v1_music.dart' as music;
 import 'package:thrift/thrift.dart' as thrift;
 import 'package:frugal/frugal.dart' as frugal;
 import 'package:w_transport/w_transport.dart' as wt;
-import 'package:w_transport/w_transport_browser.dart'
+import 'package:w_transport/browser.dart'
     show configureWTransportForBrowser;
 
 frugal.FSubscription sub;
@@ -17,6 +17,7 @@ void main() {
   Logger.root.onRecord.listen((LogRecord r) {
     window.console.log('${r.loggerName}(${r.level}): ${r.message}');
   });
+
   new EventUI(querySelector('#output')).start();
 }
 
@@ -48,7 +49,7 @@ class EventUI {
 
   _initConnection() async {
     var uri = Uri.parse("http://localhost:9090/frugal");
-    var transport = new frugal.FHttpTransport(new wt.Client(), uri);
+    var transport = new frugal.FHttpTransport(new wt.HttpClient(), uri);
     await transport.open();
 
     // Wire up FServiceProvider
@@ -90,7 +91,7 @@ class EventUI {
     InputElement duration = querySelector("#duration");
     var album = new music.Album();
     album.aSIN = asin.value;
-    album.duration = int.parse(duration.value);
+    album.duration = double.parse(duration.value);
     frugal.FContext ctx = new frugal.FContext(correlationId: 'an-id');
     _albumWinnersPublisher.publishWinner(ctx, album);
   }

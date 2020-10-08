@@ -19,9 +19,9 @@ import (
 	"testing"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/nats-io/gnatsd/server"
-	"github.com/nats-io/go-nats"
+	"github.com/apache/thrift/lib/go/thrift"
+	"github.com/nats-io/nats-server/v2/server"
+	"github.com/nats-io/nats.go"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -46,13 +46,13 @@ func runServer(opts *server.Options) *server.Server {
 
 	end := time.Now().Add(10 * time.Second)
 	for time.Now().Before(end) {
-		addr := s.GetListenEndpoint()
-		if addr == "" {
+		addr := s.Addr()
+		if addr == nil {
 			time.Sleep(10 * time.Millisecond)
 			// Retry. We might take a little while to open a connection.
 			continue
 		}
-		conn, err := net.Dial("tcp", addr)
+		conn, err := net.Dial("tcp", addr.String())
 		if err != nil {
 			// Retry after 50ms
 			time.Sleep(50 * time.Millisecond)

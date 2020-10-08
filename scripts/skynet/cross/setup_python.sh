@@ -10,6 +10,7 @@ else
     cd $GOPATH/src/github.com/Workiva/frugal/lib/python
 fi
 
-pip install -e ".[tornado]"
-python3.5 /usr/bin/pip3 install Cython==0.27.2
-python3.5 /usr/bin/pip3 install -e ".[asyncio]"
+python2 -m pip install -e ".[tornado]"
+
+python3 -m pip install Cython==0.27.3
+python3 -m pip install -e ".[asyncio]"

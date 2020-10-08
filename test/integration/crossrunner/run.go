@@ -17,10 +17,10 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"os/exec"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
-	"os/exec"
+	log "github.com/sirupsen/logrus"
 )
 
 // RunConfig runs a client against a server.  Client/Server logs are created and
@@ -71,7 +71,7 @@ func RunConfig(pair *Pair, port int, getCommand func(config Config, port int) (c
 	// Poll the server healthcheck until it returns a valid status code or exceeds the timeout
 	for total <= stimeout {
 		// If the server hasn't started within the specified timeout, fail the test
-		resp, err := (http.Get(fmt.Sprintf("http://localhost:%d", port)))
+		resp, err := http.Get(fmt.Sprintf("http://localhost:%d", port))
 		if err != nil {
 			time.Sleep(time.Millisecond * 250)
 			total += (time.Millisecond * 250)

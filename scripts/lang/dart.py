@@ -1,6 +1,6 @@
 import os
 
-from yaml import dump, load
+from yaml import dump, safe_load
 
 from lang.base import LanguageBase
 
@@ -34,7 +34,7 @@ class Dart(LanguageBase):
         """
         pubspec = 'pubspec.yaml'
         with open(pubspec, 'r') as f:
-            data = load(f.read())
+            data = safe_load(f.read())
             update(data)
         with open(pubspec, 'w') as f:
             dump(data, f, default_flow_style=False)

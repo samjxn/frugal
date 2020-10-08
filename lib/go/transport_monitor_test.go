@@ -14,12 +14,13 @@
 package frugal
 
 import (
+	"context"
 	"errors"
 	"sync"
 	"testing"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -357,10 +358,10 @@ func (m *mockFTransport) RemainingBytes() uint64 {
 	return args.Get(0).(uint64)
 }
 
-func (m *mockFTransport) Flush() (err error) {
+func (m *mockFTransport) Flush(ctx context.Context) (err error) {
 	m.Lock()
 	defer m.Unlock()
-	args := m.Called()
+	args := m.Called(ctx)
 	return args.Error(0)
 }
 

@@ -15,12 +15,8 @@ package com.workiva.frugal.transport;
 
 import com.workiva.frugal.exception.TTransportExceptionType;
 import io.nats.client.Connection;
-import io.nats.client.Nats;
+import io.nats.client.Connection.Status;
 import org.apache.thrift.transport.TTransportException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
 
 import static com.workiva.frugal.transport.FNatsTransport.FRUGAL_PREFIX;
 import static com.workiva.frugal.transport.FNatsTransport.NATS_MAX_MESSAGE_SIZE;
@@ -31,8 +27,6 @@ import static com.workiva.frugal.transport.FNatsTransport.getClosedConditionExce
  * Messages are limited to 1MB in size.
  */
 public class FNatsPublisherTransport implements FPublisherTransport {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FNatsPublisherTransport.class);
-
     private final Connection conn;
 
     /**
@@ -71,21 +65,25 @@ public class FNatsPublisherTransport implements FPublisherTransport {
     }
 
     @Override
-    public synchronized boolean isOpen() {
-        return conn.getState() == Nats.ConnState.CONNECTED;
+    public boolean isOpen() {
+        return isOpen(conn.getStatus());
+    }
+
+    private boolean isOpen(Status status) {
+        return status == Status.CONNECTED;
     }
 
     @Override
-    public synchronized void open() throws TTransportException {
+    public void open() throws TTransportException {
         // We only need to check that the NATS client is connected
-        if (conn.getState() != Nats.ConnState.CONNECTED) {
-            throw new TTransportException(TTransportExceptionType.NOT_OPEN,
-                    "NATS not connected, has status " + conn.getState());
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "open:");
         }
     }
 
     @Override
-    public synchronized void close() {
+    public void close() {
         /* Do nothing */
     }
 
@@ -96,8 +94,9 @@ public class FNatsPublisherTransport implements FPublisherTransport {
 
     @Override
     public void publish(String topic, byte[] payload) throws TTransportException {
-        if (!isOpen()) {
-            throw getClosedConditionException(conn.getState(), "publish:");
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "publish:");
         }
 
         if ("".equals(topic)) {
@@ -109,12 +108,7 @@ public class FNatsPublisherTransport implements FPublisherTransport {
                     String.format("Message exceeds %d bytes, was %d bytes",
                             NATS_MAX_MESSAGE_SIZE, payload.length));
         }
-
-        try {
-            conn.publish(getFormattedSubject(topic), payload);
-        } catch (IOException e) {
-            throw new TTransportException("publish: unable to publish data: " + e.getMessage());
-        }
+        conn.publish(getFormattedSubject(topic), payload);
     }
 
     private String getFormattedSubject(String topic) {

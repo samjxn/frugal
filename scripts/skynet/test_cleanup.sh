@@ -8,4 +8,8 @@ FRUGAL_HOME=$GOPATH/src/github.com/Workiva/frugal
 tar -czf test_logs.tar.gz test/integration/log
 mv test_logs.tar.gz /testing/artifacts/
 
-pkill gnatsd
+pkill nats-server
+
+# Stop activemq broker
+cd /opt/activemq/bin
+./activemq stop

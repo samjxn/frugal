@@ -101,6 +101,20 @@ type Include struct {
 	Annotations Annotations
 }
 
+type byIncludeName []Include
+
+func (s byIncludeName) Len() int {
+	return len(s)
+}
+
+func (s byIncludeName) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s byIncludeName) Less(i, j int) bool {
+	return s[i].Name < s[j].Name
+}
+
 // Namespace represents an IDL namespace.
 type Namespace struct {
 	Scope       string
@@ -356,7 +370,7 @@ func addInclude(includesSet map[string]*Include, includes []*Include, t *Type, f
 		includeName := t.Name[0:strings.Index(t.Name, ".")]
 		include := frugal.Include(includeName)
 		if include == nil {
-			return nil, nil, fmt.Errorf("Type %s references invalid include %s", t.Name, include.Name)
+			return nil, nil, fmt.Errorf("Type %s references invalid include %s", t.Name, includeName)
 		}
 		if _, ok := includesSet[includeName]; !ok {
 			includesSet[includeName] = include
@@ -689,19 +703,14 @@ func (f *Frugal) ContainsFrugalDefinitions() bool {
 	return len(f.Scopes)+len(f.Services) > 0
 }
 
-// OrderedIncludes returns the ParsedIncludes in order, sorted by the include
+// OrderedIncludes returns the Includes in order, sorted by the include
 // name.
-func (f *Frugal) OrderedIncludes() []*Frugal {
-	keys := make([]string, 0, len(f.ParsedIncludes))
-	for key := range f.ParsedIncludes {
-		keys = append(keys, key)
+func (f *Frugal) OrderedIncludes() []Include {
+	includes := make([]Include, 0, len(f.Includes))
+	for _, include := range f.Includes {
+		includes = append(includes, *include)
 	}
-	sort.Strings(keys)
-
-	includes := make([]*Frugal, 0, len(f.ParsedIncludes))
-	for _, key := range keys {
-		includes = append(includes, f.ParsedIncludes[key])
-	}
+	sort.Sort(byIncludeName(includes))
 	return includes
 }
 
@@ -1043,6 +1052,9 @@ func (f *Frugal) validate() error {
 	if err := f.validateServices(f.ParsedIncludes); err != nil {
 		return err
 	}
+	if err := f.validateScopes(f.ParsedIncludes); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -1271,6 +1283,24 @@ func (f *Frugal) validateServiceTypes(service *Service, includes map[string]*Fru
 				return fmt.Errorf("Invalid exception type %s for %s.%s",
 					field.Type.Name, service.Name, method.Name)
 			}
+		}
+	}
+	return nil
+}
+func (f *Frugal) validateScopes(includes map[string]*Frugal) error {
+	for _, scope := range f.Scopes {
+		if err := f.validateScopeTypes(scope, includes); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func (f *Frugal) validateScopeTypes(scope *Scope, includes map[string]*Frugal) error {
+	for _, op := range scope.Operations {
+		if !f.isValidType(op.Type) {
+			return fmt.Errorf("Invalid operation type %s for %s.%s",
+				op.Type.Name, scope.Name, op.Name)
 		}
 	}
 	return nil

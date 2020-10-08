@@ -113,6 +113,7 @@ func TestValidGoVendorNamespaceTargetGenerate(t *testing.T) {
 
 	files := []FileComparisonPair{
 		{"expected/go/vendor_namespace/f_types.txt", filepath.Join(outputDir, "vendor_namespace", "f_types.go")},
+		{"expected/go/vendor_namespace/f_vendoredbase_service.txt", filepath.Join(outputDir, "vendor_namespace", "f_vendoredbase_service.go")},
 	}
 	copyAllFiles(t, files)
 	compareAllFiles(t, files)
@@ -137,6 +138,50 @@ func TestIncludeOrdering(t *testing.T) {
 		{"expected/go/ordering/three/f_types.go", filepath.Join(outputDir, "ordering", "three", "f_types.go")},
 		{"expected/go/ordering/four/f_types.go", filepath.Join(outputDir, "ordering", "four", "f_types.go")},
 		{"expected/go/ordering/five/f_types.go", filepath.Join(outputDir, "ordering", "five", "f_types.go")},
+	}
+
+	copyAllFiles(t, files)
+	compareAllFiles(t, files)
+}
+
+// Ensures slim generated files are correct.
+func TestSlim(t *testing.T) {
+	options := compiler.Options{
+		File:    frugalGenFile,
+		Gen:     "go:package_prefix=github.com/Workiva/frugal/test/out/,slim",
+		Out:     outputDir,
+		Delim:   delim,
+		Recurse: true,
+	}
+	if err := compiler.Compile(options); err != nil {
+		t.Fatal("Unexpected error", err)
+	}
+
+	files := []FileComparisonPair{
+		{"expected/go/slim/f_types.go", filepath.Join(outputDir, "variety", "f_types.go")},
+		{"expected/go/slim/f_foo_service.go", filepath.Join(outputDir, "variety", "f_foo_service.go")},
+		{"expected/go/slim/f_events_scope.go", filepath.Join(outputDir, "variety", "f_events_scope.go")},
+	}
+
+	copyAllFiles(t, files)
+	compareAllFiles(t, files)
+}
+
+// Ensures deprecated logging can be suppressed
+func TestSuppressedDeprecatedLogging(t *testing.T) {
+	options := compiler.Options{
+		File:    frugalGenFile,
+		Gen:     "go:package_prefix=github.com/Workiva/frugal/test/out/,suppress_deprecated_logging",
+		Out:     outputDir,
+		Delim:   delim,
+		Recurse: true,
+	}
+	if err := compiler.Compile(options); err != nil {
+		t.Fatal("Unexpected error", err)
+	}
+
+	files := []FileComparisonPair{
+		{"expected/go/deprecated_logging/f_foo_service.go", filepath.Join(outputDir, "variety", "f_foo_service.go")},
 	}
 
 	copyAllFiles(t, files)

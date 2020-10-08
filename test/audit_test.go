@@ -122,7 +122,7 @@ func TestScopeBreakingChanges(t *testing.T) {
 		"scope Foo: prefix changed: 'foo.bar.{}.{}.qux' -> 'foo.bar.{}.{}.qux.que'",
 		"scope Foo: prefix changed: 'foo.bar.{}.{}.qux' -> 'foo.bar.{}.{}'",
 		"scope Foo: operation removed: Bar",
-		"scope Foo: operation Foo: types not equal: 'Thing' -> 'int'",
+		"scope Foo: operation Foo: types not equal: 'Thing' -> 'i32'",
 	}
 	for i := 0; i < 7; i++ {
 		badFile := fmt.Sprintf("idl/breaking_changes/scope%d.frugal", i+1)

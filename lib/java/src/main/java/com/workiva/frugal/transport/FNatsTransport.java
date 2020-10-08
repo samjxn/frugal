@@ -13,19 +13,21 @@
 
 package com.workiva.frugal.transport;
 
+import com.workiva.frugal.FContext;
 import com.workiva.frugal.exception.TTransportExceptionType;
 import io.nats.client.Connection;
+import io.nats.client.Connection.Status;
+import io.nats.client.Dispatcher;
 import io.nats.client.Message;
 import io.nats.client.MessageHandler;
-import io.nats.client.Nats;
-import io.nats.client.Subscription;
 import org.apache.thrift.TException;
+import org.apache.thrift.transport.TTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Arrays;
+import java.util.UUID;
 
 /**
  * FNatsTransport is an extension of FTransport. This is a "stateless" transport
@@ -43,8 +45,7 @@ public class FNatsTransport extends FAsyncTransport {
     private final Connection conn;
     private final String subject;
     private final String inbox;
-
-    private Subscription sub;
+    private Dispatcher dispatcher;
 
     private FNatsTransport(Connection conn, String subject, String inbox) {
         this.requestSizeLimit = NATS_MAX_MESSAGE_SIZE;
@@ -65,7 +66,7 @@ public class FNatsTransport extends FAsyncTransport {
      * @return FNatsTransport for communicating via NATS.
      */
     public static FNatsTransport of(Connection conn, String subject) {
-        return new FNatsTransport(conn, subject, conn.newInbox());
+        return new FNatsTransport(conn, subject, createInbox(conn));
     }
 
     /**
@@ -86,7 +87,11 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public boolean isOpen() {
-        return sub != null && conn.getState() == Nats.ConnState.CONNECTED;
+        return isOpen(conn.getStatus());
+    }
+
+    private boolean isOpen(Status status) {
+        return dispatcher != null && status == Status.CONNECTED;
     }
 
     /**
@@ -96,13 +101,15 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public void open() throws TTransportException {
-        if (conn.getState() != Nats.ConnState.CONNECTED) {
-            throw getClosedConditionException(conn.getState(), "open:");
+        Status status = conn.getStatus();
+        if (status != Status.CONNECTED) {
+            throw getClosedConditionException(status, "open:");
         }
-        if (sub != null) {
+        if (dispatcher != null) {
             throw new TTransportException(TTransportExceptionType.ALREADY_OPEN, "NATS transport already open");
         }
-        sub = conn.subscribe(inbox, new Handler());
+        dispatcher = conn.createDispatcher(new Handler());
+        dispatcher.subscribe(inbox);
     }
 
     /**
@@ -110,28 +117,20 @@ public class FNatsTransport extends FAsyncTransport {
      */
     @Override
     public void close() {
-        if (sub == null) {
-            return;
+        if (dispatcher != null) {
+            conn.closeDispatcher(dispatcher);
+            dispatcher = null;
         }
-        try {
-            sub.unsubscribe();
-        } catch (IOException e) {
-            LOGGER.warn("NATS transport could not unsubscribe from subscription: " + e.getMessage());
-        }
-        sub = null;
         super.close();
     }
 
     @Override
     protected void flush(byte[] payload) throws TTransportException {
-        if (!isOpen()) {
-            throw getClosedConditionException(conn.getState(), "flush:");
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "flush:");
         }
-        try {
-            conn.publish(subject, inbox, payload);
-        } catch (IOException e) {
-            throw new TTransportException("request: unable to publish data: " + e.getMessage());
-        }
+        conn.publish(subject, inbox, payload);
     }
 
     /**
@@ -149,19 +148,56 @@ public class FNatsTransport extends FAsyncTransport {
 
     }
 
+    protected void preflightRequestCheck(int length) throws TTransportException {
+        Status status = conn.getStatus();
+        if (!isOpen(status)) {
+            throw getClosedConditionException(status, "request:");
+        }
+
+        int requestSizeLimit = getRequestSizeLimit();
+        if (requestSizeLimit > 0 && length > requestSizeLimit) {
+            throw new TTransportException(TTransportExceptionType.REQUEST_TOO_LARGE,
+                    String.format("Message exceeds %d bytes, was %d bytes",
+                            requestSizeLimit, length));
+        }
+    }
+
+    @Override
+    public TTransport request(FContext context, byte[] payload) throws TTransportException {
+        try {
+            return super.request(context, payload);
+        } catch (TTransportException e) {
+            if (e.getType() == TTransportExceptionType.TIMED_OUT) {
+                String newMessage = e.getMessage() + " for NATS subject: " + subject;
+                throw new TTransportException(e.getType(), newMessage, e);
+            }
+            throw e;
+        }
+    }
+
     /**
      * Convert NATS connection state to a suitable exception type.
      *
-     * @param connState nats connection state
-     * @param prefix    prefix to add to exception message
+     * @param connStatus nats connection status
+     * @param prefix     prefix to add to exception message
      * @return a TTransportException type
      */
-    protected static TTransportException getClosedConditionException(Nats.ConnState connState, String prefix) {
-        if (connState != Nats.ConnState.CONNECTED) {
-            return new TTransportException(TTransportExceptionType.NOT_OPEN,
-                    String.format("%s NATS client not connected (has status %s)", prefix, connState.name()));
+    protected static TTransportException getClosedConditionException(Status connStatus, String prefix) {
+        if (connStatus != Status.CONNECTED) {
+            int ttype = connStatus == Status.DISCONNECTED || connStatus == Status.RECONNECTING
+                    ? TTransportExceptionType.DISCONNECTED
+                    : TTransportExceptionType.NOT_OPEN;
+            return new TTransportException(ttype,
+                    String.format("%s NATS client not connected (has status %s)", prefix, connStatus.name()));
         }
         return new TTransportException(TTransportExceptionType.NOT_OPEN,
                 String.format("%s NATS Transport not open", prefix));
+    }
+
+    /**
+     * Helper to generate a random id for inbox.
+     */
+    private static String createInbox(Connection conn) {
+        return conn.getOptions().getInboxPrefix() + UUID.randomUUID().toString().replace("-", "");
     }
 }

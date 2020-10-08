@@ -122,7 +122,7 @@ class TestFNatsTransport(AsyncTestCase):
 
     @gen_test
     def test_close_with_no_sub_id_returns_early(self):
-        self.transport._sub_id = 1
+        self.transport._sub_id = None
         f = concurrent.Future()
         f.set_result(None)
         self.mock_nats_client.unsubscribe.return_value = f

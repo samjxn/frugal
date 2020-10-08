@@ -14,7 +14,7 @@
 package frugal
 
 import (
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 // TTransportException types used in frugal instantiated
@@ -34,6 +34,10 @@ const (
 	// TRANSPORT_EXCEPTION_RESPONSE_TOO_LARGE is a TTransportException
 	// error type indicating the response exceeded the size limit.
 	TRANSPORT_EXCEPTION_RESPONSE_TOO_LARGE = 101
+
+	// TRANSPORT_EXCEPTION_DISCONNECTED is a TTransportException error type
+	// indicating the transport was disconnected
+	TRANSPORT_EXCEPTION_DISCONNECTED = 102
 )
 
 // TApplicationException types used in frugal instantiated

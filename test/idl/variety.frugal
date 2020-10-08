@@ -25,6 +25,7 @@ const id other_default = DEFAULT_ID
 const i8 thirtyfour = 34
 
 const map<string,string> MAPCONSTANT = {'hello':'world', 'goodnight':'moon'}
+const set<string> SETCONSTANT = ['hello', 'world']
 
 const Event ConstEvent1 = {"ID": -2, "Message": "first one"}
 const Event ConstEvent2 = {"ID": -7, "Message": "second one"}
@@ -67,8 +68,12 @@ enum HealthCondition {
      * because it has the @ sign.
      */
     WARN = 2,
-    FAIL = 3,
-    UNKNOWN = 4
+    FAIL = 3 (deprecated="use something else"),
+    /**@
+     * This is a docstring comment for a deprecated enum value that has been
+     * spread across two lines.
+     */
+    UNKNOWN = 4 (deprecated="don't use this; use \"something else\"")
 }
 
 union TestingUnions {
@@ -110,6 +115,7 @@ struct TestingDefaults {
     14: optional list<int> list3,
     15: list<int> list4 = [1,2,3,6],
     16: optional map<string, string> a_map = {"k1": "v1", "k2": "v2"},
+    /**@ Comment for enum field. */
     17: required HealthCondition status = HealthCondition.PASS,
     18: required base.base_health_condition base_status = base.base_health_condition.FAIL,
 }
@@ -144,6 +150,15 @@ struct EventWrapper {
     11: bool depr (deprecated="use something else"),
     12: binary deprBinary (deprecated="use something else"),
     13: list<bool> deprList (deprecated="use something else"),
+    14: optional list<Event> EventsDefault = []
+    15: optional map<id, Event> EventMapDefault = {}
+    16: optional set<Event> EventSetDefault = []
+}
+
+struct FooArgs {
+    1:string newMessage
+    2:string messageArgs
+    3:string messageResult
 }
 
 exception AwesomeException {
@@ -181,6 +196,11 @@ service Foo extends base.BaseFoo {
     ValidTypes.MyInt getMyInt(),
 
     subdir_include.A use_subdir_struct(1:subdir_include.A a),
+
+
+    string sayHelloWith(1: string newMessage)
+    string whatDoYouSay(1: string messageArgs)
+    string sayAgain(1: string messageResult)
 }
 
 service FooTransitiveDeps extends intermediate_include.IntermediateFoo {

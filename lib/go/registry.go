@@ -18,7 +18,7 @@ import (
 	"strconv"
 	"sync"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 // FAsyncCallback is an internal callback which is constructed by generated
