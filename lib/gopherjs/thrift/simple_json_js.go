@@ -2,7 +2,7 @@
 
 package thrift
 
-import "github.com/gopherjs/gopherjs/js"
+import "github.com/goplusjs/gopherjs/js"
 
 func jsonQuote(s string) string {
 	return js.Global.Get("JSON").Call("stringify", js.InternalObject(s)).String()
