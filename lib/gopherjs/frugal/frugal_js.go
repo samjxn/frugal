@@ -2,7 +2,7 @@
 
 package frugal
 
-import "github.com/gopherjs/gopherjs/js"
+import "github.com/goplusjs/gopherjs/js"
 
 type safeLogger struct{}
 

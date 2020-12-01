@@ -8,7 +8,7 @@ across all supported languages.
 The cross language tests assume that the test environment has:
 - `python2` executable exists on the `$PATH`
 - `python3` executable exists on the `$PATH`
-- `go` executable exists on the `$PATH` and is v1.12 ??
+- `go` executable exists on the `$PATH` and is v1.15
 - `dart` executable exists on the `$PATH` and is v??
 - `/usr/bin/java` executable exists and is v1.8 or greater
 - `virtualenv` module has been installed for `python2`
