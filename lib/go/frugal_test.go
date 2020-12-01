@@ -22,6 +22,7 @@ import (
 )
 
 func init() {
+	testing.Init()
 	flag.Parse()
 	logger := logrus.New()
 	if testing.Verbose() {
