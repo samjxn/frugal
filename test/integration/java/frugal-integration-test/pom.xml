@@ -58,7 +58,7 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.53.Final</version>
+            <version>4.1.54.Final</version>
         </dependency>
         <dependency>
             <groupId>org.nanohttpd</groupId>
@@ -68,7 +68,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
-            <version>9.4.32.v20200930</version>
+            <version>9.4.35.v20201120</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
