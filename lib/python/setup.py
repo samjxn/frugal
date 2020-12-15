@@ -31,7 +31,7 @@ setup(
         'asyncio': [
             'aiohttp>=3.0.9,<4',
             'aiostomp==1.6.2',
-            'asyncio-nats-client>=0.11.4',
+            'asyncio-nats-client>=0.11.4,<1',
             'async-timeout>=2.0.1,<4',
         ],
         'gae': ['webapp2==2.5.2'],
