@@ -1787,6 +1787,11 @@ func (g *Generator) generateClient(service *parser.Service) string {
 
 	// Generate client class
 	if service.Extends != "" {
+		// This generated ignore statement can be removed once we drop support for Dart 2.7.2
+		contents += fmt.Sprint("// The below ignore statement is only needed to workaround https://github.com/dart-lang/sdk/issues/29751, which is fixed on Dart 2.8.0 and later.\n" +
+			"// Dart versions before 2.8.0 need this ignore to analyze properly.\n")
+		contents += fmt.Sprint("// ignore: private_collision_in_mixin_application\n")
+
 		contents += fmt.Sprintf("class %s extends %sClient with disposable.Disposable implements F%s {\n",
 			clientClassname, g.getServiceExtendsName(service), servTitle)
 	} else {
