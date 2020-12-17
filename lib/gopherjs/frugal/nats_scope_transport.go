@@ -22,7 +22,7 @@ import (
 	"time"
 
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/nats-io/go-nats"
+	"github.com/nats-io/nats.go"
 )
 
 // frameBufferSize is the number of message frames to buffer on the subscriber.
@@ -88,8 +88,7 @@ func (n *fNatsPublisherTransport) Close() error {
 }
 
 // GetPublishSizeLimit returns the maximum allowable size of a payload
-// to be published. A non-positive number is returned to indicate an
-// unbounded allowable size.
+// to be published. 0 is returned to indicate an unbounded allowable size.
 func (n *fNatsPublisherTransport) GetPublishSizeLimit() uint {
 	return uint(natsMaxMessageSize)
 }

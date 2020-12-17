@@ -17,12 +17,14 @@ import (
 	"bytes"
 	"errors"
 	"strings"
+	"sync"
 	"testing"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+
+	"github.com/Workiva/frugal/lib/gopherjs/thrift"
 )
 
 // _opid0_cid123[1,"ping",1,0,{}]
@@ -59,7 +61,7 @@ func TestFBaseProcessorHappyPath(t *testing.T) {
 	reads <- pingFrame[5:34] // FContext headers
 	reads <- pingFrame[34:]  // request body
 	mockTransport.reads = reads
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 	processorFunction := &pingProcessor{t: t, expectedProto: proto}
 	processor.AddToProcessorMap("ping", processorFunction)
@@ -87,7 +89,7 @@ func TestFBaseProcessorError(t *testing.T) {
 	reads <- pingFrame[5:34] // FContext headers
 	reads <- pingFrame[34:]  // request body
 	mockTransport.reads = reads
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 	err := errors.New("error")
 	processorFunction := &pingProcessor{t: t, expectedProto: proto, err: err}
@@ -107,7 +109,7 @@ func TestFBaseProcessorReadError(t *testing.T) {
 	mockTransport := new(mockTTransport)
 	err := errors.New("error")
 	mockTransport.readError = err
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	err = processor.Process(proto, proto)
@@ -150,7 +152,7 @@ func TestFBaseProcessorNoProcessorFunction(t *testing.T) {
 	}
 	mockTransport.On("Write", responseBody).Return(len(responseBody), nil).Once()
 	mockTransport.On("Flush").Return(nil)
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	assert.NoError(t, processor.Process(proto, proto))
@@ -186,7 +188,7 @@ func TestFBaseProcessorNoProcessorFunctionWriteError(t *testing.T) {
 	// so cant check for equality.
 	//responseCtx := []byte{0, 0, 0, 0, 29, 0, 0, 0, 5, 95, 111, 112, 105, 100, 0, 0, 0, 1, 48, 0, 0, 0, 4, 95, 99, 105, 100, 0, 0, 0, 3, 49, 50, 51}
 	mockTransport.On("Write", mock.Anything).Return(0, errors.New("error")).Once()
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	assert.Error(t, processor.Process(proto, proto))
@@ -232,7 +234,7 @@ func TestFBaseProcessorNoProcessorFunctionFlushError(t *testing.T) {
 	}
 	mockTransport.On("Write", responseBody).Return(len(responseBody), nil).Once()
 	mockTransport.On("Flush").Return(errors.New("error"))
-	proto := &FProtocol{thrift.NewTJSONProtocol(mockTransport)}
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(mockTransport)}
 	processor := NewFBaseProcessor()
 
 	assert.Error(t, processor.Process(proto, proto))
@@ -261,4 +263,24 @@ func TestFBaseProcessorAnnotations(t *testing.T) {
 	annoMap = processor.Annotations()
 	assert.Equal("baz", annoMap["foo"]["bar"])
 	assert.Equal("boom", annoMap["foo"]["boosh"])
+}
+
+func TestFBaseProcessorFunctionSendError(t *testing.T) {
+	ctx := NewFContext("guid")
+	fn := &FBaseProcessorFunction{writeMu: &sync.Mutex{}}
+	buffer := NewTMemoryOutputBuffer(100)
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(buffer)}
+	assert.EqualError(t, fn.SendError(ctx, proto, 0, "method", "message"), "message")
+	assert.Equal(t, string(buffer.Bytes()[9:]), `[1,"method",3,0,{"1":{"str":"message"},"2":{"i32":0}}]`)
+}
+
+func TestFBaseProcessorFunctionSendReply(t *testing.T) {
+	ctx := NewFContext("guid")
+	fn := &FBaseProcessorFunction{writeMu: &sync.Mutex{}}
+	buffer := NewTMemoryOutputBuffer(100)
+	proto := &FProtocol{TProtocol: thrift.NewTJSONProtocol(buffer)}
+	obj := new(mockTStruct)
+	obj.On("Write", mock.Anything).Return(nil)
+	assert.NoError(t, fn.SendReply(ctx, proto, "method", obj))
+	assert.Equal(t, string(buffer.Bytes()[9:]), `[1,"method",2,0]`)
 }

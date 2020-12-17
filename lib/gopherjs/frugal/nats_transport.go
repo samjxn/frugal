@@ -21,7 +21,7 @@ import (
 	"time"
 
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/nats-io/go-nats"
+	"github.com/nats-io/nats.go"
 )
 
 const (

@@ -23,7 +23,7 @@ setup(
     packages=find_packages(exclude=('frugal.tests', 'frugal.tests.*')),
     install_requires=[
         'six>=1.10.0,<2',
-        'thrift==0.10.0',
+        'thrift==0.13.0',
         'requests>=2.12.5,<3',
     ],
     extras_require={
@@ -31,7 +31,7 @@ setup(
         'asyncio': [
             'aiohttp>=3.0.9,<4',
             'aiostomp==1.6.2',
-            'asyncio-nats-client==0.10.0',
+            'asyncio-nats-client>=0.11.4,<1',
             'async-timeout>=2.0.1,<4',
         ],
         'gae': ['webapp2==2.5.2'],

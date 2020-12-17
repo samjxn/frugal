@@ -26,7 +26,7 @@ import (
 	"testing"
 	"time"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -655,7 +655,7 @@ func TestHTTPTransportBadURL(t *testing.T) {
 
 	// Flush
 	expectedErr := thrift.NewTTransportException(TRANSPORT_EXCEPTION_UNKNOWN,
-		"Post nobody/home: unsupported protocol scheme \"\"")
+		"Post \"nobody/home\": unsupported protocol scheme \"\"")
 	_, actualErr := transport.Request(ctx, requestBytes)
 	assert.Equal(actualErr.(thrift.TTransportException).TypeId(), expectedErr.TypeId())
 	assert.Equal(actualErr.(thrift.TTransportException).Error(), expectedErr.Error())

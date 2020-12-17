@@ -40,6 +40,7 @@ Library/
 # Go lib specific
 lib/go/vendor
 lib/go/glide.lock
+lib/go/go.sum
 examples/go/vendor
 examples/go/glide.lock
 
@@ -59,6 +60,7 @@ test/integration/java/frugal-integration-test/*.jar
 test/integration/python/tornado/gen-py
 test/integration/python/tornado/gen_py_tornado
 test/integration/python/asyncio/gen_py_asyncio
+test/integration/python/aio/gen_py_asyncio
 
 # test reports
 unit_tests_py2.xml

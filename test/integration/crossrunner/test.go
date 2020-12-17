@@ -16,13 +16,13 @@ package crossrunner
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"runtime"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
-	"os/exec"
+	log "github.com/sirupsen/logrus"
 )
 
 // a testCase is a pointer to a valid test pair (client/server) and port to run

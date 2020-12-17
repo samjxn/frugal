@@ -17,10 +17,10 @@ import (
 	"errors"
 	"time"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
-	"github.com/Workiva/frugal/lib/go"
+	"github.com/apache/thrift/lib/go/thrift"
+	frugal "github.com/Workiva/frugal/lib/go"
 	. "github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
 )
 
@@ -244,4 +244,9 @@ func (p *printingHandler) TestMultiException(ctx frugal.FContext, arg0 string, a
 func (p *printingHandler) TestOneway(ctx frugal.FContext, msToSleep int32) (err error) {
 	time.Sleep(time.Millisecond * time.Duration(msToSleep))
 	return
+}
+
+// TestSuperClass is inherited from a super service
+func (p *printingHandler) TestSuperClass(ctx frugal.FContext) (err error) {
+	return nil
 }

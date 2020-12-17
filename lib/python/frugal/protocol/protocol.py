@@ -11,11 +11,11 @@
 
 import functools
 import sys
-from thrift.protocol.TProtocolDecorator import TProtocolDecorator
 from thrift.protocol.TCompactProtocol import CLEAR, TCompactProtocol
 
 from frugal.context import FContext, _OPID_HEADER, _CID_HEADER, _get_next_op_id
 from frugal.util.headers import _Headers
+
 
 _V0 = 0
 
@@ -42,7 +42,7 @@ def _state_reset_decorator(func):
     return wrapper
 
 
-class FProtocol(TProtocolDecorator, object):
+class FProtocol(object):
     """
     FProtocol is an extension of thrift TProtocol with the addition of headers
     """
@@ -55,11 +55,13 @@ class FProtocol(TProtocolDecorator, object):
             wrapped_protocol: wrapped thrift protocol extending TProtocolBase.
         """
         self._wrapped_protocol = wrapped_protocol
-        super(FProtocol, self).__init__(self._wrapped_protocol)
+
+    def __getattr__(self, name):
+        return getattr(self._wrapped_protocol, name)
 
     def get_transport(self):
         """
-        Return the extended TProtocolBase's underlying tranpsort
+        Return the extended TProtocolBase's underlying transport
 
         Returns:
             TTransportBase
@@ -69,7 +71,7 @@ class FProtocol(TProtocolDecorator, object):
     @_state_reset_decorator
     def write_request_headers(self, context):
         """
-        Write the request headers to the underlying TTranpsort.
+        Write the request headers to the underlying TTransport.
         """
 
         self._write_headers(context.get_request_headers())

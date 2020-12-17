@@ -18,10 +18,11 @@ import (
 	"io/ioutil"
 	"testing"
 
-	"github.com/Sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 func init() {
+	testing.Init()
 	flag.Parse()
 	logger := logrus.New()
 	if testing.Verbose() {

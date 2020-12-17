@@ -16,7 +16,7 @@ package frugal
 import (
 	"sync"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 )
 
 // FProcessor is Frugal's equivalent of Thrift's TProcessor. It's a generic
@@ -104,7 +104,7 @@ func (f *FBaseProcessor) Process(iprot, oprot *FProtocol) error {
 	if err := oprot.WriteMessageEnd(); err != nil {
 		return err
 	}
-	if err := oprot.Flush(); err != nil {
+	if err := oprot.Flush(toCTX(ctx)); err != nil {
 		return err
 	}
 	return nil
@@ -179,6 +179,8 @@ func NewFBaseProcessorFunction(writeMu *sync.Mutex, handler *Method) *FBaseProce
 
 // GetWriteMutex returns the Mutex which should be used to synchronize access
 // to the output FProtocol.
+//
+// Deprecated: use SendError or SendReply instead!
 func (f *FBaseProcessorFunction) GetWriteMutex() *sync.Mutex {
 	return f.writeMu
 }
@@ -192,4 +194,52 @@ func (f *FBaseProcessorFunction) AddMiddleware(middleware ServiceMiddleware) {
 // InvokeMethod invokes the handler method.
 func (f *FBaseProcessorFunction) InvokeMethod(args []interface{}) Results {
 	return f.handler.Invoke(args)
+}
+
+// SendError writes the error to the desired transport
+func (f *FBaseProcessorFunction) SendError(ctx FContext, oprot *FProtocol, kind int32, method, message string) error {
+	f.writeMu.Lock()
+	err := f.sendError(ctx, oprot, kind, method, message)
+	f.writeMu.Unlock()
+	return err
+}
+
+func (f *FBaseProcessorFunction) sendError(ctx FContext, oprot *FProtocol, kind int32, method, message string) error {
+	err := thrift.NewTApplicationException(kind, message)
+	oprot.WriteResponseHeader(ctx)
+	oprot.WriteMessageBegin(method, thrift.EXCEPTION, 0)
+	err.Write(oprot)
+	oprot.WriteMessageEnd()
+	oprot.Flush(toCTX(ctx))
+	return err
+}
+
+// SendReply ...
+func (f *FBaseProcessorFunction) SendReply(ctx FContext, oprot *FProtocol, method string, result thrift.TStruct) error {
+	f.writeMu.Lock()
+	defer f.writeMu.Unlock()
+	if err := oprot.WriteResponseHeader(ctx); err != nil {
+		return f.trapError(ctx, oprot, method, err)
+	}
+	if err := oprot.WriteMessageBegin(method, thrift.REPLY, 0); err != nil {
+		return f.trapError(ctx, oprot, method, err)
+	}
+	if err := result.Write(oprot); err != nil {
+		return f.trapError(ctx, oprot, method, err)
+	}
+	if err := oprot.WriteMessageEnd(); err != nil {
+		return f.trapError(ctx, oprot, method, err)
+	}
+	if err := oprot.Flush(toCTX(ctx)); err != nil {
+		return f.trapError(ctx, oprot, method, err)
+	}
+	return nil
+}
+
+func (f *FBaseProcessorFunction) trapError(ctx FContext, oprot *FProtocol, method string, err error) error {
+	if IsErrTooLarge(err) {
+		f.sendError(ctx, oprot, APPLICATION_EXCEPTION_RESPONSE_TOO_LARGE, method, err.Error())
+		return nil
+	}
+	return err
 }

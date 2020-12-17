@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"sync"
 
-	"git.apache.org/thrift.git/lib/go/thrift"
+	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/go-stomp/stomp"
 )
 

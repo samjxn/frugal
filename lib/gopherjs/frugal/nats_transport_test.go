@@ -19,13 +19,13 @@ import (
 	"time"
 
 	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/nats-io/go-nats"
+	"github.com/nats-io/nats.go"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
 
 type mockRegistry struct {
-	frameC chan ([]byte)
+	frameC chan []byte
 	err    error
 }
 
@@ -246,13 +246,16 @@ func newClientAndServer(t *testing.T, isTTransport bool) (*fNatsTransport, *fNat
 	server := NewFNatsServerBuilder(conn, mockProcessor, protocolFactory, []string{"foo"}).
 		WithQueueGroup("queue").
 		WithWorkerCount(1).
+		WithRequestReceivedEventHandler(func(map[interface{}]interface{}) {}).
+		WithRequestStartedEventHandler(func(map[interface{}]interface{}) {}).
 		Build()
 	mockTransport := new(mockFTransport)
 	proto := thrift.NewTJSONProtocol(mockTransport)
 	mockTProtocolFactory.On("GetProtocol", mock.AnythingOfType("*thrift.TMemoryBuffer")).Return(proto).Once()
 	mockTProtocolFactory.On("GetProtocol", mock.AnythingOfType("*frugal.TMemoryOutputBuffer")).Return(proto).Once()
-	fproto := &FProtocol{proto}
-	mockProcessor.On("Process", fproto, fproto).Return(nil)
+	inputFproto := &FProtocol{TProtocol: proto, ephemeralProperties: make(map[interface{}]interface{})}
+	outputPproto := &FProtocol{TProtocol: proto, ephemeralProperties: make(map[interface{}]interface{})}
+	mockProcessor.On("Process", inputFproto, outputPproto).Return(nil)
 
 	go func() {
 		assert.Nil(t, server.Serve())

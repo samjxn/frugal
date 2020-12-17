@@ -3,6 +3,19 @@
 Used to verify that each supported transport and protocol works as expected
 across all supported languages.
 
+## Assumptions
+
+The cross language tests assume that the test environment has:
+- `python2` executable exists on the `$PATH`
+- `python3` executable exists on the `$PATH`
+- `go` executable exists on the `$PATH` and is v1.15
+- `dart` executable exists on the `$PATH` and is v??
+- `/usr/bin/java` executable exists and is v1.8 or greater
+- `virtualenv` module has been installed for `python2`
+- `venv` module has been installed for `python3`
+- The artifactory username in `~/.pip/pip.conf` is not URL encoded (e.g. `john.doe@workiva.com` instead of `john.doe%40workiva.com`... we may need to update a base Docker image to have a later version of pip)
+- You must be on the Workiva Admin VPN to be able to download Dart packages
+
 ## To Run:
 ##### In Skynet:
 
