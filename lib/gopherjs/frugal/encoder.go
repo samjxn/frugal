@@ -1,6 +1,6 @@
 package frugal
 
-import "github.com/Workiva/frugal/lib/gopherjs/thrift"
+import "github.com/samjxn/frugal/lib/gopherjs/thrift"
 
 // WriteString writes string `value` of field name and id `name` and `field` respectively into `p`.
 func WriteString(p thrift.TProtocol, value, name string, field int16) error {

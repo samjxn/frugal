@@ -19,16 +19,16 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/Workiva/frugal/compiler/generator"
-	"github.com/Workiva/frugal/compiler/generator/dartlang"
-	"github.com/Workiva/frugal/compiler/generator/golang"
-	"github.com/Workiva/frugal/compiler/generator/gopherjs"
-	"github.com/Workiva/frugal/compiler/generator/html"
-	"github.com/Workiva/frugal/compiler/generator/java"
-	"github.com/Workiva/frugal/compiler/generator/json"
-	"github.com/Workiva/frugal/compiler/generator/python"
-	"github.com/Workiva/frugal/compiler/globals"
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/generator"
+	"github.com/samjxn/frugal/compiler/generator/dartlang"
+	"github.com/samjxn/frugal/compiler/generator/golang"
+	"github.com/samjxn/frugal/compiler/generator/gopherjs"
+	"github.com/samjxn/frugal/compiler/generator/html"
+	"github.com/samjxn/frugal/compiler/generator/java"
+	"github.com/samjxn/frugal/compiler/generator/json"
+	"github.com/samjxn/frugal/compiler/generator/python"
+	"github.com/samjxn/frugal/compiler/globals"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 // Options contains compiler options for code generation.

@@ -24,7 +24,7 @@ $ tail -n +1 *
 ==> gopher.go <==
 package main
 
-import "github.com/Workiva/frugal/test/expected/gopherjs/variety"
+import "github.com/samjxn/frugal/test/expected/gopherjs/variety"
 
 func main() {
         println(variety.DEFAULT_ID)
@@ -33,7 +33,7 @@ func main() {
 ==> master.go <==
 package main
 
-import "github.com/Workiva/frugal/test/out/variety"
+import "github.com/samjxn/frugal/test/out/variety"
 
 func main() {
         println(variety.DEFAULT_ID)
@@ -42,7 +42,7 @@ func main() {
 ==> slim.go <==
 package main
 
-import "github.com/Workiva/frugal/test/out/variety"
+import "github.com/samjxn/frugal/test/out/variety"
 
 func main() {
         println(variety.DEFAULT_ID)
@@ -51,15 +51,15 @@ func main() {
 ==> test.sh <==
 #! /bin/sh
 
-go test -run=TestValidGoFrugalCompiler github.com/Workiva/frugal/test > /dev/null
+go test -run=TestValidGoFrugalCompiler github.com/samjxn/frugal/test > /dev/null
 gopherjs build -o test0-master.js master.go
 gopherjs build -m -o test0-master.min.js master.go
 
-go test -run=TestSlim github.com/Workiva/frugal/test > /dev/null
+go test -run=TestSlim github.com/samjxn/frugal/test > /dev/null
 gopherjs build -o test1-slim.js slim.go
 gopherjs build -m -o test1-slim.min.js slim.go
 
-go test -run=TestValidGopherjsFrugalCompiler github.com/Workiva/frugal/test > /dev/null
+go test -run=TestValidGopherjsFrugalCompiler github.com/samjxn/frugal/test > /dev/null
 gopherjs build -o test2-gopher.js gopher.go
 gopherjs build -m -o test2-gopher.min.js gopher.go
 

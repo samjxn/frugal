@@ -6,7 +6,7 @@ package music
 import (
 	"fmt"
 
-	"github.com/Workiva/frugal/lib/go"
+	"github.com/samjxn/frugal/lib/go"
 	"github.com/apache/thrift/lib/go/thrift"
 )
 

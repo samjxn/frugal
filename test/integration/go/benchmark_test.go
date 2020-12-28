@@ -18,8 +18,8 @@ import (
     "testing"
 
     "github.com/apache/thrift/lib/go/thrift"
-    "github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
-    "github.com/Workiva/frugal/lib/go"
+    "github.com/samjxn/frugal/test/integration/go/gen/frugaltest"
+    "github.com/samjxn/frugal/lib/go"
 )
 
 func newBenchmarkMiddleware() frugal.ServiceMiddleware {

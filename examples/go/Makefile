@@ -8,5 +8,5 @@ all: install
 install:
 	rm -rf vendor && \
 		glide install && \
-		rm -rf vendor/github.com/Workiva/frugal/lib/go && \
-		ln -s ${GOPATH}/src/github.com/Workiva/frugal/lib/go vendor/github.com/Workiva/frugal/lib/go
+		rm -rf vendor/github.com/samjxn/frugal/lib/go && \
+		ln -s ${GOPATH}/src/github.com/samjxn/frugal/lib/go vendor/github.com/samjxn/frugal/lib/go

@@ -7,8 +7,7 @@ dependencies:
   thrift:
     hosted:
       name: thrift
-      url: https://pub.workiva.org
-    version: ^0.0.10
+    version: ^0.13.0
   uuid: '>=0.5.0 <2.0.0'
   w_common: ^1.20.1
   w_transport: ^3.2.8
@@ -20,7 +19,7 @@ dev_dependencies:
   test: ^1.9.1
 environment:
   sdk: '>=2.4.1 <3.0.0'
-homepage: https://github.com/Workiva/frugal/lib/dart
+homepage: https://github.com/samjxn/frugal/lib/dart
 name: frugal
 publish_to: https://pub.workiva.org
 version: 3.12.2

@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 
-	"github.com/Workiva/frugal/compiler"
+	"github.com/samjxn/frugal/compiler"
 )
 
 var gopherjsVerifyFiles = []string{
@@ -23,7 +23,7 @@ var gopherjsVerifyFiles = []string{
 func TestValidGopherjsFrugalCompiler(t *testing.T) {
 	options := compiler.Options{
 		File:    frugalGenFile,
-		Gen:     "gopherjs:package_prefix=github.com/Workiva/frugal/test/expected/gopherjs/",
+		Gen:     "gopherjs:package_prefix=github.com/samjxn/frugal/test/expected/gopherjs/",
 		Out:     outputDir,
 		Delim:   delim,
 		Recurse: true,

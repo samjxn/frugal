@@ -7,8 +7,8 @@ import (
 	"github.com/apache/thrift/lib/go/thrift"
 	"github.com/nats-io/nats.go"
 
-	"github.com/Workiva/frugal/examples/go/gen-go/v1/music"
-	frugal "github.com/Workiva/frugal/lib/go"
+	"github.com/samjxn/frugal/examples/go/gen-go/v1/music"
+	frugal "github.com/samjxn/frugal/lib/go"
 )
 
 // Run a NATS subscriber

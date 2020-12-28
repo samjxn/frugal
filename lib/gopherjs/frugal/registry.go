@@ -18,7 +18,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 // FAsyncCallback is an internal callback which is constructed by generated

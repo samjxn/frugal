@@ -6,11 +6,11 @@ package variety
 import (
 	"fmt"
 
-	"github.com/Workiva/frugal/lib/go"
-	"github.com/Workiva/frugal/test/out/ValidTypes"
-	"github.com/Workiva/frugal/test/out/actual_base/golang"
-	"github.com/Workiva/frugal/test/out/subdir_include"
-	"github.com/Workiva/frugal/test/out/validStructs"
+	"github.com/samjxn/frugal/lib/go"
+	"github.com/samjxn/frugal/test/out/ValidTypes"
+	"github.com/samjxn/frugal/test/out/actual_base/golang"
+	"github.com/samjxn/frugal/test/out/subdir_include"
+	"github.com/samjxn/frugal/test/out/validStructs"
 	"github.com/apache/thrift/lib/go/thrift"
 )
 

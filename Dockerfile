@@ -9,8 +9,8 @@ ARG GIT_BRANCH
 ARG GIT_MERGE_BRANCH
 ARG GIT_SSH_KEY
 ARG KNOWN_HOSTS_CONTENT
-WORKDIR /go/src/github.com/Workiva/frugal/
-ADD . /go/src/github.com/Workiva/frugal/
+WORKDIR /go/src/github.com/samjxn/frugal/
+ADD . /go/src/github.com/samjxn/frugal/
 
 RUN mkdir /root/.ssh && \
     echo "$KNOWN_HOSTS_CONTENT" > "/root/.ssh/known_hosts" && \
@@ -32,19 +32,19 @@ RUN echo "Starting the script section" && \
 		cat $FRUGAL_HOME/test_results/smithy_java.sh_out.txt && \
 		echo "script section completed"
 
-ARG BUILD_ARTIFACTS_RELEASE=/go/src/github.com/Workiva/frugal/frugal
-ARG BUILD_ARTIFACTS_AUDIT=/go/src/github.com/Workiva/frugal/python2_pip_deps.txt:/go/src/github.com/Workiva/frugal/python3_pip_deps.txt:/go/src/github.com/Workiva/frugal/lib/go/go.mod:/go/src/github.com/Workiva/frugal/lib/dart/pubspec.lock:/go/src/github.com/Workiva/frugal/lib/java/pom.xml
-ARG BUILD_ARTIFACTS_GO_LIBRARY=/go/src/github.com/Workiva/frugal/goLib.tar.gz
-ARG BUILD_ARTIFACTS_PYPI=/go/src/github.com/Workiva/frugal/frugal-*.tar.gz
-ARG BUILD_ARTIFACTS_ARTIFACTORY=/go/src/github.com/Workiva/frugal/frugal-*.jar
-ARG BUILD_ARTIFACTS_PUB=/go/src/github.com/Workiva/frugal/frugal.pub.tgz
-ARG BUILD_ARTIFACTS_TEST_RESULTS=/go/src/github.com/Workiva/frugal/test_results/*
+ARG BUILD_ARTIFACTS_RELEASE=/go/src/github.com/samjxn/frugal/frugal
+ARG BUILD_ARTIFACTS_AUDIT=/go/src/github.com/samjxn/frugal/python2_pip_deps.txt:/go/src/github.com/samjxn/frugal/python3_pip_deps.txt:/go/src/github.com/samjxn/frugal/lib/go/go.mod:/go/src/github.com/samjxn/frugal/lib/dart/pubspec.lock:/go/src/github.com/samjxn/frugal/lib/java/pom.xml
+ARG BUILD_ARTIFACTS_GO_LIBRARY=/go/src/github.com/samjxn/frugal/goLib.tar.gz
+ARG BUILD_ARTIFACTS_PYPI=/go/src/github.com/samjxn/frugal/frugal-*.tar.gz
+ARG BUILD_ARTIFACTS_ARTIFACTORY=/go/src/github.com/samjxn/frugal/frugal-*.jar
+ARG BUILD_ARTIFACTS_PUB=/go/src/github.com/samjxn/frugal/frugal.pub.tgz
+ARG BUILD_ARTIFACTS_TEST_RESULTS=/go/src/github.com/samjxn/frugal/test_results/*
 
 # make a simple etc/passwd file so the scratch image can run as nobody (not root)
 RUN echo "nobody:x:65534:65534:Nobody:/:" > /passwd.minimal
 
 FROM scratch
-COPY --from=build /go/src/github.com/Workiva/frugal/frugal /bin/frugal
+COPY --from=build /go/src/github.com/samjxn/frugal/frugal /bin/frugal
 COPY --from=build /passwd.minimal /etc/passwd
 USER nobody
 ENTRYPOINT ["frugal"]

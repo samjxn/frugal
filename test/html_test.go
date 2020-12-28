@@ -17,7 +17,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Workiva/frugal/compiler"
+	"github.com/samjxn/frugal/compiler"
 )
 
 func TestHTML(t *testing.T) {

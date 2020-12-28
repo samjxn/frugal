@@ -7,9 +7,9 @@ import (
 	"bytes"
 	"fmt"
 
-	"github.com/Workiva/frugal/lib/gopherjs/frugal"
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/Workiva/frugal/test/expected/gopherjs/actual_base/golang"
+	"github.com/samjxn/frugal/lib/gopherjs/frugal"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/test/expected/gopherjs/actual_base/golang"
 )
 
 const RedefConst = golang.ConstI32FromBase

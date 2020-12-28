@@ -17,7 +17,7 @@ import (
 	"flag"
 	"log"
 
-	"github.com/Workiva/frugal/test/integration/go/common"
+	"github.com/samjxn/frugal/test/integration/go/common"
 )
 
 var host = flag.String("host", "localhost", "Host to connect")

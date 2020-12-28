@@ -22,8 +22,8 @@ import (
 	"github.com/apache/thrift/lib/go/thrift"
 	log "github.com/sirupsen/logrus"
 
-	frugal "github.com/Workiva/frugal/lib/go"
-	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
+	frugal "github.com/samjxn/frugal/lib/go"
+	"github.com/samjxn/frugal/test/integration/go/gen/frugaltest"
 )
 
 var debugClientProtocol bool

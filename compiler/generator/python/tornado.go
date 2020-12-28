@@ -17,8 +17,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Workiva/frugal/compiler/globals"
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/globals"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 // TornadoGenerator implements the LanguageGenerator interface for Python using

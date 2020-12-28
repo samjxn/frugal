@@ -17,8 +17,8 @@ import (
 	"encoding/json"
 	"os"
 
-	"github.com/Workiva/frugal/compiler/generator"
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/generator"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 const (

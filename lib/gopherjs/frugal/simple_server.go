@@ -14,7 +14,7 @@
 package frugal
 
 import (
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 // FSimpleServer is a simple FServer which starts a goroutine for each

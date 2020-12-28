@@ -16,7 +16,7 @@ package test
 import (
 	"testing"
 
-	"github.com/Workiva/frugal/compiler"
+	"github.com/samjxn/frugal/compiler"
 	"github.com/stretchr/testify/assert"
 )
 

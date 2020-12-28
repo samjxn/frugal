@@ -15,4 +15,4 @@ import:
   version: v1.10.0
 - package: github.com/rs/cors
   version: v1.3.0
-package: github.com/Workiva/frugal/examples/go
+package: github.com/samjxn/frugal/examples/go

@@ -7,7 +7,7 @@ if [ -z "${IN_SKYNET_CLI+yes}" ]; then
     tar -xzf ${SKYNET_APPLICATION_FRUGAL_PYPI} -C /python
     cd /python/frugal*
 else
-    cd $GOPATH/src/github.com/Workiva/frugal/lib/python
+    cd $GOPATH/src/github.com/samjxn/frugal/lib/python
 fi
 
 python2 -m pip install -e ".[tornado]"

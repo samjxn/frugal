@@ -23,8 +23,8 @@ import (
 
 	"github.com/apache/thrift/lib/go/thrift"
 
-	"github.com/Workiva/frugal/lib/go"
-	"github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
+	"github.com/samjxn/frugal/lib/go"
+	"github.com/samjxn/frugal/test/integration/go/gen/frugaltest"
 )
 
 var rmapmap = map[int32]map[int32]int32{
@@ -113,7 +113,7 @@ func CallEverything(client *frugaltest.FFrugalTestClient) {
 	}
 
 	// This currently needs to be tested with a number divisible by 4 due to a json serialization issue between go and java
-	// https://github.com/Workiva/frugal/issues/412
+	// https://github.com/samjxn/frugal/issues/412
 	// Using 400 for now, will change back to 42 (101010) once the Thrift fix is implemented
 	// TODO: Change back to 42
 	ctx = frugal.NewFContext("TestBinary")

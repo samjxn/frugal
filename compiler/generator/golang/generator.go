@@ -24,9 +24,9 @@ import (
 
 	"golang.org/x/tools/imports"
 
-	"github.com/Workiva/frugal/compiler/generator"
-	"github.com/Workiva/frugal/compiler/globals"
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/generator"
+	"github.com/samjxn/frugal/compiler/globals"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 const (
@@ -1110,7 +1110,7 @@ func (g *Generator) GenerateTypesImports(file *os.File) error {
 	if g.Options[frugalImportOption] != "" {
 		contents += "\t\"" + g.Options[frugalImportOption] + "\"\n"
 	} else {
-		contents += "\t\"github.com/Workiva/frugal/lib/go\"\n"
+		contents += "\t\"github.com/samjxn/frugal/lib/go\"\n"
 	}
 
 	protections := ""
@@ -1194,7 +1194,7 @@ func (g *Generator) GenerateServiceImports(file *os.File, s *parser.Service) err
 	if g.Options[frugalImportOption] != "" {
 		imports += "\t\"" + g.Options[frugalImportOption] + "\"\n"
 	} else {
-		imports += "\t\"github.com/Workiva/frugal/lib/go\"\n"
+		imports += "\t\"github.com/samjxn/frugal/lib/go\"\n"
 	}
 	imports += "\t\"github.com/sirupsen/logrus\"\n"
 
@@ -1238,7 +1238,7 @@ func (g *Generator) GenerateScopeImports(file *os.File, s *parser.Scope) error {
 	if g.Options[frugalImportOption] != "" {
 		imports += "\t\"" + g.Options[frugalImportOption] + "\"\n"
 	} else {
-		imports += "\t\"github.com/Workiva/frugal/lib/go\"\n"
+		imports += "\t\"github.com/samjxn/frugal/lib/go\"\n"
 	}
 
 	pkgPrefix := g.Options[packagePrefixOption]

@@ -18,7 +18,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/parser"
 	"github.com/stretchr/testify/assert"
 )
 

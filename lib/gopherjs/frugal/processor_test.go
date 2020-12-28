@@ -24,7 +24,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 // _opid0_cid123[1,"ping",1,0,{}]

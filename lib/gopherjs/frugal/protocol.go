@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 const protocolV0 = 0x00

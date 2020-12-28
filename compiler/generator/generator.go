@@ -17,7 +17,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 // FilePrefix is the default prefix for generated files.
@@ -50,7 +50,7 @@ type LanguageOptions map[string]Options
 var Languages = LanguageOptions{
 	"go": Options{
 		"thrift_import":  "Override Thrift package import path (default: git.apache.org/thrift.git/lib/go/thrift)",
-		"frugal_import":  "Override Frugal package import path (default: github.com/Workiva/frugal/lib/go)",
+		"frugal_import":  "Override Frugal package import path (default: github.com/samjxn/frugal/lib/go)",
 		"package_prefix": "Package prefix for generated files",
 		"async":          "Generate async client code using channels",
 		"use_vendor":     "Use specified import references for vendored includes and do not generate code for them",

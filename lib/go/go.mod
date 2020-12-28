@@ -1,4 +1,4 @@
-module github.com/Workiva/frugal/lib/go
+module github.com/samjxn/frugal/lib/go
 
 require (
 	github.com/apache/thrift v0.13.0

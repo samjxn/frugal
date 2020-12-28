@@ -20,8 +20,8 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	"github.com/apache/thrift/lib/go/thrift"
-	frugal "github.com/Workiva/frugal/lib/go"
-	. "github.com/Workiva/frugal/test/integration/go/gen/frugaltest"
+	frugal "github.com/samjxn/frugal/lib/go"
+	. "github.com/samjxn/frugal/test/integration/go/gen/frugaltest"
 )
 
 var PrintingHandler = &printingHandler{}

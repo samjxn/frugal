@@ -6,12 +6,12 @@ package variety
 import (
 	"fmt"
 
-	"github.com/Workiva/frugal/lib/gopherjs/frugal"
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
-	"github.com/Workiva/frugal/test/expected/gopherjs/ValidTypes"
-	"github.com/Workiva/frugal/test/expected/gopherjs/actual_base/golang"
-	"github.com/Workiva/frugal/test/expected/gopherjs/subdir_include"
-	"github.com/Workiva/frugal/test/expected/gopherjs/validStructs"
+	"github.com/samjxn/frugal/lib/gopherjs/frugal"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/test/expected/gopherjs/ValidTypes"
+	"github.com/samjxn/frugal/test/expected/gopherjs/actual_base/golang"
+	"github.com/samjxn/frugal/test/expected/gopherjs/subdir_include"
+	"github.com/samjxn/frugal/test/expected/gopherjs/validStructs"
 )
 
 // This is a thrift service. Frugal will generate bindings that include

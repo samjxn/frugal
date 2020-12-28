@@ -20,7 +20,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/Workiva/frugal/test/integration/crossrunner"
+	"github.com/samjxn/frugal/test/integration/crossrunner"
 )
 
 func main() {

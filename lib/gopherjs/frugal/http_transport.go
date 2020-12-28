@@ -27,7 +27,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 const (

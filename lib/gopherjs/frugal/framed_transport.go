@@ -21,7 +21,7 @@ import (
 	"io"
 	"sync"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 const defaultMaxLength = 16384000

@@ -17,13 +17,13 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/Workiva/frugal/compiler"
+	"github.com/samjxn/frugal/compiler"
 )
 
 func TestValidGoWithAsync(t *testing.T) {
 	options := compiler.Options{
 		File:  frugalGenFile,
-		Gen:   "go:package_prefix=github.com/Workiva/frugal/test/out/async/,async",
+		Gen:   "go:package_prefix=github.com/samjxn/frugal/test/out/async/,async",
 		Out:   outputDir + "/async",
 		Delim: delim,
 	}
@@ -41,7 +41,7 @@ func TestValidGoWithAsync(t *testing.T) {
 func TestValidGoFrugalCompiler(t *testing.T) {
 	options := compiler.Options{
 		File:    frugalGenFile,
-		Gen:     "go:package_prefix=github.com/Workiva/frugal/test/out/",
+		Gen:     "go:package_prefix=github.com/samjxn/frugal/test/out/",
 		Out:     outputDir,
 		Delim:   delim,
 		Recurse: true,
@@ -67,7 +67,7 @@ func TestValidGoFrugalCompiler(t *testing.T) {
 func TestValidGoVendor(t *testing.T) {
 	options := compiler.Options{
 		File:  includeVendor,
-		Gen:   "go:package_prefix=github.com/Workiva/frugal/test/out/,use_vendor",
+		Gen:   "go:package_prefix=github.com/samjxn/frugal/test/out/,use_vendor",
 		Out:   outputDir,
 		Delim: delim,
 	}
@@ -89,7 +89,7 @@ func TestValidGoVendor(t *testing.T) {
 func TestValidGoVendorPathNotSpecified(t *testing.T) {
 	options := compiler.Options{
 		File:  includeVendorNoPath,
-		Gen:   "go:package_prefix=github.com/Workiva/frugal/test/out/,use_vendor",
+		Gen:   "go:package_prefix=github.com/samjxn/frugal/test/out/,use_vendor",
 		Out:   outputDir,
 		Delim: delim,
 	}
@@ -103,7 +103,7 @@ func TestValidGoVendorPathNotSpecified(t *testing.T) {
 func TestValidGoVendorNamespaceTargetGenerate(t *testing.T) {
 	options := compiler.Options{
 		File:  vendorNamespace,
-		Gen:   "go:package_prefix=github.com/Workiva/frugal/test/out/,use_vendor",
+		Gen:   "go:package_prefix=github.com/samjxn/frugal/test/out/,use_vendor",
 		Out:   outputDir,
 		Delim: delim,
 	}
@@ -123,7 +123,7 @@ func TestValidGoVendorNamespaceTargetGenerate(t *testing.T) {
 func TestIncludeOrdering(t *testing.T) {
 	options := compiler.Options{
 		File:    "idl/ordering/main.frugal",
-		Gen:     "go:package_prefix=github.com/Workiva/frugal/test/out/ordering",
+		Gen:     "go:package_prefix=github.com/samjxn/frugal/test/out/ordering",
 		Out:     "out/ordering",
 		Delim:   delim,
 		Recurse: true,
@@ -148,7 +148,7 @@ func TestIncludeOrdering(t *testing.T) {
 func TestSlim(t *testing.T) {
 	options := compiler.Options{
 		File:    frugalGenFile,
-		Gen:     "go:package_prefix=github.com/Workiva/frugal/test/out/,slim",
+		Gen:     "go:package_prefix=github.com/samjxn/frugal/test/out/,slim",
 		Out:     outputDir,
 		Delim:   delim,
 		Recurse: true,
@@ -171,7 +171,7 @@ func TestSlim(t *testing.T) {
 func TestSuppressedDeprecatedLogging(t *testing.T) {
 	options := compiler.Options{
 		File:    frugalGenFile,
-		Gen:     "go:package_prefix=github.com/Workiva/frugal/test/out/,suppress_deprecated_logging",
+		Gen:     "go:package_prefix=github.com/samjxn/frugal/test/out/,suppress_deprecated_logging",
 		Out:     outputDir,
 		Delim:   delim,
 		Recurse: true,

@@ -98,11 +98,11 @@ an acknowledgement upon receipt of a publish.  Clients act as a publisher
 returned after publishing.
 
 ### Contributing
-Follow Frugal's contribution [guidelines](https://github.com/Workiva/frugal/blob/master/CONTRIBUTING.md).
+Follow Frugal's contribution [guidelines](https://github.com/samjxn/frugal/blob/master/CONTRIBUTING.md).
 Any tests that are added should be added to all languages (where applicable).
 
 
 ### Known Issues
 
 * 	Binary calls across json protocol are serialized differently between go
-and java.  [#412](https://github.com/Workiva/frugal/issues/412)
+and java.  [#412](https://github.com/samjxn/frugal/issues/412)

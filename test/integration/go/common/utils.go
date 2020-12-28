@@ -20,7 +20,7 @@ import (
 	"github.com/go-stomp/stomp"
 	"github.com/nats-io/nats.go"
 
-	frugal "github.com/Workiva/frugal/lib/go"
+	frugal "github.com/samjxn/frugal/lib/go"
 )
 
 const (

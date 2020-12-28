@@ -1,8 +1,8 @@
 package gopherjs
 
 import (
-	"github.com/Workiva/frugal/compiler/generator"
-	"github.com/Workiva/frugal/compiler/generator/golang"
+	"github.com/samjxn/frugal/compiler/generator"
+	"github.com/samjxn/frugal/compiler/generator/golang"
 )
 
 // Generator implements the LanguageGenerator interface for Go.
@@ -13,8 +13,8 @@ type Generator struct {
 // NewGenerator creates a new Go LanguageGenerator.
 func NewGenerator(options map[string]string) generator.LanguageGenerator {
 	options["slim"] = "true"
-	options["frugal_import"] = "github.com/Workiva/frugal/lib/gopherjs/frugal"
-	options["thrift_import"] = "github.com/Workiva/frugal/lib/gopherjs/thrift"
+	options["frugal_import"] = "github.com/samjxn/frugal/lib/gopherjs/frugal"
+	options["thrift_import"] = "github.com/samjxn/frugal/lib/gopherjs/thrift"
 	return &Generator{
 		Generator: &golang.Generator{
 			BaseGenerator: &generator.BaseGenerator{Options: options},

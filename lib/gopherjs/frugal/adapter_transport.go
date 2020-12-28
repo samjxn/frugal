@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 type fAdapterTransportFactory struct{}

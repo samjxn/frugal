@@ -6,8 +6,8 @@ package golang
 import (
 	"fmt"
 
-	"github.com/Workiva/frugal/lib/gopherjs/frugal"
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/frugal"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 const ConstI32FromBase = 582

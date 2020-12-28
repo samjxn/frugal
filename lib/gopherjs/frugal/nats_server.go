@@ -19,7 +19,7 @@ import (
 	"bytes"
 	"time"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 	"github.com/nats-io/nats.go"
 )
 

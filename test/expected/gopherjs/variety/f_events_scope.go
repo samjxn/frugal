@@ -6,8 +6,8 @@ package variety
 import (
 	"fmt"
 
-	"github.com/Workiva/frugal/lib/gopherjs/frugal"
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/frugal"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 // This docstring gets added to the generated code because it has

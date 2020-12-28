@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 // Version of the Frugal compiler.

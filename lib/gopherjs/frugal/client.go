@@ -1,6 +1,6 @@
 package frugal
 
-import "github.com/Workiva/frugal/lib/gopherjs/thrift"
+import "github.com/samjxn/frugal/lib/gopherjs/thrift"
 
 var _ FClient = (*FStandardClient)(nil)
 

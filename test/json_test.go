@@ -18,8 +18,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/Workiva/frugal/compiler"
-	"github.com/Workiva/frugal/compiler/globals"
+	"github.com/samjxn/frugal/compiler"
+	"github.com/samjxn/frugal/compiler/globals"
 )
 
 func TestValidJsonFrugalCompiler(t *testing.T) {

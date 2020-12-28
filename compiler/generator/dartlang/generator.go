@@ -25,9 +25,9 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/Workiva/frugal/compiler/generator"
-	"github.com/Workiva/frugal/compiler/globals"
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/generator"
+	"github.com/samjxn/frugal/compiler/globals"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 const (
@@ -185,7 +185,8 @@ type hostedDep struct {
 
 type gitDep struct {
 	URL string `yaml:"url"`
-	Ref string `yaml:"ref"`
+	Ref string `yaml:"ref,omitempty"`
+	Path string `yaml:"path,omitempty"`
 }
 
 func (g *Generator) addToPubspec(dir string) error {
@@ -195,15 +196,14 @@ func (g *Generator) addToPubspec(dir string) error {
 		"collection": "^1.14.12",
 		"logging":    "^0.11.2",
 		"thrift": dep{
-			Hosted:  hostedDep{Name: "thrift", URL: "https://pub.workiva.org"},
-			Version: "^0.0.10",
+			Version: "^0.13.0",
 		},
 		"w_common": "^1.20.2",
 	}
 
 	if g.Frugal.ContainsFrugalDefinitions() {
 		deps["frugal"] = dep{
-			Hosted:  hostedDep{Name: "frugal", URL: "https://pub.workiva.org"},
+			Git:  gitDep{URL: "https://github.com/samjxn/frugal", Path: "lib/dart"},
 			Version: fmt.Sprintf("^%s", globals.Version),
 		}
 	}
@@ -242,7 +242,7 @@ func (g *Generator) addToPubspec(dir string) error {
 		if g.UseVendor() && includesSet[include] {
 			vendorPath, _ := namespace.Annotations.Vendor()
 			deps[toLibraryName(vendorPath)] = dep{
-				Hosted:  hostedDep{Name: toLibraryName(vendorPath), URL: "https://pub.workiva.org"},
+				Hosted:  hostedDep{Name: toLibraryName(vendorPath), URL: "https://pub.dev"},
 				Version: "any",
 			}
 		} else {

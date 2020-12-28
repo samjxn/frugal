@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 // BaseGenerator contains base generator logic which language generators can

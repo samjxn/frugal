@@ -18,8 +18,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/Workiva/frugal/compiler/globals"
-	"github.com/Workiva/frugal/compiler/parser"
+	"github.com/samjxn/frugal/compiler/globals"
+	"github.com/samjxn/frugal/compiler/parser"
 )
 
 // AsyncIOGenerator implements the LanguageGenerator interface for Python using

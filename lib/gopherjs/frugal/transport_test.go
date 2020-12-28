@@ -17,7 +17,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 	"github.com/stretchr/testify/assert"
 )
 

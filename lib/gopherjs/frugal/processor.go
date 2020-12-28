@@ -16,7 +16,7 @@ package frugal
 import (
 	"sync"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 // FProcessor is Frugal's equivalent of Thrift's TProcessor. It's a generic

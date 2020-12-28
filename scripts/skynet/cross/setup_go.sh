@@ -12,8 +12,8 @@ cd test/integration/go
 mkdir vendor
 cp -r $FRUGAL_HOME/lib/go/vendor/* vendor/
 rm -rf $FRUGAL_HOME/lib/go/vendor
-mkdir -p vendor/github.com/Workiva/frugal/lib/go
-cp -r $FRUGAL_HOME/lib/go/* vendor/github.com/Workiva/frugal/lib/go
+mkdir -p vendor/github.com/samjxn/frugal/lib/go
+cp -r $FRUGAL_HOME/lib/go/* vendor/github.com/samjxn/frugal/lib/go
 
 # Create Go binaries
 rm -rf test/integration/go/bin/*

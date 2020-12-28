@@ -17,7 +17,7 @@ import (
 	"encoding/binary"
 	"fmt"
 
-	"github.com/Workiva/frugal/lib/gopherjs/thrift"
+	"github.com/samjxn/frugal/lib/gopherjs/thrift"
 )
 
 // TMemoryOutputBuffer implements TTransport using a bounded memory buffer.
